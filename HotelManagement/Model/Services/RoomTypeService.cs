@@ -39,7 +39,6 @@ namespace HotelManagement.Model.Services
                             RoomTypeId = rt.RoomTypeId,
                             RoomTypeName = rt.RoomTypeName,
                             RoomTypePrice = (double)rt.Price,
-                            RoomTypeNote = rt.Note,
                         }
                     ).ToListAsync();
                     RoomTypeDTOs.Reverse();
@@ -88,7 +87,6 @@ namespace HotelManagement.Model.Services
                     roomType.RoomTypeName = updatedRoomType.RoomTypeName;
                     roomType.Price = updatedRoomType.RoomTypePrice;
                     roomType.RoomTypeId = updatedRoomType.RoomTypeId;
-                    roomType.Note = updatedRoomType.RoomTypeNote;
 
                     await context.SaveChangesAsync();
                     return (true, "Cập nhật thành công");

@@ -18,31 +18,25 @@ namespace HotelManagement.Model
         public RentalContract()
         {
             this.Bills = new HashSet<Bill>();
-            this.RoomCustomers = new HashSet<RoomCustomer>();
-            this.ServiceUsings = new HashSet<ServiceUsing>();
-            this.TroubleByCustomers = new HashSet<TroubleByCustomer>();
+            this.ProductUsings = new HashSet<ProductUsing>();
+            this.RentalContractDetails = new HashSet<RentalContractDetail>();
         }
     
         public string RentalContractId { get; set; }
-        public Nullable<System.DateTime> StartDate { get; set; }
-        public Nullable<System.TimeSpan> StartTime { get; set; }
-        public Nullable<System.DateTime> CheckOutDate { get; set; }
-        public Nullable<int> PersonNumber { get; set; }
         public string StaffId { get; set; }
-        public string CustomerId { get; set; }
         public string RoomId { get; set; }
+        public Nullable<System.DateTime> StartDate { get; set; }
+        public Nullable<System.DateTime> EndDate { get; set; }
+        public Nullable<double> RentalPrice { get; set; }
         public Nullable<bool> Validated { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Bill> Bills { get; set; }
-        public virtual Customer Customer { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProductUsing> ProductUsings { get; set; }
         public virtual Room Room { get; set; }
         public virtual Staff Staff { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RoomCustomer> RoomCustomers { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ServiceUsing> ServiceUsings { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TroubleByCustomer> TroubleByCustomers { get; set; }
+        public virtual ICollection<RentalContractDetail> RentalContractDetails { get; set; }
     }
 }

@@ -90,7 +90,6 @@ namespace HotelManagement.ViewModel.AdminVM
         private void RoomType(object obj) => CurrentView = new RoomTypeManagementVM.RoomTypeManagementVM();
         private void Statiscal(object obj) => CurrentView = new StatisticalManagementVM.StatisticalManagementVM();
         private void HelpScreen(object obj) => CurrentView = new HelpScreenVM.HelpScreenVM();
-        private void Customer(object obj) => CurrentView = new CustomerManagementVM.CustomerManagementVM();
         private void Staff(object obj) => CurrentView = new StaffManagementVM.StaffManagementVM();
         private void History(object obj) => CurrentView = new HistoryManagementVM.HistoryManagementVM();
         private void Trouble(object obj) => CurrentView = new TroubleManagementVM.TroubleManagementVM();
@@ -160,11 +159,6 @@ namespace HotelManagement.ViewModel.AdminVM
             {
                 HelpScreen(p);
                 NameTypeMenuBind = "GIÚP ĐỠ";
-            });
-            CustomerCommand = new RelayCommand<object>((p) => { return true; }, (p) =>
-            {
-                Customer(p);
-                NameTypeMenuBind = "QUẢN LÍ KHÁCH HÀNG";
             });
             StaffCommand = new RelayCommand<object>((p) => { return true; }, (p) =>
             {

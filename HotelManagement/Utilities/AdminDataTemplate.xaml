@@ -18,8 +18,6 @@
                     xmlns:RoomFurnitureView="clr-namespace:HotelManagement.View.Admin.RoomFurnitureManagement"
                     xmlns:SettingVM="clr-namespace:HotelManagement.ViewModel.SettingVM"
                     xmlns:SettingView="clr-namespace:HotelManagement.View.SettingManagement"
-                    xmlns:CustomerView="clr-namespace:HotelManagement.View.Admin.CustomerManagement"
-                    xmlns:CustomerVM="clr-namespace:HotelManagement.ViewModel.AdminVM.CustomerManagementVM"
                     xmlns:StaffView="clr-namespace:HotelManagement.View.Admin.StaffManagement"
                     xmlns:StaffVM="clr-namespace:HotelManagement.ViewModel.AdminVM.StaffManagementVM"
                     xmlns:HistoryView="clr-namespace:HotelManagement.View.Admin.HistoryManagement"
@@ -54,9 +52,6 @@
     </DataTemplate>
     <DataTemplate DataType="{x:Type SettingVM:SettingVM}">
         <SettingView:SettingPage></SettingView:SettingPage>
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type CustomerVM:CustomerManagementVM}">
-        <CustomerView:CustomerManagementPage></CustomerView:CustomerManagementPage>
     </DataTemplate>
     <DataTemplate DataType="{x:Type StaffVM:StaffManagementVM}">
         <StaffView:StaffManagementPage></StaffView:StaffManagementPage>

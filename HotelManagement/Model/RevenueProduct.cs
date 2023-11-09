@@ -12,14 +12,15 @@ namespace HotelManagement.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class RoomFurnituresDetail
+    public partial class RevenueProduct
     {
-        public int RoomFurnituresDetailId { get; set; }
-        public string FurnitureId { get; set; }
-        public string RoomId { get; set; }
-        public Nullable<int> Quantity { get; set; }
+        public int RevenueProductId { get; set; }
+        public Nullable<int> RevenueId { get; set; }
+        public string ProductId { get; set; }
+        public Nullable<double> Revenue { get; set; }
+        public Nullable<double> Ratio { get; set; }
     
-        public virtual Furniture Furniture { get; set; }
-        public virtual Room Room { get; set; }
+        public virtual Product Product { get; set; }
+        public virtual Revenue Revenue1 { get; set; }
     }
 }

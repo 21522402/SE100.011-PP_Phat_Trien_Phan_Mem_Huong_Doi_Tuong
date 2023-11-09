@@ -12,25 +12,21 @@ namespace HotelManagement.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Service
+    public partial class ProductReceipt
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Service()
+        public ProductReceipt()
         {
-            this.GoodsReceipts = new HashSet<GoodsReceipt>();
-            this.ServiceUsings = new HashSet<ServiceUsing>();
+            this.ProductReceiptDetails = new HashSet<ProductReceiptDetail>();
         }
     
-        public string ServiceId { get; set; }
-        public string ServiceName { get; set; }
-        public string ServiceType { get; set; }
-        public Nullable<double> ServicePrice { get; set; }
-        public byte[] ServiceAvatar { get; set; }
+        public string ProductReceiptId { get; set; }
+        public string StaffId { get; set; }
+        public Nullable<double> Price { get; set; }
+        public Nullable<System.DateTime> CreateAt { get; set; }
     
+        public virtual Staff Staff { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GoodsReceipt> GoodsReceipts { get; set; }
-        public virtual GoodsStorage GoodsStorage { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ServiceUsing> ServiceUsings { get; set; }
+        public virtual ICollection<ProductReceiptDetail> ProductReceiptDetails { get; set; }
     }
 }

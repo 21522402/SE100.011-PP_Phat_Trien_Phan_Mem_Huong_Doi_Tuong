@@ -87,20 +87,20 @@ namespace HotelManagement.ViewModel.AdminVM.StatisticalManagementVM
             set { _ServiceTypeRevenuePieChart = value; OnPropertyChanged(); }
         }
 
-        public async Task ChangeRoomTypeRevenue()
-        {
-            int year = int.Parse(SelectedYear2.Substring(4));
-            int month = int.Parse(SelectedMonth2.Substring(6));
-            ListRoomTypeRevenue = await OverviewStatisticService.Ins.GetListRoomTypeRevenue(year, month);
-            RoomTypeRevenuePieChart = await OverviewStatisticService.Ins.GetDataRoomTypePieChart(year, month);
-        }
+        //public async Task ChangeRoomTypeRevenue()
+        //{
+        //    int year = int.Parse(SelectedYear2.Substring(4));
+        //    int month = int.Parse(SelectedMonth2.Substring(6));
+        //    ListRoomTypeRevenue = await OverviewStatisticService.Ins.GetListRoomTypeRevenue(year, month);
+        //    RoomTypeRevenuePieChart = await OverviewStatisticService.Ins.GetDataRoomTypePieChart(year, month);
+        //}
         
-            public async Task ChangeServiceTypeRevenue()
-        {
-            int year = int.Parse(SelectedYear3.Substring(4));
-            int month = int.Parse(SelectedMonth3.Substring(6));
-            ListServiceTypeRevenue = await OverviewStatisticService.Ins.GetListServiceTypeRevenue(year, month);
-            ServiceTypeRevenuePieChart = await OverviewStatisticService.Ins.GetDataServiceTypePieChart(year, month);
-        }
+        //    public async Task ChangeServiceTypeRevenue()
+        //{
+        //    int year = int.Parse(SelectedYear3.Substring(4));
+        //    int month = int.Parse(SelectedMonth3.Substring(6));
+        //    ListServiceTypeRevenue = await OverviewStatisticService.Ins.GetListServiceTypeRevenue(year, month);
+        //    ServiceTypeRevenuePieChart = await OverviewStatisticService.Ins.GetDataServiceTypePieChart(year, month);
+        //}
     }
 }

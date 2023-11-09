@@ -14,14 +14,19 @@ namespace HotelManagement.Model
     
     public partial class FurnitureReceipt
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public FurnitureReceipt()
+        {
+            this.FurnitureReceiptDetails = new HashSet<FurnitureReceiptDetail>();
+        }
+    
         public string FurnitureReceiptId { get; set; }
-        public string FurnitureId { get; set; }
         public string StaffId { get; set; }
-        public Nullable<double> ImportPrice { get; set; }
-        public Nullable<int> Quantity { get; set; }
+        public Nullable<double> Price { get; set; }
         public Nullable<System.DateTime> CreateAt { get; set; }
     
-        public virtual Furniture Furniture { get; set; }
         public virtual Staff Staff { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<FurnitureReceiptDetail> FurnitureReceiptDetails { get; set; }
     }
 }

@@ -216,302 +216,302 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
         
         public BookingRoomManagementVM() 
         {
-            CultureInfo ci = CultureInfo.CreateSpecificCulture(CultureInfo.CurrentCulture.Name);
-            ci.DateTimeFormat.ShortDatePattern = "dd/MM/yyyy";
-            Thread.CurrentThread.CurrentCulture = ci;
+            //CultureInfo ci = CultureInfo.CreateSpecificCulture(CultureInfo.CurrentCulture.Name);
+            //ci.DateTimeFormat.ShortDatePattern = "dd/MM/yyyy";
+            //Thread.CurrentThread.CurrentCulture = ci;
 
-            FirstLoadCM = new RelayCommand<Window>((p) => { return true; },async (p) =>
-            {
-                StartDate = DateTime.Today;
-                CheckoutDate = DateTime.Today.AddDays(1);
-                StartTime = DateTime.Now;
-                DayOfBirth = DateTime.Now;
-                SelectedRoom = null;
-                if(AdminVM.AdminVM.CurrentStaff != null)
-                    currentStaff = AdminVM.AdminVM.CurrentStaff;
-                else
-                    currentStaff = StaffVM.StaffVM.CurrentStaff;
-                StaffName = currentStaff.StaffName;
-                StaffId = currentStaff.StaffId;
-                await  LoadReadyRoom();
+            //FirstLoadCM = new RelayCommand<Window>((p) => { return true; },async (p) =>
+            //{
+            //    StartDate = DateTime.Today;
+            //    CheckoutDate = DateTime.Today.AddDays(1);
+            //    StartTime = DateTime.Now;
+            //    DayOfBirth = DateTime.Now;
+            //    SelectedRoom = null;
+            //    if(AdminVM.AdminVM.CurrentStaff != null)
+            //        currentStaff = AdminVM.AdminVM.CurrentStaff;
+            //    else
+            //        currentStaff = StaffVM.StaffVM.CurrentStaff;
+            //    StaffName = currentStaff.StaffName;
+            //    StaffId = currentStaff.StaffId;
+            //    await  LoadReadyRoom();
 
-                await LoadBookingRoom();
+            //    await LoadBookingRoom();
 
-            });
-            FilterListRentalContractCommand = new RelayCommand<System.Windows.Controls.ComboBox>((p) => { return true; }, (p) =>
-            {
-                FilterRentalContractList();
-            });
-            LoadBookingCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
-            {
-                RenewWindowData();
-                Booking booking = new Booking();
-                CheckoutDate = StartDate.AddDays(1);
-                isExistCustomer = false;
-                booking.ShowDialog();
-            });
+            //});
+            //FilterListRentalContractCommand = new RelayCommand<System.Windows.Controls.ComboBox>((p) => { return true; }, (p) =>
+            //{
+            //    FilterRentalContractList();
+            //});
+            //LoadBookingCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
+            //{
+            //    RenewWindowData();
+            //    Booking booking = new Booking();
+            //    CheckoutDate = StartDate.AddDays(1);
+            //    isExistCustomer = false;
+            //    booking.ShowDialog();
+            //});
 
-            LoadDetailRentalContractRoomCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
-            {
-                DetailRent r = new DetailRent();
-                RentalContract = await RentalContractService.Ins.GetRentalContractById(SelectedItem.RentalContractId);
-                ListCustomer = await RoomCustomerService.Ins.GetCustomersOfRoom(SelectedItem.RentalContractId);
-                r.ShowDialog();
-            });
-            SelectedTimeChangedCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
-            {
+            //LoadDetailRentalContractRoomCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
+            //{
+            //    DetailRent r = new DetailRent();
+            //    RentalContract = await RentalContractService.Ins.GetRentalContractById(SelectedItem.RentalContractId);
+            //    ListCustomer = await RoomCustomerService.Ins.GetCustomersOfRoom(SelectedItem.RentalContractId);
+            //    r.ShowDialog();
+            //});
+            //SelectedTimeChangedCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
+            //{
                
-                await LoadReadyRoom();
-            });
+            //    await LoadReadyRoom();
+            //});
             
-            ConfirmBookingRoomCM = new RelayCommand<Window>((p) => { return true; }, async (p) =>
-            {
-                (bool isvalid, string error) = ValidateBooking();
-                if (isvalid)
-                {
-                    if(!isExistCustomer)
-                    {
-                        await SaveCustomer();
-                    }
-                    else
-                    {
-                        CustomerId = (await CustomerService.Ins.GetCustomerByCCCD(CCCD)).CustomerId;
-                    }
-                    await SaveRentalContract(p);
-                    await LoadBookingRoom();
-                }
-                else
-                {
-                    CustomMessageBox.ShowOk(error, "Cảnh báo", "OK", CustomMessageBoxImage.Warning);
-                }
-            });
-            LoadDeleteRentalContractRoomCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
-            {
+            //ConfirmBookingRoomCM = new RelayCommand<Window>((p) => { return true; }, async (p) =>
+            //{
+            //    (bool isvalid, string error) = ValidateBooking();
+            //    if (isvalid)
+            //    {
+            //        if(!isExistCustomer)
+            //        {
+            //            await SaveCustomer();
+            //        }
+            //        else
+            //        {
+            //            CustomerId = (await CustomerService.Ins.GetCustomerByCCCD(CCCD)).CustomerId;
+            //        }
+            //        await SaveRentalContract(p);
+            //        await LoadBookingRoom();
+            //    }
+            //    else
+            //    {
+            //        CustomMessageBox.ShowOk(error, "Cảnh báo", "OK", CustomMessageBoxImage.Warning);
+            //    }
+            //});
+            //LoadDeleteRentalContractRoomCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
+            //{
 
-                string message = "Bạn có chắc muốn xoá phiếu thuê này không?";
-                CustomMessageBoxResult kq = CustomMessageBox.ShowOkCancel(message, "Cảnh báo", "Xác nhận", "Hủy", CustomMessageBoxImage.Warning);
+            //    string message = "Bạn có chắc muốn xoá phiếu thuê này không?";
+            //    CustomMessageBoxResult kq = CustomMessageBox.ShowOkCancel(message, "Cảnh báo", "Xác nhận", "Hủy", CustomMessageBoxImage.Warning);
 
-                if (kq == CustomMessageBoxResult.OK)
-                {
-                    if (SelectedItem.Validated == true)
-                    {
-                        if ((await BookingRoomService.Ins.GetRoomStatusBy(SelectedItem.RentalContractId)) == ROOM_STATUS.BOOKED)
-                        {
-                            CustomMessageBoxResult kqq = CustomMessageBox.ShowOkCancel("Khách chưa nhận phòng. Bạn có muốn xóa phiếu thuê không!", "Thông báo", "Có", "Không", CustomMessageBoxImage.Warning);
-                            if (kqq == CustomMessageBoxResult.OK)
-                            {
-                                (bool successDeleteRentalContractBooked, string messageFromDelRentalContractBooked) = await BookingRoomService.Ins.DeleteRentalContractBooked(SelectedItem.RentalContractId);
-                                if (successDeleteRentalContractBooked)
-                                {
-                                    LoadBookingRoomListView(Operation.DELETE);
-                                    SelectedItem = null;
-                                    CustomMessageBox.ShowOk(messageFromDelRentalContractBooked, "Thông báo", "OK", CustomMessageBoxImage.Success);
-                                }
-                                else
-                                {
-                                    CustomMessageBox.ShowOk(messageFromDelRentalContractBooked, "Lỗi", "OK", CustomMessageBoxImage.Error);
-                                }
-                            }
+            //    if (kq == CustomMessageBoxResult.OK)
+            //    {
+            //        if (SelectedItem.Validated == true)
+            //        {
+            //            if ((await BookingRoomService.Ins.GetRoomStatusBy(SelectedItem.RentalContractId)) == ROOM_STATUS.BOOKED)
+            //            {
+            //                CustomMessageBoxResult kqq = CustomMessageBox.ShowOkCancel("Khách chưa nhận phòng. Bạn có muốn xóa phiếu thuê không!", "Thông báo", "Có", "Không", CustomMessageBoxImage.Warning);
+            //                if (kqq == CustomMessageBoxResult.OK)
+            //                {
+            //                    (bool successDeleteRentalContractBooked, string messageFromDelRentalContractBooked) = await BookingRoomService.Ins.DeleteRentalContractBooked(SelectedItem.RentalContractId);
+            //                    if (successDeleteRentalContractBooked)
+            //                    {
+            //                        LoadBookingRoomListView(Operation.DELETE);
+            //                        SelectedItem = null;
+            //                        CustomMessageBox.ShowOk(messageFromDelRentalContractBooked, "Thông báo", "OK", CustomMessageBoxImage.Success);
+            //                    }
+            //                    else
+            //                    {
+            //                        CustomMessageBox.ShowOk(messageFromDelRentalContractBooked, "Lỗi", "OK", CustomMessageBoxImage.Error);
+            //                    }
+            //                }
 
-                        }
-                        else
-                        {
-                            CustomMessageBox.ShowOk("Khách đã nhận phòng. Bạn không thể xóa phiếu thuê này!", "Thông báo", "OK", CustomMessageBoxImage.Warning);
-                        }
-                        return;
-                    }
-                    (bool successDeleteRentalContract, string messageFromDelRentalContract) = await BookingRoomService.Ins.DeleteRentalContractOutDate(SelectedItem.RentalContractId);
-                    if (successDeleteRentalContract)
-                    {
-                        LoadBookingRoomListView(Operation.DELETE);
-                        SelectedItem = null;
-                        CustomMessageBox.ShowOk(messageFromDelRentalContract, "Thông báo", "OK", CustomMessageBoxImage.Success);
-                    }
-                    else
-                    {
-                        CustomMessageBox.ShowOk(messageFromDelRentalContract, "Thông báo", "OK", CustomMessageBoxImage.Error);
-                    }
-                }
-            });
+            //            }
+            //            else
+            //            {
+            //                CustomMessageBox.ShowOk("Khách đã nhận phòng. Bạn không thể xóa phiếu thuê này!", "Thông báo", "OK", CustomMessageBoxImage.Warning);
+            //            }
+            //            return;
+            //        }
+            //        (bool successDeleteRentalContract, string messageFromDelRentalContract) = await BookingRoomService.Ins.DeleteRentalContractOutDate(SelectedItem.RentalContractId);
+            //        if (successDeleteRentalContract)
+            //        {
+            //            LoadBookingRoomListView(Operation.DELETE);
+            //            SelectedItem = null;
+            //            CustomMessageBox.ShowOk(messageFromDelRentalContract, "Thông báo", "OK", CustomMessageBoxImage.Success);
+            //        }
+            //        else
+            //        {
+            //            CustomMessageBox.ShowOk(messageFromDelRentalContract, "Thông báo", "OK", CustomMessageBoxImage.Error);
+            //        }
+            //    }
+            //});
 
-            CheckCCCDCM = new RelayCommand<Booking>((p) => { return true; }, async (p) =>
-            {
-                await CheckCCCD(CCCD,p);
-            });
-            ExportExcelFileCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
-            {
-                ExportToFileFunc();
-            });
+            //CheckCCCDCM = new RelayCommand<Booking>((p) => { return true; }, async (p) =>
+            //{
+            //    await CheckCCCD(CCCD,p);
+            //});
+            //ExportExcelFileCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
+            //{
+            //    ExportToFileFunc();
+            //});
 
-            CloseCM = new RelayCommand<Window>((p) => { return true; }, (p) =>
-            {
-                p.Close();
-            });
+            //CloseCM = new RelayCommand<Window>((p) => { return true; }, (p) =>
+            //{
+            //    p.Close();
+            //});
         }
-        public async Task LoadBookingRoom()
-        {
-            BookingRoomList = new ObservableCollection<RentalContractDTO>();
-            GetAllBookingRoom = new ObservableCollection<RentalContractDTO>();
-            await GetData();
-        }
-        public async Task GetData()
-        {
-            GetAllBookingRoom = new ObservableCollection<RentalContractDTO>(await BookingRoomService.Ins.GetBookingList());
-            BookingRoomList = new ObservableCollection<RentalContractDTO>();
+        //public async Task LoadBookingRoom()
+        //{
+        //    BookingRoomList = new ObservableCollection<RentalContractDTO>();
+        //    GetAllBookingRoom = new ObservableCollection<RentalContractDTO>();
+        //    await GetData();
+        //}
+        //public async Task GetData()
+        //{
+        //    GetAllBookingRoom = new ObservableCollection<RentalContractDTO>(await BookingRoomService.Ins.GetBookingList());
+        //    BookingRoomList = new ObservableCollection<RentalContractDTO>();
 
-            foreach (RentalContractDTO rentalContractDTO in GetAllBookingRoom)
-            {
-                RentalContractDTO newRT = new RentalContractDTO
-                {
-                    RentalContractId = rentalContractDTO.RentalContractId,
-                    StaffName = rentalContractDTO.StaffName,
-                    CustomerName = rentalContractDTO.CustomerName,
-                    StartDate = rentalContractDTO.StartDate,
-                    CheckOutDate = rentalContractDTO.CheckOutDate,
-                    StartTime = rentalContractDTO.StartTime,
-                    Validated = rentalContractDTO.Validated,
-                };
-                BookingRoomList.Add(newRT);
-            }
-        }
-        public void FilterRentalContractList()
-        {
-            BookingRoomList = new ObservableCollection<RentalContractDTO>();
+        //    foreach (RentalContractDTO rentalContractDTO in GetAllBookingRoom)
+        //    {
+        //        RentalContractDTO newRT = new RentalContractDTO
+        //        {
+        //            RentalContractId = rentalContractDTO.RentalContractId,
+        //            StaffName = rentalContractDTO.StaffName,
+        //            CustomerName = rentalContractDTO.CustomerName,
+        //            StartDate = rentalContractDTO.StartDate,
+        //            CheckOutDate = rentalContractDTO.CheckOutDate,
+        //            StartTime = rentalContractDTO.StartTime,
+        //            Validated = rentalContractDTO.Validated,
+        //        };
+        //        BookingRoomList.Add(newRT);
+        //    }
+        //}
+        //public void FilterRentalContractList()
+        //{
+        //    BookingRoomList = new ObservableCollection<RentalContractDTO>();
 
-            if (FiltercbbItem.Tag.ToString() == "Tất cả")
-            {
-                foreach (RentalContractDTO rentalContractDTO in GetAllBookingRoom)
-                {
-                    RentalContractDTO newRT = new RentalContractDTO
-                    {
-                        RentalContractId = rentalContractDTO.RentalContractId,
-                        StaffName = rentalContractDTO.StaffName,
-                        CustomerName = rentalContractDTO.CustomerName,
-                        StartDate = rentalContractDTO.StartDate,
-                        CheckOutDate = rentalContractDTO.CheckOutDate,
-                        StartTime = rentalContractDTO.StartTime,
-                    };
+        //    if (FiltercbbItem.Tag.ToString() == "Tất cả")
+        //    {
+        //        foreach (RentalContractDTO rentalContractDTO in GetAllBookingRoom)
+        //        {
+        //            RentalContractDTO newRT = new RentalContractDTO
+        //            {
+        //                RentalContractId = rentalContractDTO.RentalContractId,
+        //                StaffName = rentalContractDTO.StaffName,
+        //                CustomerName = rentalContractDTO.CustomerName,
+        //                StartDate = rentalContractDTO.StartDate,
+        //                CheckOutDate = rentalContractDTO.CheckOutDate,
+        //                StartTime = rentalContractDTO.StartTime,
+        //            };
 
-                    BookingRoomList.Add(newRT);
-                }
-            }
-            if (FiltercbbItem.Tag.ToString() == "Còn hiệu lực")
-            {
-                foreach (RentalContractDTO rentalContractDTO in GetAllBookingRoom)
-                {
-                    if (rentalContractDTO.Validated == true)
-                    {
-                        RentalContractDTO newRT = new RentalContractDTO
-                        {
-                            RentalContractId = rentalContractDTO.RentalContractId,
-                            StaffName = rentalContractDTO.StaffName,
-                            CustomerName = rentalContractDTO.CustomerName,
-                            StartDate = rentalContractDTO.StartDate,
-                            CheckOutDate = rentalContractDTO.CheckOutDate,
-                            StartTime = rentalContractDTO.StartTime,
-                        };
-                        BookingRoomList.Add(newRT);
-                    }
-                }
-            }
+        //            BookingRoomList.Add(newRT);
+        //        }
+        //    }
+        //    if (FiltercbbItem.Tag.ToString() == "Còn hiệu lực")
+        //    {
+        //        foreach (RentalContractDTO rentalContractDTO in GetAllBookingRoom)
+        //        {
+        //            if (rentalContractDTO.Validated == true)
+        //            {
+        //                RentalContractDTO newRT = new RentalContractDTO
+        //                {
+        //                    RentalContractId = rentalContractDTO.RentalContractId,
+        //                    StaffName = rentalContractDTO.StaffName,
+        //                    CustomerName = rentalContractDTO.CustomerName,
+        //                    StartDate = rentalContractDTO.StartDate,
+        //                    CheckOutDate = rentalContractDTO.CheckOutDate,
+        //                    StartTime = rentalContractDTO.StartTime,
+        //                };
+        //                BookingRoomList.Add(newRT);
+        //            }
+        //        }
+        //    }
 
-            if (FiltercbbItem.Tag.ToString() == "Hết hiệu lực")
-            {
-                foreach (RentalContractDTO rentalContractDTO in GetAllBookingRoom)
-                {
-                    if (rentalContractDTO.Validated == false)
-                    {
-                        RentalContractDTO newRT = new RentalContractDTO
-                        {
-                            RentalContractId = rentalContractDTO.RentalContractId,
-                            StaffName = rentalContractDTO.StaffName,
-                            CustomerName = rentalContractDTO.CustomerName,
-                            StartDate = rentalContractDTO.StartDate,
-                            CheckOutDate = rentalContractDTO.CheckOutDate,
-                            StartTime = rentalContractDTO.StartTime,
-                        };
-                        BookingRoomList.Add(newRT);
-                    }
-                }
-            }
+        //    if (FiltercbbItem.Tag.ToString() == "Hết hiệu lực")
+        //    {
+        //        foreach (RentalContractDTO rentalContractDTO in GetAllBookingRoom)
+        //        {
+        //            if (rentalContractDTO.Validated == false)
+        //            {
+        //                RentalContractDTO newRT = new RentalContractDTO
+        //                {
+        //                    RentalContractId = rentalContractDTO.RentalContractId,
+        //                    StaffName = rentalContractDTO.StaffName,
+        //                    CustomerName = rentalContractDTO.CustomerName,
+        //                    StartDate = rentalContractDTO.StartDate,
+        //                    CheckOutDate = rentalContractDTO.CheckOutDate,
+        //                    StartTime = rentalContractDTO.StartTime,
+        //                };
+        //                BookingRoomList.Add(newRT);
+        //            }
+        //        }
+        //    }
 
-        }
-        public void ExportToFileFunc()
-        {
-            SaveFileDialog sfd = new SaveFileDialog() { Filter = "Excel Workbook|*.xlsx", ValidateNames = true };
-            if (sfd.ShowDialog() == true)
-            {
-                Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
-                Microsoft.Office.Interop.Excel.Application app = new Microsoft.Office.Interop.Excel.Application();
-                app.Visible = false;
-                Microsoft.Office.Interop.Excel.Workbook wb = app.Workbooks.Add(1);
-                Microsoft.Office.Interop.Excel.Worksheet ws = (Microsoft.Office.Interop.Excel.Worksheet)wb.Worksheets[1];
+        //}
+        //public void ExportToFileFunc()
+        //{
+        //    SaveFileDialog sfd = new SaveFileDialog() { Filter = "Excel Workbook|*.xlsx", ValidateNames = true };
+        //    if (sfd.ShowDialog() == true)
+        //    {
+        //        Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
+        //        Microsoft.Office.Interop.Excel.Application app = new Microsoft.Office.Interop.Excel.Application();
+        //        app.Visible = false;
+        //        Microsoft.Office.Interop.Excel.Workbook wb = app.Workbooks.Add(1);
+        //        Microsoft.Office.Interop.Excel.Worksheet ws = (Microsoft.Office.Interop.Excel.Worksheet)wb.Worksheets[1];
 
 
-                ws.Cells[1, 1] = "Mã phiêu thuê";
-                ws.Cells[1, 2] ="Tên khách hàng";
-                ws.Cells[1, 3] = "Ngày bắt đầu thuê";
-                ws.Cells[1, 4] = "Ngày kết thúc thuê";
-                ws.Cells[1, 5] = "Tên nhân viên";
+        //        ws.Cells[1, 1] = "Mã phiêu thuê";
+        //        ws.Cells[1, 2] ="Tên khách hàng";
+        //        ws.Cells[1, 3] = "Ngày bắt đầu thuê";
+        //        ws.Cells[1, 4] = "Ngày kết thúc thuê";
+        //        ws.Cells[1, 5] = "Tên nhân viên";
 
-                int i2 = 2;
-                foreach (var item in BookingRoomList)
-                {
+        //        int i2 = 2;
+        //        foreach (var item in BookingRoomList)
+        //        {
 
-                    ws.Cells[i2, 1] = item.RentalContractId;
-                    ws.Cells[i2, 2] = item.CustomerName;
-                    ws.Cells[i2, 3] = item.StartDateStr;
-                    ws.Cells[i2, 4] = item.CheckOutDateStr;
-                    ws.Cells[i2, 5] = item.StaffName;
-                    i2++;
-                }
-                ws.SaveAs(sfd.FileName);
-                wb.Close();
-                app.Quit();
+        //            ws.Cells[i2, 1] = item.RentalContractId;
+        //            ws.Cells[i2, 2] = item.CustomerName;
+        //            ws.Cells[i2, 3] = item.StartDateStr;
+        //            ws.Cells[i2, 4] = item.CheckOutDateStr;
+        //            ws.Cells[i2, 5] = item.StaffName;
+        //            i2++;
+        //        }
+        //        ws.SaveAs(sfd.FileName);
+        //        wb.Close();
+        //        app.Quit();
 
-                Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
+        //        Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
 
-                CustomMessageBox.ShowOk("Xuất file thành công","Thông báo", "OK", CustomMessageBoxImage.Success);
+        //        CustomMessageBox.ShowOk("Xuất file thành công","Thông báo", "OK", CustomMessageBoxImage.Success);
 
-            }
-        }
-        public void LoadBookingRoomListView(Operation oper = Operation.READ, RentalContractDTO r = null)
-        {
+        //    }
+        //}
+        //public void LoadBookingRoomListView(Operation oper = Operation.READ, RentalContractDTO r = null)
+        //{
 
-            switch (oper)
-            {
-                case Operation.CREATE:
-                    BookingRoomList.Add(r);
-                    break;
-                case Operation.DELETE:
-                    for (int i = 0; i < BookingRoomList.Count; i++)
-                    {
-                        if (BookingRoomList[i].RentalContractId == SelectedItem?.RentalContractId)
-                        {
-                            BookingRoomList.Remove(BookingRoomList[i]);
-                            break;
-                        }
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
+        //    switch (oper)
+        //    {
+        //        case Operation.CREATE:
+        //            BookingRoomList.Add(r);
+        //            break;
+        //        case Operation.DELETE:
+        //            for (int i = 0; i < BookingRoomList.Count; i++)
+        //            {
+        //                if (BookingRoomList[i].RentalContractId == SelectedItem?.RentalContractId)
+        //                {
+        //                    BookingRoomList.Remove(BookingRoomList[i]);
+        //                    break;
+        //                }
+        //            }
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //}
 
-        public void RenewWindowData()
-        {
-            CustomerName = null;
-            CCCD = null;
-            PhoneNumber = null;
-            Email = null;
-            Address = null;
-            StartDate = DateTime.Today;
-            CheckoutDate = DateTime.Today.AddDays(1);
-            StartTime = DateTime.Now;
-            DayOfBirth = DateTime.Now;
-            PersonNumber = null;
-            CustomerType = null;
-            Gender = null;
-        }
+        //public void RenewWindowData()
+        //{
+        //    CustomerName = null;
+        //    CCCD = null;
+        //    PhoneNumber = null;
+        //    Email = null;
+        //    Address = null;
+        //    StartDate = DateTime.Today;
+        //    CheckoutDate = DateTime.Today.AddDays(1);
+        //    StartTime = DateTime.Now;
+        //    DayOfBirth = DateTime.Now;
+        //    PersonNumber = null;
+        //    CustomerType = null;
+        //    Gender = null;
+        //}
     }
 }

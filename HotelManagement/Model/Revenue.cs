@@ -12,22 +12,22 @@ namespace HotelManagement.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Room
+    public partial class Revenue
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Room()
+        public Revenue()
         {
-            this.RentalContracts = new HashSet<RentalContract>();
+            this.RevenueProducts = new HashSet<RevenueProduct>();
+            this.RevenueRoomTypes = new HashSet<RevenueRoomType>();
         }
     
-        public string RoomId { get; set; }
-        public Nullable<int> RoomNumber { get; set; }
-        public string RoomTypeId { get; set; }
-        public string Note { get; set; }
-        public string RoomStatus { get; set; }
+        public int RevenueId { get; set; }
+        public Nullable<int> Month { get; set; }
+        public Nullable<int> Year { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RentalContract> RentalContracts { get; set; }
-        public virtual RoomType RoomType { get; set; }
+        public virtual ICollection<RevenueProduct> RevenueProducts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RevenueRoomType> RevenueRoomTypes { get; set; }
     }
 }

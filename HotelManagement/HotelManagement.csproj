@@ -103,7 +103,9 @@
     <Reference Include="SixLabors.ImageSharp, Version=2.0.0.0, Culture=neutral, PublicKeyToken=d998eea7b14cab13, processorArchitecture=MSIL">
       <HintPath>..\packages\SixLabors.ImageSharp.2.1.3\lib\net472\SixLabors.ImageSharp.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
+    <Reference Include="System">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.8\System.dll</HintPath>
+    </Reference>
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
@@ -182,22 +184,13 @@
     <Compile Include="Model\Bill.cs">
       <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Customer.cs">
-      <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\Furniture.cs">
       <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\FurnitureReceipt.cs">
       <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\FurnitureStorage.cs">
-      <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\GoodsReceipt.cs">
-      <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\GoodsStorage.cs">
+    <Compile Include="Model\FurnitureReceiptDetail.cs">
       <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\HotelManagementDatabase.Context.cs">
@@ -215,25 +208,43 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>HotelManagementDatabase.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Model\Parameter.cs">
+      <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Product.cs">
+      <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ProductReceipt.cs">
+      <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ProductReceiptDetail.cs">
+      <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ProductUsing.cs">
+      <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\RentalContract.cs">
       <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Review.cs">
+    <Compile Include="Model\RentalContractDetail.cs">
+      <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\Revenue.cs">
+      <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RevenueProduct.cs">
+      <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\RevenueRoomType.cs">
       <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Room.cs">
       <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\RoomCustomer.cs">
-      <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Model\RoomFurnituresDetail.cs">
-      <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
-    </Compile>
     <Compile Include="Model\RoomType.cs">
       <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Service.cs">
+    <Compile Include="Model\RoomTypeFurniture.cs">
       <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Services\BillService.cs" />
@@ -243,19 +254,15 @@
     <Compile Include="Model\Services\RoomService.cs" />
     <Compile Include="Model\Services\ServiceUsingHelper.cs" />
     <Compile Include="Model\Services\SettingService.cs" />
-    <Compile Include="Model\ServiceUsing.cs">
+    <Compile Include="Model\Staff.cs">
       <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\Staff.cs">
+    <Compile Include="Model\SurchargeRate.cs">
       <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Trouble.cs">
       <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\TroubleByCustomer.cs">
-      <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ViewModel\AdminVM\CustomerManagementVM\CustomerManagementVM.cs" />
     <Compile Include="ViewModel\AdminVM\HistoryManagementVM\HistoryManagementVM.cs" />
     <Compile Include="ViewModel\AdminVM\RoomFurnitureManagementVM\RoomFurnitureDeleteVM.cs" />
     <Compile Include="ViewModel\AdminVM\RoomFurnitureManagementVM\RoomFurnitureManagementVM.cs" />
@@ -278,13 +285,10 @@
     <Compile Include="DTOs\TroubleByCustomerDTO.cs" />
     <Compile Include="DTOs\TroubleDTO.cs" />
     <Compile Include="Model\Services\StaffService.cs" />
-    <Compile Include="Model\Services\CustomerService.cs" />
     <Compile Include="Model\Services\TroubleService.cs" />
     <Compile Include="Utilities\Constant.cs" />
     <Compile Include="Utilities\Helper.cs" />
     <Compile Include="Utilities\RegexUtilities.cs" />
-    <Compile Include="ViewModel\AdminVM\CustomerManagementVM\AddCustomerVM.cs" />
-    <Compile Include="ViewModel\AdminVM\CustomerManagementVM\EditCustomerVM.cs" />
     <Compile Include="ViewModel\AdminVM\RoomManagementVM\AddNewRoomVM.cs" />
     <Compile Include="ViewModel\AdminVM\RoomManagementVM\EditRoomVM.cs" />
     <Compile Include="DTOs\FurnitureDTO.cs" />
@@ -467,15 +471,6 @@
       <DependentUpon>Filter.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\AdminVM\TroubleManagementVM\TroubleManagementVM.cs" />
-    <Compile Include="View\Admin\CustomerManagement\AddCustomerWindow.xaml.cs">
-      <DependentUpon>AddCustomerWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Admin\CustomerManagement\CustomerManagementPage.xaml.cs">
-      <DependentUpon>CustomerManagementPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Admin\CustomerManagement\EditCustomerWindow.xaml.cs">
-      <DependentUpon>EditCustomerWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Admin\HistoryManagement\ExportManagementPage.xaml.cs">
       <DependentUpon>ExportManagementPage.xaml</DependentUpon>
     </Compile>
@@ -847,18 +842,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Admin\CustomerManagement\AddCustomerWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Admin\CustomerManagement\CustomerManagementPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Admin\CustomerManagement\EditCustomerWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\Admin\HistoryManagement\ExportManagementPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1022,6 +1005,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>HotelManagementDatabase.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="App.Config" />
     <None Include="Model\HotelManagementDatabase.edmx.diagram">
       <DependentUpon>HotelManagementDatabase.edmx</DependentUpon>
     </None>
@@ -1030,9 +1014,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Components\item.txt" />

@@ -12,13 +12,13 @@ namespace HotelManagement.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Review
+    public partial class RentalContractDetail
     {
-        public string ReviewId { get; set; }
-        public string ContentReview { get; set; }
+        public int RentalContractDetailId { get; set; }
+        public string RentalContractId { get; set; }
+        public string CustomerName { get; set; }
         public string CustomerId { get; set; }
-        public Nullable<int> StarNumber { get; set; }
     
-        public virtual Customer Customer { get; set; }
+        public virtual RentalContract RentalContract { get; set; }
     }
 }

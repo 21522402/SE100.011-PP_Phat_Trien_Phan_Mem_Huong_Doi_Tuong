@@ -14,27 +14,18 @@ namespace HotelManagement.Model
     
     public partial class Trouble
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Trouble()
-        {
-            this.TroubleByCustomers = new HashSet<TroubleByCustomer>();
-        }
-    
         public string TroubleId { get; set; }
+        public string StaffId { get; set; }
         public string Title { get; set; }
         public byte[] Avatar { get; set; }
         public string Description { get; set; }
-        public string Reason { get; set; }
-        public Nullable<double> Price { get; set; }
         public Nullable<System.DateTime> StartDate { get; set; }
         public Nullable<System.DateTime> FixedDate { get; set; }
         public Nullable<System.DateTime> FinishDate { get; set; }
         public string Status { get; set; }
-        public string StaffId { get; set; }
+        public Nullable<double> Price { get; set; }
         public string Level { get; set; }
     
         public virtual Staff Staff { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<TroubleByCustomer> TroubleByCustomers { get; set; }
     }
 }
