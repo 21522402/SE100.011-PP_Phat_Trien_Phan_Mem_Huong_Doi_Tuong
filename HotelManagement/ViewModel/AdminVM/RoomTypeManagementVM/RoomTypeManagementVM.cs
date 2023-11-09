@@ -39,11 +39,18 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
             set { _roomTypePrice = value; OnPropertyChanged(); }
         }
 
-        private string _roomTypeNote;
-        public string RoomTypeNote
+        private int _maxNumberGuest;
+        public int MaxNumberGuest
         {
-            get { return _roomTypeNote; }
-            set { _roomTypeNote = value; OnPropertyChanged(); }
+            get { return _maxNumberGuest; }
+            set { _maxNumberGuest = value; OnPropertyChanged(); }
+        }
+
+        private int _numberGuestForUnitPrice;
+        public int NumberGuestForUnitPrice
+        {
+            get { return _numberGuestForUnitPrice; }
+            set { _numberGuestForUnitPrice = value; OnPropertyChanged(); }
         }
 
         private RoomTypeDTO _selectedItem;
@@ -80,7 +87,9 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
 
         public ICommand FirstLoadCM { get; set; }
         public ICommand CloseCM { get; set; }
-        public ICommand LoadNoteRoomTypeCM { get; set; }
+        public ICommand LoadAddRoomTypeCM { get; set; }
+        public ICommand LoadDeleteRoomTypeCM { get; set; }
+        public ICommand LoadEditRoomTypeCM { get; set; }
         public ICommand SaveRoomTypeCM { get; set; }
         public ICommand UpdateRoomTypeCM { get; set; }
 
@@ -107,16 +116,22 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
                     CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
                 }
             });
+            LoadAddRoomTypeCM = new RelayCommand<object>((p) => { return true; }, (p) =>
+            {
+                RenewWindowData();
+                AddRoomType addRoomType = new AddRoomType();
+                addRoomType.ShowDialog();
+            });
+            SaveRoomTypeCM = new RelayCommand<System.Windows.Window>((p) => { if (IsSaving) return false; return true; }, async (p) =>
+            {
+                IsSaving = true;
+                await SaveRoomTypeFunc(p);
+                IsSaving = false;
+            });
             LoadEditRoomTypeCM = new RelayCommand<object>((p) => { return true; }, (p) =>
             {
-                EditRoom w1 = new EditRoom();
+                EditRoomType w1 = new EditRoomType();
                 LoadEditRoomType();
-                w1.ShowDialog();
-            });
-            LoadNoteRoomTypeCM = new RelayCommand<object>((p) => { return true; }, (p) =>
-            {
-                NoteRoomType w1 = new NoteRoomType();
-                RoomTypeNote = SelectedItem.RoomTypeNote;
                 w1.ShowDialog();
             });
             UpdateRoomTypeCM = new RelayCommand<System.Windows.Window>((p) => { if (IsSaving) return false; return true; }, async (p) =>
@@ -124,6 +139,32 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
                 IsSaving = true;
                 await UpdateRoomTypeFunc(p);
                 IsSaving = false;
+            });
+            LoadDeleteRoomTypeCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
+            {
+
+                string message = "Bạn có chắc muốn xoá phòng này không? Dữ liệu không thể phục hồi sau khi xoá!";
+                CustomMessageBoxResult kq = CustomMessageBox.ShowOkCancel(message, "Cảnh báo", "Xác nhận", "Hủy", CustomMessageBoxImage.Warning);
+
+                if (kq == CustomMessageBoxResult.OK)
+                {
+                    IsLoadding = true;
+
+                    (bool successDeleteRoomType, string messageFromDelRoomType) = await RoomTypeService.Ins.DeleteRoomType(SelectedItem.RoomTypeId);
+
+                    IsLoadding = false;
+
+                    if (successDeleteRoomType)
+                    {
+                        LoadRoomTypeListView(Operation.DELETE);
+                        SelectedItem = null;
+                        CustomMessageBox.ShowOk(messageFromDelRoomType, "Thông báo", "OK", CustomMessageBoxImage.Success);
+                    }
+                    else
+                    {
+                        CustomMessageBox.ShowOk(messageFromDelRoomType, "Lỗi", "OK", CustomMessageBoxImage.Error);
+                    }
+                }
             });
             CloseCM = new RelayCommand<System.Windows.Window>((p) => { return true; }, (p) =>
             {
@@ -180,12 +221,13 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
         public void RenewWindowData()
         {
             RoomTypeName = null;
-            RoomTypeNote = null;
             RoomTypePrice = 0;
+            MaxNumberGuest = 1;
+            NumberGuestForUnitPrice = 0;
         }
         public bool IsValidData()
         {
-            return !string.IsNullOrEmpty(RoomTypeName) && !string.IsNullOrEmpty(RoomTypeNote);
+            return !string.IsNullOrEmpty(RoomTypeName);
         }
 
     }

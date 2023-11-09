@@ -38,7 +38,7 @@
                                       materialDesign:ShadowAssist.ShadowEdges="Bottom"
                                       x:Name="card1">
                 <StackPanel Orientation="Horizontal">
-                 
+
 
                     <RadioButton Style="{StaticResource MaterialDesignTabRadioButtonBottom}"
                                  BorderBrush="#0F2851"

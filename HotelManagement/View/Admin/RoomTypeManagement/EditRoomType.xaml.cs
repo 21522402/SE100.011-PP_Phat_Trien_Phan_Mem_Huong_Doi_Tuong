@@ -19,9 +19,9 @@ namespace HotelManagement.View.Admin.RoomTypeManagement
     /// <summary>
     /// Interaction logic for EditRoomType.xaml
     /// </summary>
-    public partial class EditRoom : Window
+    public partial class EditRoomType : Window
     {
-        public EditRoom()
+        public EditRoomType()
         {
             InitializeComponent();
             this.Language = XmlLanguage.GetLanguage("vi-VN");
@@ -43,6 +43,11 @@ namespace HotelManagement.View.Admin.RoomTypeManagement
 
             e.Handled = true;
             this.Close();
+        }
+
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !IsTextAllowed(e.Text);
         }
     }
 }

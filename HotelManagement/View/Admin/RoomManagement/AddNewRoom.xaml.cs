@@ -53,5 +53,6 @@ namespace HotelManagement.View.Admin.RoomManagement
         {
             this.DragMove();
         }
+
     }
 }

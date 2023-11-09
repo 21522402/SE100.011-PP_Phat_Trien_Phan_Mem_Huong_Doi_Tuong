@@ -15,7 +15,6 @@ namespace HotelManagement.DTOs
         public string RoomTypeName { get; set; }
         public string Note { get; set; }
         public string RoomStatus { get; set; }
-        public string RoomCleaningStatus { get; set; }
         public double Price { get; set; }
         public string RoomPriceStr
         {
