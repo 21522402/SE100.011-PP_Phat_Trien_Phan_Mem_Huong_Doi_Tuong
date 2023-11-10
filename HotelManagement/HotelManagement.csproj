@@ -173,9 +173,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="DTOs\BillDTO.cs" />
-    <Compile Include="DTOs\BookingRoomManagementDTO.cs" />
     <Compile Include="DTOs\CustomerDTO.cs" />
     <Compile Include="DTOs\ImportProductDTO.cs" />
+    <Compile Include="DTOs\RentalContractDetailDTO.cs" />
     <Compile Include="DTOs\RoomDTO.cs" />
     <Compile Include="DTOs\RoomFurnituresDetailDTO.cs" />
     <Compile Include="DTOs\RoomTypeDTO.cs" />
@@ -279,7 +279,6 @@
     <Compile Include="DTOs\RoomCustomerDTO.cs" />
     <Compile Include="DTOs\RoomSettingDTO.cs" />
     <Compile Include="Model\Services\RoomTypeService.cs" />
-    <Compile Include="Model\Services\RentalContractService.cs" />
     <Compile Include="Utils\EmailFormat.cs" />
     <Compile Include="Utils\RegexUtilities.cs" />
     <Compile Include="DTOs\StaffDTO.cs" />
@@ -378,8 +377,14 @@
     <Compile Include="View\BookingRoomManagement\BookingRoomManagementPage.xaml.cs">
       <DependentUpon>BookingRoomManagementPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\BookingRoomManagement\DetailRent.xaml.cs">
-      <DependentUpon>DetailRent.xaml</DependentUpon>
+    <Compile Include="View\BookingRoomManagement\editEnterInfoCustomer.xaml.cs">
+      <DependentUpon>editEnterInfoCustomer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BookingRoomManagement\EnterInfoCustomer.xaml.cs">
+      <DependentUpon>EnterInfoCustomer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\BookingRoomManagement\RentalContractInfo.xaml.cs">
+      <DependentUpon>RentalContractInfo.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\CustomMessageBoxWindow\CustomMessageBox.cs" />
     <Compile Include="View\CustomMessageBoxWindow\CustomMessageBoxWindow.xaml.cs">
@@ -702,16 +707,24 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\BookingRoomManagement\Booking.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\BookingRoomManagement\BookingRoomManagementPage.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\BookingRoomManagement\DetailRent.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="View\BookingRoomManagement\editEnterInfoCustomer.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\BookingRoomManagement\EnterInfoCustomer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\BookingRoomManagement\RentalContractInfo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\CustomMessageBoxWindow\CustomMessageBoxWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

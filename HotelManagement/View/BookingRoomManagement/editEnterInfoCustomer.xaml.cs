@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,31 +16,23 @@ using System.Windows.Shapes;
 namespace HotelManagement.View.BookingRoomManagement
 {
     /// <summary>
-    /// Interaction logic for DetailRent.xaml
+    /// Interaction logic for editEnterInfoCustomer.xaml
     /// </summary>
-    public partial class DetailRent : Window
+    public partial class editEnterInfoCustomer : Window
     {
-        public DetailRent()
+        public editEnterInfoCustomer()
         {
             InitializeComponent();
         }
 
-        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private static readonly Regex _regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
+        private static bool IsTextAllowed(string text)
         {
-            if (e.LeftButton == MouseButtonState.Pressed)
-            {
-                this.DragMove();
-            }
+            return !_regex.IsMatch(text);
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            this.Close();
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            this.Close();
+            e.Handled = !IsTextAllowed(e.Text);
         }
     }
 }
