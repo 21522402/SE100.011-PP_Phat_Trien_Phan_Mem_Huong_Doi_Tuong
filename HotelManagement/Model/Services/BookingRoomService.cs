@@ -29,93 +29,8 @@ namespace HotelManagement.Model.Services
 
         public BookingRoomService() { }
 
-        public async Task<List<RentalContractDTO>> GetBookingList()
-        {
-            try
-            {
-                using (HotelManagementEntities db = new HotelManagementEntities())
-                {
-                    List<RentalContractDTO> RentalContractDTOs = await (
-                        from r in db.RentalContracts
-                        join s in db.Staffs
-                        on r.StaffId equals s.StaffId
-                        join c in db.Customers
-                        on r.CustomerId equals c.CustomerId
-                        join room in db.Rooms
-                        on r.RoomId equals room.RoomId
-                        join rt in db.RoomTypes
-                        on room.RoomTypeId equals rt.RoomTypeId
-                        select new RentalContractDTO
-                        {
-                            RentalContractId = r.RentalContractId,
-                            StaffName = s.StaffName,
-                            CustomerName = c.CustomerName,
-                            StartDate = r.StartDate,
-                            CheckOutDate = r.CheckOutDate,
-                            StartTime = r.StartTime,
-                            Validated = r.Validated,
-                        }
-                    ).ToListAsync();
-                    RentalContractDTOs.Reverse();
-                  
-                    return RentalContractDTOs;
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
-        public async Task<List<RoomDTO>> GetListReadyRoom(DateTime StartDate, DateTime StartTime, DateTime CheckOutDate)
-        {
-            try
-            {
-                using (var context = new HotelManagementEntities())
-                {
-                    var listRentalContract = await (from r in context.RentalContracts
-
-                                                    select new RentalContractDTO
-                                                    {
-                                                        RentalContractId = r.RentalContractId,
-                                                        StartDate = r.StartDate,
-                                                        StartTime = r.StartTime,
-                                                        CheckOutDate = r.CheckOutDate,
-                                                        CustomerId = r.CustomerId,
-                                                        RoomId = r.RoomId,
-                                                        Validated = r.Validated,
-                                                    }
-                                          ).ToListAsync();
-                    DateTime start = StartDate + StartTime.TimeOfDay;
-                    DateTime end = CheckOutDate + StartTime.TimeOfDay;
-
-                    var listBusyRoomId = listRentalContract.Where(x =>
-                    (x.CheckOutDate + x.StartTime >= start && x.CheckOutDate + x.StartTime < end && x.Validated==true) ||
-                    (x.StartDate + x.StartTime >= start && x.StartDate + x.StartTime < end && x.Validated == true) ||
-                    (x.StartDate + x.StartTime <= start && x.CheckOutDate + x.StartTime >= end && x.Validated == true)).Select(x => x.RoomId).ToList();
-                    var listReadyRoom = await (
-                        from r in context.Rooms
-                        join temp in context.RoomTypes
-                        on r.RoomTypeId equals temp.RoomTypeId 
-                        where listBusyRoomId.Contains(r.RoomId)==false
-                        select new RoomDTO
-                        {
-                            // DTO = db
-                            RoomId = r.RoomId,
-                            RoomNumber = (int)r.RoomNumber,
-                            RoomTypeName = temp.RoomTypeName,
-                            RoomTypeId = temp.RoomTypeId,
-                            Price = (double)temp.Price,
-                        }
-                    ).ToListAsync();
-                   return listReadyRoom;
-
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
+       
+      
 
         public async Task<(bool,string)> SaveBooking(RentalContractDTO rentalContract)
         {
@@ -131,9 +46,7 @@ namespace HotelManagement.Model.Services
                         RoomId= rentalContract.RoomId,
                         StaffId = rentalContract.StaffId,
                         StartDate = rentalContract.StartDate,
-                        StartTime = rentalContract.StartTime,
-                        CheckOutDate = rentalContract.CheckOutDate,
-                        CustomerId = rentalContract.CustomerId,
+                        EndDate = rentalContract.StartDate,
                         Validated = rentalContract.Validated,
                     };
 
@@ -148,47 +61,47 @@ namespace HotelManagement.Model.Services
                 return (false, "Lỗi hệ thống");
             }
         }
-        public async Task<(bool, string, string)> SaveCustomer(CustomerDTO customer)
-        {
-            try
-            {
-                using (var context = new HotelManagementEntities())
-                {
-                    var c = await context.Customers.FirstOrDefaultAsync(x => x.CCCD == customer.CCCD);
-                    var maxId = await context.Customers.MaxAsync(s => s.CustomerId);
-                    if (c != null) return (true, null,c.CustomerId);
-                    else
-                    {
-                        string newCusId = CreateNextCustomerId(maxId);
-                        Customer newCus = new Customer
-                        {
-                            CustomerName = customer.CustomerName,
-                            CCCD = customer.CCCD,
-                            CustomerAddress = customer.CustomerAddress,
-                            PhoneNumber = customer.PhoneNumber,
-                            Email = customer.Email,
-                            CustomerId = newCusId,
-                            CustomerType = customer.CustomerType,
-                            DateOfBirth = customer.DateOfBirth,
-                            Gender = customer.Gender,
-                            IsDeleted = customer.IsDeleted,
-                        };
-                        context.Customers.Add(newCus);
-                        await context.SaveChangesAsync();
-                        string cusId = (await context.Customers.FirstOrDefaultAsync(x => x.CCCD == customer.CCCD)).CustomerId;
-                        return (true, "", cusId);
-                    }
-                }
-            }
-            catch (System.Data.Entity.Core.EntityException)
-            {
-                return (false, "Mất kết nối cơ sở dữ liệu",null);
-            }
-            catch (Exception)
-            {
-                return (false, "Lỗi hệ thống",null);
-            }
-        }
+        //public async Task<(bool, string, string)> SaveCustomer(CustomerDTO customer)
+        //{
+        //    try
+        //    {
+        //        using (var context = new HotelManagementEntities())
+        //        {
+        //            var c = await context.Customers.FirstOrDefaultAsync(x => x.CCCD == customer.CCCD);
+        //            var maxId = await context.Customers.MaxAsync(s => s.CustomerId);
+        //            if (c != null) return (true, null,c.CustomerId);
+        //            else
+        //            {
+        //                string newCusId = CreateNextCustomerId(maxId);
+        //                Customer newCus = new Customer
+        //                {
+        //                    CustomerName = customer.CustomerName,
+        //                    CCCD = customer.CCCD,
+        //                    CustomerAddress = customer.CustomerAddress,
+        //                    PhoneNumber = customer.PhoneNumber,
+        //                    Email = customer.Email,
+        //                    CustomerId = newCusId,
+        //                    CustomerType = customer.CustomerType,
+        //                    DateOfBirth = customer.DateOfBirth,
+        //                    Gender = customer.Gender,
+        //                    IsDeleted = customer.IsDeleted,
+        //                };
+        //                context.Customers.Add(newCus);
+        //                await context.SaveChangesAsync();
+        //                string cusId = (await context.Customers.FirstOrDefaultAsync(x => x.CCCD == customer.CCCD)).CustomerId;
+        //                return (true, "", cusId);
+        //            }
+        //        }
+        //    }
+        //    catch (System.Data.Entity.Core.EntityException)
+        //    {
+        //        return (false, "Mất kết nối cơ sở dữ liệu",null);
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return (false, "Lỗi hệ thống",null);
+        //    }
+        //}
 
         public async Task<(bool, string)> DeleteRentalContractBooked(string Id)
         {
@@ -255,41 +168,7 @@ namespace HotelManagement.Model.Services
                 throw e;
             }
         }
-        public async Task<(bool, CustomerDTO)> CheckCCCD(string cccd)
-        {
-            try
-            {
-                using (var context = new HotelManagementEntities())
-                {
-                    Customer cus = await context.Customers.FirstOrDefaultAsync(x => x.CCCD == cccd);
-                    if (cus != null)
-                    {
-                        CustomerDTO customerDTO = new CustomerDTO
-                        {
-                            CustomerId = cus.CustomerId,
-                            CustomerName = cus.CustomerName,
-                            CCCD = cus.CCCD,
-                            CustomerAddress = cus.CustomerAddress,
-                            DateOfBirth = cus.DateOfBirth,
-                            CustomerType = cus.CustomerType,
-                            Email = cus.Email,
-                            Gender = cus.Gender,
-                            PhoneNumber = cus.PhoneNumber,
-                        };
-
-                        return (true, customerDTO);
-                    }
-                    else
-                    {
-                        return (false, null);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
+     
         private string CreateNextCustomerId(string maxId)
         {
             //KHxxx

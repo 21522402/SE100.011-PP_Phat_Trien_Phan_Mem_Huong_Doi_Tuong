@@ -41,7 +41,7 @@ namespace HotelManagement.View.Admin.ServiceManagement
             if (String.IsNullOrEmpty(SearchBox.Text))
                 return true;
             else
-                return ((item as ServiceDTO).ServiceName.IndexOf(SearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+                return ((item as ProductDTO).ProductName.IndexOf(SearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
         }
 
         private void Grid_MouseMove(object sender, MouseEventArgs e)

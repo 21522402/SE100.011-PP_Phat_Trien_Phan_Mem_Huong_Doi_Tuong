@@ -33,8 +33,6 @@ namespace HotelManagement.ViewModel.AdminVM.RoomManagementVM
                 w1.loaiphong.SelectedIndex = 1;
             }
             else w1.loaiphong.SelectedIndex = 2;
-
-            w1.tinhtrangphong.Text = SelectedRoomItem.RoomCleaningStatus;
         }
         
         public async Task UpdateRoomFunc(System.Windows.Window p)
@@ -50,7 +48,6 @@ namespace HotelManagement.ViewModel.AdminVM.RoomManagementVM
                     Note = RoomNote,
                     RoomNumber = RoomNumber,
                     RoomTypeId = rti,
-                    RoomCleaningStatus = CbRoomTinhTrang.Tag.ToString(),
                     RoomTypeName = CbRoomType.Tag.ToString(),
                     RoomStatus = RoomStatus,
                 };

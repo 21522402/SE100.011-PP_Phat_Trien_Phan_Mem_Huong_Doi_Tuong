@@ -27,7 +27,7 @@ namespace HotelManagement.Utils
     public class ROOM_STATUS
     {
         public static readonly string READY = "Phòng trống";
-        public static readonly string BOOKED = "Phòng đã đặt";
+        public static readonly string UNABLE = "Ngưng sử dụng";
         public static readonly string RENTING = "Phòng đang thuê";
     }
     public class ROOM_CLEANING_STATUS

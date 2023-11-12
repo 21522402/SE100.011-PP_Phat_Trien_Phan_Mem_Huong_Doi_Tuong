@@ -47,10 +47,9 @@ namespace HotelManagement.View.Staff.RoomCatalogManagement.RoomInfo
             if (String.IsNullOrEmpty(SearchBox.Text))
                 return true;
             else
-                return ((item as RoomCustomerDTO).CustomerName.IndexOf(SearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0
-                    || (item as RoomCustomerDTO).CustomerAddress.IndexOf(SearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0
-                    || (item as RoomCustomerDTO).CustomerType.IndexOf(SearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0
-                    || (item as RoomCustomerDTO).CCCD.IndexOf(SearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+                return ((item as RentalContractDetailDTO).CustomerName.IndexOf(SearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0
+                    
+                    || (item as RentalContractDetailDTO).CustomerId.IndexOf(SearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
 
         }
        

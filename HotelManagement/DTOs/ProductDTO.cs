@@ -1,7 +1,9 @@
-﻿using HotelManagement.Utilities;
+﻿using HotelManagement.Model;
+using HotelManagement.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -14,7 +16,7 @@ using System.Windows.Media.Imaging;
 
 namespace HotelManagement.DTOs
 {
-    public class ServiceDTO : INotifyPropertyChanged
+    public class ProductDTO : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged(string propertyName)
@@ -28,17 +30,16 @@ namespace HotelManagement.DTOs
             return true;
         }
 
-        private ImageSource serviceAvatar;
-        public ImageSource ServiceAvatar
+        private ImageSource productAvatar;
+        public ImageSource ProductAvatar
         {
-            get { return serviceAvatar; }
-            set { SetField(ref serviceAvatar, value, "ServiceAvatar"); }
+            get { return productAvatar; }
+            set { SetField(ref productAvatar, value, "ServiceAvatar"); }
         }
-        public string ServiceId { get; set; }
-        public string ServiceName { get; set; }
-        public string ServiceType { get; set; }
-        public double ServicePrice { get; set; }
-        public byte[] ServiceAvatarData { get; set; }
+        public string ProductId { get; set; }
+        public string ProductName { get; set; }
+        public double Price { get; set; }
+        public byte[] ProductAvatarData { get; set; }
 
         private int quantity;
         public int Quantity
@@ -62,48 +63,36 @@ namespace HotelManagement.DTOs
         public string PriceStr { get; set; }
         public string Unit { get; set; }
 
-        public ServiceDTO()
+        public ProductDTO()
         {
         }
-        public ServiceDTO(string serviceId, string serviceName, string serviceType, double servicePrice,int quantity, byte[] serviceAvatarData, ImageSource serviceAvatar)
+        public ProductDTO(string productId, string productName,  double price,int quantity, byte[] productAvatarData, ImageSource productAvatar)
         {
-            ServiceId = serviceId;
-            ServiceName = serviceName;
-            ServiceType = serviceType;
-            ServicePrice = servicePrice;
+            ProductId = productId;
+            ProductName = productName;
+            Price = price;
             Quantity = quantity;
-            ServiceAvatarData = serviceAvatarData;
-            ServiceAvatar = serviceAvatar;
-            PriceStr = Helper.FormatVNMoney((float)ServicePrice);
+            ProductAvatarData = productAvatarData;
+            ProductAvatar = productAvatar;
+            PriceStr = Helper.FormatVNMoney((float)Price);
         }
-        public ServiceDTO(ServiceDTO s)
+        public ProductDTO(ProductDTO s)
         {
-            ServiceId = s.ServiceId;
-            ServiceName = s.ServiceName;
-            ServiceType = s.ServiceType;
-            ServicePrice = s.ServicePrice;
+
+            ProductId = s.ProductId;
+            ProductName = s.ProductName;
+            Price = s.Price;
             Quantity = s.Quantity;
-            ServiceAvatarData = s.ServiceAvatarData;
-            ServiceAvatar = s.ServiceAvatar;
-            PriceStr = Helper.FormatVNMoney((float)ServicePrice);
+            ProductAvatarData = s.ProductAvatarData;
+            ProductAvatar = s.ProductAvatar;
+            PriceStr = Helper.FormatVNMoney((float)Price);
         }
 
-        public void FormatStringUnitAndPrice()
-        {
-            PriceStr = Helper.FormatVNMoney((float)ServicePrice);
-            if (ServiceName == "Giặt sấy")
-            {
-                Unit = "Kilogram";
-            }
-            if (ServiceName == "Dọn dẹp")
-            {
-                Unit = "Lần";
-            }
-        }
+        
         public void SetAvatar()
         {
-            if(ServiceAvatarData != null)
-                ServiceAvatar = LoadAvatarImage(ServiceAvatarData);
+            if(ProductAvatarData != null)
+                ProductAvatar = LoadAvatarImage(ProductAvatarData);
         }
         public void SetAvatar(string filePath)
         {
@@ -119,8 +108,8 @@ namespace HotelManagement.DTOs
             FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read);
             byte[] photo_aray = new byte[fs.Length];
             fs.Read(photo_aray, 0, photo_aray.Length);
-            ServiceAvatarData = photo_aray;
-            ServiceAvatar = _image;
+            ProductAvatarData = photo_aray;
+            ProductAvatar = _image;
         }
         public BitmapImage LoadAvatarImage(byte[] data)
         {

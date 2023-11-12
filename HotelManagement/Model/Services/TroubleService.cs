@@ -39,7 +39,6 @@ namespace HotelManagement.Model.Services
                                        Title = s.Title,
                                        Avatar = s.Avatar,
                                        Description = s.Description,
-                                       Reason = s.Reason,
                                        Price = (double)s.Price,
                                        StartDate = s.StartDate,
                                        FixedDate = s.FixedDate,
@@ -71,22 +70,13 @@ namespace HotelManagement.Model.Services
                         Title = s.Title,
                         Avatar = s.Avatar,
                         Description = s.Description,
-                        Reason = s.Reason,
                         Price = 0,
                         StartDate = s.StartDate,
                         Status = STATUS.WAITING,
                         StaffId = s.StaffId,
                         Level = s.Level ?? LEVEL.NORMAL,
                     };
-                    if (id != null)
-                    {
-                        TroubleByCustomer tb = new TroubleByCustomer
-                        {
-                            TroubleId=newtrouble.TroubleId,
-                            RentalContractId=id
-                        };
-                        context.TroubleByCustomers.Add(tb);
-                    }
+                    
                     s.TroubleId = newtrouble.TroubleId;
                     context.Troubles.Add(newtrouble);
                     await context.SaveChangesAsync();
@@ -103,122 +93,8 @@ namespace HotelManagement.Model.Services
             return (true, "Báo cáo sự cố mới thành công", s);
 
         }
-        public async Task<(bool,string)> UpdateTrouble(TroubleDTO s, double preprice=0)
-        {
-            try
-            {
-                using (var context = new HotelManagementEntities())
-                {
-                    if (s.Status == STATUS.PREDIT)
-                    {
-                        var troublebycus = await context.TroubleByCustomers.FirstOrDefaultAsync(x => x.TroubleId == s.TroubleId);
-                        troublebycus.PredictedPrice=preprice;
-                        var trouble = await context.Troubles.FindAsync(s.TroubleId);
-                        trouble.Status=STATUS.PREDIT;
-                    }
-                    else if(s.Status == STATUS.IN_PROGRESS)
-                    {
-                        var trouble = await context.Troubles.FindAsync(s.TroubleId);
-                        trouble.Status = STATUS.IN_PROGRESS;
-                        trouble.FixedDate = s.FixedDate;
-                        if (trouble.Reason == REASON.BYCUSTOMER)
-                        {
-                            var troublebycus = await context.TroubleByCustomers.FirstOrDefaultAsync(x => x.TroubleId == s.TroubleId);
-                            troublebycus.PredictedPrice = preprice;
-                        }
-                    }
-                    else if(s.Status == STATUS.DONE)
-                    {
-                        var trouble = await context.Troubles.FindAsync(s.TroubleId);
-                        trouble.Status = STATUS.DONE;
-                        trouble.FixedDate = s.FixedDate;
-                        trouble.FinishDate = s.FinishDate;
-                        trouble.Price = s.Price;
-                        if (trouble.Reason == REASON.BYCUSTOMER)
-                        {
-                            var troublebycus = await context.TroubleByCustomers.FirstOrDefaultAsync(x => x.TroubleId == s.TroubleId);
-                            troublebycus.PredictedPrice = s.Price;
-                        }
-                        
-                    }
-                    else if (s.Status == STATUS.CANCLE)
-                    {
-                        var trouble = await context.Troubles.FindAsync(s.TroubleId);
-                        trouble.Status = STATUS.CANCLE;
-                        if (trouble.Reason == REASON.BYCUSTOMER)
-                        {
-                            var troublebycus = await context.TroubleByCustomers.FirstOrDefaultAsync(x => x.TroubleId == s.TroubleId);
-                            troublebycus.PredictedPrice = 0;
-                        }
-                    }
-                    await context.SaveChangesAsync();
-                }
-            }
-            catch (System.Data.Entity.Core.EntityException)
-            {
-                return (false, "Mất kết nối cơ sở dữ liệu");
-            }
-            catch (Exception)
-            {
-                return (false, "Lỗi hệ thống");
-            }
-            return (true, "Cập nhật sự cố thành công");
-        }
-        public async Task<(bool, string)> EditTrouble(TroubleDTO s, string id)
-        {
-            try
-            {
-                using (var context = new HotelManagementEntities())
-                {
-                    var trouble = await context.Troubles.FindAsync(s.TroubleId);
-                    trouble.Title = s.Title;
-                    trouble.Avatar = s.Avatar;
-                    trouble.Description = s.Description;
-                    trouble.Reason = s.Reason;
-                    trouble.StartDate = DateTime.Now;
-                    trouble.StaffId = s.StaffId;
-                    trouble.Level = s.Level ;
-                    var tb = await context.TroubleByCustomers.FindAsync(s.TroubleId);
-                    if (id != null)
-                    {
-                        if(tb != null)
-                        {
-                            tb.RentalContractId = id;
-                        }
-                        else
-                        {
-                            TroubleByCustomer tbb = new TroubleByCustomer
-                            {
-                                TroubleId = trouble.TroubleId,
-                                RentalContractId = id
-                            };
-                            context.TroubleByCustomers.Add(tbb);
-                        }               
-                    }
-                    else
-                    {
-                        if (tb != null)
-                        {
-                            tb.TroubleId = null;
-                            tb.RentalContractId = null;
-                        }
-                    }
-                    
-                   
-                    await context.SaveChangesAsync();
-                }
-            }
-            catch (System.Data.Entity.Core.EntityException)
-            {
-                return (false, "Mất kết nối cơ sở dữ liệu");
-            }
-            catch (Exception)
-            {
-                return (false, "Lỗi hệ thống");
-            }
-            return (true, "Chỉnh sửa sự cố thành công");
-
-        }
+      
+      
         public async Task<string> GetStaffNameById(string id)
         {
             string staffname;
@@ -229,45 +105,8 @@ namespace HotelManagement.Model.Services
             }
             return staffname;
         }
-        public async Task<TroubleByCustomerDTO> GetTroubleByCus(string id)
-        {
-            TroubleByCustomerDTO tb;
-            using(var context = new HotelManagementEntities())
-            {
-                var trouble =  context.TroubleByCustomers.FirstOrDefault(x=> x.TroubleId == id);
-                tb = new TroubleByCustomerDTO
-                {
-                    TroubleId=trouble.TroubleId,
-                    RentalContractId=trouble.RentalContractId,
-                    PredictedPrice=trouble.PredictedPrice,
-                };
-            }
-            return tb;
-        }
-        public async Task<List<TroubleByCustomerDTO>> GetListTroubleByCustomer(string rentalContractId)
-        {
-            try
-            {
-                using (var context = new HotelManagementEntities())
-                {
-                    var listTroubleByCustomer = await context.TroubleByCustomers.Where(x=> x.RentalContractId ==rentalContractId)
-                        .Select(x=> new TroubleByCustomerDTO
-                        {
-                           RentalContractId = x.RentalContractId,
-                           TroubleId=x.TroubleId,
-                           Title = x.Trouble.Title,
-                           PredictedPrice=x.PredictedPrice,
-                           Level = x.Trouble.Level,
-                        }).ToListAsync();
-                    return listTroubleByCustomer;
-                }
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
-
-        }
+     
+  
         public async Task<List<string>> GetCurrentListRentalContractId()
         {
             try

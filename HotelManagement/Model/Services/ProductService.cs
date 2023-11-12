@@ -12,16 +12,16 @@ using System.Threading.Tasks;
 
 namespace HotelManagement.Model.Services
 {
-    public class ServiceHelper
+    public class ProductService
     {
-        private ServiceHelper() { }
-        private static ServiceHelper _ins;
-        public static ServiceHelper Ins
+        private ProductService() { }
+        private static ProductService _ins;
+        public static ProductService Ins
         {
             get
             {
                 if (_ins == null)
-                    _ins = new ServiceHelper();
+                    _ins = new ProductService();
                 return _ins;
             }
             private set { _ins = value; }

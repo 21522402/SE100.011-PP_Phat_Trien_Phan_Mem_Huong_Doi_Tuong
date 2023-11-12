@@ -25,7 +25,6 @@ namespace HotelManagement.ViewModel.AdminVM.RoomManagementVM
                     Note = RoomNote,
                     RoomTypeId = rti,
                     RoomTypeName = CbRoomType.Tag.ToString(),
-                    RoomCleaningStatus = CbRoomTinhTrang.Tag.ToString(),
                     RoomStatus = "Phòng trống",
                 };
 

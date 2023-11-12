@@ -39,7 +39,6 @@ namespace HotelManagement.Model.Services
                             RoomTypeId = rt.RoomTypeId,
                             RoomTypeName = rt.RoomTypeName,
                             RoomTypePrice = (double)rt.Price,
-                            RoomTypeNote = rt.Note,
                         }
                     ).ToListAsync();
                     RoomTypeDTOs.Reverse();
@@ -88,7 +87,6 @@ namespace HotelManagement.Model.Services
                     roomType.RoomTypeName = updatedRoomType.RoomTypeName;
                     roomType.Price = updatedRoomType.RoomTypePrice;
                     roomType.RoomTypeId = updatedRoomType.RoomTypeId;
-                    roomType.Note = updatedRoomType.RoomTypeNote;
 
                     await context.SaveChangesAsync();
                     return (true, "Cập nhật thành công");
@@ -105,6 +103,22 @@ namespace HotelManagement.Model.Services
             catch (Exception)
             {
                 return (false, "Lỗi hệ thống");
+            }
+        }
+        public async Task<List<string>> GetListRoomTypName()
+        {
+            try
+            {
+                using (var context = new HotelManagementEntities())
+                {
+
+                    var list = context.RoomTypes.Select(x => x.RoomTypeName).ToList();
+                    return list;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
         }
     }

@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 
 namespace HotelManagement.DTOs
 {
-    public class ServiceUsingDTO
+    public class ProductUsingDTO
     {
-        public int ServiceUsingId { get; set; }
-        public string ServiceId { get; set; }
-        public string ServiceName { get; set; }
-        public string ServiceType { get; set; }
+        public int ProductUsingId { get; set; }
+        public string ProductId { get; set; }
+        public string ProductName { get; set; }
         public string RentalContractId { get; set; }
        
         public Nullable<double> UnitPrice { get; set; }

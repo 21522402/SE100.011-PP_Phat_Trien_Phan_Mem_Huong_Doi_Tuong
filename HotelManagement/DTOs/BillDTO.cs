@@ -45,6 +45,7 @@ namespace HotelManagement.DTOs
         public Nullable<double> DiscountPrice { get; set; }
         public Nullable<double> Price { get; set; }
         public Nullable<System.DateTime> StartDate { get; set; }
+        public Nullable<System.DateTime> EndDate { get; set; }
         public Nullable<System.TimeSpan> StartTime { get; set; }
         public Nullable<System.DateTime> CheckOutDate { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
@@ -62,7 +63,7 @@ namespace HotelManagement.DTOs
                 return res;
             }
         }
-        public IList<ServiceUsingDTO> ListListServicePayment { get; set; }
+        public IList<ProductUsingDTO> ListListServicePayment { get; set; }
         public IList<TroubleByCustomerDTO> ListTroubleByCustomer { get; set; }
         
         public double ServicePriceTemp

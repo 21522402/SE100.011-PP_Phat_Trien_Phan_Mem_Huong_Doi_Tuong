@@ -22,9 +22,11 @@ namespace HotelManagement.View.Staff.RoomCatalogManagement
     /// </summary>
     public partial class RoomCatalogManagementPage : Page
     {
+        List<ListBox> listRoomList;
         public RoomCatalogManagementPage()
         {
             InitializeComponent();
+            listRoomList = new List<ListBox>();
         }
 
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -33,58 +35,57 @@ namespace HotelManagement.View.Staff.RoomCatalogManagement
             scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
             e.Handled = true;
         }
+        private void SearchBox_SearchTextChange(object sender, EventArgs e)
+        {
+            for (int i = 0; i < listRoomList.Count; i++)
+            {
+                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(listRoomList[i].ItemsSource);
+                if (view != null)
+                {
+                    view.Filter = Filter;
+                    CollectionViewSource.GetDefaultView(listRoomList[i].ItemsSource).Refresh();
+                }
+            }
+        }
         private bool Filter(object item)
         {
             if (String.IsNullOrEmpty(SearchBox.Text))
                 return true;
             else
-                return ((item as RoomSettingDTO).RoomNameP.IndexOf(SearchBox.Text.Trim(), StringComparison.OrdinalIgnoreCase) >= 0
-                    || (item as RoomSettingDTO).RoomStatus.IndexOf(SearchBox.Text.Trim(), StringComparison.OrdinalIgnoreCase) >= 0
-                    || (item as RoomSettingDTO).RoomCleaningStatus.IndexOf(SearchBox.Text.Trim(), StringComparison.OrdinalIgnoreCase) >= 0
-                    || (((item as RoomSettingDTO).CustomerName != null) ? (item as RoomSettingDTO).CustomerName.IndexOf(SearchBox.Text.Trim(), StringComparison.OrdinalIgnoreCase) >= 0 : false));
-
-        }
-        private void Search_SearchTextChange(object sender, EventArgs e)
-        {
-            CollectionView view1 = (CollectionView)CollectionViewSource.GetDefaultView(listRoom1.ItemsSource);
-            if (view1 != null)
-            {
-                view1.Filter = Filter;
-                //result.Text = Listviewmini.Items.Count.ToString();
-                CollectionViewSource.GetDefaultView(listRoom1.ItemsSource).Refresh();
-            }
-            CollectionView view2 = (CollectionView)CollectionViewSource.GetDefaultView(listRoom2.ItemsSource);
-            if (view2 != null)
-            {
-                view2.Filter = Filter;
-                //result.Text = Listviewmini.Items.Count.ToString();
-                CollectionViewSource.GetDefaultView(listRoom2.ItemsSource).Refresh();
-            }
-            CollectionView view3 = (CollectionView)CollectionViewSource.GetDefaultView(listRoom3.ItemsSource);
-            if (view3 != null)
-            {
-                view3.Filter = Filter;
-                //result.Text = Listviewmini.Items.Count.ToString();
-                CollectionViewSource.GetDefaultView(listRoom3.ItemsSource).Refresh();
-            }
+                return ((item as RoomDTO).RoomName.ToString().IndexOf(SearchBox.Text.Trim(), StringComparison.OrdinalIgnoreCase) >= 0
+                    || (item as RoomDTO).RoomTypeName.ToString().IndexOf(SearchBox.Text.Trim(), StringComparison.OrdinalIgnoreCase) >= 0);
         }
 
-        private void ListBoxItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+       
+
+        private void listRoom_Loaded(object sender, RoutedEventArgs e)
         {
-            ListBoxItem lbi = sender as ListBoxItem;
-            listRoom1.SelectedItem = lbi.DataContext;
+            ListBox a = sender as ListBox;
+            if (a != null)
+                listRoomList.Add(a);
         }
 
-        private void ListBoxItem2_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void listListRoomType_Loaded(object sender, RoutedEventArgs e)
         {
-            ListBoxItem lbi = sender as ListBoxItem;
-            listRoom2.SelectedItem = lbi.DataContext;
+            ListBox a = sender as ListBox;
         }
 
-        private void ListBoxItem3_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            ListBoxItem lbi = sender as ListBoxItem;
-            listRoom3.SelectedItem = lbi.DataContext;
-        }
+        //private void ListBoxItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    ListBoxItem lbi = sender as ListBoxItem;
+        //    listRoom1.SelectedItem = lbi.DataContext;
+        //}
+
+        //private void ListBoxItem2_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    ListBoxItem lbi = sender as ListBoxItem;
+        //    listRoom2.SelectedItem = lbi.DataContext;
+        //}
+
+        //private void ListBoxItem3_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    ListBoxItem lbi = sender as ListBoxItem;
+        //    listRoom3.SelectedItem = lbi.DataContext;
+        //}
     }
 }

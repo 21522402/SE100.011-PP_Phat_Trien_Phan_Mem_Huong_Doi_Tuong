@@ -37,14 +37,14 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
               
             }
         }
-        private ObservableCollection<RoomCustomerDTO> _ListCustomer;
-        public ObservableCollection<RoomCustomerDTO> ListCustomer
+        private ObservableCollection<RentalContractDetailDTO> _ListCustomer;
+        public ObservableCollection<RentalContractDetailDTO> ListCustomer
         {
             get { return _ListCustomer; }
             set { _ListCustomer = value; OnPropertyChanged(); }
         }
-        private RoomCustomerDTO _SelectedCustomer;
-        public RoomCustomerDTO SelectedCustomer
+        private RentalContractDetailDTO _SelectedCustomer;
+        public RentalContractDetailDTO SelectedCustomer
         {
             get { return _SelectedCustomer; }
             set { _SelectedCustomer = value; OnPropertyChanged(); }
@@ -146,20 +146,18 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
                 CustomMessageBox.ShowOk("Sai định dạng CCCD!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
                 return;
             } 
-                RoomCustomerDTO newCus = new RoomCustomerDTO
+                RentalContractDetailDTO newCus = new RentalContractDetailDTO
             {
                 CustomerName = p.tbName.Text,
-                CustomerType = SelectedType.Content.ToString(),
-                CustomerAddress = p.tbAddress.Text,
-                CCCD = p.tbCCCD.Text,
+                CustomerId = p.tbCCCD.Text,
                 RentalContractId = SelectedRoom.RentalContractId,
 
             };
 
-            (bool isSucessed, string mess, List<RoomCustomerDTO> listCustomer) = await RoomCustomerService.Ins.AddRoomCustomer(newCus);
+            (bool isSucessed, string mess, List<RentalContractDetailDTO> listCustomer) = await RoomCustomerService.Ins.AddRoomCustomer(newCus);
             if (isSucessed)
             {
-                ListCustomer = new ObservableCollection<RoomCustomerDTO>(listCustomer);
+                ListCustomer = new ObservableCollection<RentalContractDetailDTO>(listCustomer);
                 p.Close();
                 CustomMessageBox.ShowOk(mess, "Thông báo", "OK", CustomMessageBoxImage.Success);
             }
@@ -190,21 +188,19 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
                 CustomMessageBox.ShowOk("Sai định dạng CCCD!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
                 return;
             }
-            RoomCustomerDTO updateCus = new RoomCustomerDTO
+            RentalContractDetailDTO updateCus = new RentalContractDetailDTO
             {
                 CustomerName = p.tbName.Text,
-                CustomerType = SelectedType.Content.ToString(),
-                CustomerAddress = p.tbAddress.Text,
-                CCCD = p.tbCCCD.Text,
+                CustomerId = p.tbCCCD.Text,
                 RentalContractId = SelectedRoom.RentalContractId,
-                RoomCustomerId = SelectedCustomer.RoomCustomerId,
+                RentalContractDetailId = SelectedCustomer.RentalContractDetailId,
                 STT = SelectedCustomer.STT,
             };
 
-            (bool isSucessed, string mess, List<RoomCustomerDTO> listCustomer) = await RoomCustomerService.Ins.UpdateRoomCustomer(updateCus);
+            (bool isSucessed, string mess, List<RentalContractDetailDTO> listCustomer) = await RoomCustomerService.Ins.UpdateRoomCustomer(updateCus);
             if (isSucessed)
             {
-                ListCustomer = new ObservableCollection<RoomCustomerDTO>(listCustomer);
+                ListCustomer = new ObservableCollection<RentalContractDetailDTO>(listCustomer);
                 p.Close();
                 CustomMessageBox.ShowOk(mess, "Thông báo", "OK", CustomMessageBoxImage.Success);
             }
@@ -222,10 +218,10 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
 
            
 
-            (bool isSucessed, string mess, List<RoomCustomerDTO> listCustomer) = await RoomCustomerService.Ins.DeleteRoomCustomer(SelectedCustomer);
+            (bool isSucessed, string mess, List<RentalContractDetailDTO> listCustomer) = await RoomCustomerService.Ins.DeleteRoomCustomer(SelectedCustomer);
             if (isSucessed)
             {
-                ListCustomer = new ObservableCollection<RoomCustomerDTO>(listCustomer);
+                ListCustomer = new ObservableCollection<RentalContractDetailDTO>(listCustomer);
                 CustomMessageBox.ShowOk(mess, "Thông báo", "OK", CustomMessageBoxImage.Success);
             }
             else

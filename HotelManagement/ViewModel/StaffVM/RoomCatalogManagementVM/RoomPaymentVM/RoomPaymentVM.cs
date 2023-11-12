@@ -38,8 +38,8 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
             get { return _ListPaymentRoomNumber; }
             set { _ListPaymentRoomNumber = value; OnPropertyChanged(); }
         }
-        private ObservableCollection<ServiceUsingDTO> _ListServicePayment;
-        public ObservableCollection<ServiceUsingDTO> ListServicePayment
+        private ObservableCollection<ProductUsingDTO> _ListServicePayment;
+        public ObservableCollection<ProductUsingDTO> ListServicePayment
         {
             get { return _ListServicePayment; }
             set { _ListServicePayment = value; OnPropertyChanged(); }
@@ -50,13 +50,7 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
             get { return _ListRentalContractByCustomer; }
             set { _ListRentalContractByCustomer = value; OnPropertyChanged(); }
         }
-        private ObservableCollection<BillDTO> _ListBillByListRentalContract;
-        public ObservableCollection<BillDTO> ListBillByListRentalContract
-        {
-            get { return _ListBillByListRentalContract; }
-            set { _ListBillByListRentalContract = value; OnPropertyChanged(); }
-        }
-
+       
         private BillDTO _BillPayment;
         public BillDTO BillPayment
         {
@@ -123,42 +117,15 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
 
         public async Task Payment()
         {
-            ListRentalContractByCustomer = new List<RentalContractDTO> (await RentalContractService.Ins.GetRentalContractByCustomer(SelectedRoom.CustomerId));
-            ListBillByListRentalContract = new ObservableCollection<BillDTO>(await BillService.Ins.GetBillByListRentalContract(ListRentalContractByCustomer));
-            ListPaymentRoomNumber = new ObservableCollection<string>();
-            
-            if (ListRentalContractByCustomer != null)
-            {
-                if (ListRentalContractByCustomer.Count > 1)
-                {
-                    OptionPayment wd = new OptionPayment();
-                    wd.lbCustomerName.Text = SelectedRoom.CustomerName;
-                    ListRoomByCustomer = new ObservableCollection<string>(ListRentalContractByCustomer.Select(x => "Phòng " + x.RoomNumber).ToList());
-                    wd.ShowDialog();
-                }
-                else
-                {
-                    RoomBill wd = new RoomBill();
-                    BillPayment = ListBillByListRentalContract[0];
-                    ListTroubleByCustomer = new ObservableCollection<TroubleByCustomerDTO>(BillPayment.ListTroubleByCustomer);
-                    if (ListTroubleByCustomer.Count == 0)
-                    {
-                        wd.wrapperTrouble.Visibility = System.Windows.Visibility.Collapsed;
-                    }
-                  
-                    TotalMoneyPayment = 0;
-                    wd.ShowDialog();
-                }
-            }
+            BillPayment = await BillService.Ins.GetBillByRentalContract(SelectedRoom.RentalContractId);
+            RoomBill wd = new RoomBill();
+
+            TotalMoneyPayment = 0;
+            wd.ShowDialog();
+
+           
         }
-        public async Task ChooseRoomPayment()
-        {
-            //string res = "";
-            //foreach (var item in ListPaymentRoomNumber) { res += item + " "; }
-            //MessageBox.Show(res);
-            var list = new ObservableCollection<BillDTO>(await BillService.Ins.GetBillByListRentalContract(ListRentalContractByCustomer));
-            ListBillByListRentalContract = new ObservableCollection<BillDTO>(list.Where(x=> ListPaymentRoomNumber.Contains(x.RoomNumber.ToString())).ToList());
-        }
+        
         public async Task SaveBillFunc(RoomBill p)
         {
             BillDTO roomBillDTO = new BillDTO
@@ -180,9 +147,7 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
                 {
                     
                     p.Close();
-                    if (roomGroupPayment!=null) roomGroupPayment.Close();
                     RoomWindow.Close();
-                    RefreshCM.Execute(MainPage);
                 }
                 else
                 {
@@ -198,10 +163,10 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
         public async Task LoadRoomBillFunc()
         {
 
-            ListServicePayment = new ObservableCollection<ServiceUsingDTO>(BillPayment.ListListServicePayment);
-            ListServicePayment.Insert(0, new ServiceUsingDTO
+            ListServicePayment = new ObservableCollection<ProductUsingDTO>(BillPayment.ListListServicePayment);
+            ListServicePayment.Insert(0, new ProductUsingDTO
                 {
-                    ServiceName = BillPayment.RoomName,
+                    ProductName = BillPayment.RoomName,
                     UnitPrice = BillPayment.RoomPrice,
                     Quantity = BillPayment.DayNumber,
                 });

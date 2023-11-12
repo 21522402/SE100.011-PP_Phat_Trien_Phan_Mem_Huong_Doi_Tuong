@@ -11,8 +11,7 @@ namespace HotelManagement.DTOs
     {
         public string RentalContractId { get; set; }
         public Nullable<System.DateTime> StartDate { get; set; }
-        public Nullable<System.TimeSpan> StartTime { get; set; }
-        public Nullable<System.DateTime> CheckOutDate { get; set; }
+        public Nullable<System.DateTime> EndDate { get; set; }
         public string StaffId { get; set; }
         public string StaffName { get; set; }
         public string CustomerId { get; set; }
@@ -38,15 +37,12 @@ namespace HotelManagement.DTOs
         {
             get { return ((DateTime)StartDate).ToString("dd/MM/yyyy");}
         }
-        public string CheckOutDateStr
-        {
-            get { return ((DateTime)CheckOutDate).ToString("dd/MM/yyyy"); }
-        }
+        
         public int DayNumber
         {
             get
             {
-                if (CheckOutDate == null || StartDate == null)
+                if ( StartDate == null)
                 {
                     return 0;
                 }
@@ -54,7 +50,7 @@ namespace HotelManagement.DTOs
                 {
                     if (!(bool)Validated) return 0;
                 }
-                TimeSpan t = (TimeSpan)(CheckOutDate - StartDate);
+                TimeSpan t = (TimeSpan)(EndDate - StartDate);
                 int res = (int)t.TotalDays;
                 return res;
             }

@@ -25,21 +25,19 @@ namespace HotelManagement.Model.Services
         }
         private RoomCustomerService() { }
 
-        public async Task<List<RoomCustomerDTO>> GetCustomersOfRoom(string RentalContractId)
+        public async Task<List<RentalContractDetailDTO>> GetCustomersOfRoom(string RentalContractId)
         {
             try
             {
                 using (var context = new HotelManagementEntities())
                 {
                     
-                    var listCustomer = await context.RoomCustomers.Where(x=> x.RentalContractId == RentalContractId).Select(x => new RoomCustomerDTO
+                    var listCustomer = await context.RentalContractDetails.Where(x=> x.RentalContractId == RentalContractId).Select(x => new RentalContractDetailDTO
                     {
                         CustomerName = x.CustomerName,
-                        CustomerType = x.CustomerType, 
-                        CCCD = x.CCCD,
-                        CustomerAddress = x.CustomerAddress,
+                        CustomerId = x.CustomerId,
                         RentalContractId= x.RentalContractId,
-                        RoomCustomerId= x.RoomCustomerId,   
+                        RentalContractDetailId= x.RentalContractDetailId,   
                     }).ToListAsync();
                     for (int i = 0; i < listCustomer.Count; i++)
                     {
@@ -63,7 +61,7 @@ namespace HotelManagement.Model.Services
             {
                 using (var context = new HotelManagementEntities())
                 {
-                    var customerList = await context.RoomCustomers.Where(x => x.RentalContractId == rentalContractId).CountAsync();
+                    var customerList = await context.RentalContractDetails.Where(x => x.RentalContractId == rentalContractId).CountAsync();
 
                     return customerList;
                 }
@@ -74,40 +72,36 @@ namespace HotelManagement.Model.Services
             }
         }
 
-        public async Task<(bool, string, List<RoomCustomerDTO>)> AddRoomCustomer(RoomCustomerDTO roomCustomer)
+        public async Task<(bool, string, List<RentalContractDetailDTO>)> AddRoomCustomer(RentalContractDetailDTO roomCustomer)
         {
             try
             {
                 using (var context = new HotelManagementEntities())
                 {
-                    var listCCCD = await context.RoomCustomers.Where(x=> x.RentalContractId == roomCustomer.RentalContractId).Select(x=> x.CCCD).ToListAsync(); 
+                    var listCCCD = await context.RentalContractDetails.Where(x=> x.RentalContractId == roomCustomer.RentalContractId).Select(x=> x.CustomerId).ToListAsync(); 
                     if (listCCCD != null)
                     {
-                        if (listCCCD.Contains(roomCustomer.CCCD))
+                        if (listCCCD.Contains(roomCustomer.CustomerId))
                         {
                             return (false, "Thêm thất bại! Mã CCCD bị trùng!", null);
                         }
                     }
-                    RoomCustomer rc = new RoomCustomer
+                    RentalContractDetail rc = new RentalContractDetail
                     {
                         CustomerName = roomCustomer.CustomerName,
-                        CustomerAddress = roomCustomer.CustomerAddress,
-                        CustomerType = roomCustomer.CustomerType,
-                        CCCD = roomCustomer.CCCD,
+                        CustomerId = roomCustomer.CustomerId,
                         RentalContractId= roomCustomer.RentalContractId,
                     };
-                    context.RoomCustomers.Add(rc);
+                    context.RentalContractDetails.Add(rc);
                     await context.SaveChangesAsync();
                     
                     
-                    var listCustomer = await context.RoomCustomers.Where(x=> x.RentalContractId == roomCustomer.RentalContractId).Select(x=> new RoomCustomerDTO
+                    var listCustomer = await context.RentalContractDetails.Where(x=> x.RentalContractId == roomCustomer.RentalContractId).Select(x=> new RentalContractDetailDTO
                     {
                         CustomerName = x.CustomerName,
-                        CustomerType = x.CustomerType,
-                        CCCD = x.CCCD,
-                        CustomerAddress = x.CustomerAddress,
+                        CustomerId = x.CustomerId,
                         RentalContractId = x.RentalContractId,
-                        RoomCustomerId = x.RoomCustomerId,
+                        RentalContractDetailId = x.RentalContractDetailId,
                     }).ToListAsync();
                     for (int i = 0; i < listCustomer.Count; i++)
                     {
@@ -122,37 +116,34 @@ namespace HotelManagement.Model.Services
                 return (false, "Lỗi hệ thống", null);
             }
         }
-        public async Task<(bool, string, List<RoomCustomerDTO>)> UpdateRoomCustomer(RoomCustomerDTO roomCustomer)
+        public async Task<(bool, string, List<RentalContractDetailDTO>)> UpdateRoomCustomer(RentalContractDetailDTO roomCustomer)
         {
             try
             {
                 using (var context = new HotelManagementEntities())
                 {
                     
-                    RoomCustomer cus = await context.RoomCustomers.Where(x => x.RoomCustomerId == roomCustomer.RoomCustomerId).FirstOrDefaultAsync();
-                    var listCCCD = await context.RoomCustomers.Where(x => x.RentalContractId == roomCustomer.RentalContractId && x.RoomCustomerId != cus.RoomCustomerId).Select(x => x.CCCD).ToListAsync();
+                    RentalContractDetail cus = await context.RentalContractDetails.Where(x => x.RentalContractDetailId == roomCustomer.RentalContractDetailId).FirstOrDefaultAsync();
+                    var listCCCD = await context.RentalContractDetails.Where(x => x.RentalContractId == roomCustomer.RentalContractId && x.RentalContractDetailId != cus.RentalContractDetailId).Select(x => x.CustomerId).ToListAsync();
                     if (listCCCD != null)
                     {
-                        if (listCCCD.Contains(roomCustomer.CCCD))
+                        if (listCCCD.Contains(roomCustomer.CustomerId))
                         {
                             return (false, "Cập nhật thất bại! Mã CCCD bị trùng!", null);
                         }
                     }
                     cus.CustomerName = roomCustomer.CustomerName;
-                    cus.CustomerAddress = roomCustomer.CustomerAddress;
-                    cus.CustomerType = roomCustomer.CustomerType;
-                    cus.CCCD = roomCustomer.CCCD;
+                    cus.CustomerId = roomCustomer.CustomerId;
                  
                     await context.SaveChangesAsync();
 
-                    var listCustomer = await context.RoomCustomers.Where(x => x.RentalContractId == roomCustomer.RentalContractId).Select(x => new RoomCustomerDTO
+                    var listCustomer = await context.RentalContractDetails.Where(x => x.RentalContractId == roomCustomer.RentalContractId).Select(x => new RentalContractDetailDTO
                     {
+                       
                         CustomerName = x.CustomerName,
-                        CustomerType = x.CustomerType,
-                        CCCD = x.CCCD,
-                        CustomerAddress = x.CustomerAddress,
+                        CustomerId = x.CustomerId,
                         RentalContractId = x.RentalContractId,
-                        RoomCustomerId = x.RoomCustomerId,
+                        RentalContractDetailId = x.RentalContractDetailId,
                     }).ToListAsync();
                     for (int i = 0; i < listCustomer.Count; i++)
                     {
@@ -166,24 +157,23 @@ namespace HotelManagement.Model.Services
                 return (false, "Lỗi hệ thống", null);
             }
         }
-        public async Task<(bool, string, List<RoomCustomerDTO>)> DeleteRoomCustomer(RoomCustomerDTO roomCustomer)
+        public async Task<(bool, string, List<RentalContractDetailDTO>)> DeleteRoomCustomer(RentalContractDetailDTO roomCustomer)
         {
             try
             {
                 using (var context = new HotelManagementEntities())
                 {
-                    RoomCustomer cus = await context.RoomCustomers.Where(x => x.RoomCustomerId == roomCustomer.RoomCustomerId).FirstOrDefaultAsync();
-                    context.RoomCustomers.Remove(cus);
+                    RentalContractDetail cus = await context.RentalContractDetails.Where(x => x.RentalContractDetailId == roomCustomer.RentalContractDetailId).FirstOrDefaultAsync();
+                    context.RentalContractDetails.Remove(cus);
                     await context.SaveChangesAsync();
 
-                    var listCustomer = await context.RoomCustomers.Where(x => x.RentalContractId == roomCustomer.RentalContractId).Select(x => new RoomCustomerDTO
+                    var listCustomer = await context.RentalContractDetails.Where(x => x.RentalContractId == roomCustomer.RentalContractId).Select(x => new RentalContractDetailDTO
                     {
+
                         CustomerName = x.CustomerName,
-                        CustomerType = x.CustomerType,
-                        CCCD = x.CCCD,
-                        CustomerAddress = x.CustomerAddress,
+                        CustomerId = x.CustomerId,
                         RentalContractId = x.RentalContractId,
-                        RoomCustomerId = x.RoomCustomerId,
+                        RentalContractDetailId = x.RentalContractDetailId,
                     }).ToListAsync();
                     for (int i = 0; i < listCustomer.Count; i++)
                     {

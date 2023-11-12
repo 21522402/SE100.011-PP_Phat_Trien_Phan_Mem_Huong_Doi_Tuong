@@ -16,39 +16,39 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
 {
     public partial class RoomCatalogManagementVM : BaseVM
     {
-        private ServiceDTO _CleaningServices;
-        public ServiceDTO CleaningService
+        private ProductDTO _CleaningServices;
+        public ProductDTO CleaningService
         {
             get { return _CleaningServices; }
             set { _CleaningServices = value; OnPropertyChanged(); }
         }
-        private ServiceDTO _LaundryService;
-        public ServiceDTO LaundryService
+        private ProductDTO _LaundryService;
+        public ProductDTO LaundryService
         {
             get { return _LaundryService; }
             set { _LaundryService = value; OnPropertyChanged(); }
         }
-        private ObservableCollection<ServiceUsingDTO> _ListService;
-        public ObservableCollection<ServiceUsingDTO> ListService
+        private ObservableCollection<ProductUsingDTO> _ListService;
+        public ObservableCollection<ProductUsingDTO> ListService
         {
             get { return _ListService; }
             set { _ListService = value; OnPropertyChanged(); }
         }
 
-        private ObservableCollection<ServiceDTO> _ProducList;
-        public ObservableCollection<ServiceDTO> ProductList
+        private ObservableCollection<ProductDTO> _ProducList;
+        public ObservableCollection<ProductDTO> ProductList
         {
             get { return _ProducList; }
             set { _ProducList = value; OnPropertyChanged(); }
         }
-        private ObservableCollection<ServiceDTO> _AllProducts;
-        public ObservableCollection<ServiceDTO> AllProducts
+        private ObservableCollection<ProductDTO> _AllProducts;
+        public ObservableCollection<ProductDTO> AllProducts
         {
             get { return _AllProducts; }
             set { _AllProducts = value; OnPropertyChanged(); }
         }
-        private ObservableCollection<ServiceDTO> _orderList;
-        public ObservableCollection<ServiceDTO> OrderList
+        private ObservableCollection<ProductDTO> _orderList;
+        public ObservableCollection<ProductDTO> OrderList
         {
             get => _orderList;
             set
@@ -63,15 +63,15 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
             get { return _sumOrder; }
             set { _sumOrder = value; OnPropertyChanged(); }
         }
-        private ServiceDTO selectedProduct;
-        public ServiceDTO SelectedProduct
+        private ProductDTO selectedProduct;
+        public ProductDTO SelectedProduct
         {
             get { return selectedProduct; }
             set { selectedProduct = value; OnPropertyChanged(); }
         }
 
-        private ServiceDTO serviceCache;
-        public ServiceDTO ServiceCache
+        private ProductDTO serviceCache;
+        public ProductDTO ServiceCache
         {
             get { return serviceCache; }
             set { serviceCache = value; OnPropertyChanged(); }
@@ -87,61 +87,16 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
                 OnPropertyChanged();
             }
         }
-        public async Task SaveUsingCleaningService(Window p)
-        {
-            ServiceUsingDTO serviceUsingDTO = new ServiceUsingDTO
-            {
-                RentalContractId = SelectedRoom.RentalContractId,
-                ServiceId = CleaningService.ServiceId,
-                UnitPrice = CleaningService.ServicePrice,
-                Quantity = 1,
-            };
-            (bool isSucceed, string message) = await ServiceUsingHelper.Ins.SaveService(serviceUsingDTO);
-            if (isSucceed)
-            {
-                p.Close();
-                CustomMessageBox.ShowOk(message, "Thông báo", "Ok", CustomMessageBoxImage.Success);
-                ListService = new ObservableCollection<ServiceUsingDTO>(await ServiceUsingHelper.Ins.GetListUsingService(SelectedRoom.RentalContractId));
-
-            }
-            else
-            {
-                CustomMessageBox.ShowOk(message, "Thông báo", "Ok", CustomMessageBoxImage.Error);
-
-            }
-        }
-        public async Task SaveUsingLaundryService(RoomOrderLaundry p)
-        {
-            ServiceUsingDTO serviceUsingDTO = new ServiceUsingDTO
-            {
-                RentalContractId = SelectedRoom.RentalContractId,
-                ServiceId = LaundryService.ServiceId,
-                UnitPrice = LaundryService.ServicePrice,
-                Quantity = int.Parse(p.tbKg.Text),
-            };
-            (bool isSucceed, string message) = await ServiceUsingHelper.Ins.SaveService(serviceUsingDTO);
-            if (isSucceed)
-            {
-                p.Close();
-                CustomMessageBox.ShowOk(message, "Thông báo", "Ok", CustomMessageBoxImage.Success);
-                ListService = new ObservableCollection<ServiceUsingDTO>(await ServiceUsingHelper.Ins.GetListUsingService(SelectedRoom.RentalContractId));
-
-            }
-            else
-            {
-                CustomMessageBox.ShowOk(message, "Thông báo", "Ok", CustomMessageBoxImage.Error);
-
-            }
-        }
+      
         public async Task LoadAllProduct()
         {
-            (bool isSuccess, string messageReturn, List<ServiceDTO> listProduct) = await Task.Run(() => ServiceHelper.Ins.GetAllProduct());
+            (bool isSuccess, string messageReturn, List<ProductDTO> listProduct) = await Task.Run(() => ProductService.Ins.GetAllProduct());
 
             if (isSuccess)
             {
-                AllProducts = new ObservableCollection<ServiceDTO>(listProduct);
-                ProductList = new ObservableCollection<ServiceDTO>(listProduct);
-                OrderList = new ObservableCollection<ServiceDTO>();
+                AllProducts = new ObservableCollection<ProductDTO>(listProduct);
+                ProductList = new ObservableCollection<ProductDTO>(listProduct);
+                OrderList = new ObservableCollection<ProductDTO>();
                 SumOrder = 0;
             }
             else
@@ -171,12 +126,12 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
                     {
                         ServiceCache.ImportQuantity = 1;
                         OrderList.Add(ServiceCache);
-                        SumOrder += ServiceCache.ServicePrice;
+                        SumOrder += ServiceCache.Price;
                     }
                     else
                     {
                         ServiceCache.ImportQuantity += 1;
-                        SumOrder += ServiceCache.ServicePrice;
+                        SumOrder += ServiceCache.Price;
                     }
                 }
                 catch (Exception e)
@@ -196,7 +151,7 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
                 try
                 {
                     ServiceCache.ImportQuantity -= 1;
-                    SumOrder -= ServiceCache.ServicePrice;
+                    SumOrder -= ServiceCache.Price;
                     ServiceCache.Quantity += 1;
                 }
                 catch (Exception e)
@@ -210,7 +165,7 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
                 == CustomMessageBoxResult.OK)
                 {
                     OrderList.Remove(ServiceCache);
-                    SumOrder -= ServiceCache.ServicePrice;
+                    SumOrder -= ServiceCache.Price;
                     ServiceCache.Quantity += 1;
                 }
             }
@@ -222,7 +177,7 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
                 try
                 {
                     ServiceCache.ImportQuantity += 1;
-                    SumOrder += ServiceCache.ServicePrice;
+                    SumOrder += ServiceCache.Price;
                     ServiceCache.Quantity -= 1;
                 }
                 catch (Exception e)
@@ -243,7 +198,7 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
                == CustomMessageBoxResult.OK)
                 {
                     ServiceCache.Quantity += ServiceCache.ImportQuantity;
-                    SumOrder -= (ServiceCache.ServicePrice * ServiceCache.ImportQuantity);
+                    SumOrder -= (ServiceCache.Price * ServiceCache.ImportQuantity);
                     ServiceCache.ImportQuantity = 0;
                     OrderList.Remove(ServiceCache);
                 }
@@ -266,7 +221,7 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
                 CustomMessageBox.ShowOk(message, "Thông báo", "Ok", CustomMessageBoxImage.Success);
                 SumOrder = 0;
                 OrderList = null;
-                ListService = new ObservableCollection<ServiceUsingDTO>(await ServiceUsingHelper.Ins.GetListUsingService(SelectedRoom.RentalContractId));
+                ListService = new ObservableCollection<ProductUsingDTO>(await ServiceUsingHelper.Ins.GetListUsingService(SelectedRoom.RentalContractId));
                 p.Close();
             }
             else

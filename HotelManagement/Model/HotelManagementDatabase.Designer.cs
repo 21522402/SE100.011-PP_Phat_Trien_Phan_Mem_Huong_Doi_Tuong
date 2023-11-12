@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'D:\TÀI LIỆU HỌC TẬP\Năm 2\Kỳ 2\Phân tích và thiết kế HTTT\Đồ án\HotelManagement\HotelManagement\Model\HotelManagementDatabase.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\Desktop\PPOOP\SE100.011-PP_Phat_Trien_Phan_Mem_Huong_Doi_Tuong\HotelManagement\Model\HotelManagementDatabase.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

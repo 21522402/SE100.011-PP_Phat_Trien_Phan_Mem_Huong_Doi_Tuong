@@ -27,64 +27,37 @@ namespace HotelManagement.Model.Services
         }
         public ServiceUsingHelper() { }
 
-        public async Task<(bool, string)> SaveService(ServiceUsingDTO serviceUsingDTO)
-        {
-            try
-            {
-                using (var context = new HotelManagementEntities())
-                {
-                    ServiceUsing serviceUsing = new ServiceUsing
-                    {
-                        RentalContractId = serviceUsingDTO.RentalContractId,
-                        ServiceId = serviceUsingDTO.ServiceId,
-                        UnitPrice = serviceUsingDTO.UnitPrice,
-                        Quantity = serviceUsingDTO.Quantity,
-                    };
-                    context.ServiceUsings.Add(serviceUsing);
-                    await context.SaveChangesAsync();
-                    return (true, "Gọi dịch vụ thành công!");
-                }
-            }
-            catch (Exception ex)
-            {
-                return (false, "Lỗi hệ thống!");
-            }
-        }
-        public async Task<List<ServiceUsingDTO>> GetListUsingService(string rentalContractId)
+   
+        public async Task<List<ProductUsingDTO>> GetListUsingService(string rentalContractId)
         {
             try
             {
                 using (var context = new HotelManagementEntities())
                 {
                    
-                    var listUsingService = await context.ServiceUsings.Where(x=> x.RentalContractId ==rentalContractId).Select(x=> new ServiceUsingDTO 
+                    var listUsingService = await context.ProductUsings.Where(x=> x.RentalContractId ==rentalContractId).Select(x=> new ProductUsingDTO 
                     {
                         RentalContractId= x.RentalContractId,
-                        ServiceId= x.ServiceId,
-                        ServiceName = x.Service.ServiceName,
-                        ServiceType = x.Service.ServiceType,
-                        UnitPrice = x.Service.ServicePrice,
+                        ProductId = x.ProductId,
+                        ProductName = x.Product.ProductName,
+                        UnitPrice = x.Product.Price,
                         Quantity = x.Quantity,
                     }).ToListAsync();
 
-                    var listUsingService2 = listUsingService.Where(x => x.ServiceName != "Giặt sấy")
-                                                            .GroupBy(x => x.ServiceId)
-                                                            .Select(t => new ServiceUsingDTO
-                                                            {
-                                                                RentalContractId = t.First().RentalContractId,
-                                                                ServiceId = t.First().ServiceId,
-                                                                ServiceName = t.First().ServiceName,
-                                                                ServiceType = t.First().ServiceType,
-                                                                UnitPrice = t.First().UnitPrice,
-                                                                Quantity = t.Sum(g => g.Quantity)
-                                                            }).ToList();
-                    foreach (var item in listUsingService)
-                    {
-                        if (item.ServiceName == "Giặt sấy")
-                        {
-                            listUsingService2.Insert(0,item);
-                        }
-                    }
+      
+
+                    var listUsingService2 = listUsingService
+                                                            .GroupBy(x => x.ProductId)
+                                                           .Select(t => new ProductUsingDTO
+                                                           {
+                                                               RentalContractId = t.First().RentalContractId,
+                                                               ProductId = t.First().ProductId,
+                                                               ProductName = t.First().ProductName,
+                                                               UnitPrice = t.First().UnitPrice,
+                                                               Quantity = t.Sum(g => g.Quantity)
+                                                           }).ToList();
+
+                   
                     return listUsingService2;
                     
                 }
@@ -95,7 +68,7 @@ namespace HotelManagement.Model.Services
             }
         }
 
-        public async Task<(bool, string)> SaveUsingProduct(ObservableCollection<ServiceDTO> orderList, RoomSettingDTO selectedRoom)
+        public async Task<(bool, string)> SaveUsingProduct(ObservableCollection<ProductDTO> orderList, RoomSettingDTO selectedRoom)
         {
             try
             {
@@ -104,27 +77,27 @@ namespace HotelManagement.Model.Services
                     int length = orderList.Count();
                     for(int i = 0; i < length; i++)
                     {
-                        ServiceDTO s = orderList[i];
-                        ServiceUsing serviceUsing = await context.ServiceUsings.FirstOrDefaultAsync(item => item.ServiceId == s.ServiceId && item.RentalContractId == selectedRoom.RentalContractId) ;
-                        if (serviceUsing == null)
+                        ProductDTO s = orderList[i];
+                        ProductUsing productUsing = await context.ProductUsings.FirstOrDefaultAsync(item => item.ProductId == s.ProductId && item.RentalContractId == selectedRoom.RentalContractId) ;
+                        if (productUsing == null)
                         {
-                            serviceUsing = new ServiceUsing
+                            productUsing = new ProductUsing
                             {
                                 RentalContractId = selectedRoom.RentalContractId,
-                                ServiceId = s.ServiceId,
-                                UnitPrice = s.ServicePrice,
+                                ProductId = s.ProductId,
+                                UnitPrice = s.Price,
                                 Quantity = s.ImportQuantity,
                             };
-                            context.ServiceUsings.Add(serviceUsing);
+                            context.ProductUsings.Add(productUsing);
                         }
                         else
-                            serviceUsing.Quantity += s.ImportQuantity;
+                            productUsing.Quantity += s.ImportQuantity;
 
-                        GoodsStorage serviceStorage = await context.GoodsStorages.FirstOrDefaultAsync(item => item.ServiceId == s.ServiceId);
-                        if (serviceStorage == null)
+                        Product product = await context.Products.FirstOrDefaultAsync(item => item.ProductId == s.ProductId);
+                        if (product == null)
                             return (false, "Sản phẩm không tồn tại trong kho lưu trữ");
                         else
-                            serviceStorage.QuantityService -= s.ImportQuantity;
+                            product.QuantityOfStorage -= s.ImportQuantity;
                     }
 
                     await context.SaveChangesAsync();

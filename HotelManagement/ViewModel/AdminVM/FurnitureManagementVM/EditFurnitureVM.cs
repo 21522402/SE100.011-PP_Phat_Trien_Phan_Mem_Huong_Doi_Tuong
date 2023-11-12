@@ -16,14 +16,14 @@ namespace HotelManagement.ViewModel.AdminVM.FurnitureManagementVM
         public List<string> AllFurnitureType { get; set; }
         public void GetAllFurnitureType()
         {
-            AllFurnitureType = new List<string>();
-            int furnitureCount = AllFurniture.Count;
-            for (int i = 0; i < furnitureCount; i++)
-            {
-                if (AllFurnitureType.Contains(AllFurniture[i].FurnitureType))
-                    continue;
-                AllFurnitureType.Add(AllFurniture[i].FurnitureType);
-            }
+            //AllFurnitureType = new List<string>();
+            //int furnitureCount = AllFurniture.Count;
+            //for (int i = 0; i < furnitureCount; i++)
+            //{
+            //    if (AllFurnitureType.Contains(AllFurniture[i].FurnitureType))
+            //        continue;
+            //    AllFurnitureType.Add(AllFurniture[i].FurnitureType);
+            //}
         }
 
     }

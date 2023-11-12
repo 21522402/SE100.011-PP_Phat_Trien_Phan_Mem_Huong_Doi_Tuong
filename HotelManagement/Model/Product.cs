@@ -12,23 +12,28 @@ namespace HotelManagement.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Furniture
+    public partial class Product
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Furniture()
+        public Product()
         {
-            this.FurnitureReceiptDetails = new HashSet<FurnitureReceiptDetail>();
-            this.RoomTypeFurnitures = new HashSet<RoomTypeFurniture>();
+            this.ProductReceiptDetails = new HashSet<ProductReceiptDetail>();
+            this.ProductUsings = new HashSet<ProductUsing>();
+            this.RevenueProducts = new HashSet<RevenueProduct>();
         }
     
-        public string FurnitureId { get; set; }
-        public string FurnitureName { get; set; }
-        public byte[] FurnitureAvatar { get; set; }
+        public string ProductId { get; set; }
+        public string ProductName { get; set; }
+        public string ProductType { get; set; }
+        public Nullable<double> Price { get; set; }
         public Nullable<int> QuantityOfStorage { get; set; }
+        public byte[] ProductAvatar { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FurnitureReceiptDetail> FurnitureReceiptDetails { get; set; }
+        public virtual ICollection<ProductReceiptDetail> ProductReceiptDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RoomTypeFurniture> RoomTypeFurnitures { get; set; }
+        public virtual ICollection<ProductUsing> ProductUsings { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<RevenueProduct> RevenueProducts { get; set; }
     }
 }

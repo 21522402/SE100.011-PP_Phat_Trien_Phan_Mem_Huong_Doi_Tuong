@@ -103,7 +103,7 @@ namespace HotelManagement.ViewModel.AdminVM.CustomerManagementVM
 
             FirstLoadCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
             {
-                CustomerList = new ObservableCollection<CustomerDTO>(await Task.Run(() => CustomerService.Ins.GetAllCustomer()));
+                //CustomerList = new ObservableCollection<CustomerDTO>(await Task.Run(() => CustomerService.Ins.GetAllCustomer()));
             });
             OpenAddCustomerCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
             {
@@ -112,10 +112,10 @@ namespace HotelManagement.ViewModel.AdminVM.CustomerManagementVM
                 wd.Show();
             });
             AddCustomerCM = new RelayCommand<Window>(p => { if (IsSaving) return false; return true; }, async p => {
-                IsSaving = true;
-                await AddNewCustomer(p);
-                Reload();
-                IsSaving = false;
+                //IsSaving = true;
+                //await AddNewCustomer(p);
+                //Reload();
+                //IsSaving = false;
             });
             OpenEditCustomerCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
             {
@@ -141,18 +141,18 @@ namespace HotelManagement.ViewModel.AdminVM.CustomerManagementVM
             });
             DeleteCustomerCM = new RelayCommand<Window>(p => true, async p =>
             {
-                var kq = CustomMessageBox.ShowOkCancel("Bạn có chắc muốn xoá khách hàng này không?", "Cảnh báo", "OK", "Cancel", CustomMessageBoxImage.Warning);
-                if (kq == CustomMessageBoxResult.OK)
-                {
-                    (bool issucced, string mess) = await CustomerService.Ins.DeleteCustomer(SelectedItem.CustomerId);
-                    if (issucced)
-                    {
-                        LoadCustomerList(Operation.DELETE);
-                        Reload();
-                        CustomMessageBox.ShowOk(mess, "Thông báo", "OK", CustomMessageBoxImage.Success);
-                    }
-                    else CustomMessageBox.ShowOk(mess, "Lỗi", "OK", CustomMessageBoxImage.Error);
-                }
+                //var kq = CustomMessageBox.ShowOkCancel("Bạn có chắc muốn xoá khách hàng này không?", "Cảnh báo", "OK", "Cancel", CustomMessageBoxImage.Warning);
+                //if (kq == CustomMessageBoxResult.OK)
+                //{
+                //    (bool issucced, string mess) = await CustomerService.Ins.DeleteCustomer(SelectedItem.CustomerId);
+                //    if (issucced)
+                //    {
+                //        LoadCustomerList(Operation.DELETE);
+                //        Reload();
+                //        CustomMessageBox.ShowOk(mess, "Thông báo", "OK", CustomMessageBoxImage.Success);
+                //    }
+                //    else CustomMessageBox.ShowOk(mess, "Lỗi", "OK", CustomMessageBoxImage.Error);
+                //}
             });
         }
 
@@ -195,7 +195,7 @@ namespace HotelManagement.ViewModel.AdminVM.CustomerManagementVM
         }
         private async void Reload()
         {
-            CustomerList = new ObservableCollection<CustomerDTO>(await Task.Run(() => CustomerService.Ins.GetAllCustomer()));
+            //CustomerList = new ObservableCollection<CustomerDTO>(await Task.Run(() => CustomerService.Ins.GetAllCustomer()));
         }
     }
 }

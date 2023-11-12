@@ -12,11 +12,10 @@ namespace HotelManagement.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class GoodsStorage
+    public partial class Parameter
     {
-        public string ServiceId { get; set; }
-        public Nullable<int> QuantityService { get; set; }
-    
-        public virtual Service Service { get; set; }
+        public int ParameterId { get; set; }
+        public string ParameterKey { get; set; }
+        public Nullable<double> ParameterValue { get; set; }
     }
 }
