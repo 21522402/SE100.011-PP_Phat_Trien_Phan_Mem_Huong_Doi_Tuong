@@ -45,8 +45,8 @@ namespace HotelManagement.Model.Services
                         {
                             ProductId = p.ProductId,
                             ProductName = p.ProductName,
+                            ProductType= p.ProductType,
                             ProductAvatarData = p.ProductAvatar,
-                            
                             Quantity = (int)p.QuantityOfStorage,
                             Price = (double)p.Price,
                         }
@@ -69,7 +69,7 @@ namespace HotelManagement.Model.Services
         {
             try
             {
-                return allService.ToList();
+                return allService.Where(item => item.ProductType == typeSelection).ToList();
             }
             catch (Exception ex)
             {

@@ -14,7 +14,7 @@
         WindowStyle="None"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
         Width="666"
-        MinHeight="550"
+        MinHeight="680"
         x:Name="window"
      
         DataContext="{StaticResource RoomCatalogManagementVM}">
@@ -110,13 +110,13 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Label VerticalAlignment="Center"
                            HorizontalAlignment="Left"
-                            Content="Khách hàng:"
+                            Content="Mã phiếu thuê:"
                            FontWeight="Bold"
                            Foreground="#000000"
                            FontSize="14"
                                       
                            FontFamily="{DynamicResource MaterialDesignFont}"></Label>
-                                        <TextBlock Text="{Binding BillPayment.CustomerName}"
+                                        <TextBlock Text="{Binding BillPayment.RentalContractId}"
                                   Margin="7,0,0,0"
                                FontFamily="{DynamicResource MaterialDesignFont}"
                                VerticalAlignment="Center"
@@ -129,35 +129,17 @@
                                     <StackPanel Orientation="Horizontal">
                                         <Label VerticalAlignment="Center"
                            HorizontalAlignment="Left"
-                            Content="Địa chỉ:"
+                            Content="Phòng:"
                            FontWeight="Bold"
                            Foreground="#000000"
                            FontSize="14"
                                  
                            FontFamily="{DynamicResource MaterialDesignFont}"></Label>
-                                        <TextBlock Text="{Binding BillPayment.CustomerAddress}"
-                                   Margin="7,0,0,0"
-                               FontFamily="{DynamicResource MaterialDesignFont}"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Left"
-                               FontSize="14"
-                               Foreground="Black"
-                               FontWeight="Regular"/>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Label VerticalAlignment="Center"
-                           HorizontalAlignment="Left"
-                            Content="Phòng:"
-                           FontWeight="Bold"
-                           Foreground="#000000"
-                           FontSize="14"
-                                      
-                           FontFamily="{DynamicResource MaterialDesignFont}"></Label>
                                         <TextBlock Text="{Binding BillPayment.RoomNumber}"
                                    Margin="7,0,0,0"
                                FontFamily="{DynamicResource MaterialDesignFont}"
                                VerticalAlignment="Center"
-                               HorizontalAlignment="Right"
+                               HorizontalAlignment="Left"
                                FontSize="14"
                                Foreground="Black"
                                FontWeight="Regular"/>
@@ -169,9 +151,27 @@
                            FontWeight="Bold"
                            Foreground="#000000"
                            FontSize="14"
-                                
+                                      
                            FontFamily="{DynamicResource MaterialDesignFont}"></Label>
                                         <TextBlock Text="{Binding BillPayment.RoomTypeName}"
+                                   Margin="7,0,0,0"
+                               FontFamily="{DynamicResource MaterialDesignFont}"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Right"
+                               FontSize="14"
+                               Foreground="Black"
+                               FontWeight="Regular"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label VerticalAlignment="Center"
+                           HorizontalAlignment="Left"
+                            Content="Số người:"
+                           FontWeight="Bold"
+                           Foreground="#000000"
+                           FontSize="14"
+                                
+                           FontFamily="{DynamicResource MaterialDesignFont}"></Label>
+                                        <TextBlock Text="{Binding BillPayment.PersonNumber}"
                                    Margin="7,0,0,0"
                                FontFamily="{DynamicResource MaterialDesignFont}"
                                VerticalAlignment="Center"
@@ -183,26 +183,8 @@
                                     
                                     
                                 </StackPanel>
-                                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Column="1" >
-                                    <StackPanel Orientation="Horizontal">
-                                        <Label VerticalAlignment="Center"
-                           HorizontalAlignment="Left"
-                            Content="Số phiếu thuê:"
-                           FontWeight="Bold"
-                           Foreground="#000000"
-                           FontSize="14"
-                               
-                           FontFamily="{DynamicResource MaterialDesignFont}"></Label>
-                                        <TextBlock Text="{Binding BillPayment.RentalContractId}"
-                                  Margin="7,0,0,0"
-                               FontFamily="{DynamicResource MaterialDesignFont}"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Left"
-                               FontSize="14"
-                               Foreground="Black"
-                               FontWeight="Regular"/>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal">
+                                <StackPanel VerticalAlignment="Top" HorizontalAlignment="Right" Grid.Column="1" >
+                                  <StackPanel Orientation="Horizontal">
                                         <Label VerticalAlignment="Center"
                            HorizontalAlignment="Left"
                             Content="Ngày tạo:"
@@ -240,25 +222,7 @@
                                FontWeight="Regular"/>
 
                                     </StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Label VerticalAlignment="Center"
-                           HorizontalAlignment="Left"
-                            Content="Số người:"
-                           FontWeight="Bold"
-                           Foreground="#000000"
-                           FontSize="14"
-                                       
-                           FontFamily="{DynamicResource MaterialDesignFont}"></Label>
-                                        <TextBlock Text="{Binding BillPayment.PersonNumber}"
-                               Margin="7,0,0,0"
-                               FontFamily="{DynamicResource MaterialDesignFont}"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Right"
-                               FontSize="14"
-                               Foreground="Black"
-                               FontWeight="Regular"/>
-
-                                    </StackPanel>
+                                   
 
                                 </StackPanel>
 
@@ -289,7 +253,7 @@
                                     <Label  Grid.Column="1"
                             VerticalAlignment="Center"
                            HorizontalAlignment="Center"
-                            Content="Số lượng/ngày/kg"
+                            Content="Số lượng/ngày"
                            FontWeight="Bold"
                            Foreground="#000000"
                            FontSize="14"
@@ -315,7 +279,7 @@
                                 <Rectangle Height="1" Fill="#C95D3B" Margin="-5,2,-5,0"></Rectangle>
                                 <Grid Margin="0,10,0,0">
                                     <ListBox ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                                        ItemsSource="{Binding ListServicePayment}"
+                                        ItemsSource="{Binding ListProductPayment}"
                                        
                                      MinHeight="45"
                                          VerticalAlignment="Top"
@@ -346,7 +310,7 @@
                                FontFamily="{DynamicResource MaterialDesignFont}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left"
-                                                    Text="{Binding ServiceName}"
+                                                    Text="{Binding ProductName}"
                                FontSize="14"
                                Foreground="Black"
                                FontWeight="Regular"/>
@@ -394,115 +358,7 @@
 
                             </StackPanel>
                         </Border>
-                        <Border  Margin="0,15,0,0" Background="#F5F3F2" CornerRadius="5" x:Name="wrapperTrouble">
-                            <StackPanel Margin="25,10">
-                                <Grid VerticalAlignment="Top">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="4*"/>
-                                        <ColumnDefinition Width="3*"/>
-                                        <ColumnDefinition Width="3*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Label  Grid.Column="0"
-                            VerticalAlignment="Center"
-                           HorizontalAlignment="Left"
-                            Content="Sự cố"
-                                    Margin="10,0,0,0"
-                           FontWeight="Bold"
-                           Foreground="#000000"
-                           FontSize="14"
-                           FontFamily="{DynamicResource MaterialDesignFont}"></Label>
-                                    <Label  Grid.Column="1"
-                            VerticalAlignment="Center"
-                           HorizontalAlignment="Center"
-                            Content="Mức độ"
-                           FontWeight="Bold"
-                           Foreground="#000000"
-                           FontSize="14"
-                           FontFamily="{DynamicResource MaterialDesignFont}"></Label>
-                                    <Label  Grid.Column="2"
-                            VerticalAlignment="Center"
-                           HorizontalAlignment="Center"
-                            Content="Thành tiền"
-                           FontWeight="Bold"
-                           Foreground="#000000"
-                           FontSize="14"
-                           FontFamily="{DynamicResource MaterialDesignFont}"></Label>
-
-
-                                </Grid>
-                                <Rectangle Height="1" Fill="#C95D3B" Margin="-5,2,-5,0"></Rectangle>
-                                <Grid Margin="0,10,0,0" >
-                                    <ListBox ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                                        ItemsSource="{Binding ListTroubleByCustomer}"
-                                         MinHeight="45"
-                                         VerticalAlignment="Top"
-                                         >
-                                        <ListBox.ItemContainerStyle>
-                                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource myListBoxItems}" />
-                                        </ListBox.ItemContainerStyle>
-                                        <ListBox.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <UniformGrid Columns="1"
-                                            VerticalAlignment="Center"
-                                             FlowDirection="LeftToRight" 
-                                              />
-                                            </ItemsPanelTemplate>
-                                        </ListBox.ItemsPanel>
-                                        <ListBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <Grid VerticalAlignment="Center" >
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="4*"/>
-                                                        <ColumnDefinition Width="3*"/>
-                                                        <ColumnDefinition Width="3*"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <TextBlock 
-                                                       Grid.Column="0"
-                                                        Text="{Binding Title}"
-                                   Margin="10,0,0,0"
-                               FontFamily="{DynamicResource MaterialDesignFont}"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Left"
-                               FontSize="14"
-                               Foreground="Black"
-                               FontWeight="Regular"/>
-                                                    <TextBlock Text="{Binding Level}"
-                                                       Grid.Column="1"
-                                   
-                               FontFamily="{DynamicResource MaterialDesignFont}"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Center"
-                               FontSize="14"
-                               Foreground="Black"
-                               FontWeight="Regular"/>
-                                                    <TextBlock Text="{Binding PredictedPriceStr}"
-                                                       Grid.Column="2"
-                                   
-                               FontFamily="{DynamicResource MaterialDesignFont}"
-                               VerticalAlignment="Center"
-                               HorizontalAlignment="Center"
-                               FontSize="14"
-                               Foreground="Black"
-                               FontWeight="Regular"/>
-
-                                                </Grid>
-
-
-
-                                            </DataTemplate>
-                                        </ListBox.ItemTemplate>
-
-                                 
-
-                                    </ListBox>
-
-
-                                </Grid>
-
-                            </StackPanel>
-                        </Border>
-                      
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  
+                      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  
                                 Margin="0,25,0,-14">
                             <Label Content="Tổng tiền:"
                            VerticalAlignment="Center"

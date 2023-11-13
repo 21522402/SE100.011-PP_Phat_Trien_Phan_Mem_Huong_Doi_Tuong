@@ -209,7 +209,7 @@
                                                 </Ellipse>
                                                 <Border CornerRadius="140" Width="140" Height="140" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                                     <Border.Background>
-                                                        <ImageBrush x:Name="ProductAvatar" Stretch="UniformToFill" ImageSource="{Binding ServiceAvatar}"/>
+                                                        <ImageBrush x:Name="ProductAvatar" Stretch="UniformToFill" ImageSource="{Binding ProductAvatar}"/>
                                                     </Border.Background>
                                                 </Border>
                                             </Grid>
@@ -225,7 +225,7 @@
                                 >
                                             <StackPanel>
                                                 <Label
-                                            Content="{Binding ServiceName}" 
+                                            Content="{Binding ProductName}" 
                                             HorizontalAlignment="Center" 
                                             FontSize="23"
                                             FontWeight="Bold"
@@ -237,7 +237,7 @@
                                                 </StackPanel>
                                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                                     <Label Content="Giá" FontSize="15" FontFamily="{StaticResource MaterialDesignFont}"></Label>
-                                                    <Label Content="{Binding ServicePrice}" FontSize="15" FontFamily="{StaticResource MaterialDesignFont}"></Label>
+                                                    <Label Content="{Binding Price}" FontSize="15" FontFamily="{StaticResource MaterialDesignFont}"></Label>
                                                 </StackPanel>
                                             </StackPanel>
                                         </Grid>
@@ -341,7 +341,7 @@
                                                 </Ellipse>
                                                 <Border CornerRadius="80" Width="80" Height="80" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                                     <Border.Background>
-                                                        <ImageBrush Stretch="UniformToFill" ImageSource="{Binding ServiceAvatar}"/>
+                                                        <ImageBrush Stretch="UniformToFill" ImageSource="{Binding ProductAvatar}"/>
                                                     </Border.Background>
                                                 </Border>
                                             </Grid>
@@ -357,7 +357,7 @@
                                                         FontSize="24" 
                                                         VerticalAlignment="Center" 
                                                         Margin="14,0,0,0"
-                                                        Text="{Binding ServiceName}"
+                                                        Text="{Binding ProductName}"
                                                     ></TextBlock>
                                                 <Grid Grid.Row="2" >
                                                     <Grid.ColumnDefinitions>
@@ -405,7 +405,7 @@
                                                                 FontWeight="Regular"
                                                                 FontSize="16"
                                                                 Grid.Column="1" VerticalAlignment="Center" Margin="5,0,0,0"
-                                                                Text="{Binding ServicePrice}"
+                                                                Text="{Binding Price}"
                                                             >
                                                         </TextBlock>
                                                     </Grid>

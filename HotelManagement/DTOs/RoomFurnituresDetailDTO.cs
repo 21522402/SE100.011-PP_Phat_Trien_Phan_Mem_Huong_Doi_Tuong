@@ -13,6 +13,7 @@ namespace HotelManagement.DTOs
     public class RoomFurnituresDetailDTO
     {
         public int RoomFurnituresDetailId { get; set; }
+        public int STT { get; set; }
         public string FurnitureId { get; set; }
         public string FurnitureName { get; set; }
         public string FurnitureType { get; set; }

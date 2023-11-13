@@ -68,7 +68,7 @@ namespace HotelManagement.Model.Services
             }
         }
 
-        public async Task<(bool, string)> SaveUsingProduct(ObservableCollection<ProductDTO> orderList, RoomSettingDTO selectedRoom)
+        public async Task<(bool, string)> SaveUsingProduct(ObservableCollection<ProductDTO> orderList, RoomDTO selectedRoom)
         {
             try
             {

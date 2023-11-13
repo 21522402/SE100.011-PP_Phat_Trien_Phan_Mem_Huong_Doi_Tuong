@@ -38,6 +38,7 @@ namespace HotelManagement.DTOs
         }
         public string ProductId { get; set; }
         public string ProductName { get; set; }
+        public string ProductType { get; set; }
         public double Price { get; set; }
         public byte[] ProductAvatarData { get; set; }
 

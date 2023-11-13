@@ -14,9 +14,6 @@ namespace HotelManagement.DTOs
         public string RentalContractId { get; set; }
         public string StaffId { get; set; }
         public string StaffName { get; set; }
-        public string CustomerId { get; set; }
-        public string CustomerName { get; set; }
-        public string CustomerAddress { get; set; }
         public string RoomId { get; set; }
         public int RoomNumber { get; set; }
         public string RoomTypeName { get; set; }
@@ -28,50 +25,43 @@ namespace HotelManagement.DTOs
             }
         }
         public int PersonNumber { get; set; }
-        public Nullable<double> RoomPrice { get; set; }
-        public string RoomPriceStr
+        public Nullable<double> RentalPrice { get; set; }
+        public string RentalPriceStr
         {
             get
             {
-                return Helper.FormatVNMoney((double)RoomPrice);
+                return Helper.FormatVNMoney((double)RentalPrice);
             }
 
         }
-        public Nullable<bool> IsHasForeignPerson { get; set; }
-        public Nullable<int> NumberOfRentalDays { get; set; }
-        public Nullable<double> ServicePrice { get; set; }
-        public Nullable<double> TroublePrice { get; set; }
         public Nullable<double> TotalPrice { get; set; }
-        public Nullable<double> DiscountPrice { get; set; }
         public Nullable<double> Price { get; set; }
         public Nullable<System.DateTime> StartDate { get; set; }
         public Nullable<System.DateTime> EndDate { get; set; }
-        public Nullable<System.TimeSpan> StartTime { get; set; }
-        public Nullable<System.DateTime> CheckOutDate { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
         public int DayNumber
         {
             get
             {
-                if (CheckOutDate == null || StartDate == null)
+                if (EndDate == null || StartDate == null)
                 {
                     return 0;
                 }
                 
-                TimeSpan t = (TimeSpan)(CheckOutDate - StartDate);
+                TimeSpan t = (TimeSpan)(EndDate - StartDate);
                 int res = (int)t.TotalDays;
                 return res;
             }
         }
-        public IList<ProductUsingDTO> ListListServicePayment { get; set; }
-        public IList<TroubleByCustomerDTO> ListTroubleByCustomer { get; set; }
+        public IList<ProductUsingDTO> ListListProductPayment { get; set; }
+       
         
-        public double ServicePriceTemp
+        public double ProductPriceTemp
         {
             get
             {
                 double t = 0;
-                foreach (var item in ListListServicePayment)
+                foreach (var item in ListListProductPayment)
                 {
                     t += item.TotalMoney;
                 }
@@ -79,39 +69,20 @@ namespace HotelManagement.DTOs
             }
 
         }
-        public string ServicePriceTempStr
+        public string ProductPriceTempStr
         {
             get
             {
-                return Helper.FormatVNMoney(ServicePriceTemp);
+                return Helper.FormatVNMoney(ProductPriceTemp);
             }
 
         }
-        public double TroublePriceTemp
-        {
-            get
-            {
-                double t = 0;
-                foreach(var item in ListTroubleByCustomer)
-                {
-                    t += (double)item.PredictedPrice;
-                }
-                return t;
-            }
-        }
-        public string TroublePriceTempStr
-        {
-            get
-            {
-                return Helper.FormatVNMoney(TroublePriceTemp);
-            }
-
-        }
+    
         public double TotalPriceTemp
         {
             get
             {
-                return ServicePriceTemp + TroublePriceTemp + DayNumber * (double)RoomPrice;
+                return ProductPriceTemp  + DayNumber * (double)RentalPrice;
             }
         }
         public string TotalPriceTempStr

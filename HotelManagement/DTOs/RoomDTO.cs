@@ -143,5 +143,21 @@ namespace HotelManagement.DTOs
                 return res;
             }
         }
+        public string StartDateString
+        {
+            get
+            {
+                if (StartDate != null) return ((DateTime)StartDate).ToString("dd/MM/yyyy");
+                else return null;
+            }
+        }
+        public string EndDateString
+        {
+            get
+            {
+                if (EndDate != null) return ((DateTime)EndDate).ToString("dd/MM/yyyy");
+                else return null;
+            }
+        }
     }
 }

@@ -55,11 +55,18 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
         }
        
 
-        private RoomSettingDTO _SelectedRoom;
-        public RoomSettingDTO SelectedRoom
+        private RoomDTO _SelectedRoom;
+        public RoomDTO SelectedRoom
         {
             get { return _SelectedRoom; }
             set { _SelectedRoom = value; OnPropertyChanged(); }
+        }
+
+        private ListRoomTypeDTO _SelectedListRoom;
+        public ListRoomTypeDTO SelectedListRoom
+        {
+            get { return _SelectedListRoom; }
+            set { _SelectedListRoom = value; OnPropertyChanged(); }
         }
         private bool TimeChange = false;
         private bool Refresh = false;
@@ -113,7 +120,7 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
 
         public ICommand LoadRoomInfoCM { get; set; }
         public ICommand ChangeViewCM { get; set; }
-        public ICommand SelectedDateTimeCM { get; set; }
+        public ICommand HandlePreviewMouseDownRoom { get; set; }
         public ICommand OpenRoomWindowCM { get; set; }
         public ICommand CheckInRoomCM { get; set; }
         public ICommand UpdateRoomInfoCM { get; set; }
@@ -195,40 +202,59 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
             });
 
 
-           
-         
-            OpenRoomWindowCM = new RelayCommand<Grid>((p) => { return true; }, async (p) =>
+
+            HandlePreviewMouseDownRoom = new RelayCommand<Grid>((p) => { return true; }, async (p) =>
             {
-                if (TimeChange == true) return;
-                //MessageBox.Show(SelectedRoom.RoomNumber.ToString());
-                if (SelectedRoom == null) return;
-                try
-                    {
-                        RoomWindow wd = new RoomWindow();
-                        
-                        ListService = new ObservableCollection<ProductUsingDTO>(await ServiceUsingHelper.Ins.GetListUsingService(SelectedRoom.RentalContractId));
-                        if (SelectedRoom.RoomStatus == ROOM_STATUS.READY)
-                        {
-                            wd.btnAddService.Visibility = Visibility.Collapsed;
-                            wd.btnPayment.Visibility = Visibility.Collapsed;
-                            wd.btnCheckIn.Visibility = Visibility.Collapsed;
-                        }
-                      
-                        else
-                        {
-                            wd.btnAddService.Visibility = Visibility.Visible;
-                            wd.btnPayment.Visibility = Visibility.Visible;
-                            wd.btnCheckIn.Visibility = Visibility.Collapsed;
-                        }
-                        ListCustomer = new ObservableCollection<RentalContractDetailDTO>(await RoomCustomerService.Ins.GetCustomersOfRoom(SelectedRoom.RentalContractId));
-                        RoomWindow = (RoomWindow)wd;
-                            wd.ShowDialog();
-                    }
-                    catch (Exception ex)
-                    {
-                        CustomMessageBox.ShowOk("Lỗi hệ thống!", "Lỗi", "Ok", CustomMessageBoxImage.Error);
-                    }
+
                 
+                Label labelRoomName = (Label)p.FindName("labelRoomName");
+                string number = labelRoomName.Content.ToString().Substring(1);
+                int roomNumber = 0;
+
+                if (Int32.TryParse(number, out roomNumber))
+                {
+                    SelectedRoom = await RoomService.Ins.GetSelectedRoom(roomNumber);
+                    OpenRoomWindowCM.Execute(p);
+                }
+        
+              
+
+               
+            });
+            OpenRoomWindowCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
+            {
+
+               
+                
+                if (SelectedRoom == null)
+                {
+                    return;
+                }
+                try
+                {
+                    RoomWindow wd = new RoomWindow();
+
+                    ListService = new ObservableCollection<ProductUsingDTO>(await ServiceUsingHelper.Ins.GetListUsingService(SelectedRoom.RentalContractId));
+                    if (SelectedRoom.RoomStatus == ROOM_STATUS.READY)
+                    {
+                        wd.btnAddService.Visibility = Visibility.Collapsed;
+                        wd.btnPayment.Visibility = Visibility.Collapsed;
+                    }
+
+                    else
+                    {
+                        wd.btnAddService.Visibility = Visibility.Visible;
+                        wd.btnPayment.Visibility = Visibility.Visible;
+                    }
+                    ListCustomer = new ObservableCollection<RentalContractDetailDTO>(await RoomCustomerService.Ins.GetCustomersOfRoom(SelectedRoom.RentalContractId));
+                    RoomWindow = (RoomWindow)wd;
+                    wd.ShowDialog();
+                }
+                catch (Exception ex)
+                {
+                    CustomMessageBox.ShowOk("Lỗi hệ thống!", "Lỗi", "Ok", CustomMessageBoxImage.Error);
+                }
+
             });
 
             CheckInRoomCM = new RelayCommand<RoomWindow>((p) => { return true; }, async (p) =>
@@ -236,11 +262,7 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
                
                 await ChangeRoomStatusFunc(p);
             });
-            UpdateRoomInfoCM = new RelayCommand<RoomWindow>((p) => { return true; }, async (p) =>
-            {
-
-                await UpdateRoomInfoFunc(p);
-            });
+          
             CloseRoomWindowCM = new RelayCommand<RoomWindow>((p) => { return true; }, async (p) =>
             {
                 p.Close();
@@ -296,28 +318,20 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
             {
                 await DeleteCustomerFunc();
             });
-            //LoadRoomFurnitureInfoCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
-            //{
-            //    ListRoomFurniture = new ObservableCollection<RoomFurnituresDetailDTO>(await FurnituresRoomService.Ins.GetRoomFurnituresDetail(SelectedRoom.RoomId));
-            //    ListRoomFurnitureTemp = new ObservableCollection<RoomFurnituresDetailDTO>(await FurnituresRoomService.Ins.GetRoomFurnituresDetail(SelectedRoom.RoomId));
-                
-                
-            //    RoomFurnitureInfo wd = new RoomFurnitureInfo();
-               
-            //    List<string> listType = new List<string>(await FurnitureService.Ins.GetAllFurnitureType());
-            //    ListFurnitureType = new List<string>();
-            //    for (int i = 0; i < listType.Count; i++)
-            //    {
-            //        if (!ListFurnitureType.Contains(listType[i])) ListFurnitureType.Add(listType[i]);
-            //    }
-            //    wd.cbbFurnitureType.SelectedIndex = 0;
-            //    wd.ShowDialog();
-            //});
-          
-         
-         
-           
-            
+            LoadRoomFurnitureInfoCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
+            {
+                ListRoomFurniture = new ObservableCollection<RoomFurnituresDetailDTO>(await RoomTypeFurnitureServiceQui.Ins.GetRoomFurnituresDetail(SelectedRoom.RoomTypeId));
+                ListRoomFurnitureTemp = new ObservableCollection<RoomFurnituresDetailDTO>(await RoomTypeFurnitureServiceQui.Ins.GetRoomFurnituresDetail(SelectedRoom.RoomId));
+
+
+                RoomFurnitureInfo wd = new RoomFurnitureInfo();
+                wd.ShowDialog();
+            });
+
+
+
+
+
             LoadRoomOrderProductsCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
             {
                 RoomOrderProducts wd = new RoomOrderProducts();
@@ -399,47 +413,21 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
             {
                 await Payment();
             });
-            StoreListPaymentRoomCM = new RelayCommand<Label>((p) => { return true; }, async (p) =>
-            {
-                
-                string roomNumber = p.Content.ToString().Substring(6);
-               
-                    ListPaymentRoomNumber.Add(roomNumber);
-              
-                
-              
-          
-
-            });
-            UnStoreListPaymentRoomCM = new RelayCommand<Label>((p) => { return true; }, async (p) =>
-            {
-
-                string roomNumber = p.Content.ToString().Substring(6);
-               
-                    ListPaymentRoomNumber.Remove(roomNumber);
-                
-
-
-
-            });
+           
         
             FirstLoadRoomBillCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
             {
                 await LoadRoomBillFunc();
             });
-            LoadRoomBillCM = new RelayCommand<StackPanel>((p) => { return true; }, async (p) =>
-            {
-                RoomBill wd = new RoomBill();
-                BillPayment = SelectedRoomBill;
-                ListTroubleByCustomer = new ObservableCollection<TroubleByCustomerDTO>(BillPayment.ListTroubleByCustomer);
-                if (ListTroubleByCustomer.Count == 0)
-                {
-                    wd.wrapperTrouble.Visibility = System.Windows.Visibility.Collapsed;
-                }
+            //LoadRoomBillCM = new RelayCommand<StackPanel>((p) => { return true; }, async (p) =>
+            //{
+            //    RoomBill wd = new RoomBill();
+            //    BillPayment = SelectedRoomBill;
+               
               
-                TotalMoneyPayment = 0;
-                wd.ShowDialog();
-            });
+            //    TotalMoneyPayment = 0;
+            //    wd.ShowDialog();
+            //});
             SaveBillCM = new RelayCommand<RoomBill>((p) => { return true; }, async (p) =>
             {
                 await SaveBillFunc(p);

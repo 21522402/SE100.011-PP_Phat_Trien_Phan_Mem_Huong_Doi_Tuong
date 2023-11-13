@@ -23,10 +23,12 @@ namespace HotelManagement.View.Staff.RoomCatalogManagement
     public partial class RoomCatalogManagementPage : Page
     {
         List<ListBox> listRoomList;
+        ListBox listRoom;
         public RoomCatalogManagementPage()
         {
             InitializeComponent();
             listRoomList = new List<ListBox>();
+            listRoom = new ListBox();
         }
 
         private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -69,6 +71,7 @@ namespace HotelManagement.View.Staff.RoomCatalogManagement
         {
             ListBox a = sender as ListBox;
         }
+       
 
         //private void ListBoxItem_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         //{

@@ -102,8 +102,8 @@
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" Margin="30,0,0,0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="4*" />
-                        <ColumnDefinition Width="6*" />
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="7*" />
                     </Grid.ColumnDefinitions>
                     <Grid Grid.Column="0">
                         <Grid.RowDefinitions>
@@ -132,14 +132,14 @@
                             </StackPanel>
                         </StackPanel>
                         <StackPanel  Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0">
-                            <materialDesign:PackIcon Kind="AccountBox"           
+                            <materialDesign:PackIcon Kind="FileDocumentEditOutline"           
                                                                                  Width="35" 
                                                      Margin="-3,0,0,0"
                                                                                  Height="35"
                                                                                  Foreground="#444444"/>
 
                             <StackPanel  Margin="8,0,0,0" Orientation="Horizontal" VerticalAlignment="Center">
-                                <Label Content="Khách hàng:"    
+                                <Label Content="Mã phiếu:"    
                                        
                                                                  Foreground="#000000"
                                                                FontFamily="{DynamicResource MaterialDesignFont}"
@@ -147,7 +147,7 @@
                                                                FontSize="16">
 
                                 </Label>
-                                <TextBlock Text="{Binding SelectedRoom.CustomerName}"
+                                <TextBlock Text="{Binding SelectedRoom.RentalContractId}"
                                FontFamily="{DynamicResource MaterialDesignFont}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left"
@@ -177,7 +177,7 @@
                            Foreground="#000000"
                            FontSize="16"
                            FontFamily="{DynamicResource MaterialDesignFont}"/>
-                            <TextBlock Text="{Binding SelectedRoom.StartDateSting}"
+                            <TextBlock Text="{Binding SelectedRoom.StartDateString}"
                                FontFamily="{DynamicResource MaterialDesignFont}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left"
@@ -185,7 +185,7 @@
                                FontSize="16"
                                Foreground="Black"
                                FontWeight="Regular"/>
-                            <Label Content="Giờ vào:"
+                            <Label Content="Số người:"
                             VerticalAlignment="Center"
                            HorizontalAlignment="Left"
                             Margin="40,0,0,0"
@@ -193,7 +193,7 @@
                            Foreground="#000000"
                            FontSize="16"
                            FontFamily="{DynamicResource MaterialDesignFont}"/>
-                            <TextBlock Text="{Binding SelectedRoom.StartTime}"
+                            <TextBlock Text="{Binding SelectedRoom.CountPerson}"
                                FontFamily="{DynamicResource MaterialDesignFont}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left"
@@ -211,7 +211,7 @@
                            Foreground="#000000"
                            FontSize="16"
                            FontFamily="{DynamicResource MaterialDesignFont}"/>
-                            <TextBlock Text="{Binding SelectedRoom.CheckOutDateSting}"
+                            <TextBlock Text="{Binding SelectedRoom.EndDateString}"
                                FontFamily="{DynamicResource MaterialDesignFont}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left"
@@ -219,7 +219,7 @@
                                FontSize="16"
                                Foreground="Black"
                                FontWeight="Regular"/>
-                            <Label Content="Số người:"
+                            <Label Content="Giá tiền:"
                             VerticalAlignment="Center"
                            HorizontalAlignment="Left"
                             Margin="35,0,0,0"
@@ -227,7 +227,7 @@
                            Foreground="#000000"
                            FontSize="16"
                            FontFamily="{DynamicResource MaterialDesignFont}"/>
-                            <TextBlock Text="{Binding ListCustomer.Count}"
+                            <TextBlock Text="{Binding SelectedRoom.RentalPrice}"
                                FontFamily="{DynamicResource MaterialDesignFont}"
                                VerticalAlignment="Center"
                                HorizontalAlignment="Left"
@@ -239,7 +239,7 @@
 
                     </Grid>
                 </Grid>
-                <Grid Grid.Row="1" Margin="0,15,0,0" Background="#F5F3F2">
+                <Grid Grid.Row="1" Margin="30,15,30,0" Background="#F5F3F2">
                     <ListView ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden"
                                 ItemsSource="{Binding ListCustomer}"
                               VerticalAlignment="Top"
@@ -276,7 +276,7 @@
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                                 <GridViewColumn
-                                                Width="220">
+                                                Width="260">
                                     <GridViewColumn.Header>
                                         <Label Content="Tên khách hàng"
                                                                Foreground="#111FA0"
@@ -296,33 +296,10 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn
-                                                Width="140">
+                            <GridViewColumn
+                                                Width="240">
                                     <GridViewColumn.Header>
-                                        <Label Content="Loại khách"
-                                                                Foreground="#111FA0"
-                                                               FontFamily="{DynamicResource MaterialDesignFont}"
-                                                               FontWeight="Regular"
-                                                               FontSize="16">
-
-                                        </Label>
-                                    </GridViewColumn.Header>
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding CustomerType}"
-                                                                       Foreground="#000000"
-                                                                     FontWeight="Regular" 
-                                                       Margin="5,0,0,0"
-                                                      
-                                                       FontSize="14" />
-
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn
-                                                Width="150">
-                                    <GridViewColumn.Header>
-                                        <Label Content="CMND/CCCD"
+                                        <Label Content="CMND/CCCD/Mã định danh"
                                                                 Foreground="#111FA0"
                                                                FontFamily="{DynamicResource MaterialDesignFont}"
                                                                FontWeight="Regular"
@@ -333,8 +310,8 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
 
-                                            <TextBlock Text="{Binding CCCD}"
-                                                       Margin="5,0,0,0"
+                                            <TextBlock Text="{Binding CustomerId}"
+                                                       Margin="60,0,0,0"
                                                                      Foreground="#000000"
                                                                      FontWeight="Regular"       
                                                                HorizontalAlignment="Right"
@@ -343,32 +320,7 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn
-                                                Width="140">
-                                    <GridViewColumn.Header>
-                                        <Label Content="Địa chỉ"
-                                                                Foreground="#111FA0"
-                                                               FontFamily="{DynamicResource MaterialDesignFont}"
-                                                              FontWeight="Regular"
-                                                               FontSize="16">
-
-                                        </Label>
-                                    </GridViewColumn.Header>
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-
-                                            <TextBlock Text="{Binding CustomerAddress}"
-                                                       Margin="5,0,0,0"
-                                                                     Foreground="#000000"
-                                                                     FontWeight="Regular"       
-                                                               HorizontalAlignment="Right"
-                                                               FontSize="14" />
-
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                     
-
+                              
 
                             </GridView>
                         </ListView.View>

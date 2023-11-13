@@ -353,7 +353,39 @@ namespace HotelManagement.Model.Services
                 throw ex;
             }
         }
-
+        public async Task<RoomDTO> GetSelectedRoom(int number)
+        {
+            try
+            {
+                using (var context = new HotelManagementEntities())
+                {
+                   var room = await context.Rooms.FirstAsync(x=> x.RoomNumber== number);
+                    RoomDTO res = new RoomDTO
+                    {
+                        RoomId = room.RoomId,
+                        RoomTypeId = room.RoomType.RoomTypeId,
+                        RoomTypeName = room.RoomType.RoomTypeName,
+                        RoomStatus = room.RoomStatus,
+                        RoomNumber = room.RoomNumber,
+                        Note = room.Note,
+                    };
+                    if (room.RoomStatus == ROOM_STATUS.RENTING)
+                    {
+                        RentalContract rentalContract = await context.RentalContracts.FirstOrDefaultAsync(x => x.RoomId == room.RoomId && x.Validated == true);
+                        res.RentalContractId = rentalContract.RentalContractId;
+                        res.StartDate = rentalContract.StartDate;
+                        res.EndDate = rentalContract.EndDate;
+                        res.CountPerson = rentalContract.RentalContractDetails.Count;
+                        res.RentalPrice = (double)rentalContract.RentalPrice;
+                    }
+                    return res;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
 

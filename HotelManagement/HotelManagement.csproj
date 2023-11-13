@@ -248,6 +248,7 @@
     </Compile>
     <Compile Include="Model\Services\BillService.cs" />
     <Compile Include="Model\Services\OverviewStatisticService.cs" />
+    <Compile Include="Model\Services\RoomTypeFurnitureServiceQui.cs" />
     <Compile Include="Model\Services\RoomCustomerService.cs" />
     <Compile Include="Model\Services\BookingRoomService.cs" />
     <Compile Include="Model\Services\RoomService.cs" />
@@ -453,23 +454,11 @@
     <Compile Include="View\Staff\RoomCatalogManagement\RoomInfo\RoomWindow.xaml.cs">
       <DependentUpon>RoomWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Staff\RoomCatalogManagement\RoomOrder\RoomOrderCleaning.xaml.cs">
-      <DependentUpon>RoomOrderCleaning.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Staff\RoomCatalogManagement\RoomOrder\RoomOrderLaundry.xaml.cs">
-      <DependentUpon>RoomOrderLaundry.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Staff\RoomCatalogManagement\RoomOrder\RoomOrderProducts.xaml.cs">
       <DependentUpon>RoomOrderProducts.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Staff\RoomCatalogManagement\RoomPayment\OptionPayment.xaml.cs">
-      <DependentUpon>OptionPayment.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Staff\RoomCatalogManagement\RoomPayment\RoomBill.xaml.cs">
       <DependentUpon>RoomBill.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Staff\RoomCatalogManagement\RoomPayment\RoomGroupPayment.xaml.cs">
-      <DependentUpon>RoomGroupPayment.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\Filter\Filter.xaml.cs">
       <DependentUpon>Filter.xaml</DependentUpon>
@@ -822,28 +811,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Staff\RoomCatalogManagement\RoomOrder\RoomOrderCleaning.xaml">
-      <SubType>Designer</SubType>
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Staff\RoomCatalogManagement\RoomOrder\RoomOrderLaundry.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\Staff\RoomCatalogManagement\RoomOrder\RoomOrderProducts.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Staff\RoomCatalogManagement\RoomPayment\OptionPayment.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="View\Staff\RoomCatalogManagement\RoomPayment\RoomBill.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Staff\RoomCatalogManagement\RoomPayment\RoomGroupPayment.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

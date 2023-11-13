@@ -26,23 +26,18 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
             set { _ListBill = value; OnPropertyChanged(); }
         }
         
-        private ObservableCollection<string> _ListRoomByCustomer;
-        public ObservableCollection<string> ListRoomByCustomer
-        {
-            get { return _ListRoomByCustomer; }
-            set { _ListRoomByCustomer = value; OnPropertyChanged(); }
-        }
+     
         private ObservableCollection<string> _ListPaymentRoomNumber;
         public ObservableCollection<string> ListPaymentRoomNumber
         {
             get { return _ListPaymentRoomNumber; }
             set { _ListPaymentRoomNumber = value; OnPropertyChanged(); }
         }
-        private ObservableCollection<ProductUsingDTO> _ListServicePayment;
-        public ObservableCollection<ProductUsingDTO> ListServicePayment
+        private ObservableCollection<ProductUsingDTO> _ListProductPayment;
+        public ObservableCollection<ProductUsingDTO> ListProductPayment
         {
-            get { return _ListServicePayment; }
-            set { _ListServicePayment = value; OnPropertyChanged(); }
+            get { return _ListProductPayment; }
+            set { _ListProductPayment = value; OnPropertyChanged(); }
         }
         private List<RentalContractDTO> _ListRentalContractByCustomer;
         public List<RentalContractDTO> ListRentalContractByCustomer
@@ -57,12 +52,7 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
             get { return _BillPayment; }
             set { _BillPayment = value; OnPropertyChanged(); }
         }
-        private BillDTO _SelectedRoomBill;
-        public BillDTO SelectedRoomBill
-        {
-            get { return _SelectedRoomBill; }
-            set { _SelectedRoomBill = value; OnPropertyChanged(); }
-        }
+      
         private string _StaffName;
         public string StaffName
         {
@@ -102,19 +92,7 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
                 return HOTEL_INFO.PHONE;
             }
         }
-        private double _TotalMoneyPaymentRoomGroup;
-        public double TotalMoneyPaymentRoomGroup
-        {
-            get { return _TotalMoneyPaymentRoomGroup; }
-            set { _TotalMoneyPaymentRoomGroup = value; OnPropertyChanged(); }
-        }
-        private string _TotalMoneyPaymentRoomGroupStr;
-        public string TotalMoneyPaymentRoomGroupStr
-        {
-            get { return _TotalMoneyPaymentRoomGroupStr; }
-            set { _TotalMoneyPaymentRoomGroupStr = value; OnPropertyChanged(); }
-        }
-
+       
         public async Task Payment()
         {
             BillPayment = await BillService.Ins.GetBillByRentalContract(SelectedRoom.RentalContractId);
@@ -132,9 +110,6 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
             {
                 RentalContractId = BillPayment.RentalContractId,
                 StaffId = CurrentStaff.StaffId,
-                NumberOfRentalDays = BillPayment.DayNumber,
-                ServicePrice = BillPayment.ServicePriceTemp,
-                TroublePrice = BillPayment.TroublePriceTemp,
                 TotalPrice = BillPayment.TotalPriceTemp,
                 CreateDate = DateTime.Now,
             };
@@ -145,7 +120,7 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
                 (bool isSucceed2, string message2) = await RoomService.Ins.ChangeRoomStatus(BillPayment.RoomId, BillPayment.RentalContractId);
                 if (isSucceed2)
                 {
-                    
+                    await ReloadRoom();
                     p.Close();
                     RoomWindow.Close();
                 }
@@ -163,11 +138,11 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
         public async Task LoadRoomBillFunc()
         {
 
-            ListServicePayment = new ObservableCollection<ProductUsingDTO>(BillPayment.ListListServicePayment);
-            ListServicePayment.Insert(0, new ProductUsingDTO
+            ListProductPayment = new ObservableCollection<ProductUsingDTO>(BillPayment.ListListProductPayment);
+            ListProductPayment.Insert(0, new ProductUsingDTO
                 {
                     ProductName = BillPayment.RoomName,
-                    UnitPrice = BillPayment.RoomPrice,
+                    UnitPrice = BillPayment.RentalPrice,
                     Quantity = BillPayment.DayNumber,
                 });
 
@@ -176,10 +151,6 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
             TotalMoneyPaymentStr = Helper.FormatVNMoney2(TotalMoneyPayment);
 
         }
-        private void FormatMoney(double money)
-        {
-            
-            TotalMoneyPaymentRoomGroupStr = Helper.FormatVNMoney2(money);
-        }
+       
     }
 }

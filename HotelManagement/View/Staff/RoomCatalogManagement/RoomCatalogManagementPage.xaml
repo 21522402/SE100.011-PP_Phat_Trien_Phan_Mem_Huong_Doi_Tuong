@@ -210,7 +210,7 @@
 
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem" BasedOn="{StaticResource myListBoxItems4}">
-
+                               
                             </Style>
                         </ListBox.ItemContainerStyle>
                         <ListBox.ItemTemplate>
@@ -247,13 +247,13 @@
                                          VerticalAlignment="Center"
                                          HorizontalAlignment="Left"
                                          Margin="20,0,20,0"
-                                        
                                          SelectedItem="{Binding SelectedRoom}" 
                                         >
                                         <ListBox.ItemContainerStyle>
                                             <Style TargetType="ListBoxItem" BasedOn="{StaticResource myListBoxItems3}">
-
+                                              
                                             </Style>
+                                            
                                         </ListBox.ItemContainerStyle>
                                         <ListBox.ItemsPanel>
                                             <ItemsPanelTemplate>
@@ -264,16 +264,20 @@
                                         </ListBox.ItemsPanel>
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
-                                                <Grid x:Name="grid" Cursor="Hand">
+                                                <Grid x:Name="grid" Cursor="Hand" 
+                                                     >
                                                     <Grid.Style>
                                                         <Style TargetType="{x:Type Grid}">
                                                             <Style.Triggers>
                                                                 <Trigger Property="IsMouseOver" Value="False">
                                                                     <Setter Property="Opacity" Value="1"></Setter>
+                                                                   
                                                                 </Trigger>
                                                                 <Trigger Property="IsMouseOver" Value="True">
                                                                     <Setter Property="Opacity" Value="0.8"></Setter>
+                                                         
                                                                 </Trigger>
+                                                                
                                                             </Style.Triggers>
                                                         </Style>
                                                     </Grid.Style>
@@ -416,13 +420,12 @@
                                                         </Grid>
                                                     </Border>
                                                     <i:Interaction.Triggers>
-
-                                                       
                                                         <i:EventTrigger EventName="PreviewMouseLeftButtonDown">
-                                                            <i:InvokeCommandAction Command="{Binding ElementName=listListRoomType, Path=DataContext.CheckboxCM}"
+                                                            <i:InvokeCommandAction Command="{Binding ElementName=listListRoomType, Path=DataContext.HandlePreviewMouseDownRoom}"
                                                                        CommandParameter="{Binding ElementName=grid}" />
 
                                                         </i:EventTrigger>
+                                                       
 
                                                     </i:Interaction.Triggers>
                                                 </Grid>
@@ -431,7 +434,7 @@
                                         </ListBox.ItemTemplate>
 
                                     </ListBox>
-
+                                    
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>

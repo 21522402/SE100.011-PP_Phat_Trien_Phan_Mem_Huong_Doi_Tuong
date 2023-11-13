@@ -42,9 +42,10 @@ namespace HotelManagement.Model.Services
                         RoomNumber = (int)rentalContract.Room.RoomNumber,
                         RoomTypeName = rentalContract.Room.RoomType.RoomTypeName,
                         StartDate = rentalContract.StartDate,
+                        PersonNumber = rentalContract.RentalContractDetails.Count,
                         EndDate = rentalContract.EndDate,
-                        RoomPrice = rentalContract.Room.RoomType.Price,
-                        ListListServicePayment = rentalContract.ProductUsings.Select(t => new ProductUsingDTO
+                        RentalPrice = rentalContract.RentalPrice,
+                        ListListProductPayment = rentalContract.ProductUsings.Select(t => new ProductUsingDTO
                         {
                             RentalContractId = t.RentalContractId,
                             ProductId = t.ProductId,
@@ -55,7 +56,7 @@ namespace HotelManagement.Model.Services
 
                     };
 
-                    var listService = billDTO.ListListServicePayment
+                    var listService = billDTO.ListListProductPayment
                                                             .GroupBy(x => x.ProductId)
                                                             .Select(t => new ProductUsingDTO
                                                             {
@@ -66,7 +67,7 @@ namespace HotelManagement.Model.Services
                                                                 Quantity = t.Sum(g => g.Quantity)
                                                             }).ToList();
 
-                    billDTO.ListListServicePayment = listService;
+                    billDTO.ListListProductPayment = listService;
                     return billDTO;
                 }
             }
@@ -91,8 +92,6 @@ namespace HotelManagement.Model.Services
                         CreateDate= bill.CreateDate,    
                     };
                     context.Bills.Add(newBill);
-                    RentalContract rental = await context.RentalContracts.FindAsync(bill.RentalContractId);
-                    //rental.PersonNumber=rental.RoomCustomers.Count();
                     await context.SaveChangesAsync();
                     return (true, "Thanh toán thành công!");
                 }
