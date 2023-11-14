@@ -19,6 +19,8 @@ namespace HotelManagement.DTOs
         {
             get { return Helper.FormatVNMoney(RoomTypePrice); }
         }
+        public IList<SurchargeFeeDTO> ListSurcharges { get; set; }
+
         //public IList<RoomDTO> Rooms { get; set; }
 
         //public double Revenue { get; set; }

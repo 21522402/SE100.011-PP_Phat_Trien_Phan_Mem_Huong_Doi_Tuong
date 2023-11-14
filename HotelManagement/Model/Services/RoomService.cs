@@ -451,7 +451,24 @@ namespace HotelManagement.Model.Services
             }
 
         }
+        public async Task ChangeRoomStatus(string roomId)
+        {
+            try
+            {
+                using (var context = new HotelManagementEntities())
+                {
+                    Room r = await context.Rooms.FindAsync(roomId);
+                    r.RoomStatus = "Phòng đang thuê";
+                    await context.SaveChangesAsync();
 
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         public async Task<(bool, string)> ChangeRoomStatus(string roomId, string rentalContractId)
         {
             try

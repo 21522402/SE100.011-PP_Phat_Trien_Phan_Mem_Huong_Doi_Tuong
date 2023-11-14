@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,7 +25,7 @@ namespace HotelManagement.Model.Services
             }
             private set { _ins = value; }
         }
-        public async Task<List<string>> GetListRoomTypeName()
+        public List<string> GetListRoomTypeName()
         {
             try
             {
@@ -106,9 +107,7 @@ namespace HotelManagement.Model.Services
 
                     if (rt != null)
                     {
-
                         return (false, $"Loại phòng {rt.RoomTypeName} đã tồn tại!", null);
-
                     }
                     else
                     {
@@ -127,6 +126,20 @@ namespace HotelManagement.Model.Services
                             MaxNumberGuest = newRoomType.MaxNumberGuest,
                             NumberGuestForUnitPrice = newRoomType.NumberGuestForUnitPrice,
                         };
+
+                        if (newRoomType.ListSurcharges != null)
+                        {
+                            for (int i = 0; i < newRoomType.ListSurcharges.Count(); i++)
+                            {
+                                SurchargeRate sr = new SurchargeRate
+                                {
+                                    RoomTypeId = roomtype.RoomTypeId,
+                                    CustomerOutIndex = newRoomType.ListSurcharges[i].CustomerOutIndex,
+                                    Rate = newRoomType.ListSurcharges[i].Rate
+                                };
+                                context.SurchargeRates.Add(sr);
+                            }
+                        }
                         context.RoomTypes.Add(roomtype);
                         await context.SaveChangesAsync();
                         newRoomType.RoomTypeId = roomtype.RoomTypeId;
@@ -168,19 +181,35 @@ namespace HotelManagement.Model.Services
                     {
                         return (false, "Loại phòng này không tồn tại!");
                     }
-
+                    
                     bool IsExistRoomTypeName = context.RoomTypes.Any((RoomType rt) => rt.RoomTypeId != roomType.RoomTypeId && rt.RoomTypeName == updatedRoomType.RoomTypeName);
                     if (IsExistRoomTypeName)
                     {
                         return (false, "Tên loại phòng đã tồn tại!");
                     }
-
+                    var list = await context.SurchargeRates.Where(x => x.RoomTypeId == updatedRoomType.RoomTypeId).ToListAsync();
+                    context.SurchargeRates.RemoveRange(list);
+                    await context.SaveChangesAsync();
+                    
                     roomType.RoomTypeName = updatedRoomType.RoomTypeName;
                     roomType.Price = updatedRoomType.RoomTypePrice;
                     roomType.RoomTypeId = updatedRoomType.RoomTypeId;
                     roomType.MaxNumberGuest = updatedRoomType.MaxNumberGuest;
                     roomType.NumberGuestForUnitPrice = updatedRoomType.NumberGuestForUnitPrice;
-
+                    
+                    if (updatedRoomType.ListSurcharges != null)
+                    {
+                        for (int i = 0; i < updatedRoomType.ListSurcharges.Count; i++)
+                        {
+                            SurchargeRate sr = new SurchargeRate
+                            {
+                                RoomTypeId = updatedRoomType.RoomTypeId,
+                                CustomerOutIndex = updatedRoomType.ListSurcharges[i].CustomerOutIndex,
+                                Rate = updatedRoomType.ListSurcharges[i].Rate
+                            };
+                            context.SurchargeRates.Add(sr);
+                        }
+                    }
                     await context.SaveChangesAsync();
                     return (true, "Cập nhật thành công");
                 }
@@ -211,6 +240,7 @@ namespace HotelManagement.Model.Services
                     RoomType roomtype = await (from p in context.RoomTypes
                                                where p.RoomTypeId == Id
                                                select p).FirstOrDefaultAsync();
+                    var listSurchargeRates = await context.SurchargeRates.Where(x => x.RoomTypeId == Id).ToListAsync();
 
                     if (room is null)
                     {
@@ -220,9 +250,13 @@ namespace HotelManagement.Model.Services
                         }
                         else
                         {
-                            context.RoomTypes.Remove(roomtype);
+                            context.SurchargeRates.RemoveRange(listSurchargeRates);
                             await context.SaveChangesAsync();
+
+                            context.RoomTypes.Remove(roomtype);
+                            await context.SaveChangesAsync();                           
                         }
+
                     }
                     else
                     {

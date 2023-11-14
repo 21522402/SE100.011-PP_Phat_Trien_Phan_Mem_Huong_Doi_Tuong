@@ -99,6 +99,7 @@
                              Margin="28 0 0 0" 
                              Height="36" 
                              Width="240" 
+                             Name="Gia"
                              materialDesign:HintAssist.Hint="Nhập giá loại phòng" 
                              BorderThickness="0.5" 
                              BorderBrush="#545454"
@@ -127,6 +128,7 @@
                              Margin="28 0 0 0" 
                              Height="36" 
                              Width="240" 
+                             Name="SoKhachToiDa"
                              materialDesign:HintAssist.Hint="Nhập số khách tối đa" 
                              BorderThickness="0.5" 
                              BorderBrush="#545454"
@@ -149,6 +151,7 @@
                              Margin="28 0 0 0" 
                              Height="36" 
                              Width="240" 
+                             Name="SoKhachTinhDonGia"
                              materialDesign:HintAssist.Hint="Nhập số khách tính đơn giá" 
                              BorderThickness="0.5" 
                              BorderBrush="#545454"
@@ -160,13 +163,13 @@
             </Grid>
         </Grid>
         <Button Grid.Row="4" 
-                Content="Lưu" 
+                Content="Tiếp tục" 
                 Background="#009099" 
-                Width="80" Height="34" 
+                Width="100" Height="34" 
                 Foreground="White" 
                 HorizontalAlignment="Right" 
                 Margin="0 0 40 0"
-                Command="{Binding UpdateRoomTypeCM}"
+                Command="{Binding LoadEditSurchargeFeeCM}"
                 CommandParameter="{Binding ElementName=editRoomTypeWindow}"/>
 
     </Grid>

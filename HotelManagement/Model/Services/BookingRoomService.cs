@@ -26,6 +26,7 @@ namespace HotelManagement.Model.Services
             }
             private set { _ins = value; }
         }
+
         public BookingRoomService() { }
         public List<string> GetListFilterYear()
         {
@@ -55,27 +56,28 @@ namespace HotelManagement.Model.Services
                 throw ex;
             }
         }
-        public async Task<double> GetPriceBooking(string roomId, List<RentalContractDetailDTO> ListCustomer)
+        public async Task<float> GetPriceBooking(string roomId, List<RentalContractDetailDTO> ListCustomer)
         {
             try
             {
                 using (var context = new HotelManagementEntities())
                 {
-                    int numPerForUnitPrice = (int)context.Parameters.FirstOrDefault(x => x.ParameterKey == "SoKhachKhongTinhPhuPhi").ParameterValue;
-                    var listSurcharge = await context.SurchargeRates.ToListAsync();
-
                     Room r = await context.Rooms.FindAsync(roomId);
-                    double RoomTypePrice = (double)r.RoomType.Price;
+                    var listSurcharge = await context.SurchargeRates.Where(x => x.RoomTypeId == r.RoomTypeId).ToListAsync();
+                    int numPerForUnitPrice = (int)r.RoomType.NumberGuestForUnitPrice;
+                    float RoomTypePrice = (float)r.RoomType.Price;
+
                     int numPer = ListCustomer.Count;
-                    double PricePerDay = RoomTypePrice;
+
+                    float PricePerDay = RoomTypePrice;
+
                     if (numPer > numPerForUnitPrice)
                     {
-                        for (int i = numPerForUnitPrice + 1; i <= numPer; i++)
+                        for (int i = 1; i <= numPer - numPerForUnitPrice; i++)
                         {
-                            PricePerDay += RoomTypePrice * (double)listSurcharge[i - (numPerForUnitPrice + 1)].Rate;
+                            PricePerDay += RoomTypePrice * (float)listSurcharge[i - 1].Rate;
                         }
                     }
-
                     return PricePerDay;
                 }
             }
@@ -90,8 +92,6 @@ namespace HotelManagement.Model.Services
             {
                 using (var context = new HotelManagementEntities())
                 {
-
-                    int index = 1;
                     List<RentalContractDTO> RentalContractDTOs = await (
                         from r in context.RentalContracts
                         join room in context.Rooms
@@ -99,10 +99,15 @@ namespace HotelManagement.Model.Services
                         select new RentalContractDTO
                         {
                             RentalContractId = r.RentalContractId,
-                            CreateDate = r.StartDate,
+                            CreateDate = (DateTime)r.StartDate,
                             RoomId = r.RoomId,
                             RoomNumber = (int)room.RoomNumber,
-                            RentalContracts = r.RentalContractDetails.Select(x => new RentalContractDetailDTO
+                            StaffId = r.StaffId,
+                            StaffName = r.Staff.StaffName,
+                            EndDate = (DateTime)r.EndDate,
+                            RentalPrice = (float)r.RentalPrice,
+                            Validated = (bool)r.Validated,
+                            ListRentalContractDetails = r.RentalContractDetails.Select(x => new RentalContractDetailDTO
                             {
                                 RentalContractId = x.RentalContractId,
                                 CustomerName = x.CustomerName,
@@ -111,24 +116,16 @@ namespace HotelManagement.Model.Services
                         }
                     ).ToListAsync();
                     RentalContractDTOs.Reverse();
-                    foreach (var r in RentalContractDTOs)
-                    {
-                        r.STT_RentalContract = index++;
-                        int index2 = 1;
-                        foreach (var item in r.RentalContracts)
-                        {
-                            item.STT = index2++;
-                        }
-                    }
+                    
                     if (yearstr != "Tất cả")
                     {
                         int year = int.Parse(yearstr.Substring(4));
-                        RentalContractDTOs = new List<RentalContractDTO>(RentalContractDTOs.Where(x => x.CreateDate.Value.Year == year).ToList());
+                        RentalContractDTOs = new List<RentalContractDTO>(RentalContractDTOs.Where(x => x.CreateDate.Year == year).ToList());
                     }
                     if (monthstr != "Tất cả")
                     {
                         int month = int.Parse(monthstr.Substring(6));
-                        RentalContractDTOs = new List<RentalContractDTO>(RentalContractDTOs.Where(x => x.CreateDate.Value.Month == month).ToList());
+                        RentalContractDTOs = new List<RentalContractDTO>(RentalContractDTOs.Where(x => x.CreateDate.Month == month).ToList());
                     }
 
 
@@ -174,7 +171,11 @@ namespace HotelManagement.Model.Services
                     {
                         RentalContractId = rentalId,
                         RoomId = rentalContract.RoomId,
+                        StaffId = rentalContract.StaffId,
                         StartDate = DateTime.Now,
+                        EndDate = rentalContract.EndDate,
+                        RentalPrice = rentalContract.RentalPrice,
+                        Validated = true,
                     };
 
                     context.RentalContracts.Add(rc);
@@ -182,11 +183,9 @@ namespace HotelManagement.Model.Services
 
                     foreach (var item in list)
                     {
-                        var maxCPId = await context.RentalContractDetails.MaxAsync(s => s.RentalContractDetailId);
-                        string CPId = CreateNextRentalContractId(maxCPId.ToString());
+                       
                         RentalContractDetail rentalContractDetail = new RentalContractDetail
                         {
-                            RentalContractDetailId = Int32.Parse(CPId),
                             RentalContractId = rentalId,
                             CustomerName = item.CustomerName,
                             CustomerId = item.CCCD,
@@ -214,12 +213,8 @@ namespace HotelManagement.Model.Services
                     await context.SaveChangesAsync();
                     foreach (var item in list)
                     {
-
-                        var maxCPId = await context.RentalContractDetails.MaxAsync(s => s.RentalContractDetailId);
-                        string CPId = CreateNextRentalContractId(maxCPId.ToString());
                         RentalContractDetail rentalContractDetail = new RentalContractDetail
                         {
-                            RentalContractDetailId = Int32.Parse(CPId),
                             RentalContractId = rentalId,
                             CustomerName = item.CustomerName,
                             CustomerId = item.CCCD,
@@ -237,7 +232,6 @@ namespace HotelManagement.Model.Services
         }
         private string CreateNextRentalContractId(string maxId)
         {
-            //KHxxx
             if (maxId is null)
             {
                 return "PT001";
@@ -247,7 +241,6 @@ namespace HotelManagement.Model.Services
         }
         private string CreateNextRentalContractDetailId(string maxId)
         {
-            //KHxxx
             if (maxId is null)
             {
                 return "CP001";
@@ -267,7 +260,9 @@ namespace HotelManagement.Model.Services
                         RoomNumber = (int)x.RoomNumber,
                         RoomTypeName = x.RoomType.RoomTypeName,
                         RoomTypeId = x.RoomTypeId,
-                        Price = (double)x.RoomType.Price,
+                        Price = (float)x.RoomType.Price,
+                        MaxNumberGuest = (int)x.RoomType.MaxNumberGuest,
+                        NumberGuestForUnitPrice = (int)x.RoomType.NumberGuestForUnitPrice,
                     }).ToListAsync();
 
                     return list;
@@ -278,25 +273,28 @@ namespace HotelManagement.Model.Services
                 throw e;
             }
         }
-        public async Task<double> GetRentalContractPrice(string rentId)
+        public async Task<float> GetRentalContractPrice(string rentId)
         {
             try
             {
                 using (var context = new HotelManagementEntities())
                 {
-                    int numPerForUnitPrice = (int)context.Parameters.FirstOrDefault(x => x.ParameterKey == "SoKhachKhongTinhPhuPhi").ParameterValue;
+                    
                     var listSurcharge = await context.SurchargeRates.ToListAsync();
 
 
                     RentalContract rentalContract = await context.RentalContracts.FindAsync(rentId);
+                   
+                    int numPerForUnitPrice = (int)context.RoomTypes.FirstOrDefault(x => x.RoomTypeId == rentalContract.Room.RoomTypeId).NumberGuestForUnitPrice;
+
                     int numPer = rentalContract.RentalContractDetails.Count;
-                    double RoomTypePrice = (double)rentalContract.Room.RoomType.Price;
-                    double PricePerDay = RoomTypePrice;
+                    float RoomTypePrice = (float)rentalContract.Room.RoomType.Price;
+                    float PricePerDay = RoomTypePrice;
                     if (numPer > numPerForUnitPrice)
                     {
                         for (int i = 0; i < numPer - numPerForUnitPrice; i++)
                         {
-                            PricePerDay += RoomTypePrice * (double)listSurcharge[i].Rate;
+                            PricePerDay += RoomTypePrice * (float)listSurcharge[i].Rate;
                         }
                     }
                     return PricePerDay;
@@ -346,14 +344,18 @@ namespace HotelManagement.Model.Services
             {
                 using (HotelManagementEntities db = new HotelManagementEntities())
                 {
-                    int index = 1;
                     var RentalContractDTOs = await db.RentalContracts.OrderByDescending(x => x.StartDate).Select(r => new RentalContractDTO
                     {
                         RentalContractId = r.RentalContractId,
-                        CreateDate = r.StartDate,
+                        CreateDate = (DateTime)r.StartDate,
                         RoomId = r.RoomId,
                         RoomNumber = (int)r.Room.RoomNumber,
-                        RentalContracts = r.RentalContractDetails.Select(x => new RentalContractDetailDTO
+                        StaffId = r.StaffId,
+                        StaffName = r.Staff.StaffName,
+                        EndDate = (DateTime)r.EndDate,
+                        RentalPrice = (float)r.RentalPrice,
+                        Validated = (bool)r.Validated,
+                        ListRentalContractDetails = r.RentalContractDetails.Select(x => new RentalContractDetailDTO
                         {
                             RentalContractId = x.RentalContractId,
                             CustomerName = x.CustomerName,
@@ -361,19 +363,6 @@ namespace HotelManagement.Model.Services
                         }).ToList()
 
                     }).ToListAsync();
-
-
-                    foreach (var r in RentalContractDTOs)
-                    {
-                        r.STT_RentalContract = index++;
-                        int index2 = 1;
-                        foreach (var item in r.RentalContracts)
-                        {
-                            item.STT = index2++;
-                        }
-                    }
-
-
                     return RentalContractDTOs;
                 }
             }
@@ -382,14 +371,14 @@ namespace HotelManagement.Model.Services
                 throw e;
             }
         }
-        public int GetMaxNumOfPer()
+        public int GetMaxNumOfPer(string roomId)
         {
             try
             {
                 using (var context = new HotelManagementEntities())
                 {
-
-                    int res = (int)context.Parameters.FirstOrDefault(x => x.ParameterKey == "SoKhachToiDa").ParameterValue;
+                    string roomtypeId = context.Rooms.FirstOrDefault(x => x.RoomId == roomId).RoomTypeId;
+                    int res = (int)context.RoomTypes.FirstOrDefault(x => x.RoomTypeId == roomtypeId).MaxNumberGuest;
                     return res;
                 }
             }

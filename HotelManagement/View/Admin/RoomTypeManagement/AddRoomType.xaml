@@ -101,6 +101,7 @@
                              materialDesign:HintAssist.Hint="Nhập giá loại phòng" 
                              BorderThickness="0.5" 
                              BorderBrush="#545454"
+                             Name="Gia"
                              PreviewTextInput="TextBox_PreviewTextInput"
                              Text="{Binding RoomTypePrice,Mode=TwoWay}"/>
                 </Grid>
@@ -129,6 +130,7 @@
                              materialDesign:HintAssist.Hint="Nhập số khách tối đa" 
                              BorderThickness="0.5" 
                              BorderBrush="#545454"
+                             Name="SoKhachToiDa"
                              PreviewTextInput="TextBox_PreviewTextInput"
                              Text="{Binding MaxNumberGuest,Mode=TwoWay}"/>
                 </Grid>
@@ -151,6 +153,7 @@
                              materialDesign:HintAssist.Hint="Nhập số khách tính đơn giá" 
                              BorderThickness="0.5" 
                              BorderBrush="#545454"
+                             Name="SoKhachTinhDonGia"
                              PreviewTextInput="TextBox_PreviewTextInput"
                              Text="{Binding NumberGuestForUnitPrice,Mode=TwoWay}"/>
                 </Grid>
@@ -165,7 +168,7 @@
                 Foreground="White" 
                 HorizontalAlignment="Right" 
                 Margin="0 0 40 0"
-                Command="{Binding SaveRoomTypeCM}"
+                Command="{Binding LoadSurchargeFeeCM}"
                 CommandParameter="{Binding ElementName=addRoomTypeWindow}"/>
 
     </Grid>

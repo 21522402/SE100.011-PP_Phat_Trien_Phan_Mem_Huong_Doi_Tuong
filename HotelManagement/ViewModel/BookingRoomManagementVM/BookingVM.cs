@@ -22,151 +22,167 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
 {
     public partial class BookingRoomManagementVM : BaseVM
     {
-        //private bool isExistCustomer = false;
-        //public (bool isvalid, string error) ValidateBooking()
-        //{
-        //    if (string.IsNullOrEmpty(CustomerName) ||
-        //        string.IsNullOrEmpty(CCCD) ||
-        //        string.IsNullOrEmpty(PhoneNumber) ||
-        //        string.IsNullOrEmpty(Email) ||
-        //        string.IsNullOrEmpty(Address) ||
-        //        string.IsNullOrEmpty(Gender.Content.ToString()) ||
-        //        string.IsNullOrEmpty(CustomerType.Content.ToString()))
-        //    {
-        //        return (false, "Vui lòng nhập đủ thông tin khách hàng!");
-        //    }
-        //    else
-        //    {
-        //        if (Email != null)
-        //        {
-        //            if (Email.Trim() == "") Email = null;
-        //            else
-        //            {
-        //                if (!Utilities.RegexUtilities.IsValidEmail(Email))
-        //                {
-        //                    return (false, "Email không hợp lệ");
-        //                }
-        //            }
-        //        }
-        //        if (!Helper.IsPhoneNumberTinh(PhoneNumber)) return (false, "Số điện thoại không hợp lệ!");
-        //        (bool isv, string err) = IsValidAge((DateTime)DayOfBirth);
-        //        if (!isv) return (false, err);
-        //        if (StartDate >= CheckoutDate) return (false, "Vui lòng kiểm tra lại ngày bắt đầu thuê và ngày trả phòng!");
-        //        if (SelectedRoom is null) return (false, "Vui lòng chọn phòng để đặt!");
-        //        return (true, null);
-        //    }
-        //}
-        
-        //private (bool isvalid, string err) IsValidAge(DateTime birthday)
-        //{
-        //    // Save today's date.
-        //    var today = DateTime.Today;
+        public async Task LoadReadyRoom()
+        {
+            ListReadyRoom = new ObservableCollection<RoomDTO>(await BookingRoomService.Ins.GetListReadyRoom());
+        }
+        public async Task SaveRentalContract(Window p)
+        {
+            if (SelectedRoom == null)
+            {
+                CustomMessageBox.ShowOk("Vui lòng chọn phòng và thêm khách hàng", "Thông báo", "Ok", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                return;
+            }
+            if (ListCustomer == null || ListCustomer.Count == 0)
+            {
+                CustomMessageBox.ShowOk("Vui lòng thêm khách hàng", "Thông báo", "Ok", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                return;
+            }
+            RentalContractDTO temp = new RentalContractDTO
+            {
+                CreateDate = CreateDate,
+                RoomId = SelectedRoom.RoomId,
+                EndDate = EndDate,
+                StaffId = StaffVM.StaffVM.CurrentStaff.StaffId,
+                Validated = true,
+            };
+            (bool isSucsses, string message) = await BookingRoomService.Ins.SaveRental(temp, new List<RentalContractDetailDTO>(ListCustomer));
+            if (isSucsses)
+            {
+                CustomMessageBox.ShowOk(message, "Thông báo", "Ok", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
+                RentalContractList = new ObservableCollection<RentalContractDTO>(await BookingRoomService.Ins.GetRentalContractList());
+                await RoomService.Ins.ChangeRoomStatus(temp.RoomId);
+                p.Close();
+            }
+            else
+            {
+                CustomMessageBox.ShowOk(message, "Lỗi", "OK", CustomMessageBoxImage.Error);
+            }
+        }
+        public async Task SaveCustomerFunc(System.Windows.Window p)
+        {
+            if (IsEditRental)
+            {
+                if (IsValidDataCustomer())
+                {
+                    RentalContractDetailDTO cus = new RentalContractDetailDTO();
+                    cus.CustomerName = CustomerName;
+                    cus.CCCD = CCCD;
+                    cus.RentalContractId = RentalContractId;
+                    foreach (var i in ListCustomer)
+                    {
+                        if (CCCD.Equals(i.CCCD))
+                        {
+                            CustomMessageBox.ShowOk("Số CCCD/ ID định danh này đã tồn tại trong danh sách!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
+                            return;
+                        }
+                    }
 
-        //    // Calculate the age.
-        //    var age = today.Year - birthday.Year;
+                    ListCustomer.Add(cus);
+                    CustomMessageBox.ShowOk("Thêm khách ở thành công !", "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
 
-        //    // Go back to the year in which the person was born in case of a leap year
-        //    if (birthday.DayOfYear > today.DayOfYear) age--;
+                    Price = await BookingRoomService.Ins.GetPriceBooking(SelectedItem.RoomId, new List<RentalContractDetailDTO>(ListCustomer));
+                    PriceStr = Helper.FormatVNMoney2(Price);
+                    PriceInfo = PriceStr;
+                    p.Close();
+                }
+                else
+                {
+                    CustomMessageBox.ShowOk("Vui lòng nhập đủ thông tin!", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                }
+            }
+            else
+            {
+                if (IsValidDataCustomer())
+                {
+                    RentalContractDetailDTO cus = new RentalContractDetailDTO();
+                    cus.CustomerName = CustomerName;
+                    cus.CCCD = CCCD;
+                    cus.RentalContractId = RentalContractId;
+                    foreach (var i in ListCustomer)
+                    {
+                        if (CCCD.Equals(i.CCCD))
+                        {
+                            CustomMessageBox.ShowOk("Số CCCD/ ID định danh này đã tồn tại trong danh sách!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
+                            return;
+                        }
+                    }
 
-        //    if (age < 16) return (false, "Khách hàng chưa đủ 16 tuổi!");
-        //    return (true, null);
-        //}
+                    ListCustomer.Add(cus);
+                    CustomMessageBox.ShowOk("Thêm khách ở thành công !", "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
 
-        //public async Task SaveRentalContract(Window p)
-        //{
-        //    RentalContractDTO temp = new RentalContractDTO
-        //    {
-        //        CheckOutDate = CheckoutDate,
-        //        StartDate = StartDate,
-        //        StartTime = new TimeSpan(0, StartTime.TimeOfDay.Hours, StartTime.TimeOfDay.Minutes, StartTime.TimeOfDay.Seconds, 0),
-        //        StaffId = StaffId,
-        //        CustomerId = CustomerId,
-        //        RoomId = SelectedRoom.RoomId,
-        //        Validated = true,
-        //    };
-        //    (bool isSucsses, string message) = await BookingRoomService.Ins.SaveBooking(temp);
-        //    if (isSucsses)
-        //    {
-        //        CustomMessageBox.ShowOk(message, "Thong bao", "Ok", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
-        //        p.Close();
-        //    }
-        //    else
-        //    {
-        //        CustomMessageBox.ShowOk(message, "Lỗi", "OK", CustomMessageBoxImage.Error);
-        //    }
-        //}
-        //public async Task SaveCustomer()
-        //{
-        //    CustomerDTO customerDTO = new CustomerDTO
-        //    {
-        //        CustomerName = CustomerName,
-        //        PhoneNumber = PhoneNumber,
-        //        DateOfBirth = (DateTime)DayOfBirth,
-        //        Email = Email,
-        //        CCCD = CCCD,
-        //        CustomerType = CustomerType.Content.ToString(),
-        //        Gender = Gender.Content.ToString(),
-        //        CustomerAddress = Address,
-        //        IsDeleted = false,
-        //    };
-        //    (bool isSucsses, string message, string customerId) = await BookingRoomService.Ins.SaveCustomer(customerDTO);
-        //    if (isSucsses)
-        //    {
-        //        CustomerId = customerId;
-        //    }
-        //    else
-        //    {
-        //        CustomMessageBox.ShowOk(message, "Lỗi", "Ok", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
-        //    }
-        //}
-        //public async Task LoadReadyRoom()
-        //{
-        //    ListReadyRoom = new ObservableCollection<RoomDTO>(await BookingRoomService.Ins.GetListReadyRoom(StartDate,StartTime,CheckoutDate));
-        //}
-        //public async Task CheckCCCD(string cccd, Booking b)
-        //{
-            
-        //    foreach(var i in cccd)
-        //    {
-        //        if( !"0123456789".Contains(i))
-        //        {
-        //            CustomMessageBox.ShowOk("Sai định dạng CCCD!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
-        //            return; 
-        //        }
-        //    }
-        //    if (cccd.Length != 12)
-        //    {
-        //        CustomMessageBox.ShowOk("Sai định dạng CCCD!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
-        //        return;
-        //    }
+                    Price = await BookingRoomService.Ins.GetPriceBooking(SelectedRoom.RoomId, new List<RentalContractDetailDTO>(ListCustomer));
+                    PriceStr = Helper.FormatVNMoney2(Price);
+                    PriceInfo = PriceStr;
+                    p.Close();
+                }
+                else
+                {
+                    CustomMessageBox.ShowOk("Vui lòng nhập đủ thông tin!", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                }
+            }
 
-        //    (bool isExist, CustomerDTO cus) = await BookingRoomService.Ins.CheckCCCD(cccd);
+        }
 
-        //    if (isExist)
-        //    {
-        //        CCCD = cus.CCCD;
-        //        CustomerName = cus.CustomerName;
-        //        Email = cus.Email;
-        //        Address = cus.CustomerAddress;
-        //        DayOfBirth = (DateTime)cus.DateOfBirth;
-        //        if (cus.CustomerType == "Nội địa")
-        //            b.cbbCusType.SelectedIndex = 0;
-        //        else
-        //            b.cbbCusType.SelectedIndex = 1;
+        public async Task EditCustomerFunc(System.Windows.Window p)
+        {
+            if (IsEditRental)
+            {
+                if (IsValidDataCustomer())
+                {
+                    foreach (var i in ListCustomer)
+                    {
+                        if (CCCD.Equals(i.CCCD) && i != SelectedCustomer)
+                        {
+                            CustomMessageBox.ShowOk("Số CCCD/ ID định danh này đã tồn tại trong danh sách!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
+                            return;
+                        }
+                    }
 
-        //        if (cus.Gender == "Nam")
-        //            b.cbbGender.SelectedIndex = 0;
-        //        else
-        //            b.cbbGender.SelectedIndex = 1;
-        //        PhoneNumber = cus.PhoneNumber;
-        //        isExistCustomer = true;
-        //    }
-        //    else
-        //    {
-        //        RenewWindowData();
-        //        CCCD = cccd;
-        //        b.notifyNotExist.Visibility = Visibility.Visible;
-        //    }
-        //}
+                    SelectedCustomer.CustomerName = CustomerName;
+                    SelectedCustomer.CCCD = CCCD;
+                    SelectedCustomer.RentalContractId = RentalContractId;
+
+                    CustomMessageBox.ShowOk("Cập nhật thông tin khách ở thành công !", "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
+                    Price = await BookingRoomService.Ins.GetPriceBooking(SelectedItem.RoomId, new List<RentalContractDetailDTO>(ListCustomer));
+                    PriceStr = Helper.FormatVNMoney2(Price);
+                    PriceInfo = PriceStr;
+                    p.Close();
+                }
+                else
+                {
+                    CustomMessageBox.ShowOk("Vui lòng nhập đủ thông tin!", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                }
+            }
+            else
+            {
+                if (IsValidDataCustomer())
+                {
+                    foreach (var i in ListCustomer)
+                    {
+                        if (CCCD.Equals(i.CCCD) && i != SelectedCustomer)
+                        {
+                            CustomMessageBox.ShowOk("Số CCCD/ ID định danh này đã tồn tại trong danh sách!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
+                            return;
+                        }
+                    }
+
+                    SelectedCustomer.CustomerName = CustomerName;
+                    SelectedCustomer.CCCD = CCCD;
+                    SelectedCustomer.RentalContractId = RentalContractId;
+
+                    CustomMessageBox.ShowOk("Cập nhật thông tin khách ở thành công !", "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
+                    Price = await BookingRoomService.Ins.GetPriceBooking(SelectedRoom.RoomId, new List<RentalContractDetailDTO>(ListCustomer));
+                    PriceStr = Helper.FormatVNMoney2(Price);
+                    PriceInfo = PriceStr;
+                    p.Close();
+                }
+                else
+                {
+                    CustomMessageBox.ShowOk("Vui lòng nhập đủ thông tin!", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                }
+            }
+
+        }
     }
 }

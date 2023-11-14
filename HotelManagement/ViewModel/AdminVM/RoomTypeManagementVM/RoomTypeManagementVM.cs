@@ -13,6 +13,10 @@ using Microsoft.Office.Interop.Excel;
 using HotelManagement.View.Admin.RoomTypeManagement;
 using System.Windows;
 using HotelManagement.Utils;
+using System.Data.Entity.Core;
+using HotelManagement.Model;
+using System.Data.Entity;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
 {
@@ -85,13 +89,30 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
             }
         }
 
+        private ObservableCollection<SurchargeFeeDTO> _listSurchargeRate;
+        public ObservableCollection<SurchargeFeeDTO> ListSurchargeRate
+        {
+            get => _listSurchargeRate;
+            set
+            {
+                _listSurchargeRate = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private System.Windows.Window windowAdd;
+        private System.Windows.Window windowEdit;
         public ICommand FirstLoadCM { get; set; }
         public ICommand CloseCM { get; set; }
+        public ICommand CloseCM2 { get; set; }
         public ICommand LoadAddRoomTypeCM { get; set; }
         public ICommand LoadDeleteRoomTypeCM { get; set; }
         public ICommand LoadEditRoomTypeCM { get; set; }
         public ICommand SaveRoomTypeCM { get; set; }
         public ICommand UpdateRoomTypeCM { get; set; }
+        public ICommand LoadSurchargeFeeCM { get; set; }
+        public ICommand LoadEditSurchargeFeeCM { get; set; }
+        
 
         public RoomTypeManagementVM()
         {
@@ -120,24 +141,100 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
             {
                 RenewWindowData();
                 AddRoomType addRoomType = new AddRoomType();
+                windowAdd = addRoomType;
                 addRoomType.ShowDialog();
+            });
+            LoadSurchargeFeeCM = new RelayCommand<System.Windows.Window>((p) => { if (IsSaving) return false; return true; }, async  (p) =>
+            {
+                if (!IsValidData(p))
+                {
+                    CustomMessageBox.ShowOk("Vui lòng nhập đủ thông tin!", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                    return;
+                }
+                if (MaxNumberGuest < NumberGuestForUnitPrice)
+                {
+                    CustomMessageBox.ShowOk("Số khách tính đơn giá phải nhỏ hơn hoặc bằng số khách tối đa !!!", "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                    return;
+                }
+                if (MaxNumberGuest == NumberGuestForUnitPrice)
+                {
+                    IsSaving = true;
+                    await SaveRoomTypeFunc(p, windowAdd);
+                    IsSaving = false;
+                    return;
+                }
+                try
+                {
+                    SurchargeFee surchargeFee = new SurchargeFee();
+                    ListSurchargeRate = new ObservableCollection<SurchargeFeeDTO>();
+                    GetValueListSurchargeFee();
+                    surchargeFee.ShowDialog();
+                }
+                catch (EntityException ex)
+                {
+                    CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+                }
+                catch (Exception e)
+                {
+                    CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+                }
             });
             SaveRoomTypeCM = new RelayCommand<System.Windows.Window>((p) => { if (IsSaving) return false; return true; }, async (p) =>
             {
                 IsSaving = true;
-                await SaveRoomTypeFunc(p);
+                await SaveRoomTypeFunc(p, windowAdd);              
                 IsSaving = false;
             });
             LoadEditRoomTypeCM = new RelayCommand<object>((p) => { return true; }, (p) =>
             {
                 EditRoomType w1 = new EditRoomType();
                 LoadEditRoomType();
+                windowEdit = w1;
                 w1.ShowDialog();
+            });
+            LoadEditSurchargeFeeCM = new RelayCommand<System.Windows.Window>((p) => { if (IsSaving) return false; return true; }, async (p) =>
+            {
+                if (!IsValidData2())
+                {
+                    CustomMessageBox.ShowOk("Vui lòng nhập đủ thông tin!", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                    return;
+                }
+                if (MaxNumberGuest < NumberGuestForUnitPrice)
+                {
+                    CustomMessageBox.ShowOk("Số khách tính đơn giá phải nhỏ hơn hoặc bằng số khách tối đa !!!", "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                    return;
+                }
+                if (MaxNumberGuest == NumberGuestForUnitPrice)
+                {
+                    ListSurchargeRate = null;
+                    IsSaving = true;
+                    await UpdateRoomTypeFunc(p, windowEdit);
+                    IsSaving = false;
+                    return;
+                }
+                try
+                {
+                    EditSurchargeFee surchargeFee = new EditSurchargeFee();
+
+                    ListSurchargeRate = new ObservableCollection<SurchargeFeeDTO>();
+
+                    GetValueListEditSurchargeFee(SelectedItem.RoomTypeId);
+
+                    surchargeFee.ShowDialog();
+                }
+                catch (EntityException ex)
+                {
+                    CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+                }
+                catch (Exception e)
+                {
+                    CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+                }
             });
             UpdateRoomTypeCM = new RelayCommand<System.Windows.Window>((p) => { if (IsSaving) return false; return true; }, async (p) =>
             {
                 IsSaving = true;
-                await UpdateRoomTypeFunc(p);
+                await UpdateRoomTypeFunc(p, windowEdit);
                 IsSaving = false;
             });
             LoadDeleteRoomTypeCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
@@ -171,8 +268,42 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
                 SelectedItem = null;
                 p.Close();
             });
+            CloseCM2 = new RelayCommand<System.Windows.Window>((p) => { return true; }, (p) =>
+            {
+                p.Close();
+            });
         }
 
+        public void GetValueListSurchargeFee()
+        {
+            using (HotelManagementEntities db = new HotelManagementEntities())
+            {
+                for (int i = 0; i < MaxNumberGuest - NumberGuestForUnitPrice; i++)
+                {
+                    SurchargeFeeDTO srDTO = new SurchargeFeeDTO();
+                    srDTO.CustomerOutIndex = i + 1;
+                    srDTO.Rate = 0;
+                    ListSurchargeRate.Add(srDTO);
+                }
+            }
+        }
+        public async void GetValueListEditSurchargeFee(string id)
+        {
+            using (HotelManagementEntities db = new HotelManagementEntities())
+            {
+                for (int i = 0; i < MaxNumberGuest - NumberGuestForUnitPrice; i++)
+                {
+                    SurchargeFeeDTO srDTO = new SurchargeFeeDTO();
+                    srDTO.CustomerOutIndex = i + 1;
+                    SurchargeRate sr = await db.SurchargeRates.FirstOrDefaultAsync(item => item.CustomerOutIndex == srDTO.CustomerOutIndex && item.RoomTypeId == id);
+                    if (sr == null)
+                        srDTO.Rate = 0;
+                    else
+                        srDTO.Rate = (double)sr.Rate;
+                    ListSurchargeRate.Add(srDTO);
+                }
+            }
+        }
         public async void ReloadListView()
         {
             RoomTypeList = new ObservableCollection<RoomTypeDTO>();
@@ -201,8 +332,8 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
                     RoomTypeList.Add(rt);
                     break;
                 case Operation.UPDATE:
-                    var movieFound = RoomTypeList.FirstOrDefault(x => x.RoomTypeId == rt.RoomTypeId);
-                    RoomTypeList[RoomTypeList.IndexOf(movieFound)] = rt;
+                    var roomTypeFound = RoomTypeList.FirstOrDefault(x => x.RoomTypeId == rt.RoomTypeId);
+                    RoomTypeList[RoomTypeList.IndexOf(roomTypeFound)] = rt;
                     break;
                 case Operation.DELETE:
                     for (int i = 0; i < RoomTypeList.Count; i++)
@@ -223,11 +354,16 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
             RoomTypeName = null;
             RoomTypePrice = 0;
             MaxNumberGuest = 1;
-            NumberGuestForUnitPrice = 0;
+            NumberGuestForUnitPrice = 1;
         }
-        public bool IsValidData()
+        public bool IsValidData(System.Windows.Window p)
         {
-            return !string.IsNullOrEmpty(RoomTypeName);
+            AddRoomType addRoomType = (AddRoomType)p;
+            return !string.IsNullOrEmpty(RoomTypeName) && addRoomType.Gia.Text.Length > 0 && addRoomType.SoKhachTinhDonGia.Text.Length > 0 && addRoomType.SoKhachToiDa.Text.Length > 0;
+        }
+        public bool IsValidData2()
+        {
+            return !string.IsNullOrEmpty(RoomTypeName) && !string.IsNullOrEmpty(SelectedItem.RoomTypePrice.ToString()) && !string.IsNullOrEmpty(SelectedItem.MaxNumberGuest.ToString()) && !string.IsNullOrEmpty(SelectedItem.NumberGuestForUnitPrice.ToString());
         }
 
     }

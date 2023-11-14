@@ -16,6 +16,10 @@ namespace HotelManagement.DTOs
         public string Note { get; set; }
         public string RoomStatus { get; set; }
         public double Price { get; set; }
+        public int MaxNumberGuest { get; set; }
+
+        public int NumberGuestForUnitPrice { get; set; }
+
         public string RoomPriceStr
         {
             get { return Helper.FormatVNMoney(Price); }

@@ -12,6 +12,7 @@ using HotelManagement.Model;
 using HotelManagement.DTOs;
 using HotelManagement.Model.Services;
 using HotelManagement.Utils;
+using System.Data.Entity.Core.Metadata.Edm;
 
 namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
 {
@@ -26,10 +27,10 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
             MaxNumberGuest = SelectedItem.MaxNumberGuest;
             NumberGuestForUnitPrice = SelectedItem.NumberGuestForUnitPrice;
         }
-        public async Task UpdateRoomTypeFunc(System.Windows.Window p)
+        public async Task UpdateRoomTypeFunc(System.Windows.Window p, System.Windows.Window windowEdit)
         {
 
-            if (RoomTypeID != null && IsValidData())
+            if (RoomTypeID != null && IsValidData2())
             {
                 RoomTypeDTO roomType = new RoomTypeDTO
                 {
@@ -37,8 +38,20 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
                     RoomTypeName = RoomTypeName,
                     RoomTypePrice = RoomTypePrice,
                     MaxNumberGuest = MaxNumberGuest,
-                    NumberGuestForUnitPrice = NumberGuestForUnitPrice,
+                    NumberGuestForUnitPrice = NumberGuestForUnitPrice,  
+                    ListSurcharges = ListSurchargeRate,
                 };
+                if (roomType.ListSurcharges != null)
+                {
+                    for (int i = 0; i < ListSurchargeRate.Count; i++)
+                    {
+                        if (ListSurchargeRate[i].Rate <= 0 || ListSurchargeRate[i].Rate > 1)
+                        {
+                            CustomMessageBox.ShowOk("Tỷ lệ phụ thu phải lớn hơn 0 và nhỏ hơn hoặc bằng 1 !!!", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                            return;
+                        }
+                    }
+                }
 
                 (bool successUpdateRoomType, string messageFromUpdateRoomType) = await RoomTypeService.Ins.UpdateRoomType(roomType);
 
@@ -48,6 +61,7 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
                     CustomMessageBox.ShowOk(messageFromUpdateRoomType, "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
                     LoadRoomTypeListView(Operation.UPDATE, roomType);
                     p.Close();
+                    windowEdit.Close();
                 }
                 else
                 {

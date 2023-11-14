@@ -103,6 +103,7 @@ namespace HotelManagement.ViewModel.LoginVM
                 {
                     LoginWindow.Hide();
                     AdminVM.AdminVM.CurrentStaff = CurrentStaff;
+                    StaffVM.StaffVM.CurrentStaff = CurrentStaff;
                     AdminWindow wd = new AdminWindow();
                     wd.Show();
                     LoginWindow.Close();

@@ -31,7 +31,8 @@ namespace HotelManagement.View.BookingRoomManagement
                 return true;
             else
                 return ((item as RentalContractDTO).RoomNumber.ToString().IndexOf(SearchBox.Text.Trim(), StringComparison.OrdinalIgnoreCase) >= 0
-                    || (item as RentalContractDTO).RentalContractId.ToString().IndexOf(SearchBox.Text.Trim(), StringComparison.OrdinalIgnoreCase) >= 0);
+                    || (item as RentalContractDTO).RentalContractId.ToString().IndexOf(SearchBox.Text.Trim(), StringComparison.OrdinalIgnoreCase) >= 0
+                    || (item as RentalContractDTO).StaffName.ToString().IndexOf(SearchBox.Text.Trim(), StringComparison.OrdinalIgnoreCase) >= 0);
         }
         private void Search_SearchTextChange(object sender, EventArgs e)
         {
