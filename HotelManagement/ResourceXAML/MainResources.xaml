@@ -5,7 +5,7 @@
                 xmlns:VM3="clr-namespace:HotelManagement.ViewModel.AdminVM.FurnitureManagementVM"   
                 xmlns:VM4="clr-namespace:HotelManagement.ViewModel.AdminVM.ProductManagementVM"
                 xmlns:VM5="clr-namespace:HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM"
-                xmlns:VM6="clr-namespace:HotelManagement.ViewModel.AdminVM.RoomTypeFurnitureManagementVM"
+                
                 xmlns:VM7="clr-namespace:HotelManagement.ViewModel.SettingVM"
                 xmlns:VM8="clr-namespace:HotelManagement.ViewModel.BookingRoomManagementVM"
                 xmlns:VM9="clr-namespace:HotelManagement.ViewModel.AdminVM.RoomManagementVM"
@@ -15,18 +15,20 @@
                 xmlns:VM14="clr-namespace:HotelManagement.ViewModel.AdminVM.StaffManagementVM"
                 xmlns:VM15="clr-namespace:HotelManagement.ViewModel.AdminVM.HistoryManagementVM"
                 xmlns:VM16="clr-namespace:HotelManagement.ViewModel.AdminVM.TroubleManagementVM"
-                xmlns:VM17="clr-namespace:HotelManagement.ViewModel.StaffVM.TroubleReportVM"
+                xmlns:VM17="clr-namespace:HotelManagement.ViewModel.StaffVM.TroubleReportVM"      
                 xmlns:VM18="clr-namespace:HotelManagement.ViewModel.LoginVM"
 >
     <VM1:AdminVM x:Key="AdminVM"/>
     <VM2:StaffVM x:Key="StaffVM"/>
     <VM3:FurnitureManagementVM x:Key="FurnitureManagementVM"/>
     <VM4:ProductManagementVM x:Key="ProductManagementVM"/>
-    <VM6:RoomTypeFurnitureManagementVM x:Key="RoomTypeFurnitureManagementVM"/>
+    <VM5:RoomCatalogManagementVM x:Key="RoomCatalogManagementVM"/>
+ 
     <VM7:SettingVM x:Key="SettingVM"/>
     <VM8:BookingRoomManagementVM x:Key="BookingRoomManagementVM"/>
     <VM9:RoomManagementVM x:Key="RoomManagementVM"/>
     <VM10:RoomTypeManagementVM x:Key="RoomTypeManagementVM"/>
+    <VM11:StatisticalManagementVM x:Key="StatisticalManagementVM"/>
     <VM12:HelpScreenVM x:Key="HelpScreenVM"/>
     <VM14:StaffManagementVM x:Key="StaffManagementVM"/>
     <VM15:HistoryManagementVM x:Key="HistoryManagementVM"/>

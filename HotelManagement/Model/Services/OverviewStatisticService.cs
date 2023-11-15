@@ -49,50 +49,50 @@ namespace HotelManagement.Model.Services
         {
             List<double> MonthlyRevenueList = new List<double>(new double[12]);
 
-        //    try
-        //    {
-        //        using (var context = new HotelManagementEntities())
-        //        {
-        //            var billList = context.Bills
-        //            .Where(b => b.CreateDate.Value.Year == year);
+            try
+            {
+                using (var context = new HotelManagementEntities())
+                {
+                    var billList = context.Bills
+                    .Where(b => b.CreateDate.Value.Year == year);
 
-        //            (double ServiceRevenue, double RentalRevenue) = await GetFullRevenue(context, year);
+                    (double ServiceRevenue, double RentalRevenue) = await GetFullRevenue(context, year);
 
-        //            var MonthlyRevenue = billList
-        //                     .GroupBy(b => b.CreateDate.Value.Month)
-        //                     .Select(gr => new
-        //                     {
-        //                         Month = gr.Key,
-        //                         Income = gr.Sum(b => (double?)b.TotalPrice) ?? 0
-        //                     }).ToList();
+                    var MonthlyRevenue = billList
+                             .GroupBy(b => b.CreateDate.Value.Month)
+                             .Select(gr => new
+                             {
+                                 Month = gr.Key,
+                                 Income = gr.Sum(b => (double?)b.TotalPrice) ?? 0
+                             }).ToList();
 
-        //            foreach (var re in MonthlyRevenue)
-        //            {
-        //                MonthlyRevenueList[re.Month - 1] = (float)re.Income;
-        //            }
+                    foreach (var re in MonthlyRevenue)
+                    {
+                        MonthlyRevenueList[re.Month - 1] = (float)re.Income;
+                    }
 
-        //            (double lastServiceRevenue, double lastRentalRevenue) = await GetFullRevenue(context, year - 1);
-        //            double lastRevenueTotal = lastServiceRevenue + lastRentalRevenue;
-        //            string RevenueRateStr;
-        //            if (lastRevenueTotal == 0)
-        //            {
-        //                RevenueRateStr = "-2";
-        //                if (ServiceRevenue + RentalRevenue == 0) RevenueRateStr = "-3";
-        //            }
-        //            else
-        //            {
-        //                RevenueRateStr = Helper.ConvertDoubleToPercentageStr((double)((ServiceRevenue + RentalRevenue) / lastRevenueTotal) - 1);
-        //            }
+                    (double lastServiceRevenue, double lastRentalRevenue) = await GetFullRevenue(context, year - 1);
+                    double lastRevenueTotal = lastServiceRevenue + lastRentalRevenue;
+                    string RevenueRateStr;
+                    if (lastRevenueTotal == 0)
+                    {
+                        RevenueRateStr = "-2";
+                        if (ServiceRevenue + RentalRevenue == 0) RevenueRateStr = "-3";
+                    }
+                    else
+                    {
+                        RevenueRateStr = Helper.ConvertDoubleToPercentageStr((double)((ServiceRevenue + RentalRevenue) / lastRevenueTotal) - 1);
+                    }
 
-        //            return (MonthlyRevenueList, (double)ServiceRevenue, (double)RentalRevenue, RevenueRateStr);
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
+                    return (MonthlyRevenueList, (double)ServiceRevenue, (double)RentalRevenue, RevenueRateStr);
+                }
+            }
+            catch (Exception e)
+            {
 
-        //        throw e;
-        //    }
-        //}
+                throw e;
+            }
+        }
 
         public async Task<(double, double)> GetFullRevenue(HotelManagementEntities context, int year, int month = 0)
         {
@@ -108,7 +108,7 @@ namespace HotelManagement.Model.Services
                 }
                 else
                 {
-                    double ProductRevenue = await context.Revenues.Where(r => r.Year == year ).SumAsync(r => r.RevenueProducts.Sum(rp => rp.Revenue)) ?? 0;
+                    double ProductRevenue = await context.Revenues.Where(r => r.Year == year).SumAsync(r => r.RevenueProducts.Sum(rp => rp.Revenue)) ?? 0;
                     double TotalPrice = await context.Bills.Where(x => x.CreateDate.Value.Year == year).SumAsync(x => x.TotalPrice) ?? 0;
                     double RentalRevenue = TotalPrice - ProductRevenue;
                     return (ProductRevenue, RentalRevenue);
@@ -120,10 +120,10 @@ namespace HotelManagement.Model.Services
             }
         }
 
-        public async Task<(List<double> MonthlyExpense, 
-            double ProductRevenue, 
-            double RepairCost, 
-            double FurnitureExpense, 
+        public async Task<(List<double> MonthlyExpense,
+            double ProductRevenue,
+            double RepairCost,
+            double FurnitureExpense,
             string ExpenseRate
             )> GetExpenseByYear(int year)
         {
@@ -166,12 +166,12 @@ namespace HotelManagement.Model.Services
 
 
 
-        //            //Accumulate
-        //            foreach (var ex in MonthlyServiceExpense)
-        //            {
-        //                MonthlyExpense[ex.Month - 1] += (double?)ex.Outcome ?? 0;
-        //                ServiceExpenseTotal += (double?)ex.Outcome ?? 0;
-        //            }
+                    //Accumulate
+                    foreach (var ex in MonthlyServiceExpense)
+                    {
+                        MonthlyExpense[ex.Month - 1] += (double?)ex.Outcome ?? 0;
+                        ServiceExpenseTotal += (double?)ex.Outcome ?? 0;
+                    }
 
                     foreach (var ex in MonthlyRepairCost)
                     {
@@ -184,31 +184,31 @@ namespace HotelManagement.Model.Services
                         FurnitureExpenseTotal += (double?)ex.Outcome ?? 0;
                     }
 
-        //            double lastExpenseTotal = await GetFullExpenseLastTime(context, year - 1);
+                    double lastExpenseTotal = await GetFullExpenseLastTime(context, year - 1);
 
-        //            string ExpenseRateStr;
-        //            //check mẫu  = 0
-        //            if (lastExpenseTotal == 0)
-        //            {
-        //                ExpenseRateStr = "-2";
-        //                if (ServiceExpenseTotal + RepairCostTotal + FurnitureExpenseTotal == 0) ExpenseRateStr = "-3";
-        //            }
+                    string ExpenseRateStr;
+                    //check mẫu  = 0
+                    if (lastExpenseTotal == 0)
+                    {
+                        ExpenseRateStr = "-2";
+                        if (ServiceExpenseTotal + RepairCostTotal + FurnitureExpenseTotal == 0) ExpenseRateStr = "-3";
+                    }
 
-        //            else
-        //            {
-        //                ExpenseRateStr = Helper.ConvertDoubleToPercentageStr(((double)(ServiceExpenseTotal + RepairCostTotal + FurnitureExpenseTotal / lastExpenseTotal) - 1));
-        //            }
+                    else
+                    {
+                        ExpenseRateStr = Helper.ConvertDoubleToPercentageStr(((double)(ServiceExpenseTotal + RepairCostTotal + FurnitureExpenseTotal / lastExpenseTotal) - 1));
+                    }
 
 
                     return (MonthlyExpense, (double)ServiceExpenseTotal, (double)RepairCostTotal, (double)FurnitureExpenseTotal, ExpenseRateStr);
                 }
 
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw e;
-        //    }
-        //}
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
 
         private async Task<double> GetFullExpenseLastTime(HotelManagementEntities context, int year, int month = 0)
         {
@@ -255,9 +255,9 @@ namespace HotelManagement.Model.Services
                         if (item != null) lastMonthServiceExpense += (double)item.Price;
                     }
 
-        //            //Repair Cost
-        //            var LastMonthRepairCost = await context.Troubles
-        //                     .Where(tr => tr.FinishDate != null && tr.FinishDate.Value.Year == year && tr.FinishDate.Value.Month == month).ToListAsync();
+                    //Repair Cost
+                    var LastMonthRepairCost = await context.Troubles
+                             .Where(tr => tr.FinishDate != null && tr.FinishDate.Value.Year == year && tr.FinishDate.Value.Month == month).ToListAsync();
 
                     double lastMonthRepairCost = 0;
                     foreach (var item in LastMonthRepairCost)
@@ -284,22 +284,22 @@ namespace HotelManagement.Model.Services
             }
         }
 
-        public async Task<(List<double>, 
-            double ServiceRevenue, double RentalRevenue, 
+        public async Task<(List<double>,
+            double ServiceRevenue, double RentalRevenue,
             string RevenueRate)> GetRevenueByMonth(int year, int month)
         {
             int days = DateTime.DaysInMonth(year, month);
             List<double> DailyReveList = new List<double>(new double[days]);
 
-        //    try
-        //    {
+            try
+            {
 
-        //        using (var context = new HotelManagementEntities())
-        //        {
-        //            var billList = context.Bills
-        //             .Where(b => b.CreateDate.Value.Year == year && b.CreateDate.Value.Month == month);
+                using (var context = new HotelManagementEntities())
+                {
+                    var billList = context.Bills
+                     .Where(b => b.CreateDate.Value.Year == year && b.CreateDate.Value.Month == month);
 
-        //            (double ServiceRevenue, double RentalRevenue) = await GetFullRevenue(context, year, month);
+                    (double ServiceRevenue, double RentalRevenue) = await GetFullRevenue(context, year, month);
 
                     var dailyRevenue = await billList
                                  .GroupBy(b => b.CreateDate.Value.Day)
@@ -310,10 +310,10 @@ namespace HotelManagement.Model.Services
                                      DiscountPrice = 0,
                                  }).ToListAsync();
 
-        //            foreach (var re in dailyRevenue)
-        //            {
-        //                DailyReveList[re.Day - 1] = (double)re.Income;
-        //            }
+                    foreach (var re in dailyRevenue)
+                    {
+                        DailyReveList[re.Day - 1] = (double)re.Income;
+                    }
 
                     if (month == 1)
                     {
@@ -342,16 +342,16 @@ namespace HotelManagement.Model.Services
             }
         }
 
-        public async Task<(List<double> DailyExpense, 
-            double ServiceExpense, double RepairCost, 
+        public async Task<(List<double> DailyExpense,
+            double ServiceExpense, double RepairCost,
             double FurnitureExpense, string RepairRateStr)> GetExpenseByMonth(int year, int month)
         {
 
-        //    int days = DateTime.DaysInMonth(year, month);
-        //    List<double> DailyExpense = new List<double>(new double[days]);
-        //    double ServiceExpenseTotal = 0;
-        //    double RepairCostTotal = 0;
-        //    double FurnitureExpenseTotal = 0;
+            int days = DateTime.DaysInMonth(year, month);
+            List<double> DailyExpense = new List<double>(new double[days]);
+            double ServiceExpenseTotal = 0;
+            double RepairCostTotal = 0;
+            double FurnitureExpenseTotal = 0;
 
             try
             {
@@ -364,7 +364,7 @@ namespace HotelManagement.Model.Services
                          .Select(gr => new
                          {
                              Day = gr.Key,
-                             Outcome = gr.Sum(b => (double?)b.Price ) ?? 0
+                             Outcome = gr.Sum(b => (double?)b.Price) ?? 0
                          }).ToListAsync();
 
                     //Repair Cost
@@ -387,13 +387,13 @@ namespace HotelManagement.Model.Services
                             Outcome = gr.Sum(b => (double?)b.Price) ?? 0
                         }).ToListAsync();
 
-        //            //context.
-        //            //Accumulate
-        //            foreach (var ex in MonthlyServiceExpense)
-        //            {
-        //                DailyExpense[ex.Day - 1] += (double?)ex.Outcome ?? 0;
-        //                ServiceExpenseTotal += ex.Outcome;
-        //            }
+                    //context.
+                    //Accumulate
+                    foreach (var ex in MonthlyServiceExpense)
+                    {
+                        DailyExpense[ex.Day - 1] += (double?)ex.Outcome ?? 0;
+                        ServiceExpenseTotal += ex.Outcome;
+                    }
 
                     foreach (var ex in MonthlyRepairCost)
                     {
@@ -442,7 +442,7 @@ namespace HotelManagement.Model.Services
                 {
                     var revId = (await context.Revenues.FirstOrDefaultAsync(x => x.Year == year && x.Month == month)).RevenueId;
 
-                    var list2 = await context.RevenueRoomTypes.Where(r=> r.RevenueId==revId)
+                    var list2 = await context.RevenueRoomTypes.Where(r => r.RevenueId == revId)
                         .Select(rt => new RoomTypeDTO
                         {
                             RoomTypeName = rt.RoomType.RoomTypeName,

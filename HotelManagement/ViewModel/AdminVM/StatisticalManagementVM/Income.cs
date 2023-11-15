@@ -16,167 +16,167 @@ namespace HotelManagement.ViewModel.AdminVM.StatisticalManagementVM
 {
     public partial class StatisticalManagementVM : BaseVM
     {
-        //private SeriesCollection _InComeData;
-        //public SeriesCollection InComeData
-        //{
-        //    get { return _InComeData; }
-        //    set { _InComeData = value; OnPropertyChanged(); }
-        //}
+        private SeriesCollection _InComeData;
+        public SeriesCollection InComeData
+        {
+            get { return _InComeData; }
+            set { _InComeData = value; OnPropertyChanged(); }
+        }
 
-        //private ComboBoxItem _SelectedIncomePeriod;
-        //public ComboBoxItem SelectedIncomePeriod
-        //{
-        //    get { return _SelectedIncomePeriod; }
-        //    set { _SelectedIncomePeriod = value; OnPropertyChanged(); }
-        //}
+        private ComboBoxItem _SelectedIncomePeriod;
+        public ComboBoxItem SelectedIncomePeriod
+        {
+            get { return _SelectedIncomePeriod; }
+            set { _SelectedIncomePeriod = value; OnPropertyChanged(); }
+        }
 
-        //private string _SelectedIncomeTime;
-        //public string SelectedIncomeTime
-        //{
-        //    get { return _SelectedIncomeTime; }
-        //    set { _SelectedIncomeTime = value; OnPropertyChanged(); }
-        //}
+        private string _SelectedIncomeTime;
+        public string SelectedIncomeTime
+        {
+            get { return _SelectedIncomeTime; }
+            set { _SelectedIncomeTime = value; OnPropertyChanged(); }
+        }
 
-        ////private int selectedYear;
-        ////public int SelectedYear
-        ////{
-        ////    get { return selectedYear; }
-        ////    set { selectedYear = value; }
-        ////}
-        //private string _TimeBox;
-        //public string TimeBox
+        //private int selectedYear;
+        //public int SelectedYear
         //{
-        //    get { return _TimeBox; }
-        //    set { _TimeBox = value; OnPropertyChanged(); }
+        //    get { return selectedYear; }
+        //    set { selectedYear = value; }
         //}
+        private string _TimeBox;
+        public string TimeBox
+        {
+            get { return _TimeBox; }
+            set { _TimeBox = value; OnPropertyChanged(); }
+        }
 
 
-        //private string _TrueIncome;
-        //public string TrueIncome
-        //{
-        //    get { return _TrueIncome; }
-        //    set { _TrueIncome = value; OnPropertyChanged(); }
-        //}
+        private string _TrueIncome;
+        public string TrueIncome
+        {
+            get { return _TrueIncome; }
+            set { _TrueIncome = value; OnPropertyChanged(); }
+        }
 
-        //private string _TotalIn;
-        //public string TotalIn
-        //{
-        //    get { return _TotalIn; }
-        //    set { _TotalIn = value; OnPropertyChanged(); }
-        //}
+        private string _TotalIn;
+        public string TotalIn
+        {
+            get { return _TotalIn; }
+            set { _TotalIn = value; OnPropertyChanged(); }
+        }
 
-        ////MID CARD========================
-        //private string _TotalOut;
-        //public string TotalOut
-        //{
-        //    get { return _TotalOut; }
-        //    set { _TotalOut = value; OnPropertyChanged(); }
-        //}
+        //MID CARD========================
+        private string _TotalOut;
+        public string TotalOut
+        {
+            get { return _TotalOut; }
+            set { _TotalOut = value; OnPropertyChanged(); }
+        }
 
-        //private float _TotalInPc;  //this is for the horizontial bar, just for displaying
-        //public float TotalInPc
-        //{
-        //    get { return _TotalInPc; }
-        //    set { _TotalInPc = value; OnPropertyChanged(); }
-        //}
+        private float _TotalInPc;  //this is for the horizontial bar, just for displaying
+        public float TotalInPc
+        {
+            get { return _TotalInPc; }
+            set { _TotalInPc = value; OnPropertyChanged(); }
+        }
 
-        //private float _TotalOutPc;
-        //public float TotalOutPc
-        //{
-        //    get { return _TotalOutPc; }
-        //    set { _TotalOutPc = value; OnPropertyChanged(); }
-        //}
+        private float _TotalOutPc;
+        public float TotalOutPc
+        {
+            get { return _TotalOutPc; }
+            set { _TotalOutPc = value; OnPropertyChanged(); }
+        }
 
-        //private int totalBill;
-        //public int TotalBill
-        //{
-        //    get { return totalBill; }
-        //    set { totalBill = value; OnPropertyChanged(); }
-        //}
+        private int totalBill;
+        public int TotalBill
+        {
+            get { return totalBill; }
+            set { totalBill = value; OnPropertyChanged(); }
+        }
 
-        //private string rentalReve;
-        //public string RentalReve
-        //{
-        //    get { return rentalReve; }
-        //    set { rentalReve = value; OnPropertyChanged(); }
-        //}
+        private string rentalReve;
+        public string RentalReve
+        {
+            get { return rentalReve; }
+            set { rentalReve = value; OnPropertyChanged(); }
+        }
 
-        //private string serviceReve;
-        //public string ServiceReve
-        //{
-        //    get { return serviceReve; }
-        //    set { serviceReve = value; OnPropertyChanged(); }
-        //}
+        private string serviceReve;
+        public string ServiceReve
+        {
+            get { return serviceReve; }
+            set { serviceReve = value; OnPropertyChanged(); }
+        }
 
-        //private string serviceExpe;
-        //public string ServiceExpe
-        //{
-        //    get { return serviceExpe; }
-        //    set { serviceExpe = value; OnPropertyChanged(); }
-        //}
+        private string serviceExpe;
+        public string ServiceExpe
+        {
+            get { return serviceExpe; }
+            set { serviceExpe = value; OnPropertyChanged(); }
+        }
 
-        //private string repairExpe;
-        //public string RepairExpe
-        //{
-        //    get { return repairExpe; }
-        //    set { repairExpe = value; OnPropertyChanged(); }
-        //}
+        private string repairExpe;
+        public string RepairExpe
+        {
+            get { return repairExpe; }
+            set { repairExpe = value; OnPropertyChanged(); }
+        }
 
-        //private string furnitureExpe;
-        //public string FurnitureExpe
-        //{
-        //    get { return furnitureExpe; }
-        //    set { furnitureExpe = value; OnPropertyChanged(); }
-        //}
+        private string furnitureExpe;
+        public string FurnitureExpe
+        {
+            get { return furnitureExpe; }
+            set { furnitureExpe = value; OnPropertyChanged(); }
+        }
 
-        //private string rentalPc;
-        //public string RentalPc
-        //{
-        //    get { return rentalPc; }
-        //    set { rentalPc = value; OnPropertyChanged(); }
-        //}
+        private string rentalPc;
+        public string RentalPc
+        {
+            get { return rentalPc; }
+            set { rentalPc = value; OnPropertyChanged(); }
+        }
 
-        //private string servicePc;
-        //public string ServicePc
-        //{
-        //    get { return servicePc; }
-        //    set { servicePc = value; OnPropertyChanged(); }
-        //}
+        private string servicePc;
+        public string ServicePc
+        {
+            get { return servicePc; }
+            set { servicePc = value; OnPropertyChanged(); }
+        }
 
-        //private string furniturePc;
-        //public string FurniturePc
-        //{
-        //    get { return furniturePc; }
-        //    set { furniturePc = value; OnPropertyChanged(); }
-        //}
+        private string furniturePc;
+        public string FurniturePc
+        {
+            get { return furniturePc; }
+            set { furniturePc = value; OnPropertyChanged(); }
+        }
 
-        //private string serviceExPc;
-        //public string ServiceExPc
-        //{
-        //    get { return serviceExPc; }
-        //    set { serviceExPc = value; OnPropertyChanged(); }
-        //}
+        private string serviceExPc;
+        public string ServiceExPc
+        {
+            get { return serviceExPc; }
+            set { serviceExPc = value; OnPropertyChanged(); }
+        }
 
-        //private string repairPc;
-        //public string RepairPc
-        //{
-        //    get { return repairPc; }
-        //    set { repairPc = value; OnPropertyChanged(); }
-        //}
+        private string repairPc;
+        public string RepairPc
+        {
+            get { return repairPc; }
+            set { repairPc = value; OnPropertyChanged(); }
+        }
 
-        //private string reveRate;
-        //public string ReveRate
-        //{
-        //    get { return reveRate; }
-        //    set { reveRate = value; OnPropertyChanged(); }
-        //}
+        private string reveRate;
+        public string ReveRate
+        {
+            get { return reveRate; }
+            set { reveRate = value; OnPropertyChanged(); }
+        }
 
-        //private string expeRate;
-        //public string ExpeRate
-        //{
-        //    get { return expeRate; }
-        //    set { expeRate = value; OnPropertyChanged(); }
-        //}
+        private string expeRate;
+        public string ExpeRate
+        {
+            get { return expeRate; }
+            set { expeRate = value; OnPropertyChanged(); }
+        }
 
 
         private int _LabelMaxValue;
@@ -211,62 +211,62 @@ namespace HotelManagement.ViewModel.AdminVM.StatisticalManagementVM
         }
 
 
-        //public void CalculateTrueIncome(List<double> l1, List<double> l2)
-        //{
+        public void CalculateTrueIncome(List<double> l1, List<double> l2)
+        {
 
-        //    float totalin = 0, totalout = 0;
+            float totalin = 0, totalout = 0;
 
-        //    foreach (float item in l1)
-        //        totalin += item;
-        //    foreach (float item in l2)
-        //        totalout += item;
+            foreach (float item in l1)
+                totalin += item;
+            foreach (float item in l2)
+                totalout += item;
 
-        //    float trueincome = totalin - totalout;
-        //    FindMaxPercentage(totalin, totalout);
+            float trueincome = totalin - totalout;
+            FindMaxPercentage(totalin, totalout);
 
 
-        //    TrueIncome = Helper.FormatVNMoney(trueincome);
-        //    TotalIn = Helper.FormatVNMoney(totalin);
-        //    TotalOut = Helper.FormatVNMoney(totalout);
-        //}
+            TrueIncome = Helper.FormatVNMoney(trueincome);
+            TotalIn = Helper.FormatVNMoney(totalin);
+            TotalOut = Helper.FormatVNMoney(totalout);
+        }
 
-        //public void FindMaxPercentage(float _in, float _out)
-        //{
-        //    if (_in != 0 && _out != 0)
-        //    {
-        //        if (_in >= _out)
-        //        {
-        //            TotalInPc = 100;
-        //            TotalOutPc = _out / _in * 100;
-        //        }
-        //        else
-        //        {
-        //            TotalOutPc = 100;
-        //            TotalInPc = _in / _out * 100;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (_in == 0 && _out == 0)
-        //        {
-        //            TotalInPc = 10;
-        //            TotalOutPc = 10;
-        //            return;
-        //        }
-        //        if (_in == 0)
-        //        {
-        //            TotalInPc = 10;
-        //            TotalOutPc = 90;
-        //            return;
-        //        }
-        //        if (_out == 0)
-        //        {
-        //            TotalInPc = 90;
-        //            TotalOutPc = 10;
-        //            return;
-        //        }
+        public void FindMaxPercentage(float _in, float _out)
+        {
+            if (_in != 0 && _out != 0)
+            {
+                if (_in >= _out)
+                {
+                    TotalInPc = 100;
+                    TotalOutPc = _out / _in * 100;
+                }
+                else
+                {
+                    TotalOutPc = 100;
+                    TotalInPc = _in / _out * 100;
+                }
+            }
+            else
+            {
+                if (_in == 0 && _out == 0)
+                {
+                    TotalInPc = 10;
+                    TotalOutPc = 10;
+                    return;
+                }
+                if (_in == 0)
+                {
+                    TotalInPc = 10;
+                    TotalOutPc = 90;
+                    return;
+                }
+                if (_out == 0)
+                {
+                    TotalInPc = 90;
+                    TotalOutPc = 10;
+                    return;
+                }
 
-        //    }
+            }
 
         }
         public void Calculate_RevExpPercentage(double a1, double a2, double a3, double a4, double a5)
@@ -333,17 +333,17 @@ namespace HotelManagement.ViewModel.AdminVM.StatisticalManagementVM
                 ReveRate = MonthRateStr;
                 ExpeRate = MonthExpenseRateStr;
 
-        //        dailyRevenue.Insert(0, 0);
-        //        dailyExpense.Insert(0, 0);
+                dailyRevenue.Insert(0, 0);
+                dailyExpense.Insert(0, 0);
 
-        //        CalculateTrueIncome(dailyRevenue, dailyExpense);
-        //        Calculate_RevExpPercentage(MonthRentalReve, MonthServiceReve, MonthServiceExpense, MonthRepairCost, FurnitureExpense);
+                CalculateTrueIncome(dailyRevenue, dailyExpense);
+                Calculate_RevExpPercentage(MonthRentalReve, MonthServiceReve, MonthServiceExpense, MonthRepairCost, FurnitureExpense);
 
-        //        for (int i = 1; i <= dailyRevenue.Count - 1; i++)
-        //        {
-        //            dailyRevenue[i] /= 1000000;
-        //            dailyExpense[i] /= 1000000;
-        //        }
+                for (int i = 1; i <= dailyRevenue.Count - 1; i++)
+                {
+                    dailyRevenue[i] /= 1000000;
+                    dailyExpense[i] /= 1000000;
+                }
 
                 InComeData = new SeriesCollection
                     {
@@ -399,10 +399,10 @@ namespace HotelManagement.ViewModel.AdminVM.StatisticalManagementVM
                         ws.Cells[9, 9] = "Tiền thuê phòng:  " + RentalReve + "\t  chiếm " + RentalPc;
                         ws.Cells[10, 9] = "Tiền dịch vụ:  " + ServiceReve + "\t  chiếm " + ServicePc;
 
-        //                ws.Cells[12, 8] = "Chi tiết tiền chi: ";
-        //                ws.Cells[13, 9] = "Tiền nhập sản phẩm:  " + ServiceExpe + "\t  chiếm " + ServiceExPc;
-        //                ws.Cells[14, 9] = "Tiền nhập kho tiện nghi:  " + FurnitureExpe + "\t  chiếm " + FurniturePc;
-        //                ws.Cells[15, 9] = "Tiền sửa chữa:  " + RepairExpe + "\t  chiếm " + RepairPc;
+                        ws.Cells[12, 8] = "Chi tiết tiền chi: ";
+                        ws.Cells[13, 9] = "Tiền nhập sản phẩm:  " + ServiceExpe + "\t  chiếm " + ServiceExPc;
+                        ws.Cells[14, 9] = "Tiền nhập kho tiện nghi:  " + FurnitureExpe + "\t  chiếm " + FurniturePc;
+                        ws.Cells[15, 9] = "Tiền sửa chữa:  " + RepairExpe + "\t  chiếm " + RepairPc;
 
 
                         ws.SaveAs(box.FileName);
@@ -410,14 +410,14 @@ namespace HotelManagement.ViewModel.AdminVM.StatisticalManagementVM
                         app.Quit();
 
 
-        //            });
-        //        }
-        //        else
-        //        {
-        //            IsExport = false;
-        //        }
-        //    }
-        //}
+                    });
+                }
+                else
+                {
+                    IsExport = false;
+                }
+            }
+        }
 
         private int DayOfMonth(int year, int month)
         {

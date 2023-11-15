@@ -21,85 +21,85 @@ using ComboBox = System.Windows.Controls.ComboBox;
 
 namespace HotelManagement.ViewModel.AdminVM.TroubleManagementVM
 {
-    public class TroubleManagementVM:BaseVM
+    public class TroubleManagementVM : BaseVM
     {
-        //private ObservableCollection<TroubleDTO> _troubleList;
-        //public ObservableCollection<TroubleDTO> TroubleList
-        //{
-        //    get { return _troubleList; }
-        //    set { _troubleList = value; OnPropertyChanged(); }
-        //}
-        //private TroubleDTO _selectedItem;
-        //public TroubleDTO SelectedItem
-        //{
-        //    get { return _selectedItem; }
-        //    set { _selectedItem = value; OnPropertyChanged(); }
-        //}
-        //private bool _isSaving;
-        //public bool IsSaving
-        //{
-        //    get { return _isSaving; }
-        //    set { _isSaving = value; }
-        //}
-        //private string _troubleId;
-        //public string TroubleId
-        //{
-        //    get { return _troubleId; }
-        //    set { _troubleId = value; OnPropertyChanged(); }
-        //}
-               
-        //private ComboBoxItem _status;
-        //public ComboBoxItem Status
-        //{
-        //    get { return _status; }
-        //    set { _status = value; OnPropertyChanged(); }
-        //}
-        //private DateTime _fixedDate;
-        //public DateTime FixedDate
-        //{
-        //    get { return _fixedDate; }
-        //    set { _fixedDate = value; OnPropertyChanged(); }
-        //}
-        //private DateTime _finishDate;
-        //public DateTime FinishDate
-        //{
-        //    get { return _finishDate; }
-        //    set { _finishDate = value; OnPropertyChanged(); }
-        //}
-        //private double _price;
-        //public double Price
-        //{
-        //    get { return _price; }
-        //    set { _price = value; OnPropertyChanged(); }
-        //}
-        //private double _predictPrice;
-        //public double PredictPrice
-        //{
-        //    get { return _predictPrice; }
-        //    set { _predictPrice = value; OnPropertyChanged(); }
-        //}
-        //private ComboBoxItem _selectedfilteritem;
-        //public ComboBoxItem SelectedFilteritem
-        //{
-        //    get { return _selectedfilteritem; }
-        //    set { _selectedfilteritem = value; OnPropertyChanged(); }
-        //}
-        //public ICommand FirstLoadCM { get; set; }
-        //public ICommand FilterListTroubleCM { get; set; }
-        //public ICommand OpenSolveTroubleWindowCM { get; set; }
-        //public ICommand UpdateTroubleCM { get; set; }
-        //public ICommand ChangeViewCM { get; set; }
-        //public ICommand ChangeView1CM { get; set; }
-        //public ICommand ChangeView3CM { get; set; }
-        //public TroubleManagementVM()
-        //{
-        //    FirstLoadCM = new RelayCommand<System.Windows.Controls.Page>((p) => { return true; }, async (p) =>
-        //    {
-        //        TroubleList = new ObservableCollection<TroubleDTO>(await TroubleService.Ins.GetAllTrouble());
-        //    });
-        //    FilterListTroubleCM = new RelayCommand<ComboBox>(p => true, async p =>
-        //    {
-        //        ObservableCollection<TroubleDTO> GetAllTrouble = new ObservableCollection<TroubleDTO>(await TroubleService.Ins.GetAllTrouble());
+        private ObservableCollection<TroubleDTO> _troubleList;
+        public ObservableCollection<TroubleDTO> TroubleList
+        {
+            get { return _troubleList; }
+            set { _troubleList = value; OnPropertyChanged(); }
+        }
+        private TroubleDTO _selectedItem;
+        public TroubleDTO SelectedItem
+        {
+            get { return _selectedItem; }
+            set { _selectedItem = value; OnPropertyChanged(); }
+        }
+        private bool _isSaving;
+        public bool IsSaving
+        {
+            get { return _isSaving; }
+            set { _isSaving = value; }
+        }
+        private string _troubleId;
+        public string TroubleId
+        {
+            get { return _troubleId; }
+            set { _troubleId = value; OnPropertyChanged(); }
+        }
+
+        private ComboBoxItem _status;
+        public ComboBoxItem Status
+        {
+            get { return _status; }
+            set { _status = value; OnPropertyChanged(); }
+        }
+        private DateTime _fixedDate;
+        public DateTime FixedDate
+        {
+            get { return _fixedDate; }
+            set { _fixedDate = value; OnPropertyChanged(); }
+        }
+        private DateTime _finishDate;
+        public DateTime FinishDate
+        {
+            get { return _finishDate; }
+            set { _finishDate = value; OnPropertyChanged(); }
+        }
+        private double _price;
+        public double Price
+        {
+            get { return _price; }
+            set { _price = value; OnPropertyChanged(); }
+        }
+        private double _predictPrice;
+        public double PredictPrice
+        {
+            get { return _predictPrice; }
+            set { _predictPrice = value; OnPropertyChanged(); }
+        }
+        private ComboBoxItem _selectedfilteritem;
+        public ComboBoxItem SelectedFilteritem
+        {
+            get { return _selectedfilteritem; }
+            set { _selectedfilteritem = value; OnPropertyChanged(); }
+        }
+        public ICommand FirstLoadCM { get; set; }
+        public ICommand FilterListTroubleCM { get; set; }
+        public ICommand OpenSolveTroubleWindowCM { get; set; }
+        public ICommand UpdateTroubleCM { get; set; }
+        public ICommand ChangeViewCM { get; set; }
+        public ICommand ChangeView1CM { get; set; }
+        public ICommand ChangeView3CM { get; set; }
+        public TroubleManagementVM()
+        {
+            FirstLoadCM = new RelayCommand<System.Windows.Controls.Page>((p) => { return true; }, async (p) =>
+            {
+                TroubleList = new ObservableCollection<TroubleDTO>(await TroubleService.Ins.GetAllTrouble());
+            });
+            FilterListTroubleCM = new RelayCommand<ComboBox>(p => true, async p =>
+            {
+                ObservableCollection<TroubleDTO> GetAllTrouble = new ObservableCollection<TroubleDTO>(await TroubleService.Ins.GetAllTrouble());
 
                 if (SelectedFilteritem.Tag.ToString() == "Toàn bộ")
                 {
@@ -160,7 +160,7 @@ namespace HotelManagement.ViewModel.AdminVM.TroubleManagementVM
 
                 }
             });
-            
+
             ChangeView3CM = new RelayCommand<EditTrouble_InprocessWindow>((p) => { return true; }, async (p) =>
             {
                 Grid gridfixdate = (Grid)p.gridfixdate;
@@ -188,11 +188,11 @@ namespace HotelManagement.ViewModel.AdminVM.TroubleManagementVM
                 }
             });
 
-        //}
+        }
 
         public async Task UpdateTrouble(Window p)
         {
-             if (Status.Tag.ToString() == STATUS.IN_PROGRESS)
+            if (Status.Tag.ToString() == STATUS.IN_PROGRESS)
             {
                 if (SelectedItem.StartDate.Value.Date > FixedDate)
                 {
@@ -277,7 +277,7 @@ namespace HotelManagement.ViewModel.AdminVM.TroubleManagementVM
             FinishDate = DateTime.Now;
             Price = 0;
             TroubleId = SelectedItem.TroubleId;
-            if (SelectedItem.Status == STATUS.WAITING )
+            if (SelectedItem.Status == STATUS.WAITING)
             {
                 EditTroubleWindow wd = new EditTroubleWindow();
                 wd.ShowDialog();
@@ -290,42 +290,42 @@ namespace HotelManagement.ViewModel.AdminVM.TroubleManagementVM
             else if (SelectedItem.Status == STATUS.DONE)
             {
                 TroubleInformationWindow wd = new TroubleInformationWindow();
-                
+
                 wd.ShowDialog();
             }
 
-        //}
+        }
 
-        //private async void ReloadAsync()
-        //{
-        //    TroubleList = new ObservableCollection<TroubleDTO>(await TroubleService.Ins.GetAllTrouble());
-        //}
+        private async void ReloadAsync()
+        {
+            TroubleList = new ObservableCollection<TroubleDTO>(await TroubleService.Ins.GetAllTrouble());
+        }
 
 
-        //private void LoadTroubleList(Operation oper, TroubleDTO trouble = null)
-        //{
-        //    switch (oper)
-        //    {
-        //        case Operation.CREATE:
-        //            TroubleList.Add(trouble);
-        //            break;
-        //        case Operation.UPDATE:
-        //            var updtrouble = TroubleList.FirstOrDefault(s => s.StaffId == trouble.StaffId);
-        //            TroubleList[TroubleList.IndexOf(updtrouble)] = trouble;
-        //            break;
-        //        case Operation.DELETE:
-        //            for (int i = 0; i < TroubleList.Count(); i++)
-        //            {
-        //                if (TroubleList[i].TroubleId == SelectedItem.TroubleId)
-        //                {
-        //                    TroubleList.Remove(TroubleList[i]);
-        //                    break;
-        //                }
-        //            }
-        //            break;
-        //        default:
-        //            break;
-        //    }
-        //}
+        private void LoadTroubleList(Operation oper, TroubleDTO trouble = null)
+        {
+            switch (oper)
+            {
+                case Operation.CREATE:
+                    TroubleList.Add(trouble);
+                    break;
+                case Operation.UPDATE:
+                    var updtrouble = TroubleList.FirstOrDefault(s => s.StaffId == trouble.StaffId);
+                    TroubleList[TroubleList.IndexOf(updtrouble)] = trouble;
+                    break;
+                case Operation.DELETE:
+                    for (int i = 0; i < TroubleList.Count(); i++)
+                    {
+                        if (TroubleList[i].TroubleId == SelectedItem.TroubleId)
+                        {
+                            TroubleList.Remove(TroubleList[i]);
+                            break;
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

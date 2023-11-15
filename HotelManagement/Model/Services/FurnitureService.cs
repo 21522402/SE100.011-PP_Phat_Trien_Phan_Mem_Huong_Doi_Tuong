@@ -37,7 +37,7 @@ namespace HotelManagement.Model.Services
             private set { _ins = value; }
         }
 
-        public async Task<(bool , string ,List<FurnitureDTO>)> GetAllFurniture()
+        public async Task<(bool, string, List<FurnitureDTO>)> GetAllFurniture()
         {
             try
             {
@@ -60,11 +60,11 @@ namespace HotelManagement.Model.Services
                     listFurniture[i].SetAvatar();
                 return (true, "", listFurniture);
             }
-            catch(EntityException e)
+            catch (EntityException e)
             {
                 return (false, "Mất kết nối cơ sở dữ liệu", null);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return (false, "Lỗi hệ thống", null);
             }
@@ -82,18 +82,18 @@ namespace HotelManagement.Model.Services
             }
         }
 
-        //public async Task<(bool, string)> SaveEditFurniture(FurnitureDTO furnitureSelected)
-        //{
-        //    try
-        //    {
-        //        using (HotelManagementEntities db = new HotelManagementEntities())
-        //        {
-        //            Furniture CheckFurnitureName = await db.Furnitures.FirstOrDefaultAsync(item => item.FurnitureName.Equals(furnitureSelected.FurnitureName) && item.FurnitureId != furnitureSelected.FurnitureID);
-        //            if (CheckFurnitureName != null)
-        //                return (false, "Đã có tiện nghi trong cơ sở  dữ liệu");
+        public async Task<(bool, string)> SaveEditFurniture(FurnitureDTO furnitureSelected)
+        {
+            try
+            {
+                using (HotelManagementEntities db = new HotelManagementEntities())
+                {
+                    Furniture CheckFurnitureName = await db.Furnitures.FirstOrDefaultAsync(item => item.FurnitureName.Equals(furnitureSelected.FurnitureName) && item.FurnitureId != furnitureSelected.FurnitureID);
+                    if (CheckFurnitureName != null)
+                        return (false, "Đã có tiện nghi trong cơ sở  dữ liệu");
 
                     Furniture furniture = await db.Furnitures.FirstOrDefaultAsync(item => item.FurnitureId == furnitureSelected.FurnitureID);
-                    if(furniture == null) 
+                    if (furniture == null)
                     {
                         return (false, "Không tìm thấy tiện nghi");
                     }
@@ -106,11 +106,11 @@ namespace HotelManagement.Model.Services
                     return (true, "Cập nhật thành công");
                 }
             }
-            catch(EntityException ex) 
+            catch (EntityException ex)
             {
                 return (false, "Mất kết nối cơ sở dữ liệu");
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return (false, "Lỗi hệ thống");
             }
@@ -122,7 +122,7 @@ namespace HotelManagement.Model.Services
                 using (HotelManagementEntities db = new HotelManagementEntities())
                 {
                     Furniture furniture = await db.Furnitures.FirstOrDefaultAsync(item => item.FurnitureName == furnitureSelected.FurnitureName);
-                    
+
                     if (furniture != null)
                     {
                         return (false, "Đã có tiện nghi trong cơ sở dữ liệu", "-1");
@@ -181,7 +181,7 @@ namespace HotelManagement.Model.Services
                     return (true, "Xóa tiện nghi thành công");
                 }
             }
-            catch(EntityException e)
+            catch (EntityException e)
             {
                 return (false, "Mất kết nối cơ sở dữ liệu");
             }
@@ -204,7 +204,7 @@ namespace HotelManagement.Model.Services
                     string nextFurnitureReceiptId = getFurnitureReceiptId(db.FurnitureReceipts.ToList());
                     string nextFurnitureReceiptDetailId = getID(getMaxFurnitureReceiptId(db.FurnitureReceiptDetails.ToList()) + 1);
 
-        //            string id = "";
+                    string id = "";
 
                     if (AdminVM.CurrentStaff != null)
                     {
@@ -335,24 +335,24 @@ namespace HotelManagement.Model.Services
             if (id < 1000)
                 return "0" + id;
 
-        //    return id.ToString();
-        //}
-        //public BitmapImage LoadAvatarImage(byte[] data)
-        //{
-        //    MemoryStream stream = new MemoryStream();
-        //    stream.Write(data, 0, data.Length);
-        //    stream.Position = 0;
+            return id.ToString();
+        }
+        public BitmapImage LoadAvatarImage(byte[] data)
+        {
+            MemoryStream stream = new MemoryStream();
+            stream.Write(data, 0, data.Length);
+            stream.Position = 0;
 
-        //    System.Drawing.Image img = System.Drawing.Image.FromStream(stream);
+            System.Drawing.Image img = System.Drawing.Image.FromStream(stream);
 
-        //    BitmapImage bitmapImage = new BitmapImage();
-        //    bitmapImage.BeginInit();
+            BitmapImage bitmapImage = new BitmapImage();
+            bitmapImage.BeginInit();
 
-        //    MemoryStream ms = new MemoryStream();
-        //    img.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
-        //    ms.Seek(0, SeekOrigin.Begin);
-        //    bitmapImage.StreamSource = ms;
-        //    bitmapImage.EndInit();
+            MemoryStream ms = new MemoryStream();
+            img.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+            ms.Seek(0, SeekOrigin.Begin);
+            bitmapImage.StreamSource = ms;
+            bitmapImage.EndInit();
 
             return bitmapImage;
         }

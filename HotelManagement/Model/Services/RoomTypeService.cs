@@ -72,8 +72,8 @@ namespace HotelManagement.Model.Services
                             RoomTypeId = rt.RoomTypeId,
                             RoomTypeName = rt.RoomTypeName,
                             RoomTypePrice = (double)rt.Price,
-                            MaxNumberGuest = rt.MaxNumberGuest,
-                            NumberGuestForUnitPrice = rt.NumberGuestForUnitPrice,
+                            MaxNumberGuest = (int)rt.MaxNumberGuest,
+                            NumberGuestForUnitPrice = (int)rt.NumberGuestForUnitPrice,
                         }
                     ).ToListAsync();
                     RoomTypeDTOs.Reverse();
@@ -177,28 +177,7 @@ namespace HotelManagement.Model.Services
                 using (var context = new HotelManagementEntities())
                 {
                     RoomType roomType = context.RoomTypes.Find(updatedRoomType.RoomTypeId);
-        //public async Task<string> GetRoomTypeID(string rtn)
-        //{
-        //    try
-        //    {
-        //        using (HotelManagementEntities db = new HotelManagementEntities())
-        //        {
-        //            var item = await db.RoomTypes.Where(x => x.RoomTypeName == rtn).FirstOrDefaultAsync();
-        //            return item.RoomTypeId;
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw e;
-        //    }
-        //}
-        //public async Task<(bool, string)> UpdateRoomType(RoomTypeDTO updatedRoomType)
-        //{
-        //    try
-        //    {
-        //        using (var context = new HotelManagementEntities())
-        //        {
-        //            RoomType roomType = context.RoomTypes.Find(updatedRoomType.RoomTypeId);
+        
 
                     if (roomType is null)
                     {

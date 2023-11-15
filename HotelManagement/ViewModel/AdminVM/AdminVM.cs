@@ -182,7 +182,7 @@ namespace HotelManagement.ViewModel.AdminVM
             });
             FirstLoadCM = new RelayCommand<Rectangle>((p) => { return true; }, (p) =>
             {
-                CurrentView = new RoomTypeFurnitureManagementVM.RoomTypeFurnitureManagementVM();
+                CurrentView = new StatisticalManagementVM.StatisticalManagementVM();
                 StaffName = CurrentStaff.StaffName;
                 NameTypeMenuBind = "TỔNG QUAN";
                 SetAvatarName(StaffName);

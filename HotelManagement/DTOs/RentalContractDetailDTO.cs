@@ -29,13 +29,13 @@ namespace HotelManagement.DTOs
             }
         }
 
-        private string _CustomerId;
-        public string CustomerId
+        private string _CCCD;
+        public string CCCD
         {
-            get { return _CustomerId; }
+            get { return _CCCD; }
             set
             {
-                this._CustomerId = value;
+                this._CCCD = value;
                 this.NotifyPropertyChanged("CCCD");
             }
         }

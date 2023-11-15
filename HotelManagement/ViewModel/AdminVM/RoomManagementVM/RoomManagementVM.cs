@@ -22,41 +22,41 @@ namespace HotelManagement.ViewModel.AdminVM.RoomManagementVM
 {
     public partial class RoomManagementVM : BaseVM
     {
-        //public Frame mainFrame { get; set; }
-        //public Card ButtonView { get; set; }
-        //private string _RoomId;
-        //public string RoomId
-        //{
-        //    get { return _RoomId; }
-        //    set { _RoomId = value; OnPropertyChanged(); }
-        //}
-        //private string _roomTypeID;
-        //public string RoomTypeID
-        //{
-        //    get { return _roomTypeID; }
-        //    set { _roomTypeID = value; OnPropertyChanged(); }
-        //}
+        public Frame mainFrame { get; set; }
+        public Card ButtonView { get; set; }
+        private string _RoomId;
+        public string RoomId
+        {
+            get { return _RoomId; }
+            set { _RoomId = value; OnPropertyChanged(); }
+        }
+        private string _roomTypeID;
+        public string RoomTypeID
+        {
+            get { return _roomTypeID; }
+            set { _roomTypeID = value; OnPropertyChanged(); }
+        }
 
-        //private int _roomNumber;
-        //public int RoomNumber
-        //{
-        //    get { return _roomNumber; }
-        //    set { _roomNumber = value; OnPropertyChanged(); }
-        //}
+        private int _roomNumber;
+        public int RoomNumber
+        {
+            get { return _roomNumber; }
+            set { _roomNumber = value; OnPropertyChanged(); }
+        }
 
-        //private string _roomNote;
-        //public string RoomNote
-        //{
-        //    get { return _roomNote; }
-        //    set { _roomNote = value; OnPropertyChanged(); }
-        //}
+        private string _roomNote;
+        public string RoomNote
+        {
+            get { return _roomNote; }
+            set { _roomNote = value; OnPropertyChanged(); }
+        }
 
-        //private string _RoomStatus;
-        //public string RoomStatus
-        //{
-        //    get { return _RoomStatus; }
-        //    set { _RoomStatus = value; OnPropertyChanged(); }
-        //}
+        private string _RoomStatus;
+        public string RoomStatus
+        {
+            get { return _RoomStatus; }
+            set { _RoomStatus = value; OnPropertyChanged(); }
+        }
 
         private string _cbRoomType;
         public string CbRoomType
@@ -66,26 +66,26 @@ namespace HotelManagement.ViewModel.AdminVM.RoomManagementVM
         }
 
 
-        //private RoomDTO _selectedRoomItem;
-        //public RoomDTO SelectedRoomItem
-        //{
-        //    get { return _selectedRoomItem; }
-        //    set { _selectedRoomItem = value; OnPropertyChanged(); }
-        //}
+        private RoomDTO _selectedRoomItem;
+        public RoomDTO SelectedRoomItem
+        {
+            get { return _selectedRoomItem; }
+            set { _selectedRoomItem = value; OnPropertyChanged(); }
+        }
 
-        //private bool isloaddingRoom;
-        //public bool IsLoaddingRoom
-        //{
-        //    get { return isloaddingRoom; }
-        //    set { isloaddingRoom = value; OnPropertyChanged(); }
-        //}
+        private bool isloaddingRoom;
+        public bool IsLoaddingRoom
+        {
+            get { return isloaddingRoom; }
+            set { isloaddingRoom = value; OnPropertyChanged(); }
+        }
 
-        //private bool isSavingRoom;
-        //public bool IsSavingRoom
-        //{
-        //    get { return isSavingRoom; }
-        //    set { isSavingRoom = value; OnPropertyChanged(); }
-        //}
+        private bool isSavingRoom;
+        public bool IsSavingRoom
+        {
+            get { return isSavingRoom; }
+            set { isSavingRoom = value; OnPropertyChanged(); }
+        }
 
         private ObservableCollection<RoomDTO> _roomList;
         public ObservableCollection<RoomDTO> RoomList
@@ -134,38 +134,38 @@ namespace HotelManagement.ViewModel.AdminVM.RoomManagementVM
                 p.SetValue(ElevationAssist.ElevationProperty, Elevation.Dp3);
             });
 
-        //    LoadRoomTypeCM = new RelayCommand<Card>((p) => { return true; }, (p) =>
-        //    {
-        //        ChangeView(p);
-        //        mainFrame.Content = new View.Admin.RoomTypeManagement.RoomTypeManagementPage();
-        //    });
+            LoadRoomTypeCM = new RelayCommand<Card>((p) => { return true; }, (p) =>
+            {
+                ChangeView(p);
+                mainFrame.Content = new View.Admin.RoomTypeManagement.RoomTypeManagementPage();
+            });
 
-        //    LoadRoomCM = new RelayCommand<Card>((p) => { return true; }, (p) =>
-        //    {
-        //        ChangeView(p);
-        //        mainFrame.Content = new RoomManagementPage();
-        //    });
+            LoadRoomCM = new RelayCommand<Card>((p) => { return true; }, (p) =>
+            {
+                ChangeView(p);
+                mainFrame.Content = new RoomManagementPage();
+            });
 
-        //    FirstLoadRoomCM = new RelayCommand<System.Windows.Controls.Page>((p) => { return true; }, async (p) =>
-        //    {
-        //        RoomList = new ObservableCollection<RoomDTO>();
-        //        try
-        //        {
-        //            IsLoaddingRoom = true;
-        //            RoomList = new ObservableCollection<RoomDTO>(await Task.Run(() => RoomService.Ins.GetAllRoom()));
-        //            IsLoaddingRoom = false;
-        //        }
-        //        catch (System.Data.Entity.Core.EntityException e)
-        //        {
-        //            Console.WriteLine(e);
-        //            CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            Console.WriteLine(e);
-        //            CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
-        //        }
-        //    });
+            FirstLoadRoomCM = new RelayCommand<System.Windows.Controls.Page>((p) => { return true; }, async (p) =>
+            {
+                RoomList = new ObservableCollection<RoomDTO>();
+                try
+                {
+                    IsLoaddingRoom = true;
+                    RoomList = new ObservableCollection<RoomDTO>(await Task.Run(() => RoomService.Ins.GetAllRoom()));
+                    IsLoaddingRoom = false;
+                }
+                catch (System.Data.Entity.Core.EntityException e)
+                {
+                    Console.WriteLine(e);
+                    CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+                }
+            });
 
             LoadAddRoomCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
             {
@@ -204,52 +204,52 @@ namespace HotelManagement.ViewModel.AdminVM.RoomManagementVM
             LoadDeleteRoomCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
             {
 
-        //        string message = "Bạn có chắc muốn xoá phim này không? Dữ liệu không thể phục hồi sau khi xoá!";
-        //        CustomMessageBoxResult kq = CustomMessageBox.ShowOkCancel(message, "Cảnh báo", "Xác nhận", "Hủy", CustomMessageBoxImage.Warning);
+                string message = "Bạn có chắc muốn xoá phim này không? Dữ liệu không thể phục hồi sau khi xoá!";
+                CustomMessageBoxResult kq = CustomMessageBox.ShowOkCancel(message, "Cảnh báo", "Xác nhận", "Hủy", CustomMessageBoxImage.Warning);
 
-        //        if (kq == CustomMessageBoxResult.OK)
-        //        {
-        //            IsLoaddingRoom = true;
+                if (kq == CustomMessageBoxResult.OK)
+                {
+                    IsLoaddingRoom = true;
 
-        //            (bool successDeleteRoom, string messageFromDelRoom) = await RoomService.Ins.DeleteRoom(SelectedRoomItem.RoomId);
+                    (bool successDeleteRoom, string messageFromDelRoom) = await RoomService.Ins.DeleteRoom(SelectedRoomItem.RoomId);
 
-        //            IsLoaddingRoom = false;
+                    IsLoaddingRoom = false;
 
-        //            if (successDeleteRoom)
-        //            {
-        //                LoadRoomListView(Operation.DELETE);
-        //                SelectedRoomItem = null;
-        //                CustomMessageBox.ShowOk(messageFromDelRoom, "Thông báo", "OK", CustomMessageBoxImage.Success);
-        //            }
-        //            else
-        //            {
-        //                CustomMessageBox.ShowOk(messageFromDelRoom, "Lỗi", "OK", CustomMessageBoxImage.Error);
-        //            }
-        //        }
-        //    });
-        //    UpdateRoomCM = new RelayCommand<System.Windows.Window>((p) => { if (IsSavingRoom) return false; return true; }, async (p) =>
-        //    {
-        //        IsSavingRoom = true;
-        //        await UpdateRoomFunc(p);
-        //        IsSavingRoom = false;
-        //    });
-        //    SaveRoomCM = new RelayCommand<System.Windows.Window>((p) => { if (IsSavingRoom) return false; return true; }, async (p) =>
-        //    {
-        //        IsSavingRoom = true;
+                    if (successDeleteRoom)
+                    {
+                        LoadRoomListView(Operation.DELETE);
+                        SelectedRoomItem = null;
+                        CustomMessageBox.ShowOk(messageFromDelRoom, "Thông báo", "OK", CustomMessageBoxImage.Success);
+                    }
+                    else
+                    {
+                        CustomMessageBox.ShowOk(messageFromDelRoom, "Lỗi", "OK", CustomMessageBoxImage.Error);
+                    }
+                }
+            });
+            UpdateRoomCM = new RelayCommand<System.Windows.Window>((p) => { if (IsSavingRoom) return false; return true; }, async (p) =>
+            {
+                IsSavingRoom = true;
+                await UpdateRoomFunc(p);
+                IsSavingRoom = false;
+            });
+            SaveRoomCM = new RelayCommand<System.Windows.Window>((p) => { if (IsSavingRoom) return false; return true; }, async (p) =>
+            {
+                IsSavingRoom = true;
 
-        //        await SaveRoomFunc(p);
+                await SaveRoomFunc(p);
 
-        //        IsSavingRoom = false;
-        //    });
+                IsSavingRoom = false;
+            });
 
-        //    CloseRoomCM = new RelayCommand<System.Windows.Window>((p) => { return true; }, (p) =>
-        //    {
-        //        SelectedRoomItem = null;
-        //        p.Close();
-        //    });
+            CloseRoomCM = new RelayCommand<System.Windows.Window>((p) => { return true; }, (p) =>
+            {
+                SelectedRoomItem = null;
+                p.Close();
+            });
 
 
-           
+
         }
 
 
@@ -276,31 +276,31 @@ namespace HotelManagement.ViewModel.AdminVM.RoomManagementVM
         public void LoadRoomListView(Operation oper = Operation.READ, RoomDTO r = null)
         {
 
-        //    switch (oper)
-        //    {
-        //        case Operation.CREATE:
-        //            RoomList.Add(r);
-        //            break;
-        //        case Operation.UPDATE:
-        //            var roomFound = RoomList.FirstOrDefault(x => x.RoomId == r.RoomId);
-        //            RoomList[RoomList.IndexOf(roomFound)] = r;
-        //            break;
-        //        case Operation.DELETE:
-        //            for (int i = 0; i < RoomList.Count; i++)
-        //            {
-        //                if (RoomList[i].RoomTypeId == SelectedRoomItem?.RoomTypeId)
-        //                {
-        //                    RoomList.Remove(RoomList[i]);
-        //                    break;
-        //                }
-        //            }
-        //            break;
-        //        default:
-        //            break;
-        //    }
-        //}
-        //public void RenewWindowData()
-        //{
+            switch (oper)
+            {
+                case Operation.CREATE:
+                    RoomList.Add(r);
+                    break;
+                case Operation.UPDATE:
+                    var roomFound = RoomList.FirstOrDefault(x => x.RoomId == r.RoomId);
+                    RoomList[RoomList.IndexOf(roomFound)] = r;
+                    break;
+                case Operation.DELETE:
+                    for (int i = 0; i < RoomList.Count; i++)
+                    {
+                        if (RoomList[i].RoomTypeId == SelectedRoomItem?.RoomTypeId)
+                        {
+                            RoomList.Remove(RoomList[i]);
+                            break;
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+        public void RenewWindowData()
+        {
 
             RoomId = null;
             RoomNumber = 0;

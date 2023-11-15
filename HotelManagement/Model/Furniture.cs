@@ -23,6 +23,7 @@ namespace HotelManagement.Model
     
         public string FurnitureId { get; set; }
         public string FurnitureName { get; set; }
+        public string FurnitureType { get; set; }
         public byte[] FurnitureAvatar { get; set; }
         public Nullable<int> QuantityOfStorage { get; set; }
     

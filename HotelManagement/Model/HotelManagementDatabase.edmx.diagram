@@ -4,9 +4,9 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="03ad0837d9f84084b917c8c080c04a54" Name="Diagram1">
+      <Diagram DiagramId="bc99b5c84fa045b183f75ad2953e66cb" Name="Diagram1">
         <EntityTypeShape EntityType="HotelManagement_OOPModel.Bill" Width="1.5" PointX="6" PointY="13.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HotelManagement_OOPModel.Furniture" Width="1.5" PointX="3" PointY="19.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="HotelManagement_OOPModel.Furniture" Width="1.5" PointX="3" PointY="19.375" IsExpanded="true" />
         <EntityTypeShape EntityType="HotelManagement_OOPModel.FurnitureReceipt" Width="1.5" PointX="3" PointY="13.5" IsExpanded="true" />
         <EntityTypeShape EntityType="HotelManagement_OOPModel.FurnitureReceiptDetail" Width="1.5" PointX="5.25" PointY="10.375" IsExpanded="true" />
         <EntityTypeShape EntityType="HotelManagement_OOPModel.Parameter" Width="1.5" PointX="8.75" PointY="4.625" IsExpanded="true" />

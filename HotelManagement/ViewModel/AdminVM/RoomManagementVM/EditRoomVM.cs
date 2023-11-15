@@ -17,7 +17,7 @@ namespace HotelManagement.ViewModel.AdminVM.RoomManagementVM
     public partial class RoomManagementVM : BaseVM
     {
 
-        //public ICommand LoadEditRoomCM { get; set; }
+        public ICommand LoadEditRoomCM { get; set; }
 
         public async void LoadEditRoom(EditRoom w1)
         {
@@ -41,15 +41,7 @@ namespace HotelManagement.ViewModel.AdminVM.RoomManagementVM
             RoomNumber = (int)SelectedRoomItem.RoomNumber;
             RoomNote = SelectedRoomItem.Note;
             RoomStatus = SelectedRoomItem.RoomStatus;
-            if (SelectedRoomItem.RoomTypeId == "LP001")
-            {
-                w1.loaiphong.SelectedIndex = 0;
-            }
-            else if (SelectedRoomItem.RoomTypeId == "LP002")
-            {
-                w1.loaiphong.SelectedIndex = 1;
-            }
-            else w1.loaiphong.SelectedIndex = 2;
+            CbRoomType = SelectedRoomItem.RoomTypeName;
         }
 
         public async Task UpdateRoomFunc(System.Windows.Window p)
@@ -65,28 +57,28 @@ namespace HotelManagement.ViewModel.AdminVM.RoomManagementVM
                     Note = RoomNote,
                     RoomNumber = RoomNumber,
                     RoomTypeId = rti,
-                    RoomTypeName = CbRoomType.Tag.ToString(),
+                    RoomTypeName = CbRoomType,
                     RoomStatus = RoomStatus,
                 };
 
-        //        (bool successUpdateRoom, string messageFromUpdateRoom) = await RoomService.Ins.UpdateRoom(room);
+                (bool successUpdateRoom, string messageFromUpdateRoom) = await RoomService.Ins.UpdateRoom(room);
 
-        //        if (successUpdateRoom)
-        //        {
-        //            isSavingRoom = false;
-        //            CustomMessageBox.ShowOk(messageFromUpdateRoom, "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
-        //            LoadRoomListView(Operation.UPDATE, room);
-        //            p.Close();
-        //        }
-        //        else
-        //        {
-        //            CustomMessageBox.ShowOk(messageFromUpdateRoom, "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        CustomMessageBox.ShowOk("Vui lòng nhập đủ thông tin!", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
-        //    }
-        //}
+                if (successUpdateRoom)
+                {
+                    isSavingRoom = false;
+                    CustomMessageBox.ShowOk(messageFromUpdateRoom, "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
+                    LoadRoomListView(Operation.UPDATE, room);
+                    p.Close();
+                }
+                else
+                {
+                    CustomMessageBox.ShowOk(messageFromUpdateRoom, "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+                }
+            }
+            else
+            {
+                CustomMessageBox.ShowOk("Vui lòng nhập đủ thông tin!", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+            }
+        }
     }
 }

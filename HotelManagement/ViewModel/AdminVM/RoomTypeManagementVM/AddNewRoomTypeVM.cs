@@ -51,7 +51,7 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
                 CustomMessageBox.ShowOk(messageFromAddRoomType, "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
                 return;
             }
-          
+
         }
     }
 }

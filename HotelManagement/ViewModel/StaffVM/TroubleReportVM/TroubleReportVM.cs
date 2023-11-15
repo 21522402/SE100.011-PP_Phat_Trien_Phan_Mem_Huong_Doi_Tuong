@@ -20,61 +20,61 @@ namespace HotelManagement.ViewModel.StaffVM.TroubleReportVM
 {
     public partial class TroubleReportVM : BaseVM
     {
-        //private StaffDTO currentStaff;
-        //private ObservableCollection<TroubleDTO> _troubleList;
-        //public ObservableCollection<TroubleDTO> TroubleList
-        //{
-        //    get { return _troubleList; }
-        //    set { _troubleList = value; OnPropertyChanged(); }
-        //}
-        //private TroubleDTO _selectedItem;
-        //public TroubleDTO SelectedItem
-        //{
-        //    get { return _selectedItem; }
-        //    set { _selectedItem = value; OnPropertyChanged(); }
-        //}
-        //private bool _isSaving;
-        //public bool IsSaving
-        //{
-        //    get { return _isSaving; }
-        //    set { _isSaving = value; }
-        //}
-        //private string _troubleId;
-        //public string TroubleId
-        //{
-        //    get { return _troubleId; }
-        //    set { _troubleId = value; OnPropertyChanged(); }
-        //}
-        //private string _title;
-        //public string Title
-        //{
-        //    get { return _title; }
-        //    set { _title = value; OnPropertyChanged(); }
-        //}
-        //private string _desription;
-        //public string Desription
-        //{
-        //    get { return _desription; }
-        //    set { _desription = value; OnPropertyChanged(); }
-        //}
-        //private ComboBoxItem _reason;
-        //public ComboBoxItem Reason
-        //{
-        //    get { return _reason; }
-        //    set { _reason = value; OnPropertyChanged(); }
-        //}
-        //private ComboBoxItem _level;
-        //public ComboBoxItem Level
-        //{
-        //    get { return _level; }
-        //    set { _level = value; OnPropertyChanged(); }
-        //}
-        //private string _status;
-        //public string Status
-        //{
-        //    get { return _status; }
-        //    set { _status = value; OnPropertyChanged(); }
-        //}
+        private StaffDTO currentStaff;
+        private ObservableCollection<TroubleDTO> _troubleList;
+        public ObservableCollection<TroubleDTO> TroubleList
+        {
+            get { return _troubleList; }
+            set { _troubleList = value; OnPropertyChanged(); }
+        }
+        private TroubleDTO _selectedItem;
+        public TroubleDTO SelectedItem
+        {
+            get { return _selectedItem; }
+            set { _selectedItem = value; OnPropertyChanged(); }
+        }
+        private bool _isSaving;
+        public bool IsSaving
+        {
+            get { return _isSaving; }
+            set { _isSaving = value; }
+        }
+        private string _troubleId;
+        public string TroubleId
+        {
+            get { return _troubleId; }
+            set { _troubleId = value; OnPropertyChanged(); }
+        }
+        private string _title;
+        public string Title
+        {
+            get { return _title; }
+            set { _title = value; OnPropertyChanged(); }
+        }
+        private string _desription;
+        public string Desription
+        {
+            get { return _desription; }
+            set { _desription = value; OnPropertyChanged(); }
+        }
+        private ComboBoxItem _reason;
+        public ComboBoxItem Reason
+        {
+            get { return _reason; }
+            set { _reason = value; OnPropertyChanged(); }
+        }
+        private ComboBoxItem _level;
+        public ComboBoxItem Level
+        {
+            get { return _level; }
+            set { _level = value; OnPropertyChanged(); }
+        }
+        private string _status;
+        public string Status
+        {
+            get { return _status; }
+            set { _status = value; OnPropertyChanged(); }
+        }
 
         private DateTime _startDate;
         public DateTime StartDate
@@ -197,19 +197,19 @@ namespace HotelManagement.ViewModel.StaffVM.TroubleReportVM
             });
         }
 
-        //private async void ReloadAsync()
-        //{
-        //    ObservableCollection<TroubleDTO> GetAllTrouble = new ObservableCollection<TroubleDTO>(await TroubleService.Ins.GetAllTrouble());
+        private async void ReloadAsync()
+        {
+            ObservableCollection<TroubleDTO> GetAllTrouble = new ObservableCollection<TroubleDTO>(await TroubleService.Ins.GetAllTrouble());
 
-        //    if (SelectedFilteritem.Tag.ToString() == "Toàn bộ")
-        //    {
-        //        TroubleList = new ObservableCollection<TroubleDTO>(GetAllTrouble);
-        //    }
-        //    else
-        //    {
-        //        TroubleList = new ObservableCollection<TroubleDTO>(GetAllTrouble.Where(tr => tr.Status == SelectedFilteritem.Tag.ToString()));
-        //    }
-        //}
+            if (SelectedFilteritem.Tag.ToString() == "Toàn bộ")
+            {
+                TroubleList = new ObservableCollection<TroubleDTO>(GetAllTrouble);
+            }
+            else
+            {
+                TroubleList = new ObservableCollection<TroubleDTO>(GetAllTrouble.Where(tr => tr.Status == SelectedFilteritem.Tag.ToString()));
+            }
+        }
 
         private void ResetData()
         {

@@ -49,7 +49,7 @@ namespace HotelManagement.View.Staff.RoomCatalogManagement.RoomInfo
             else
                 return ((item as RentalContractDetailDTO).CustomerName.IndexOf(SearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0
                     
-                    || (item as RentalContractDetailDTO).CustomerId.IndexOf(SearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+                    || (item as RentalContractDetailDTO).CCCD.IndexOf(SearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
 
         }
        

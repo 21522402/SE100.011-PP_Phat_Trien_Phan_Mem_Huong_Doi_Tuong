@@ -136,12 +136,12 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
                     {
                         ServiceCache.ImportQuantity = 1;
                         OrderList.Add(ServiceCache);
-                        SumOrder += ServiceCache.Price;
+                        SumOrder += ServiceCache.ProductPrice;
                     }
                     else
                     {
                         ServiceCache.ImportQuantity += 1;
-                        SumOrder += ServiceCache.Price;
+                        SumOrder += ServiceCache.ProductPrice;
                     }
                 }
                 catch (Exception e)
@@ -161,7 +161,7 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
                 try
                 {
                     ServiceCache.ImportQuantity -= 1;
-                    SumOrder -= ServiceCache.Price;
+                    SumOrder -= ServiceCache.ProductPrice;
                     ServiceCache.Quantity += 1;
                 }
                 catch (Exception e)
@@ -175,7 +175,7 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
                 == CustomMessageBoxResult.OK)
                 {
                     OrderList.Remove(ServiceCache);
-                    SumOrder -= ServiceCache.Price;
+                    SumOrder -= ServiceCache.ProductPrice;
                     ServiceCache.Quantity += 1;
                 }
             }
@@ -187,7 +187,7 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
                 try
                 {
                     ServiceCache.ImportQuantity += 1;
-                    SumOrder += ServiceCache.Price;
+                    SumOrder += ServiceCache.ProductPrice;
                     ServiceCache.Quantity -= 1;
                 }
                 catch (Exception e)
@@ -208,7 +208,7 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
                == CustomMessageBoxResult.OK)
                 {
                     ServiceCache.Quantity += ServiceCache.ImportQuantity;
-                    SumOrder -= (ServiceCache.Price * ServiceCache.ImportQuantity);
+                    SumOrder -= (ServiceCache.ProductPrice * ServiceCache.ImportQuantity);
                     ServiceCache.ImportQuantity = 0;
                     OrderList.Remove(ServiceCache);
                 }

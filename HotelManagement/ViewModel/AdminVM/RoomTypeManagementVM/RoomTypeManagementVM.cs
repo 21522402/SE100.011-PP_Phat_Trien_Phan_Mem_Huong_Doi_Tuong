@@ -22,26 +22,26 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
 {
     public partial class RoomTypeManagementVM : BaseVM
     {
-        //private string _roomTypeID;
-        //public string RoomTypeID
-        //{
-        //    get { return _roomTypeID; }
-        //    set { _roomTypeID = value; OnPropertyChanged(); }
-        //}
+        private string _roomTypeID;
+        public string RoomTypeID
+        {
+            get { return _roomTypeID; }
+            set { _roomTypeID = value; OnPropertyChanged(); }
+        }
 
-        //private string _roomTypeName;
-        //public string RoomTypeName
-        //{
-        //    get { return _roomTypeName; }
-        //    set { _roomTypeName = value; OnPropertyChanged(); }
-        //}
+        private string _roomTypeName;
+        public string RoomTypeName
+        {
+            get { return _roomTypeName; }
+            set { _roomTypeName = value; OnPropertyChanged(); }
+        }
 
-        //private double _roomTypePrice;
-        //public double RoomTypePrice
-        //{
-        //    get { return _roomTypePrice; }
-        //    set { _roomTypePrice = value; OnPropertyChanged(); }
-        //}
+        private double _roomTypePrice;
+        public double RoomTypePrice
+        {
+            get { return _roomTypePrice; }
+            set { _roomTypePrice = value; OnPropertyChanged(); }
+        }
 
         private int _maxNumberGuest;
         public int MaxNumberGuest
@@ -64,30 +64,30 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
             set { _selectedItem = value; OnPropertyChanged(); }
         }
 
-        //private bool isloadding;
-        //public bool IsLoadding
-        //{
-        //    get { return isloadding; }
-        //    set { isloadding = value; OnPropertyChanged(); }
-        //}
+        private bool isloadding;
+        public bool IsLoadding
+        {
+            get { return isloadding; }
+            set { isloadding = value; OnPropertyChanged(); }
+        }
 
-        //private bool isSaving;
-        //public bool IsSaving
-        //{
-        //    get { return isSaving; }
-        //    set { isSaving = value; OnPropertyChanged(); }
-        //}
+        private bool isSaving;
+        public bool IsSaving
+        {
+            get { return isSaving; }
+            set { isSaving = value; OnPropertyChanged(); }
+        }
 
-        //private ObservableCollection<RoomTypeDTO> _roomTypeList;
-        //public ObservableCollection<RoomTypeDTO> RoomTypeList
-        //{
-        //    get => _roomTypeList;
-        //    set
-        //    {
-        //        _roomTypeList = value;
-        //        OnPropertyChanged();
-        //    }
-        //}
+        private ObservableCollection<RoomTypeDTO> _roomTypeList;
+        public ObservableCollection<RoomTypeDTO> RoomTypeList
+        {
+            get => _roomTypeList;
+            set
+            {
+                _roomTypeList = value;
+                OnPropertyChanged();
+            }
+        }
 
         private ObservableCollection<SurchargeFeeDTO> _listSurchargeRate;
         public ObservableCollection<SurchargeFeeDTO> ListSurchargeRate
@@ -112,12 +112,12 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
         public ICommand UpdateRoomTypeCM { get; set; }
         public ICommand LoadSurchargeFeeCM { get; set; }
         public ICommand LoadEditSurchargeFeeCM { get; set; }
-        
 
-        //public RoomTypeManagementVM()
-        //{
-        //    FirstLoadCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
-        //    {
+
+        public RoomTypeManagementVM()
+        {
+            FirstLoadCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
+            {
 
                 RoomTypeList = new ObservableCollection<RoomTypeDTO>();
                 try
@@ -144,41 +144,41 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
                 windowAdd = addRoomType;
                 addRoomType.ShowDialog();
             });
-            LoadSurchargeFeeCM = new RelayCommand<System.Windows.Window>((p) => { if (IsSaving) return false; return true; }, async  (p) =>
-            {
-                if (!IsValidData(p))
-                {
-                    CustomMessageBox.ShowOk("Vui lòng nhập đủ thông tin!", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
-                    return;
-                }
-                if (MaxNumberGuest < NumberGuestForUnitPrice)
-                {
-                    CustomMessageBox.ShowOk("Số khách tính đơn giá phải nhỏ hơn hoặc bằng số khách tối đa !!!", "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
-                    return;
-                }
-                if (MaxNumberGuest == NumberGuestForUnitPrice)
-                {
-                    IsSaving = true;
-                    await SaveRoomTypeFunc(p, windowAdd);
-                    IsSaving = false;
-                    return;
-                }
-                try
-                {
-                    SurchargeFee surchargeFee = new SurchargeFee();
-                    ListSurchargeRate = new ObservableCollection<SurchargeFeeDTO>();
-                    GetValueListSurchargeFee();
-                    surchargeFee.ShowDialog();
-                }
-                catch (EntityException ex)
-                {
-                    CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
-                }
-                catch (Exception e)
-                {
-                    CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
-                }
-            });
+            //LoadSurchargeFeeCM = new RelayCommand<System.Windows.Window>((p) => { if (IsSaving) return false; return true; }, async  (p) =>
+            //{
+            //    if (!IsValidData(p))
+            //    {
+            //        CustomMessageBox.ShowOk("Vui lòng nhập đủ thông tin!", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+            //        return;
+            //    }
+            //    if (MaxNumberGuest < NumberGuestForUnitPrice)
+            //    {
+            //        CustomMessageBox.ShowOk("Số khách tính đơn giá phải nhỏ hơn hoặc bằng số khách tối đa !!!", "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+            //        return;
+            //    }
+            //    if (MaxNumberGuest == NumberGuestForUnitPrice)
+            //    {
+            //        IsSaving = true;
+            //        await SaveRoomTypeFunc(p, windowAdd);
+            //        IsSaving = false;
+            //        return;
+            //    }
+            //    try
+            //    {
+            //        SurchargeFee surchargeFee = new SurchargeFee();
+            //        ListSurchargeRate = new ObservableCollection<SurchargeFeeDTO>();
+            //        GetValueListSurchargeFee();
+            //        surchargeFee.ShowDialog();
+            //    }
+            //    catch (EntityException ex)
+            //    {
+            //        CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+            //    }
+            //});
             SaveRoomTypeCM = new RelayCommand<System.Windows.Window>((p) => { if (IsSaving) return false; return true; }, async (p) =>
             {
                 IsSaving = true;
@@ -192,45 +192,45 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
                 windowEdit = w1;
                 w1.ShowDialog();
             });
-            LoadEditSurchargeFeeCM = new RelayCommand<System.Windows.Window>((p) => { if (IsSaving) return false; return true; }, async (p) =>
-            {
-                if (!IsValidData2())
-                {
-                    CustomMessageBox.ShowOk("Vui lòng nhập đủ thông tin!", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
-                    return;
-                }
-                if (MaxNumberGuest < NumberGuestForUnitPrice)
-                {
-                    CustomMessageBox.ShowOk("Số khách tính đơn giá phải nhỏ hơn hoặc bằng số khách tối đa !!!", "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
-                    return;
-                }
-                if (MaxNumberGuest == NumberGuestForUnitPrice)
-                {
-                    ListSurchargeRate = null;
-                    IsSaving = true;
-                    await UpdateRoomTypeFunc(p, windowEdit);
-                    IsSaving = false;
-                    return;
-                }
-                try
-                {
-                    EditSurchargeFee surchargeFee = new EditSurchargeFee();
+            //LoadEditSurchargeFeeCM = new RelayCommand<System.Windows.Window>((p) => { if (IsSaving) return false; return true; }, async (p) =>
+            //{
+            //    if (!IsValidData2())
+            //    {
+            //        CustomMessageBox.ShowOk("Vui lòng nhập đủ thông tin!", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+            //        return;
+            //    }
+            //    if (MaxNumberGuest < NumberGuestForUnitPrice)
+            //    {
+            //        CustomMessageBox.ShowOk("Số khách tính đơn giá phải nhỏ hơn hoặc bằng số khách tối đa !!!", "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+            //        return;
+            //    }
+            //    if (MaxNumberGuest == NumberGuestForUnitPrice)
+            //    {
+            //        ListSurchargeRate = null;
+            //        IsSaving = true;
+            //        await UpdateRoomTypeFunc(p, windowEdit);
+            //        IsSaving = false;
+            //        return;
+            //    }
+            //    try
+            //    {
+            //        EditSurchargeFee surchargeFee = new EditSurchargeFee();
 
-                    ListSurchargeRate = new ObservableCollection<SurchargeFeeDTO>();
+            //        ListSurchargeRate = new ObservableCollection<SurchargeFeeDTO>();
 
-                    GetValueListEditSurchargeFee(SelectedItem.RoomTypeId);
+            //        GetValueListEditSurchargeFee(SelectedItem.RoomTypeId);
 
-                    surchargeFee.ShowDialog();
-                }
-                catch (EntityException ex)
-                {
-                    CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
-                }
-                catch (Exception e)
-                {
-                    CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
-                }
-            });
+            //        surchargeFee.ShowDialog();
+            //    }
+            //    catch (EntityException ex)
+            //    {
+            //        CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+            //    }
+            //});
             UpdateRoomTypeCM = new RelayCommand<System.Windows.Window>((p) => { if (IsSaving) return false; return true; }, async (p) =>
             {
                 IsSaving = true;

@@ -31,10 +31,10 @@ namespace HotelManagement.View.Admin.ProductManagement
 
         private void ProductAddWD_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if(e.LeftButton == MouseButtonState.Pressed)
+            if (e.LeftButton == MouseButtonState.Pressed)
             {
                 DragMove();
-            }    
+            }
         }
     }
 }

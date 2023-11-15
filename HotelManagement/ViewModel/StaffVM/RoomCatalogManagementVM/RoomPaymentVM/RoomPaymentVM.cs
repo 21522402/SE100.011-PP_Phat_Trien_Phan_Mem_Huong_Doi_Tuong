@@ -147,8 +147,8 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
                 });
 
 
-        //    TotalMoneyPayment = (double)BillPayment.TotalPriceTemp;
-        //    TotalMoneyPaymentStr = Helper.FormatVNMoney2(TotalMoneyPayment);
+            TotalMoneyPayment = (double)BillPayment.TotalPriceTemp;
+            TotalMoneyPaymentStr = Helper.FormatVNMoney2(TotalMoneyPayment);
 
         }
        

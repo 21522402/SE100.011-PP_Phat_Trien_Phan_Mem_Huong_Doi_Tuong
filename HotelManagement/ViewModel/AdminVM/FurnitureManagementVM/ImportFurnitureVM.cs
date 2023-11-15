@@ -20,10 +20,10 @@ namespace HotelManagement.ViewModel.AdminVM.FurnitureManagementVM
 {
     public partial class FurnitureManagementVM : BaseVM
     {
-        //public string ImportQuantity { get; set; }
-        //public string ImportPrice { get; set; }
-        //public DateTime CreateDate { get; set; }
-        //public string CreateDateString { get; set; }
+        public string ImportQuantity { get; set; }
+        public string ImportPrice { get; set; }
+        public DateTime CreateDate { get; set; }
+        public string CreateDateString { get; set; }
 
         private ObservableCollection<FurnitureDTO> orderFurnitureList;
         public ObservableCollection<FurnitureDTO> OrderFurnitureList
@@ -80,15 +80,15 @@ namespace HotelManagement.ViewModel.AdminVM.FurnitureManagementVM
                 furnitureCache.ImportQuantity = furnitureSelected.ImportQuantity = quantity;
 
                 (bool isSuccess, string messageReturn) = await Task.Run(() => FurnitureService.Ins.ImportFurniture(furnitureSelected, furnitureCache.ImportPrice, furnitureCache.ImportQuantity));
-                if(isSuccess)
+                if (isSuccess)
                 {
                     CustomMessageBox.ShowOk(messageReturn, "Thành công", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
                     furnitureCache.Quantity = furnitureCache.Quantity + int.Parse(ImportQuantity);
                     LoadFurnitureListView(Operation.UPDATE_PROD_QUANTITY, furnitureCache);
                     wd.Close();
-                
+
                     mainWD.MaskOverSideBar.Visibility = Visibility.Collapsed;
-                }    
+                }
                 else
                 {
                     CustomMessageBox.ShowOk(messageReturn, "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);

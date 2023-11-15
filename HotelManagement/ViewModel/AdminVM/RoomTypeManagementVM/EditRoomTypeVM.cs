@@ -16,7 +16,7 @@ using System.Data.Entity.Core.Metadata.Edm;
 
 namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
 {
-    public partial class RoomTypeManagementVM:BaseVM
+    public partial class RoomTypeManagementVM : BaseVM
     {
 
         public void LoadEditRoomType()
@@ -38,7 +38,7 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
                     RoomTypeName = RoomTypeName,
                     RoomTypePrice = RoomTypePrice,
                     MaxNumberGuest = MaxNumberGuest,
-                    NumberGuestForUnitPrice = NumberGuestForUnitPrice,  
+                    NumberGuestForUnitPrice = NumberGuestForUnitPrice,
                     ListSurcharges = ListSurchargeRate,
                 };
                 if (roomType.ListSurcharges != null)
@@ -53,7 +53,7 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
                     }
                 }
 
-        //        (bool successUpdateRoomType, string messageFromUpdateRoomType) = await RoomTypeService.Ins.UpdateRoomType(roomType);
+                (bool successUpdateRoomType, string messageFromUpdateRoomType) = await RoomTypeService.Ins.UpdateRoomType(roomType);
 
                 if (successUpdateRoomType)
                 {

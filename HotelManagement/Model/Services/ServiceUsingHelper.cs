@@ -59,14 +59,14 @@ namespace HotelManagement.Model.Services
 
                    
                     return listUsingService2;
-                    
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public async Task<(bool, string)> SaveUsingProduct(ObservableCollection<ProductDTO> orderList, RoomDTO selectedRoom)
         {
@@ -85,7 +85,7 @@ namespace HotelManagement.Model.Services
                             {
                                 RentalContractId = selectedRoom.RentalContractId,
                                 ProductId = s.ProductId,
-                                UnitPrice = s.Price,
+                                UnitPrice = s.ProductPrice,
                                 Quantity = s.ImportQuantity,
                             };
                             context.ProductUsings.Add(productUsing);
@@ -100,19 +100,19 @@ namespace HotelManagement.Model.Services
                             product.QuantityOfStorage -= s.ImportQuantity;
                     }
 
-        //            await context.SaveChangesAsync();
-        //            return (true, "Đặt sản phẩm thành công!");
-        //        }
-        //    }
-        //    catch(EntityException e)
-        //    {
-        //        return (false, "Mất kết nối cơ sở dữ liệu");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return (false, "Lỗi hệ thống!");
-        //    }
-        //}
+                    await context.SaveChangesAsync();
+                    return (true, "Đặt sản phẩm thành công!");
+                }
+            }
+            catch (EntityException e)
+            {
+                return (false, "Mất kết nối cơ sở dữ liệu");
+            }
+            catch (Exception ex)
+            {
+                return (false, "Lỗi hệ thống!");
+            }
+        }
 
     }
 }

@@ -18,15 +18,12 @@ namespace HotelManagement.DTOs
         }
         public string RentalContractId { get; set; }
         public Nullable<System.DateTime> StartDate { get; set; }
-        public Nullable<System.DateTime> EndDate { get; set; }
         public string StaffId { get; set; }
         public string StaffName { get; set; }
         public string CustomerId { get; set; }
         public string CustomerName { get; set; }
         public string CustomerAddress { get; set; }
         public string RoomId { get; set; }
-        public string StaffId { get; set; }
-        public string StaffName { get; set; }
         public int RoomNumber { get; set; }
         public float RentalPrice { get; set; }
         public bool Validated { get; set; }

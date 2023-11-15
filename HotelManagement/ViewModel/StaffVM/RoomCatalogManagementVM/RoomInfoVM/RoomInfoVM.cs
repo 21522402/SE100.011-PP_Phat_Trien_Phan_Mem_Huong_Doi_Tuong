@@ -17,23 +17,23 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
 {
     public partial class RoomCatalogManagementVM : BaseVM
     {
-       
 
-        //private ComboBoxItem _SelectedRoomCleaningStatus;
-        //public ComboBoxItem SelectedRoomCleaningStatus
-        //{
-        //    get { return _SelectedRoomCleaningStatus; }
-        //    set { _SelectedRoomCleaningStatus = value; OnPropertyChanged(); }
-        //}
-        
-        //private string _SelectedFurnitureTypeCbbFilter;
-        //public string SelectedFurnitureTypeCbbFilter
-        //{
-        //    get { return _SelectedFurnitureTypeCbbFilter; }
-        //    set 
-        //    { 
-        //        _SelectedFurnitureTypeCbbFilter = value; OnPropertyChanged();
-              
+
+        private ComboBoxItem _SelectedRoomCleaningStatus;
+        public ComboBoxItem SelectedRoomCleaningStatus
+        {
+            get { return _SelectedRoomCleaningStatus; }
+            set { _SelectedRoomCleaningStatus = value; OnPropertyChanged(); }
+        }
+
+        private string _SelectedFurnitureTypeCbbFilter;
+        public string SelectedFurnitureTypeCbbFilter
+        {
+            get { return _SelectedFurnitureTypeCbbFilter; }
+            set
+            {
+                _SelectedFurnitureTypeCbbFilter = value; OnPropertyChanged();
+
             }
         }
         private ObservableCollection<RentalContractDetailDTO> _ListCustomer;
@@ -127,89 +127,89 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
         //public async Task SaveCustomerFunc(AddCusWindow p)
         //{
 
-            if (string.IsNullOrEmpty(p.tbName.Text) || string.IsNullOrEmpty(p.tbAddress.Text) || string.IsNullOrEmpty(p.tbCCCD.Text))
-            {
-                CustomMessageBox.ShowOk("Vui lòng điền đầy đủ thông tin!", "Thông báo", "Ok", CustomMessageBoxImage.Warning);
-                return;
-            }
-            foreach (var i in p.tbCCCD.Text)
-            {
-                if (!"0123456789".Contains(i))
-                {
-                    CustomMessageBox.ShowOk("Sai định dạng CCCD!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
-                    return;
-                }
-            }
-            if (p.tbCCCD.Text.Length != 12)
-            {
-                CustomMessageBox.ShowOk("Sai định dạng CCCD!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
-                return;
-            } 
-                RentalContractDetailDTO newCus = new RentalContractDetailDTO
-            {
-                CustomerName = p.tbName.Text,
-                CustomerId = p.tbCCCD.Text,
-                RentalContractId = SelectedRoom.RentalContractId,
+        //    if (string.IsNullOrEmpty(p.tbName.Text) || string.IsNullOrEmpty(p.tbAddress.Text) || string.IsNullOrEmpty(p.tbCCCD.Text))
+        //    {
+        //        CustomMessageBox.ShowOk("Vui lòng điền đầy đủ thông tin!", "Thông báo", "Ok", CustomMessageBoxImage.Warning);
+        //        return;
+        //    }
+        //    foreach (var i in p.tbCCCD.Text)
+        //    {
+        //        if (!"0123456789".Contains(i))
+        //        {
+        //            CustomMessageBox.ShowOk("Sai định dạng CCCD!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
+        //            return;
+        //        }
+        //    }
+        //    if (p.tbCCCD.Text.Length != 12)
+        //    {
+        //        CustomMessageBox.ShowOk("Sai định dạng CCCD!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
+        //        return;
+        //    } 
+        //        RentalContractDetailDTO newCus = new RentalContractDetailDTO
+        //    {
+        //        CustomerName = p.tbName.Text,
+        //        CustomerId = p.tbCCCD.Text,
+        //        RentalContractId = SelectedRoom.RentalContractId,
 
-        //    };
+        ////    };
 
-            (bool isSucessed, string mess, List<RentalContractDetailDTO> listCustomer) = await RoomCustomerService.Ins.AddRoomCustomer(newCus);
-            if (isSucessed)
-            {
-                ListCustomer = new ObservableCollection<RentalContractDetailDTO>(listCustomer);
-                p.Close();
-                CustomMessageBox.ShowOk(mess, "Thông báo", "OK", CustomMessageBoxImage.Success);
-            }
-            else
-            {
-                CustomMessageBox.ShowOk(mess, "Lỗi", "OK", CustomMessageBoxImage.Error);
-            }
-        }
-        public async Task SaveEditCustomerFunc(EditCusWindow p)
-        {
+        //    (bool isSucessed, string mess, List<RentalContractDetailDTO> listCustomer) = await RoomCustomerService.Ins.AddRoomCustomer(newCus);
+        //    if (isSucessed)
+        //    {
+        //        ListCustomer = new ObservableCollection<RentalContractDetailDTO>(listCustomer);
+        //        p.Close();
+        //        CustomMessageBox.ShowOk(mess, "Thông báo", "OK", CustomMessageBoxImage.Success);
+        //    }
+        //    else
+        //    {
+        //        CustomMessageBox.ShowOk(mess, "Lỗi", "OK", CustomMessageBoxImage.Error);
+        //    }
+        //}
+        //public async Task SaveEditCustomerFunc(EditCusWindow p)
+        //{
             
 
-            if (string.IsNullOrEmpty(p.tbName.Text) || string.IsNullOrEmpty(p.tbAddress.Text) || string.IsNullOrEmpty(p.tbCCCD.Text))
-            {
-                CustomMessageBox.ShowOk("Vui lòng điền đầy đủ thông tin!", "Thông báo", "Ok", CustomMessageBoxImage.Warning);
-                return;
-            }
-            foreach (var i in p.tbCCCD.Text)
-            {
-                if (!"0123456789".Contains(i))
-                {
-                    CustomMessageBox.ShowOk("Sai định dạng CCCD!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
-                    return;
-                }
-            }
-            if (p.tbCCCD.Text.Length != 12)
-            {
-                CustomMessageBox.ShowOk("Sai định dạng CCCD!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
-                return;
-            }
-            RentalContractDetailDTO updateCus = new RentalContractDetailDTO
-            {
-                CustomerName = p.tbName.Text,
-                CustomerId = p.tbCCCD.Text,
-                RentalContractId = SelectedRoom.RentalContractId,
-                RentalContractDetailId = SelectedCustomer.RentalContractDetailId,
-                STT = SelectedCustomer.STT,
-            };
+        //    if (string.IsNullOrEmpty(p.tbName.Text) || string.IsNullOrEmpty(p.tbAddress.Text) || string.IsNullOrEmpty(p.tbCCCD.Text))
+        //    {
+        //        CustomMessageBox.ShowOk("Vui lòng điền đầy đủ thông tin!", "Thông báo", "Ok", CustomMessageBoxImage.Warning);
+        //        return;
+        //    }
+        //    foreach (var i in p.tbCCCD.Text)
+        //    {
+        //        if (!"0123456789".Contains(i))
+        //        {
+        //            CustomMessageBox.ShowOk("Sai định dạng CCCD!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
+        //            return;
+        //        }
+        //    }
+        //    if (p.tbCCCD.Text.Length != 12)
+        //    {
+        //        CustomMessageBox.ShowOk("Sai định dạng CCCD!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
+        //        return;
+        //    }
+        //    RentalContractDetailDTO updateCus = new RentalContractDetailDTO
+        //    {
+        //        CustomerName = p.tbName.Text,
+        //        CustomerId = p.tbCCCD.Text,
+        //        RentalContractId = SelectedRoom.RentalContractId,
+        //        RentalContractDetailId = SelectedCustomer.RentalContractDetailId,
+        //        STT = SelectedCustomer.STT,
+        //    };
 
-            (bool isSucessed, string mess, List<RentalContractDetailDTO> listCustomer) = await RoomCustomerService.Ins.UpdateRoomCustomer(updateCus);
-            if (isSucessed)
-            {
-                ListCustomer = new ObservableCollection<RentalContractDetailDTO>(listCustomer);
-                p.Close();
-                CustomMessageBox.ShowOk(mess, "Thông báo", "OK", CustomMessageBoxImage.Success);
-            }
-            else
-            {
-                CustomMessageBox.ShowOk(mess, "Lỗi", "OK", CustomMessageBoxImage.Error);
-            }
-        }
-        public async Task DeleteCustomerFunc()
-        {
+        //    (bool isSucessed, string mess, List<RentalContractDetailDTO> listCustomer) = await RoomCustomerService.Ins.UpdateRoomCustomer(updateCus);
+        //    if (isSucessed)
+        //    {
+        //        ListCustomer = new ObservableCollection<RentalContractDetailDTO>(listCustomer);
+        //        p.Close();
+        //        CustomMessageBox.ShowOk(mess, "Thông báo", "OK", CustomMessageBoxImage.Success);
+        //    }
+        //    else
+        //    {
+        //        CustomMessageBox.ShowOk(mess, "Lỗi", "OK", CustomMessageBoxImage.Error);
+        //    }
+        //}
+        //public async Task DeleteCustomerFunc()
+        //{
 
 
         //    CustomMessageBoxResult res = CustomMessageBox.ShowOkCancel("Bạn có chắc chắn muốn xóa vị khách này?", "Thông báo", "Ok", "Cancel", CustomMessageBoxImage.Question);
@@ -217,30 +217,30 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
 
            
 
-            (bool isSucessed, string mess, List<RentalContractDetailDTO> listCustomer) = await RoomCustomerService.Ins.DeleteRoomCustomer(SelectedCustomer);
-            if (isSucessed)
-            {
-                ListCustomer = new ObservableCollection<RentalContractDetailDTO>(listCustomer);
-                CustomMessageBox.ShowOk(mess, "Thông báo", "OK", CustomMessageBoxImage.Success);
-            }
-            else
-            {
-                CustomMessageBox.ShowOk(mess, "Lỗi", "OK", CustomMessageBoxImage.Error);
-            }
-        }
-        private void ChangeListFurnitureType()
-        {
-            if (SelectedFurnitureTypeCbbFilter==null) return;
-            ListRoomFurniture = new ObservableCollection<RoomFurnituresDetailDTO>(ListRoomFurnitureTemp);
-            if (SelectedFurnitureTypeCbbFilter == "Tất cả")
-            {
-                return;
-            }
-            else
-            {
-                ListRoomFurniture = new ObservableCollection<RoomFurnituresDetailDTO>(ListRoomFurnitureTemp.Where(x=> x.FurnitureType == SelectedFurnitureTypeCbbFilter).ToList());
-            }
-        }
+        //    (bool isSucessed, string mess, List<RentalContractDetailDTO> listCustomer) = await RoomCustomerService.Ins.DeleteRoomCustomer(SelectedCustomer);
+        //    if (isSucessed)
+        //    {
+        //        ListCustomer = new ObservableCollection<RentalContractDetailDTO>(listCustomer);
+        //        CustomMessageBox.ShowOk(mess, "Thông báo", "OK", CustomMessageBoxImage.Success);
+        //    }
+        //    else
+        //    {
+        //        CustomMessageBox.ShowOk(mess, "Lỗi", "OK", CustomMessageBoxImage.Error);
+        //    }
+        //}
+        //private void ChangeListFurnitureType()
+        //{
+        //    if (SelectedFurnitureTypeCbbFilter==null) return;
+        //    ListRoomFurniture = new ObservableCollection<RoomFurnituresDetailDTO>(ListRoomFurnitureTemp);
+        //    if (SelectedFurnitureTypeCbbFilter == "Tất cả")
+        //    {
+        //        return;
+        //    }
+        //    else
+        //    {
+        //        ListRoomFurniture = new ObservableCollection<RoomFurnituresDetailDTO>(ListRoomFurnitureTemp.Where(x=> x.FurnitureType == SelectedFurnitureTypeCbbFilter).ToList());
+        //    }
+        //}
 
     }
 }

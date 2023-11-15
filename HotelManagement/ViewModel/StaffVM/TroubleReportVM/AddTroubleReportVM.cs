@@ -18,14 +18,14 @@ namespace HotelManagement.ViewModel.StaffVM.TroubleReportVM
 {
     public partial class TroubleReportVM : BaseVM
     {
-        //private async Task AddTrouble(Window p)
-        //{
-        //    (bool isvalid, string mess) = IsValidData();
-        //    if (isvalid)
-        //    {
-        //        FileStream fs = new FileStream(filepath, FileMode.Open, FileAccess.Read);
-        //        byte[] photo_aray = new byte[fs.Length];
-        //        fs.Read(photo_aray, 0, photo_aray.Length);
+        private async Task AddTrouble(Window p)
+        {
+            (bool isvalid, string mess) = IsValidData();
+            if (isvalid)
+            {
+                FileStream fs = new FileStream(filepath, FileMode.Open, FileAccess.Read);
+                byte[] photo_aray = new byte[fs.Length];
+                fs.Read(photo_aray, 0, photo_aray.Length);
 
                 TroubleDTO trouble = new TroubleDTO
                 {

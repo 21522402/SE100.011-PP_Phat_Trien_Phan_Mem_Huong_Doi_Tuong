@@ -47,10 +47,10 @@ namespace HotelManagement.Utilities
                 if (value.ToString() == "") return 0;
                 return double.Parse(value.ToString());
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 CustomMessageBox.ShowOk("Giá trị nhập của bạn vượt quá lớn", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
-                return double.Parse(value.ToString().Substring(0, value.ToString().Length - 2)) ;
+                return double.Parse(value.ToString().Substring(0, value.ToString().Length - 2));
             }
         }
     }

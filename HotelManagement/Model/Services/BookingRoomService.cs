@@ -116,7 +116,7 @@ namespace HotelManagement.Model.Services
                         }
                     ).ToListAsync();
                     RentalContractDTOs.Reverse();
-                    
+
                     if (yearstr != "Tất cả")
                     {
                         int year = int.Parse(yearstr.Substring(4));
@@ -128,7 +128,38 @@ namespace HotelManagement.Model.Services
                         RentalContractDTOs = new List<RentalContractDTO>(RentalContractDTOs.Where(x => x.CreateDate.Month == month).ToList());
                     }
 
-        public async Task<(bool,string)> SaveBooking(RentalContractDTO rentalContract)
+
+                    return RentalContractDTOs;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public async Task<(bool, string)> DeleteRentalContract(string rentalContractId)
+        {
+            try
+            {
+                using (var context = new HotelManagementEntities())
+                {
+                    RentalContract rentalContract = await context.RentalContracts.FindAsync(rentalContractId);
+                    context.RentalContractDetails.RemoveRange(rentalContract.RentalContractDetails);
+                    await context.SaveChangesAsync();
+                    context.RentalContracts.Remove(rentalContract);
+                    await context.SaveChangesAsync();
+                    return (true, "Xóa phiếu thuê thành công");
+                }
+            }
+            catch (Exception)
+            {
+                return (false, "Lỗi hệ thống!");
+            }
+
+        }
+
+        public async Task<(bool, string)> SaveRental(RentalContractDTO rentalContract, List<RentalContractDetailDTO> list)
         {
             try
             {
@@ -152,7 +183,7 @@ namespace HotelManagement.Model.Services
 
                     foreach (var item in list)
                     {
-                       
+
                         RentalContractDetail rentalContractDetail = new RentalContractDetail
                         {
                             RentalContractId = rentalId,
@@ -248,12 +279,12 @@ namespace HotelManagement.Model.Services
             {
                 using (var context = new HotelManagementEntities())
                 {
-                    
+
                     var listSurcharge = await context.SurchargeRates.ToListAsync();
 
 
                     RentalContract rentalContract = await context.RentalContracts.FindAsync(rentId);
-                   
+
                     int numPerForUnitPrice = (int)context.RoomTypes.FirstOrDefault(x => x.RoomTypeId == rentalContract.Room.RoomTypeId).NumberGuestForUnitPrice;
 
                     int numPer = rentalContract.RentalContractDetails.Count;
@@ -337,10 +368,8 @@ namespace HotelManagement.Model.Services
             }
             catch (Exception e)
             {
-                return "KH001";
+                throw e;
             }
-            string newIdString = $"000{int.Parse(maxId.Substring(2)) + 1}";
-            return "KH" + newIdString.Substring(newIdString.Length - 3, 3);
         }
         public int GetMaxNumOfPer(string roomId)
         {

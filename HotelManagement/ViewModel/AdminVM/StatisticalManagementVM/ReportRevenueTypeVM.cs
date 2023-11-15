@@ -73,19 +73,19 @@ namespace HotelManagement.ViewModel.AdminVM.StatisticalManagementVM
             set { _ListServiceTypeRevenue = value; OnPropertyChanged(); }
         }
 
-        //private SeriesCollection _RoomTypeRevenuePieChart;
-        //public SeriesCollection RoomTypeRevenuePieChart
-        //{
-        //    get { return _RoomTypeRevenuePieChart; }
-        //    set { _RoomTypeRevenuePieChart = value; OnPropertyChanged(); }
-        //}
+        private SeriesCollection _RoomTypeRevenuePieChart;
+        public SeriesCollection RoomTypeRevenuePieChart
+        {
+            get { return _RoomTypeRevenuePieChart; }
+            set { _RoomTypeRevenuePieChart = value; OnPropertyChanged(); }
+        }
 
-        //private SeriesCollection _ServiceTypeRevenuePieChart;
-        //public SeriesCollection ServiceTypeRevenuePieChart
-        //{
-        //    get { return _ServiceTypeRevenuePieChart; }
-        //    set { _ServiceTypeRevenuePieChart = value; OnPropertyChanged(); }
-        //}
+        private SeriesCollection _ServiceTypeRevenuePieChart;
+        public SeriesCollection ServiceTypeRevenuePieChart
+        {
+            get { return _ServiceTypeRevenuePieChart; }
+            set { _ServiceTypeRevenuePieChart = value; OnPropertyChanged(); }
+        }
 
         //public async Task ChangeRoomTypeRevenue()
         //{
@@ -94,7 +94,7 @@ namespace HotelManagement.ViewModel.AdminVM.StatisticalManagementVM
         //    ListRoomTypeRevenue = await OverviewStatisticService.Ins.GetListRoomTypeRevenue(year, month);
         //    RoomTypeRevenuePieChart = await OverviewStatisticService.Ins.GetDataRoomTypePieChart(year, month);
         //}
-        
+
         //    public async Task ChangeServiceTypeRevenue()
         //{
         //    int year = int.Parse(SelectedYear3.Substring(4));

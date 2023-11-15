@@ -48,7 +48,6 @@ namespace HotelManagement.Model.Services
                             ProductName = p.ProductName,
                             ProductType= p.ProductType,
                             ProductAvatarData = p.ProductAvatar,
-                            ProductType = p.ProductType,
                             Quantity = (int)p.QuantityOfStorage,
                             ProductPrice = (double)p.Price,
                         }
@@ -421,7 +420,17 @@ namespace HotelManagement.Model.Services
 
             return mainID;
         }
-
+        public List<ProductDTO> GetAllServiceByType(string typeSelection, ObservableCollection<ProductDTO> allService)
+        {
+            try
+            {
+                return allService.Where(item => item.ProductType == typeSelection).ToList();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
         public string getID(int id)
         {
             if (id < 10)

@@ -22,56 +22,56 @@ namespace HotelManagement.ViewModel.AdminVM.HistoryManagementVM
 {
     public class HistoryManagementVM : BaseVM
     {
-        //private int SelectedView = 0;
-        //private ObservableCollection<ImportProductDTO> importList;
-        //public ObservableCollection<ImportProductDTO> ImportList
-        //{
-        //    get { return importList; }
-        //    set { importList = value; OnPropertyChanged(); }
-        //}
-        //private ObservableCollection<BillDTO> billExportList;
-        //public ObservableCollection<BillDTO> BillExportList
-        //{
-        //    get { return billExportList; }
-        //    set { billExportList = value; OnPropertyChanged(); }
-        //}
-        //private ComboBoxItem _selectedFilterImportItem;
-        //public ComboBoxItem SelectedFilterImportItem
-        //{
-        //    get { return _selectedFilterImportItem; }
-        //    set { _selectedFilterImportItem = value; OnPropertyChanged(); }
-        //}
-        //private int _selectedMonthImportItem;
-        //public int SelectedMonthImportItem
-        //{
-        //    get { return _selectedMonthImportItem; }
-        //    set { _selectedMonthImportItem = value; OnPropertyChanged(); }
-        //}
-        //private int _selectedMonthExportItem;
-        //public int SelectedMonthExportItem
-        //{
-        //    get { return _selectedMonthExportItem; }
-        //    set { _selectedMonthExportItem = value; OnPropertyChanged(); }
-        //}
-        //private int _filterImportList;
-        //public int FilterImportList
-        //{
-        //    get { return _filterImportList; }
-        //    set { _filterImportList = value; OnPropertyChanged(); }
-        //}
-        //private ComboBoxItem _filterExportList;
-        //public ComboBoxItem FilterExportList
-        //{
-        //    get { return _filterExportList; }
-        //    set { _filterExportList = value; OnPropertyChanged(); }
-        //}
-        //private DateTime _selectedDate;
-        //public DateTime SelectedDate
-        //{
-        //    get { return _selectedDate; }
-        //    set { _selectedDate = value; OnPropertyChanged(); }
-        //}
-        //private DateTime GetCurrentDate;
+        private int SelectedView = 0;
+        private ObservableCollection<ImportProductDTO> importList;
+        public ObservableCollection<ImportProductDTO> ImportList
+        {
+            get { return importList; }
+            set { importList = value; OnPropertyChanged(); }
+        }
+        private ObservableCollection<BillDTO> billExportList;
+        public ObservableCollection<BillDTO> BillExportList
+        {
+            get { return billExportList; }
+            set { billExportList = value; OnPropertyChanged(); }
+        }
+        private ComboBoxItem _selectedFilterImportItem;
+        public ComboBoxItem SelectedFilterImportItem
+        {
+            get { return _selectedFilterImportItem; }
+            set { _selectedFilterImportItem = value; OnPropertyChanged(); }
+        }
+        private int _selectedMonthImportItem;
+        public int SelectedMonthImportItem
+        {
+            get { return _selectedMonthImportItem; }
+            set { _selectedMonthImportItem = value; OnPropertyChanged(); }
+        }
+        private int _selectedMonthExportItem;
+        public int SelectedMonthExportItem
+        {
+            get { return _selectedMonthExportItem; }
+            set { _selectedMonthExportItem = value; OnPropertyChanged(); }
+        }
+        private int _filterImportList;
+        public int FilterImportList
+        {
+            get { return _filterImportList; }
+            set { _filterImportList = value; OnPropertyChanged(); }
+        }
+        private ComboBoxItem _filterExportList;
+        public ComboBoxItem FilterExportList
+        {
+            get { return _filterExportList; }
+            set { _filterExportList = value; OnPropertyChanged(); }
+        }
+        private DateTime _selectedDate;
+        public DateTime SelectedDate
+        {
+            get { return _selectedDate; }
+            set { _selectedDate = value; OnPropertyChanged(); }
+        }
+        private DateTime GetCurrentDate;
 
         private BillDTO _selectedItem;
         public BillDTO SelectedItem
@@ -322,50 +322,50 @@ namespace HotelManagement.ViewModel.AdminVM.HistoryManagementVM
                             throw;
                         }
 
-        //            }
-        //        case "":
-        //            {
-        //                try
-        //                {
-        //                    BillExportList = new ObservableCollection<BillDTO>(await BillService.Ins.GetAllBill());
-        //                    return;
-        //                }
-        //                catch (System.Data.Entity.Core.EntityException e)
-        //                {
-        //                    CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", CustomMessageBoxImage.Error);
-        //                    throw;
-        //                }
-        //                catch (Exception e)
-        //                {
-        //                    CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", CustomMessageBoxImage.Error);
-        //                    throw;
-        //                }
+                    }
+                case "":
+                    {
+                        try
+                        {
+                            BillExportList = new ObservableCollection<BillDTO>(await BillService.Ins.GetAllBill());
+                            return;
+                        }
+                        catch (System.Data.Entity.Core.EntityException e)
+                        {
+                            CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", CustomMessageBoxImage.Error);
+                            throw;
+                        }
+                        catch (Exception e)
+                        {
+                            CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", CustomMessageBoxImage.Error);
+                            throw;
+                        }
 
-        //            }
-        //        case "month":
-        //            {
-        //                await CheckMonthFilter();
-        //                return;
-        //            }
-        //    }
-        //}
+                    }
+                case "month":
+                    {
+                        await CheckMonthFilter();
+                        return;
+                    }
+            }
+        }
 
-        //private async Task CheckMonthFilter()
-        //{
-        //    //try
-        //    //{
-        //    //    BillExportList = new ObservableCollection<BillDTO>(await BillService.Ins.GetAllBillByMonth(SelectedMonthExportItem + 1));
-        //    //}
-        //    //catch (System.Data.Entity.Core.EntityException e)
-        //    //{
-        //    //    CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", CustomMessageBoxImage.Error);
-        //    //    throw;
-        //    //}
-        //    //catch (Exception e)
-        //    //{
-        //    //    CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", CustomMessageBoxImage.Error);
-        //    //    throw;
-        //    //}
+        private async Task CheckMonthFilter()
+        {
+            try
+            {
+                BillExportList = new ObservableCollection<BillDTO>(await BillService.Ins.GetAllBillByMonth(SelectedMonthExportItem + 1));
+            }
+            catch (System.Data.Entity.Core.EntityException e)
+            {
+                CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", CustomMessageBoxImage.Error);
+                throw;
+            }
+            catch (Exception e)
+            {
+                CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", CustomMessageBoxImage.Error);
+                throw;
+            }
 
         }
 
@@ -502,20 +502,20 @@ namespace HotelManagement.ViewModel.AdminVM.HistoryManagementVM
                                     ws.Cells[i2, 9] = item.CreateDate;
 
 
-        //                            i2++;
-        //                        }
-        //                        ws.SaveAs(sfd.FileName);
-        //                        wb.Close();
-        //                        app.Quit();
+                                    i2++;
+                                }
+                                ws.SaveAs(sfd.FileName);
+                                wb.Close();
+                                app.Quit();
 
-        //                        Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
-        //                        CustomMessageBox.ShowOk("Xuất file thành công", "Thông báo", "OK", CustomMessageBoxImage.Success);
+                                Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
+                                CustomMessageBox.ShowOk("Xuất file thành công", "Thông báo", "OK", CustomMessageBoxImage.Success);
 
-        //                    }
-        //                }
-        //                break;
-        //            }
-        //    }
-        //}
+                            }
+                        }
+                        break;
+                    }
+            }
+        }
     }
 }

@@ -21,6 +21,7 @@
           </Key>
           <Property Name="FurnitureId" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="FurnitureName" Type="nvarchar(max)" />
+          <Property Name="FurnitureType" Type="nvarchar(max)" />
           <Property Name="FurnitureAvatar" Type="varbinary(max)" />
           <Property Name="QuantityOfStorage" Type="int" />
         </EntityType>
@@ -610,6 +611,7 @@
           </Key>
           <Property Name="FurnitureId" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="FurnitureName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FurnitureType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="FurnitureAvatar" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="QuantityOfStorage" Type="Int32" />
           <NavigationProperty Name="FurnitureReceiptDetails" Relationship="Self.FK_FurnitureReceiptDetail_Furniture" FromRole="Furniture" ToRole="FurnitureReceiptDetail" />
@@ -1240,6 +1242,7 @@
               <MappingFragment StoreEntitySet="Furniture">
                 <ScalarProperty Name="FurnitureId" ColumnName="FurnitureId" />
                 <ScalarProperty Name="FurnitureName" ColumnName="FurnitureName" />
+                <ScalarProperty Name="FurnitureType" ColumnName="FurnitureType" />
                 <ScalarProperty Name="FurnitureAvatar" ColumnName="FurnitureAvatar" />
                 <ScalarProperty Name="QuantityOfStorage" ColumnName="QuantityOfStorage" />
               </MappingFragment>
