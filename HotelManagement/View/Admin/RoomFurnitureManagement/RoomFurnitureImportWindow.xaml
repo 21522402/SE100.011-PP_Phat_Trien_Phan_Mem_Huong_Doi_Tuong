@@ -13,7 +13,7 @@
         Background="Transparent"
         MouseDown="RoomFurnitureImportWD_MouseDown"
         WindowStartupLocation="CenterScreen"
-        DataContext="{StaticResource RoomFurnitureManagementVM}"
+        DataContext="{StaticResource RoomTypeFurnitureManagementVM}"
 >
     <Window.Triggers>
         <EventTrigger RoutedEvent="Window.Loaded">
@@ -92,6 +92,9 @@
                                                         <i:InvokeCommandAction Command="{Binding SelectionFilterChangeCM}"/>
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
+                                                <ComboBoxItem Content="Tất cả" IsSelected="True" Tag="All"/>
+                                                <ComboBoxItem Content="Nội thất" Tag="Furniture"/>
+                                                <ComboBoxItem Content="Tiện ích" Tag="Utilities"/>
                                             </ComboBox>
                                         </Border>
                                     </StackPanel>

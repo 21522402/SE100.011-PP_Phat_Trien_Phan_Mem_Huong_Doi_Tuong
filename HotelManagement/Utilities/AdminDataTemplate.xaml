@@ -2,8 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:FurnitureVM="clr-namespace:HotelManagement.ViewModel.AdminVM.FurnitureManagementVM"
                     xmlns:FurnitureView="clr-namespace:HotelManagement.View.Admin.FurnitureManagement"
-                    xmlns:ServiceVM="clr-namespace:HotelManagement.ViewModel.AdminVM.ServiceManagementVM"
-                    xmlns:ServiceView="clr-namespace:HotelManagement.View.Admin.ServiceManagement"
+                    xmlns:ProductVM="clr-namespace:HotelManagement.ViewModel.AdminVM.ProductManagementVM"
+                    xmlns:ProductView="clr-namespace:HotelManagement.View.Admin.ProductManagement"
                     xmlns:BookingRoomVM="clr-namespace:HotelManagement.ViewModel.BookingRoomManagementVM"
                     xmlns:BookingRoomView="clr-namespace:HotelManagement.View.BookingRoomManagement"
                     xmlns:RoomView="clr-namespace:HotelManagement.View.Admin.RoomManagement"
@@ -14,8 +14,8 @@
                     xmlns:StatiscalVM="clr-namespace:HotelManagement.ViewModel.AdminVM.StatisticalManagementVM"
                     xmlns:HelpScreenView="clr-namespace:HotelManagement.View.HelpScreen"
                     xmlns:HelpScreenVM="clr-namespace:HotelManagement.ViewModel.HelpScreenVM"
-                    xmlns:RoomFurnitureVM="clr-namespace:HotelManagement.ViewModel.AdminVM.RoomFurnitureManagementVM"
-                    xmlns:RoomFurnitureView="clr-namespace:HotelManagement.View.Admin.RoomFurnitureManagement"
+                    xmlns:RoomTypeFurnitureVM="clr-namespace:HotelManagement.ViewModel.AdminVM.RoomTypeFurnitureManagementVM"
+                    xmlns:RoomTypeFurnitureView="clr-namespace:HotelManagement.View.Admin.RoomTypeFurnitureManagement"
                     xmlns:SettingVM="clr-namespace:HotelManagement.ViewModel.SettingVM"
                     xmlns:SettingView="clr-namespace:HotelManagement.View.SettingManagement"
                     xmlns:CustomerView="clr-namespace:HotelManagement.View.Admin.CustomerManagement"
@@ -31,8 +31,8 @@
     <DataTemplate DataType="{x:Type FurnitureVM:FurnitureManagementVM}">
         <FurnitureView:FurnitureManagementPage></FurnitureView:FurnitureManagementPage>
     </DataTemplate>
-    <DataTemplate DataType="{x:Type ServiceVM:ServiceManagementVM}">
-        <ServiceView:ServiceManagementPage></ServiceView:ServiceManagementPage>
+    <DataTemplate DataType="{x:Type ProductVM:ProductManagementVM}">
+        <ProductView:ProductManagementPage></ProductView:ProductManagementPage>
     </DataTemplate>
     <DataTemplate DataType="{x:Type BookingRoomVM:BookingRoomManagementVM}">
         <BookingRoomView:BookingRoomManagementPage></BookingRoomView:BookingRoomManagementPage>
@@ -49,8 +49,8 @@
     <DataTemplate DataType="{x:Type HelpScreenVM:HelpScreenVM}">
         <HelpScreenView:HelpScreen></HelpScreenView:HelpScreen>
     </DataTemplate>
-    <DataTemplate DataType="{x:Type RoomFurnitureVM:RoomFurnitureManagementVM}">
-        <RoomFurnitureView:RoomFurnitureManagementPage></RoomFurnitureView:RoomFurnitureManagementPage>
+    <DataTemplate DataType="{x:Type RoomTypeFurnitureVM:RoomTypeFurnitureManagementVM}">
+        <RoomTypeFurnitureView:RoomTypeFurnitureManagementPage></RoomTypeFurnitureView:RoomTypeFurnitureManagementPage>
     </DataTemplate>
     <DataTemplate DataType="{x:Type SettingVM:SettingVM}">
         <SettingView:SettingPage></SettingView:SettingPage>

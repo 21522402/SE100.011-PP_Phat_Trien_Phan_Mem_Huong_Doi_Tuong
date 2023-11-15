@@ -1,7 +1,9 @@
 ﻿using HotelManagement.DTOs;
 using HotelManagement.Model.Services;
+using HotelManagement.Utilities;
 using HotelManagement.Utils;
 using HotelManagement.View.Admin;
+using HotelManagement.View.Admin.FurnitureManagement;
 using IronXL.Formatting;
 using System;
 using System.Collections.Generic;
@@ -23,25 +25,31 @@ namespace HotelManagement.ViewModel.AdminVM.FurnitureManagementVM
         public DateTime CreateDate { get; set; }
         public string CreateDateString { get; set; }
 
+        private ObservableCollection<FurnitureDTO> orderFurnitureList;
+        public ObservableCollection<FurnitureDTO> OrderFurnitureList
+        {
+            get { return orderFurnitureList; }
+            set { orderFurnitureList = value; OnPropertyChanged(); }
+        }
 
-        private ObservableCollection<FurnitureDTO> orderList;
-        public ObservableCollection<FurnitureDTO> OrderList
+        private double totalImportPrice;
+        public double TotalImportPrice
         {
-            get { return orderList; }
-            set { orderList = value; OnPropertyChanged(); }
+            get { return totalImportPrice; }
+            set { totalImportPrice = value; OnPropertyChanged(); }
         }
-        private float sumMoney;
-        public float SumMoney
+
+        public string totalImportPriceStr { get; set; }
+        public string TotalImportPriceStr
         {
-            get { return sumMoney; }
-            set { sumMoney = value; OnPropertyChanged(); }
+            get { return totalImportPriceStr; }
+            set { totalImportPriceStr = value; OnPropertyChanged(); }
         }
-        public string SumMoneyStr { get; set; }
         public async Task ImportFurniture(FurnitureDTO furnitureSelected, Window wd, AdminWindow mainWD)
         {
             try
             {
-                if(string.IsNullOrEmpty(ImportQuantity))
+                if (string.IsNullOrEmpty(ImportQuantity))
                 {
                     CustomMessageBox.ShowOk("Vui lòng nhập số lượng", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
                     return;
@@ -51,28 +59,27 @@ namespace HotelManagement.ViewModel.AdminVM.FurnitureManagementVM
                     CustomMessageBox.ShowOk("Vui lòng nhập giá nhập", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
                     return;
                 }
-                if(!Number.IsNumeric(ImportQuantity))
+
+                int quantity;
+                double price;
+                bool isIntQuantity = Int32.TryParse(ImportQuantity, out quantity);
+                bool isDoublePrice = double.TryParse(ImportPrice, out price);
+
+                if (!isIntQuantity || quantity <= 0)
                 {
-                    CustomMessageBox.ShowOk("Vui lòng nhập chữ số cho trường số lượng", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                    CustomMessageBox.ShowOk("Số lượng là một số nguyên dương", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
                     return;
                 }
-                if (!Number.IsNumeric(ImportPrice))
+                if (!isDoublePrice || price <= 0)
                 {
-                    CustomMessageBox.ShowOk("Vui lòng nhập chữ số cho trường giá nhập", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
-                    return;
-                }
-                if (!Number.IsPositive(ImportPrice))
-                {
-                    CustomMessageBox.ShowOk("Giá nhập không được âm", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
-                    return;
-                }
-                if (!Number.IsPositive(ImportQuantity))
-                {
-                    CustomMessageBox.ShowOk("Số lượng là một số lớn hơn 0", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                    CustomMessageBox.ShowOk("Giá nhập phải là số dương", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
                     return;
                 }
 
-                (bool isSuccess, string messageReturn) = await Task.Run(() => FurnitureService.Ins.ImportFurniture(furnitureSelected, ImportPrice, ImportQuantity));
+                furnitureCache.ImportPrice = furnitureSelected.ImportPrice = price;
+                furnitureCache.ImportQuantity = furnitureSelected.ImportQuantity = quantity;
+
+                (bool isSuccess, string messageReturn) = await Task.Run(() => FurnitureService.Ins.ImportFurniture(furnitureSelected, furnitureCache.ImportPrice, furnitureCache.ImportQuantity));
                 if(isSuccess)
                 {
                     CustomMessageBox.ShowOk(messageReturn, "Thành công", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
@@ -98,40 +105,45 @@ namespace HotelManagement.ViewModel.AdminVM.FurnitureManagementVM
                 CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
             }
         }
-        public void LoadItemToList(FurnitureDTO furnitureSelected)
+        public void CalculateTotalPrice()
         {
-           FurnitureDTO furniture = OrderList.FirstOrDefault(item => item.FurnitureID == furnitureSelected.FurnitureID);
-           if(furniture == null)
-           {
-                furnitureSelected.ImportPrice = 0;
-                furnitureSelected.ImportQuantity = 1;
-                OrderList.Add(furnitureSelected);
-                return;
-           }
-           else
-           {
-                furniture.ImportQuantity = furniture.ImportQuantity + 1;
-                SumMoney += furniture.ImportPrice;
-           }
+            double total = 0;
+            foreach (var item in OrderFurnitureList)
+            {
+                total += (item.ImportQuantity * item.ImportPrice);
+            }
+            TotalImportPrice = total;
+            TotalImportPriceStr = Helper.FormatVNMoney(TotalImportPrice);
         }
+
+        public void InitQuantity()
+        {
+
+            foreach (var item in FurnitureList)
+            {
+                item.ImportQuantity = 0;
+                item.ImportPrice = 0;
+            }
+        }
+
         public async Task ImportListFurniture(Window wd, AdminWindow mainWD)
         {
-            (bool isSuccess, string messageReturn, List<FurnitureDTO> listReturned) = await Task.Run(() => FurnitureService.Ins.ImportListFurniture(OrderList));
-            if(isSuccess)
+            (bool isSuccess, string messageReturn, List<FurnitureDTO> listReturned) = await Task.Run(() => FurnitureService.Ins.ImportListFurniture(OrderFurnitureList));
+            if (isSuccess)
             {
                 CustomMessageBox.ShowOk(messageReturn, "Thành công", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
                 for (int i = 0; i < listReturned.Count; i++)
                     LoadFurnitureListView(Operation.UPDATE_PROD_QUANTITY, listReturned[i]);
-                OrderList.Clear();
-                wd.Close();
-                mainWD.MaskOverSideBar.Visibility = Visibility.Collapsed;
-            }    
+                OrderFurnitureList.Clear();
+            }
             else
             {
                 CustomMessageBox.ShowOk(messageReturn, "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
-                wd.Close();
-                mainWD.MaskOverSideBar.Visibility = Visibility.Collapsed;
-            }    
+            }
+            ImportListFurnitureWindow ipWD = System.Windows.Application.Current.Windows.OfType<ImportListFurnitureWindow>().FirstOrDefault();
+            wd.Close();
+            ipWD.Close();
+            mainWD.MaskOverSideBar.Visibility = Visibility.Collapsed;
         }
         public string DateTimeToString(DateTime dt)
         {

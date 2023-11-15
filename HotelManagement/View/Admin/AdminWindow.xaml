@@ -267,7 +267,7 @@
                             <components:MenuItem GroupName="MenuItem" IndicatorBrush="{DynamicResource PrimaryBlueColor}" Icon="{DynamicResource food}" Command="{Binding ServiceCommand}" IconWidth="16" Text="Sản phẩm/dịch vụ" VerticalAlignment="Center"/>
                         </StackPanel>
                         <StackPanel Height="40">
-                            <components:MenuItem GroupName="MenuItem" IndicatorBrush="{DynamicResource PrimaryBlueColor}" Icon="{DynamicResource furniture}" IconWidth="16" Command="{Binding RoomFurnitureCommand}" Text="Tiện nghi trong phòng" VerticalAlignment="Center"/>
+                            <components:MenuItem GroupName="MenuItem" IndicatorBrush="{DynamicResource PrimaryBlueColor}" Icon="{DynamicResource furniture}" IconWidth="16" Command="{Binding RoomTypeFurnitureCommand}" Text="Tiện nghi trong phòng" VerticalAlignment="Center"/>
                         </StackPanel>
                         <StackPanel Height="40">
                             <components:MenuItem GroupName="MenuItem" IndicatorBrush="{DynamicResource PrimaryBlueColor}" Icon="{DynamicResource restore}" Command="{Binding FurnitureCommand}" IconWidth="16" Text="Quản lý kho tiện nghi" VerticalAlignment="Center"/>

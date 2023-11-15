@@ -27,24 +27,24 @@ namespace HotelManagement.Model.Services
                 using (var context = new HotelManagementEntities())
                 {
                     staffList = (from s in context.Staffs
-                                    where s.IsDeleted == false
-                                    select new StaffDTO
-                                    {
-                                        StaffId = s.StaffId,
-                                        StaffName = s.StaffName,
-                                        PhoneNumber = s.PhoneNumber,
-                                        Email=s.Email,
-                                        CCCD=s.CCCD,
-                                        DateOfBirth=s.DateOfBirth,
-                                        dateOfStart=s.dateOfStart,
-                                        StaffAddress=s.StaffAddress,
-                                        Gender = s.Gender,
-                                        Position=s.Position,
-                                        Username=s.Username,
-                                        Password=s.Password,
-                                        Avatar=s.Avatar,                                       
-                                       
-                                    }).ToList();
+                                 where s.IsDeleted == false
+                                 select new StaffDTO
+                                 {
+                                     StaffId = s.StaffId,
+                                     StaffName = s.StaffName,
+                                     PhoneNumber = s.PhoneNumber,
+                                     Email = s.Email,
+                                     CCCD = s.CCCD,
+                                     DateOfBirth = s.DateOfBirth,
+                                     dateOfStart = s.dateOfStart,
+                                     StaffAddress = s.StaffAddress,
+                                     Gender = s.Gender,
+                                     Position = s.Position,
+                                     Username = s.Username,
+                                     Password = s.Password,
+                                     Avatar = s.Avatar,
+
+                                 }).ToList();
                 }
             }
             catch (Exception ex)
@@ -65,7 +65,7 @@ namespace HotelManagement.Model.Services
                     if (IsphoneExist) return (false, "Số điện thoại đã tồn tại!", null);
                     bool IsUserNameExist = await context.Staffs.AnyAsync(s => staff.Username == s.Username);
                     if (IsUserNameExist) return (false, "Tên đăng nhập đã tồn tại!", null);
-                    if(staff.Email != null)
+                    if (staff.Email != null)
                     {
                         bool IsemailExist = await context.Staffs.AnyAsync(s => staff.Email == s.Email);
                         if (IsemailExist) return (false, "Email đã được đăng ký!", null);
@@ -78,13 +78,13 @@ namespace HotelManagement.Model.Services
                     newstaff.Email = staff.Email;
                     newstaff.StaffAddress = staff.StaffAddress;
                     newstaff.PhoneNumber = staff.PhoneNumber;
-                    newstaff.CCCD=staff.CCCD;
+                    newstaff.CCCD = staff.CCCD;
                     newstaff.DateOfBirth = staff.DateOfBirth;
                     newstaff.dateOfStart = staff.dateOfStart;
                     newstaff.Gender = staff.Gender;
                     newstaff.Position = staff.Position;
                     newstaff.Username = staff.Username;
-                    newstaff.Password=staff.Password;
+                    newstaff.Password = staff.Password;
                     newstaff.Avatar = staff.Avatar;
                     newstaff.IsDeleted = false;
 
@@ -109,7 +109,7 @@ namespace HotelManagement.Model.Services
             {
                 using (var context = new HotelManagementEntities())
                 {
-                    bool isCccdExist = await context.Staffs.AnyAsync(s => staff.StaffId!=s.StaffId && staff.CCCD == s.CCCD);
+                    bool isCccdExist = await context.Staffs.AnyAsync(s => staff.StaffId != s.StaffId && staff.CCCD == s.CCCD);
                     if (isCccdExist) return (false, "CCCD đã tồn tại!");
                     bool IsphoneExist = await context.Staffs.AnyAsync(s => staff.StaffId != s.StaffId && staff.PhoneNumber == s.PhoneNumber);
                     if (IsphoneExist) return (false, "Số điện thoại đã tồn tại!");
@@ -121,18 +121,18 @@ namespace HotelManagement.Model.Services
                         if (IsemailExist) return (false, "Email đã được đăng ký!");
                     }
                     var selectStaff = await context.Staffs.FindAsync(staff.StaffId);
-                    selectStaff.StaffName= staff.StaffName;
-                    selectStaff.PhoneNumber= staff.PhoneNumber;
+                    selectStaff.StaffName = staff.StaffName;
+                    selectStaff.PhoneNumber = staff.PhoneNumber;
                     selectStaff.StaffAddress = staff.StaffAddress;
-                    selectStaff.Email= staff.Email;
-                    selectStaff.CCCD= staff.CCCD;
-                    selectStaff.Username= staff.Username;
+                    selectStaff.Email = staff.Email;
+                    selectStaff.CCCD = staff.CCCD;
+                    selectStaff.Username = staff.Username;
                     selectStaff.Position = staff.Position;
                     selectStaff.Gender = staff.Gender;
                     selectStaff.dateOfStart = staff.dateOfStart;
                     selectStaff.DateOfBirth = staff.DateOfBirth;
                     selectStaff.Avatar = staff.Avatar;
-                                      
+
                     await context.SaveChangesAsync();
                 }
             }
@@ -153,7 +153,7 @@ namespace HotelManagement.Model.Services
                 using (var context = new HotelManagementEntities())
                 {
                     Bill bill = context.Bills.FirstOrDefault(item => item.StaffId == id);
-                    if(bill != null)
+                    if (bill != null)
                     {
                         return false;
                     }
@@ -181,8 +181,8 @@ namespace HotelManagement.Model.Services
                 using (var context = new HotelManagementEntities())
                 {
                     Staff selectedStaff = await (from s in context.Staffs
-                                                  where s.StaffId == id && s.IsDeleted == false
-                                                  select s).FirstOrDefaultAsync();
+                                                 where s.StaffId == id && s.IsDeleted == false
+                                                 select s).FirstOrDefaultAsync();
                     if (selectedStaff is null || selectedStaff.IsDeleted == true)
                     {
                         return (false, "Nhân viên không tồn tại");
@@ -203,14 +203,14 @@ namespace HotelManagement.Model.Services
             }
             return (true, "Xóa nhân viên thành công");
         }
-        public async Task<(bool, string)> UpdatePassword(string staffid,string pass)
+        public async Task<(bool, string)> UpdatePassword(string staffid, string pass)
         {
             try
             {
                 using (var context = new HotelManagementEntities())
                 {
                     var selectStaff = await context.Staffs.FindAsync(staffid);
-                    selectStaff.Password=pass;
+                    selectStaff.Password = pass;
 
                     await context.SaveChangesAsync();
                 }
@@ -236,21 +236,21 @@ namespace HotelManagement.Model.Services
                                        where (username == s.Username || username == s.Email) && password == s.Password && s.IsDeleted == false
                                        select new StaffDTO
                                        {
-                                           StaffId=s.StaffId,
-                                           StaffName=s.StaffName,
-                                           PhoneNumber=s.PhoneNumber,
-                                           StaffAddress=s.StaffAddress,
-                                           Email=s.Email,
-                                           CCCD=s.CCCD,
-                                           DateOfBirth=s.DateOfBirth,
-                                           Position=s.Position,
-                                           Gender=s.Gender,
-                                           Username=s.Username,
-                                           Password=s.Password,
-                                           Avatar=s.Avatar,
-                                           dateOfStart=s.dateOfStart
+                                           StaffId = s.StaffId,
+                                           StaffName = s.StaffName,
+                                           PhoneNumber = s.PhoneNumber,
+                                           StaffAddress = s.StaffAddress,
+                                           Email = s.Email,
+                                           CCCD = s.CCCD,
+                                           DateOfBirth = s.DateOfBirth,
+                                           Position = s.Position,
+                                           Gender = s.Gender,
+                                           Username = s.Username,
+                                           Password = s.Password,
+                                           Avatar = s.Avatar,
+                                           dateOfStart = s.dateOfStart
                                        }).FirstOrDefaultAsync();
-                    if(staff == null)
+                    if (staff == null)
                     {
                         return (false, "Sai tài khoản hoặc mật khẩu", null);
                     }

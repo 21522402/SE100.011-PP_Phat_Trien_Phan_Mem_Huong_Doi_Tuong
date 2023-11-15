@@ -100,7 +100,8 @@ namespace HotelManagement.View.Admin.FurnitureManagement
             if (String.IsNullOrEmpty(SearchBox.Text))
                 return true;
             else
-                return ((item as FurnitureDTO).FurnitureName.IndexOf(SearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+                return ((item as FurnitureDTO).FurnitureName.IndexOf(SearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0) ||
+                    ((item as FurnitureDTO).FurnitureType.IndexOf(SearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0) ;
         }
 
     }

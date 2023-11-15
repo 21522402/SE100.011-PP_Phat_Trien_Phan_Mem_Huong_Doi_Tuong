@@ -76,12 +76,15 @@
                 <StackPanel Margin="30 0 0 0" Width="205" Height="38" Orientation="Horizontal">
                     <materialDesign:PackIcon Kind="FilterOutline" VerticalAlignment="Center" Width="20" Height="20" Margin="0 0 12 0"/>
                     <Border CornerRadius="10" Width="173" Background="White" BorderBrush="Black" BorderThickness="0.5">
-                        <ComboBox Background="Transparent" FontSize="14" FontFamily="{StaticResource MaterialDesignFont}" FontWeight="Regular" ItemsSource="{Binding CurrentListFurnitureType}" SelectedItem="{Binding SelectedItemFilter}" BorderBrush="#1D242E" Foreground="#1D242E" Padding="10 11 10 10" Style="{StaticResource MaterialDesignComboBox}" BorderThickness="0" VerticalAlignment="Stretch">
+                        <ComboBox Background="Transparent" FontSize="14" FontFamily="{StaticResource MaterialDesignFont}" FontWeight="Regular" SelectedItem="{Binding SelectedItemFilter}" BorderBrush="#1D242E" Foreground="#1D242E" Padding="10 11 10 10" Style="{StaticResource MaterialDesignComboBox}" BorderThickness="0" VerticalAlignment="Stretch">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SelectionChanged">
                                     <i:InvokeCommandAction Command="{Binding SelectionFilterChangeCM}" />
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
+                            <ComboBoxItem Content="Tất cả" IsSelected="True" Tag="All"/>
+                            <ComboBoxItem Content="Nội thất" Tag="Furniture"/>
+                            <ComboBoxItem Content="Tiện ích" Tag="Utilities"/>
                         </ComboBox>
                         
                     </Border>
@@ -89,6 +92,18 @@
             </StackPanel>
 
             <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Grid Cursor="Hand" Margin="0 0 20 0">
+                    <Rectangle Width="155" Height="43" RadiusX="10" RadiusY="10" Fill="{StaticResource AddBtn_Furniture}"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Image Source="{StaticResource PlusIcon}" VerticalAlignment="Center" Width="14" Height="14"/>
+                        <TextBlock VerticalAlignment="Center" Margin="10 0 0 0" Text="Nhập tiện nghi" FontSize="15" FontWeight="Medium" FontFamily="{StaticResource MaterialDesignFont}" Foreground="White"/>
+                    </StackPanel>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseLeftButtonDown">
+                            <i:InvokeCommandAction Command="{Binding OpenImportListFurnitureCM}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </Grid>
                 <Grid Cursor="Hand">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseLeftButtonDown">
@@ -101,19 +116,6 @@
                         <TextBlock VerticalAlignment="Center" Margin="10 0 0 0" Text="Thêm tiện nghi" FontSize="15" FontWeight="Medium" FontFamily="{StaticResource MaterialDesignFont}" Foreground="White"/>
                     </StackPanel>
                 </Grid>
-                <!--<Rectangle Width="27" Height="46" Fill="Transparent"/>-->
-                <!--<Grid Cursor="Hand" MouseLeftButtonDown="Grid_MouseLeftButtonDown">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="MouseLeftButtonDown">
-                            <i:InvokeCommandAction Command="{Binding OpenImportListFurnitureCM}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                    <Rectangle Width="173" Height="46" RadiusX="10" RadiusY="10" Fill="{StaticResource AddBtn_Furniture}"/>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Image Source="{StaticResource PlusIcon}" VerticalAlignment="Center" Width="14" Height="14"/>
-                        <TextBlock VerticalAlignment="Center" Margin="10 0 0 0" Text="Nhập tiện nghi" FontSize="15" FontWeight="Bold" FontFamily="{StaticResource MaterialDesignFont}" Foreground="White"/>
-                    </StackPanel>
-                </Grid>-->
             </StackPanel>
         </Grid>
 

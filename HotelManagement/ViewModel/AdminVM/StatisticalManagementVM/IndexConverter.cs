@@ -9,19 +9,19 @@ using System.Windows.Data;
 
 namespace HotelManagement.ViewModel.AdminVM.StatisticalManagementVM
 {
-    public class IndexConverter : IValueConverter
+    public class IndexConverter
     {
-        public object Convert(object value, Type TargetType, object parameter, CultureInfo culture)
-        {
-            ListViewItem item = (ListViewItem)value;
-            ListView listView = ItemsControl.ItemsControlFromItemContainer(item) as ListView;
-            int index = listView.ItemContainerGenerator.IndexFromContainer(item);
-            return (index + 1).ToString();
-        }
+        //public object Convert(object value, Type TargetType, object parameter, CultureInfo culture)
+        //{
+        //    ListViewItem item = (ListViewItem)value;
+        //    ListView listView = ItemsControl.ItemsControlFromItemContainer(item) as ListView;
+        //    int index = listView.ItemContainerGenerator.IndexFromContainer(item);
+        //    return (index + 1).ToString();
+        //}
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+        //public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

@@ -50,9 +50,9 @@ namespace HotelManagement.Model.Services
                         {
                             FurnitureID = p.FurnitureId,
                             FurnitureAvatarData = p.FurnitureAvatar,
-                            FurnitureName = p.FurnitureName,
                             FurnitureType = p.FurnitureType,
-                            Quantity = (int)p.FurnitureStorage.QuantityFurniture,
+                            FurnitureName = p.FurnitureName,
+                            Quantity = (int)p.QuantityOfStorage,
                         }
                     ).ToListAsync();
                 }
@@ -81,22 +81,6 @@ namespace HotelManagement.Model.Services
                 return null;
             }
         }
-        public async Task<List<string>> GetAllFurnitureType()
-        {
-            try
-            {
-                using (HotelManagementEntities db = new HotelManagementEntities())
-                {
-                   var list = await db.Furnitures.Select(x => x.FurnitureType).ToListAsync();
-                    list.Insert(0, "Tất cả");
-                    return list;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
 
         public async Task<(bool, string)> SaveEditFurniture(FurnitureDTO furnitureSelected)
         {
@@ -115,7 +99,7 @@ namespace HotelManagement.Model.Services
                     }
                     furniture.FurnitureName = furnitureSelected.FurnitureName;
                     furniture.FurnitureType = furnitureSelected.FurnitureType;
-                    furniture.FurnitureStorage.QuantityFurniture = furnitureSelected.Quantity;
+                    furniture.QuantityOfStorage = furnitureSelected.Quantity;
                     furniture.FurnitureAvatar = furnitureSelected.FurnitureAvatarData;
 
                     await db.SaveChangesAsync();
@@ -137,7 +121,7 @@ namespace HotelManagement.Model.Services
             {
                 using (HotelManagementEntities db = new HotelManagementEntities())
                 {
-                    Furniture furniture = await db.Furnitures.FirstOrDefaultAsync(item => item.FurnitureName == furnitureSelected.FurnitureName && item.FurnitureType == furnitureSelected.FurnitureType);
+                    Furniture furniture = await db.Furnitures.FirstOrDefaultAsync(item => item.FurnitureName == furnitureSelected.FurnitureName);
                     
                     if (furniture != null)
                     {
@@ -157,15 +141,10 @@ namespace HotelManagement.Model.Services
                         FurnitureId = mainID,
                         FurnitureName = furnitureSelected.FurnitureName,
                         FurnitureType = furnitureSelected.FurnitureType,
+                        QuantityOfStorage = 0,
                         FurnitureAvatar = furnitureSelected.FurnitureAvatarData,
                     };
-                    FurnitureStorage furnitureStorage = new FurnitureStorage
-                    {
-                        FurnitureId = fnt.FurnitureId,
-                        QuantityFurniture = 0,
-                    };
                     db.Furnitures.Add(fnt);
-                    db.FurnitureStorages.Add(furnitureStorage);
                     await db.SaveChangesAsync();
                     return (true, "Thêm tiện nghi thành công", mainID);
                 }
@@ -184,18 +163,23 @@ namespace HotelManagement.Model.Services
         {
             try
             {
-                using(HotelManagementEntities db = new HotelManagementEntities())
+                using (HotelManagementEntities db = new HotelManagementEntities())
                 {
-                    Furniture furniture = await db.Furnitures.FirstOrDefaultAsync(item => item.FurnitureId == furnitureSelected.FurnitureID);
-                    if (furniture == null)
+                    Furniture Furniture = await db.Furnitures.FirstOrDefaultAsync(item => item.FurnitureId == furnitureSelected.FurnitureID);
+
+                    if (Furniture == null)
                         return (false, "Không tìm thấy tiện nghi trong cơ sở dữ liệu");
 
-                    db.FurnitureStorages.Remove(furniture.FurnitureStorage);
-                    db.Furnitures.Remove(furniture);
+                    FurnitureReceiptDetail prd = await db.FurnitureReceiptDetails.FirstOrDefaultAsync(item => item.FurnitureId == furnitureSelected.FurnitureID);
+
+                    if (prd != null)
+                        return (false, "Không thể xóa sản phẩm do bị ràng buộc tham chiếu của phiếu nhập tiện nghi");
+
+                    db.Furnitures.Remove(Furniture);
 
                     await db.SaveChangesAsync();
                     return (true, "Xóa tiện nghi thành công");
-                }    
+                }
             }
             catch(EntityException e)
             {
@@ -206,26 +190,19 @@ namespace HotelManagement.Model.Services
                 return (false, "Lỗi hệ thống");
             }
         }
-        
-        public async Task<(bool, string)> ImportFurniture(FurnitureDTO furnitureSelected, string importPrice, string importQuantity)
+
+        public async Task<(bool, string)> ImportFurniture(FurnitureDTO FurnitureSelected, double importPrice, int importQuantity)
         {
             try
             {
-                using(HotelManagementEntities db = new HotelManagementEntities())
+                using (HotelManagementEntities db = new HotelManagementEntities())
                 {
-                    Furniture furniture = await db.Furnitures.FirstOrDefaultAsync(item => item.FurnitureId == furnitureSelected.FurnitureID);
-                    if (furniture == null)
+                    Furniture Furniture = await db.Furnitures.FirstOrDefaultAsync(item => item.FurnitureId == FurnitureSelected.FurnitureID);
+                    if (Furniture == null)
                         return (false, "Không tìm thấy tiện nghi trong cơ sở dữ liệu");
 
-                    int ID = db.FurnitureReceipts.ToList().Count();
-                    string mainID;
-                    if (ID == 0)
-                        mainID = "0001";
-                    else
-                    {
-                        ID = int.Parse(db.FurnitureReceipts.ToList().Max(item => item.FurnitureReceiptId));
-                        mainID = getID(++ID);
-                    }
+                    string nextFurnitureReceiptId = getFurnitureReceiptId(db.FurnitureReceipts.ToList());
+                    string nextFurnitureReceiptDetailId = getID(getMaxFurnitureReceiptId(db.FurnitureReceiptDetails.ToList()) + 1);
 
                     string id = "";
 
@@ -237,22 +214,31 @@ namespace HotelManagement.Model.Services
                     {
                         id = StaffVM.CurrentStaff.StaffId;
                     }
-                    FurnitureReceipt furnitureReceipt = new FurnitureReceipt
+                    FurnitureReceipt FurnitureReceipt = new FurnitureReceipt
                     {
-                        FurnitureReceiptId = mainID,
-                        FurnitureId = furniture.FurnitureId,
+                        FurnitureReceiptId = nextFurnitureReceiptId,
                         StaffId = id,
-                        ImportPrice = float.Parse(importPrice),
-                        Quantity = int.Parse(importQuantity),
+                        Price = importPrice * importQuantity,
                         CreateAt = DateTime.Now,
                     };
-                    db.FurnitureReceipts.Add(furnitureReceipt);
-                    furniture.FurnitureStorage.QuantityFurniture = furniture.FurnitureStorage.QuantityFurniture + int.Parse(importQuantity);
+
+                    FurnitureReceiptDetail FurnitureReceiptDetail = new FurnitureReceiptDetail
+                    {
+                        FurnitureReceiptDetailId = nextFurnitureReceiptDetailId,
+                        FurnitureReceiptId = nextFurnitureReceiptId,
+                        FurnitureId = FurnitureSelected.FurnitureID,
+                        ImportPrice = importPrice,
+                        Quantity = importQuantity,
+                    };
+
+                    db.FurnitureReceipts.Add(FurnitureReceipt);
+                    db.FurnitureReceiptDetails.Add(FurnitureReceiptDetail);
+                    Furniture.QuantityOfStorage = (int)Furniture.QuantityOfStorage + importQuantity;
                     await db.SaveChangesAsync();
-                    return (true, "Nhập sản phẩm thành công");
-                }    
+                    return (true, "Nhập tiện nghi thành công");
+                }
             }
-            catch(EntityException e)
+            catch (EntityException e)
             {
                 return (false, "Mất kết nối cơ sở dữ liệu");
             }
@@ -269,15 +255,7 @@ namespace HotelManagement.Model.Services
                 List<FurnitureDTO> listFurniture = new List<FurnitureDTO>(orderList);
                 using (HotelManagementEntities db = new HotelManagementEntities())
                 {
-                    int Length = orderList.Count;
-                    int ID = db.FurnitureReceipts.ToList().Count();
-                    string mainID;
-                    if (ID == 0)
-                        mainID = "0001";
-                    else
-                    {
-                        ID = int.Parse(db.FurnitureReceipts.ToList().Max(item => item.FurnitureReceiptId));
-                    }
+
                     string id = "";
 
                     if (AdminVM.CurrentStaff != null)
@@ -288,30 +266,43 @@ namespace HotelManagement.Model.Services
                     {
                         id = StaffVM.CurrentStaff.StaffId;
                     }
+
+                    int Length = orderList.Count;
+                    string nextFurnitureReceiptId = getFurnitureReceiptId(db.FurnitureReceipts.ToList());
+
+                    FurnitureReceipt FurnitureReceipt = new FurnitureReceipt
+                    {
+                        FurnitureReceiptId = nextFurnitureReceiptId,
+                        StaffId = id,
+                        CreateAt = DateTime.Now,
+                        Price = listFurniture.Sum((item) => item.ImportPrice)
+                    };
+
+                    db.FurnitureReceipts.Add(FurnitureReceipt);
+                    int maxIdReceiptDetail = getMaxFurnitureReceiptId(db.FurnitureReceiptDetails.ToList());
                     for (int i = 0; i < Length; i++)
                     {
                         FurnitureDTO temp = orderList[i];
-                        Furniture furniture = await db.Furnitures.FirstOrDefaultAsync(item => item.FurnitureId == temp.FurnitureID);
-                        if (furniture == null)
-                            return (false, "Không tìm thấy tiện nghi " + furniture.FurnitureName + " trong cơ sở dữ liệu",null);
+                        Furniture Furniture = await db.Furnitures.FirstOrDefaultAsync(item => item.FurnitureId == temp.FurnitureID);
+                        if (Furniture == null)
+                            return (false, "Không tìm thấy tiện nghi " + Furniture.FurnitureName + " trong cơ sở dữ liệu", null);
 
-                        mainID = getID(++ID);
 
-                        FurnitureReceipt furnitureReceipt = new FurnitureReceipt
+                        string nextFurnitureReceiptDetailId = getID(++maxIdReceiptDetail);
+                        FurnitureReceiptDetail FurnitureReceiptDetail = new FurnitureReceiptDetail
                         {
-                            FurnitureReceiptId = mainID,
-                            FurnitureId = furniture.FurnitureId,
-                            StaffId = id,
+                            FurnitureReceiptDetailId = nextFurnitureReceiptDetailId,
+                            FurnitureReceiptId = nextFurnitureReceiptId,
                             ImportPrice = temp.ImportPrice,
                             Quantity = temp.ImportQuantity,
-                            CreateAt = DateTime.Now,
                         };
-                        db.FurnitureReceipts.Add(furnitureReceipt);
-                        furniture.FurnitureStorage.QuantityFurniture = furniture.FurnitureStorage.QuantityFurniture + temp.ImportQuantity;
-                        listFurniture[i].Quantity = (int)furniture.FurnitureStorage.QuantityFurniture;
-                    }    
+
+                        db.FurnitureReceiptDetails.Add(FurnitureReceiptDetail);
+                        listFurniture[i].Quantity = (int)Furniture.QuantityOfStorage + temp.ImportQuantity;
+                        Furniture.QuantityOfStorage = (int)Furniture.QuantityOfStorage + temp.ImportQuantity;
+                    }
                     await db.SaveChangesAsync();
-                    return (true, "Nhập tiện nghi thành công", listFurniture);
+                    return (true, "Nhập sản phẩm thành công", listFurniture);
                 }
             }
             catch (EntityException e)
@@ -365,75 +356,92 @@ namespace HotelManagement.Model.Services
 
             return bitmapImage;
         }
-        public async Task<List<ImportProductDTO>> GetListImportFuniture()
+        //public async Task<List<ImportFurnitureDTO>> GetListImportFuniture()
+        //{
+        //    try
+        //    {
+        //        using (HotelManagementEntities db = new HotelManagementEntities())
+        //        {
+        //            List<ImportFurnitureDTO> ImportFuniture = await (
+        //                                                    from g in db.FurnitureReceipts
+        //                                                    join s in db.Furnitures
+        //                                                    on g.FurnitureId equals s.FurnitureId into gs
+        //                                                    from s in gs.DefaultIfEmpty()
+        //                                                    join st in db.Staffs
+        //                                                    on g.StaffId equals st.StaffId into gst
+        //                                                    from st in gst.DefaultIfEmpty()
+        //                                                    orderby g.CreateAt descending
+        //                                                    select new ImportFurnitureDTO
+        //                                                    {
+        //                                                        ImportId = g.FurnitureId,
+        //                                                        FurnitureName = s.FurnitureName,
+        //                                                        FurnitureImportQuantity = (int)g.Quantity,
+        //                                                        FurnitureImportPrice = (double)g.ImportPrice,
+        //                                                        StaffName = st.StaffName,
+        //                                                        CreatedDate = (DateTime)g.CreateAt,
+        //                                                        typeimport = 1
+        //                                                    }
+        //                                                    ).ToListAsync();
+        //            return ImportFuniture;
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw e;
+        //    }
+        //}
+        //public async Task<List<ImportFurnitureDTO>> GetListImportFuniture(int month)
+        //{
+        //    try
+        //    {
+        //        using (HotelManagementEntities db = new HotelManagementEntities())
+        //        {
+        //            List<ImportFurnitureDTO> ImportFuniture = await (
+        //                                                    from g in db.FurnitureReceipts
+        //                                                    join s in db.Furnitures
+        //                                                    on g.FurnitureId equals s.FurnitureId into gs
+        //                                                    from s in gs.DefaultIfEmpty()
+        //                                                    join st in db.Staffs
+        //                                                    on g.StaffId equals st.StaffId into gst
+        //                                                    from st in gst.DefaultIfEmpty()
+        //                                                    where ((DateTime)g.CreateAt).Year == DateTime.Today.Year && ((DateTime)g.CreateAt).Month == month
+        //                                                    orderby g.CreateAt descending
+        //                                                    select new ImportFurnitureDTO
+        //                                                    {
+        //                                                        ImportId = g.FurnitureId,
+        //                                                        FurnitureName = s.FurnitureName,
+        //                                                        FurnitureImportQuantity = (int)g.Quantity,
+        //                                                        FurnitureImportPrice = (double)g.ImportPrice,
+        //                                                        StaffName = st.StaffName,
+        //                                                        CreatedDate = (DateTime)g.CreateAt,
+        //                                                        typeimport = 1
+        //                                                    }
+        //                                                    ).ToListAsync();
+        //            return ImportFuniture;
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw e;
+        //    }
+        //}
+        public int getMaxFurnitureReceiptId(List<FurnitureReceiptDetail> listFurnitureReceiptDetail)
         {
-            try
-            {
-                using (HotelManagementEntities db = new HotelManagementEntities())
-                {
-                    List<ImportProductDTO> ImportFuniture = await (
-                                                            from g in db.FurnitureReceipts
-                                                            join s in db.Furnitures
-                                                            on g.FurnitureId equals s.FurnitureId into gs
-                                                            from s in gs.DefaultIfEmpty()
-                                                            join st in db.Staffs
-                                                            on g.StaffId equals st.StaffId into gst
-                                                            from st in gst.DefaultIfEmpty()
-                                                            orderby g.CreateAt descending
-                                                            select new ImportProductDTO
-                                                            {
-                                                                ImportId = g.FurnitureId,
-                                                                ProductName = s.FurnitureName,
-                                                                ProductImportQuantity = (int)g.Quantity,
-                                                                ProductImportPrice = (float)g.ImportPrice,
-                                                                StaffName = st.StaffName,
-                                                                CreatedDate = (DateTime)g.CreateAt,
-                                                                typeimport = 1
-                                                            }
-                                                            ).ToListAsync();
-                    return ImportFuniture;
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            return listFurnitureReceiptDetail.Count();
         }
-        public async Task<List<ImportProductDTO>> GetListImportFuniture(int month)
+        public string getFurnitureReceiptId(List<FurnitureReceipt> listFurnitureReceipt)
         {
-            try
+            int FurnitureReceiptID = listFurnitureReceipt.Count();
+            string mainID;
+            if (FurnitureReceiptID == 0)
+                mainID = "0001";
+            else
             {
-                using (HotelManagementEntities db = new HotelManagementEntities())
-                {
-                    List<ImportProductDTO> ImportFuniture = await (
-                                                            from g in db.FurnitureReceipts
-                                                            join s in db.Furnitures
-                                                            on g.FurnitureId equals s.FurnitureId into gs
-                                                            from s in gs.DefaultIfEmpty()
-                                                            join st in db.Staffs
-                                                            on g.StaffId equals st.StaffId into gst
-                                                            from st in gst.DefaultIfEmpty()
-                                                            where ((DateTime)g.CreateAt).Year == DateTime.Today.Year && ((DateTime)g.CreateAt).Month == month
-                                                            orderby g.CreateAt descending
-                                                            select new ImportProductDTO
-                                                            {
-                                                                ImportId = g.FurnitureId,
-                                                                ProductName = s.FurnitureName,
-                                                                ProductImportQuantity = (int)g.Quantity,
-                                                                ProductImportPrice = (float)g.ImportPrice,
-                                                                StaffName = st.StaffName,
-                                                                CreatedDate = (DateTime)g.CreateAt,
-                                                                typeimport = 1
-                                                            }
-                                                            ).ToListAsync();
-                    return ImportFuniture;
-                }
+                FurnitureReceiptID = int.Parse(listFurnitureReceipt.Max(item => item.FurnitureReceiptId));
+                mainID = getID(++FurnitureReceiptID);
             }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
 
+            return mainID;
+        }
     }
 }
