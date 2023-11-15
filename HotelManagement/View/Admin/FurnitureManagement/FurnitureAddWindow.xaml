@@ -65,18 +65,14 @@
                                         <Grid>
                                             <StackPanel x:Name="SelectTypeFurniture" Visibility="Visible" Orientation="Horizontal">
                                                 <Border CornerRadius="4" BorderThickness="0.2" Height="30" BorderBrush="#1D242E">
-                                                    <Grid VerticalAlignment="Center" Height="25">
+                                                    <Grid VerticalAlignment="Center" HorizontalAlignment="Stretch" Height="25">
                                                         <ComboBox Margin="2,0,2,0" BorderBrush="#FF4B4B4B"
-                                                                  ItemsSource="{Binding AllFurnitureType}"
-                                                                Height="25" SelectedItem="{Binding furnitureCache.FurnitureType}" Padding="5 2 3 0" Width="210" FontSize="16" FontWeight="Regular" FontFamily="{StaticResource MaterialDesignFont}" Foreground="#FF4B4B4B">
+                                                                Height="25" ItemsSource="{Binding AllFurnitureType}" SelectedIndex="0" SelectedItem="{Binding furnitureCache.FurnitureType}" Padding="5 2 3 0" FontSize="16" Width="233" FontWeight="Regular" FontFamily="{StaticResource MaterialDesignFont}" Foreground="#FF4B4B4B">
                                                         </ComboBox>
                                                         <Rectangle Margin="1 0 1 -1" VerticalAlignment="Bottom" Fill="White" Height="3"/>
                                                     </Grid>
                                                 </Border>
                                             
-                                                <Border x:Name="BtnAdd" MouseLeftButtonDown="BtnAdd_MouseLeftButtonDown" Width="20" Height="20" Cursor="Hand" CornerRadius="20" Margin="5 0 0 0" Background="#C95D3B" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                    <materialDesign:PackIcon Kind="Add" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Foreground="White"/>
-                                                </Border>
                                             </StackPanel>
                                             <StackPanel x:Name="AddNewTypeFurniture" Visibility="Collapsed" Orientation="Horizontal">
                                                 <Border CornerRadius="4" BorderThickness="0.2" Height="30" BorderBrush="#1D242E" HorizontalAlignment="Left">

@@ -109,6 +109,7 @@
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
@@ -134,8 +135,13 @@
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
     </Reference>
-    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    <Reference Include="System.Runtime, Version=4.1.1.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.1\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
@@ -174,6 +180,7 @@
     </ApplicationDefinition>
     <Compile Include="DTOs\BillDTO.cs" />
     <Compile Include="DTOs\CustomerDTO.cs" />
+    <Compile Include="DTOs\FurnitureRoomTypeDTO.cs" />
     <Compile Include="DTOs\ImportProductDTO.cs" />
     <Compile Include="DTOs\ListRoomTypeDTO.cs" />
     <Compile Include="DTOs\RoomDTO.cs" />
@@ -248,6 +255,7 @@
       <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Services\BillService.cs" />
+    <Compile Include="Model\Services\FurnitureRoomTypeService.cs" />
     <Compile Include="Model\Services\OverviewStatisticService.cs" />
     <Compile Include="Model\Services\RoomTypeFurnitureServiceQui.cs" />
     <Compile Include="Model\Services\RoomCustomerService.cs" />
@@ -267,6 +275,9 @@
     </Compile>
     <Compile Include="ViewModel\AdminVM\CustomerManagementVM\CustomerManagementVM.cs" />
     <Compile Include="ViewModel\AdminVM\HistoryManagementVM\HistoryManagementVM.cs" />
+    <Compile Include="ViewModel\AdminVM\ProductManagementVM\EditProductManagement.cs" />
+    <Compile Include="ViewModel\AdminVM\ProductManagementVM\ImportProductVM.cs" />
+    <Compile Include="ViewModel\AdminVM\ProductManagementVM\ProductManagementVM.cs" />
     <Compile Include="ViewModel\AdminVM\RoomFurnitureManagementVM\RoomFurnitureDeleteVM.cs" />
     <Compile Include="ViewModel\AdminVM\RoomFurnitureManagementVM\RoomFurnitureManagementVM.cs" />
     <Compile Include="ViewModel\AdminVM\RoomManagementVM\RoomManagementVM.cs" />
@@ -298,8 +309,6 @@
     <Compile Include="DTOs\FurnituresRoomDTO.cs" />
     <Compile Include="DTOs\ProductDTO.cs" />
     <Compile Include="Model\Services\FurnitureService.cs" />
-    <Compile Include="Model\Services\FurnituresRoomService.cs" />
-    <Compile Include="Model\Services\ServiceHelper.cs" />
     <Compile Include="ViewModel\AdminVM\FurnitureManagementVM\AddFurnitureVM.cs" />
     <Compile Include="ViewModel\AdminVM\FurnitureManagementVM\EditFurnitureVM.cs" />
     <Compile Include="ViewModel\AdminVM\FurnitureManagementVM\ImportFurnitureVM.cs" />
@@ -309,8 +318,6 @@
     <Compile Include="ViewModel\AdminVM\StaffManagementVM\AddStaffVM.cs" />
     <Compile Include="ViewModel\AdminVM\StaffManagementVM\ChangePassCM.cs" />
     <Compile Include="ViewModel\AdminVM\StaffManagementVM\EditStaffVM.cs" />
-    <Compile Include="ViewModel\AdminVM\ServiceManagementVM\EditServiceManagement.cs" />
-    <Compile Include="ViewModel\AdminVM\ServiceManagementVM\ImportServiceVM.cs" />
     <Compile Include="ViewModel\BookingRoomManagementVM\BookingRoomManagementVM.cs" />
     <Compile Include="ViewModel\AdminVM\TroubleManagementVM\EditConverter.cs" />
     <Compile Include="ViewModel\HelpScreenVM\HelpScreenVM.cs" />
@@ -323,11 +330,23 @@
     <Compile Include="ViewModel\StaffVM\TroubleReportVM\EditConverter.cs" />
     <Compile Include="ViewModel\StaffVM\TroubleReportVM\EditTroubleReportVM.cs" />
     <Compile Include="ViewModel\StaffVM\TroubleReportVM\TroubleReportVM.cs" />
-    <Compile Include="View\Admin\FurnitureManagement\ImportListWD.xaml.cs">
-      <DependentUpon>ImportListWD.xaml</DependentUpon>
+    <Compile Include="View\Admin\FurnitureManagement\ImportListFurnitureWindow.xaml.cs">
+      <DependentUpon>ImportListFurnitureWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Admin\FurnitureManagement\PreviewImportListFurniture.xaml.cs">
+      <DependentUpon>PreviewImportListFurniture.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Admin\HistoryManagement\BillDetail.xaml.cs">
       <DependentUpon>BillDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Admin\ProductManagement\ImportListProductWindow.xaml.cs">
+      <DependentUpon>ImportListProductWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Admin\ProductManagement\PreviewImportListProduct.xaml.cs">
+      <DependentUpon>PreviewImportListProduct.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Admin\ProductManagement\ProductManagementPage.xaml.cs">
+      <DependentUpon>ProductManagementPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Admin\RoomFurnitureManagement\RoomFurnitureDeleteWindow.xaml.cs">
       <DependentUpon>RoomFurnitureDeleteWindow.xaml</DependentUpon>
@@ -353,17 +372,11 @@
     <Compile Include="View\Admin\ServiceManagement\AddProductWindow.xaml.cs">
       <DependentUpon>AddProductWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Admin\ServiceManagement\EditProductWindow.xaml.cs">
+    <Compile Include="View\Admin\ProductManagement\EditProductWindow.xaml.cs">
       <DependentUpon>EditProductWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Admin\ServiceManagement\ImportProductWindow.xaml.cs">
+    <Compile Include="View\Admin\ProductManagement\ImportProductWindow.xaml.cs">
       <DependentUpon>ImportProductWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Admin\ServiceManagement\OtherServices\EditCleanServiceWindow.xaml.cs">
-      <DependentUpon>EditCleanServiceWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Admin\ServiceManagement\OtherServices\OtherServicesWindow.xaml.cs">
-      <DependentUpon>OtherServicesWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\StaffVM\RoomCatalogManagementVM\RoomInfoVM\RoomInfoVM.cs" />
     <Compile Include="ViewModel\StaffVM\RoomCatalogManagementVM\RoomOrderVM\RoomOrderVM.cs" />
@@ -483,7 +496,6 @@
     <Compile Include="Utilities\RelyCommand.cs" />
     <Compile Include="ViewModel\AdminVM\AdminVM.cs" />
     <Compile Include="ViewModel\AdminVM\FurnitureManagementVM\FurnitureManagementVM.cs" />
-    <Compile Include="ViewModel\AdminVM\ServiceManagementVM\ServiceManagementVM.cs" />
     <Compile Include="ViewModel\BaseVM.cs" />
     <Compile Include="ViewModel\StaffVM\StaffVM.cs" />
     <Compile Include="View\Admin\AdminWindow.xaml.cs">
@@ -536,9 +548,6 @@
     </Compile>
     <Compile Include="View\Admin\TroubleManagement\TroubleManagementPage.xaml.cs">
       <DependentUpon>TroubleManagementPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Admin\ServiceManagement\ServiceManagementPage.xaml.cs">
-      <DependentUpon>ServiceManagementPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\HelpScreen\Frequently_asked_questions.xaml.cs">
       <DependentUpon>Frequently_asked_questions.xaml</DependentUpon>
@@ -633,11 +642,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Admin\FurnitureManagement\ImportListWD.xaml">
+    <Page Include="View\Admin\FurnitureManagement\ImportListFurnitureWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Admin\FurnitureManagement\PreviewImportListFurniture.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Admin\HistoryManagement\BillDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Admin\ProductManagement\ImportListProductWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Admin\ProductManagement\PreviewImportListProduct.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Admin\ProductManagement\ProductManagementPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -664,28 +689,29 @@
     <Page Include="View\Admin\RoomManagement\RoomManagement.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Admin\RoomTypeManagement\AddRoomType.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Admin\ServiceManagement\AddProductWindow.xaml">
+    <Page Include="View\Admin\RoomTypeFurnitureManagement\RoomTypeFurnitureManagementPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Admin\ServiceManagement\EditProductWindow.xaml">
+    <Page Include="View\Admin\RoomTypeManagement\NoteRoomType.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Admin\ServiceManagement\ImportProductWindow.xaml">
+    <Page Include="View\Admin\ProductManagement\AddProductWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Admin\ServiceManagement\OtherServices\EditCleanServiceWindow.xaml">
+    <Page Include="View\Admin\ProductManagement\EditProductWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Admin\ServiceManagement\OtherServices\OtherServicesWindow.xaml">
+    <Page Include="View\Admin\ProductManagement\ImportProductWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -914,10 +940,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Admin\TroubleManagement\TroubleManagementPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Admin\ServiceManagement\ServiceManagementPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -74,26 +74,26 @@ namespace HotelManagement.Model.Services
             string CodeID = index.ToString();
             while (CodeID.Length < 3) CodeID = "0" + CodeID;
 
-            return "PH" + CodeID;
-        }
-        public async Task<(bool, string, RoomDTO)> AddRoom(RoomDTO newRoom)
-        {
-            try
-            {
-                using (var context = new HotelManagementEntities())
-                {
-                    Room r = context.Rooms.Where((Room Room) => Room.RoomNumber == newRoom.RoomNumber).FirstOrDefault();
+        //    return "PH" + CodeID;
+        //}
+        //public async Task<(bool, string, RoomDTO)> AddRoom(RoomDTO newRoom)
+        //{
+        //    try
+        //    {
+        //        using (var context = new HotelManagementEntities())
+        //        {
+        //            Room r = context.Rooms.Where((Room Room) => Room.RoomNumber == newRoom.RoomNumber).FirstOrDefault();
 
                     if (r != null)
                     {
 
                         return (false, $"Phòng {r.RoomNumber} đã tồn tại!", null);
 
-                    }
-                    else
-                    {
-                        var listid = await context.Rooms.Select(s => s.RoomId).ToListAsync();
-                        string maxId = "";
+        //            }
+        //            else
+        //            {
+        //                var listid = await context.Rooms.Select(s => s.RoomId).ToListAsync();
+        //                string maxId = "";
 
                         if (listid.Count > 0)
                             maxId = listid[listid.Count - 1];
@@ -127,14 +127,14 @@ namespace HotelManagement.Model.Services
                 }
                 return (false, "DbEntityValidationException", null);
 
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                return (false, $"Error Server {e}", null);
-            }
-            return (true, "Thêm phòng thành công", newRoom);
-        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine(e);
+        //        return (false, $"Error Server {e}", null);
+        //    }
+        //    return (true, "Thêm phòng thành công", newRoom);
+        //}
 
         public async Task<(bool, string)> DeleteRoom(string Id)
         {
@@ -160,27 +160,27 @@ namespace HotelManagement.Model.Services
             return (true, "Xóa phòng thành công");
         }
 
-        public async Task<(bool, string)> UpdateRoom(RoomDTO updatedRoom)
-        {
-            try
-            {
-                using (var context = new HotelManagementEntities())
-                {
-                    Room room = context.Rooms.Find(updatedRoom.RoomId);
+        //public async Task<(bool, string)> UpdateRoom(RoomDTO updatedRoom)
+        //{
+        //    try
+        //    {
+        //        using (var context = new HotelManagementEntities())
+        //        {
+        //            Room room = context.Rooms.Find(updatedRoom.RoomId);
 
-                    if (room is null)
-                    {
-                        return (false, "Phòng này không tồn tại!");
-                    }
+        //            if (room is null)
+        //            {
+        //                return (false, "Phòng này không tồn tại!");
+        //            }
 
-                    // ở dưới phải đợi thêm r fix, code coment ở dưới tức là khi
-                    // phòng đã có người đặt hoặc đang thuê thì không thể chỉnh sửa
+        //            // ở dưới phải đợi thêm r fix, code coment ở dưới tức là khi
+        //            // phòng đã có người đặt hoặc đang thuê thì không thể chỉnh sửa
 
-                    //bool IsExistRoomNumber = context.Rooms.Any((Room r) => r.RoomId != room.RoomTypeId && r.RoomNumber == updatedRoom.RoomNumber);
-                    //if (IsExistRoomNumber)
-                    //{
-                    //    return (false, "Phòng đang được sử dụng không thể chỉnh sửa!");
-                    //}
+        //            //bool IsExistRoomNumber = context.Rooms.Any((Room r) => r.RoomId != room.RoomTypeId && r.RoomNumber == updatedRoom.RoomNumber);
+        //            //if (IsExistRoomNumber)
+        //            //{
+        //            //    return (false, "Phòng đang được sử dụng không thể chỉnh sửa!");
+        //            //}
 
                     room.RoomId = updatedRoom.RoomId;
                     room.RoomNumber = updatedRoom.RoomNumber;
@@ -188,24 +188,24 @@ namespace HotelManagement.Model.Services
                     room.Note = updatedRoom.Note;
                     room.RoomTypeId = updatedRoom.RoomTypeId;
 
-                    await context.SaveChangesAsync();
-                    return (true, "Cập nhật thành công");
-                }
-            }
-            catch (DbEntityValidationException)
-            {
-                return (false, "DbEntityValidationException");
-            }
-            catch (DbUpdateException e)
-            {
-                return (false, $"DbUpdateException: {e.Message}");
-            }
-            catch (Exception)
-            {
-                return (false, "Lỗi hệ thống");
-            }
+        //            await context.SaveChangesAsync();
+        //            return (true, "Cập nhật thành công");
+        //        }
+        //    }
+        //    catch (DbEntityValidationException)
+        //    {
+        //        return (false, "DbEntityValidationException");
+        //    }
+        //    catch (DbUpdateException e)
+        //    {
+        //        return (false, $"DbUpdateException: {e.Message}");
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return (false, "Lỗi hệ thống");
+        //    }
 
-        }
+        //}
 
         public async Task<List<RoomDTO>> GetRooms()
         {

@@ -11,35 +11,35 @@ using System.Windows;
 
 namespace HotelManagement.ViewModel.AdminVM.TroubleManagementVM
 {
-    public class EditConverter : IValueConverter
+    public class EditConverter
     {
         // This converts the result object to the foreground.
-        public object Convert(object value, Type targetType,
-            object parameter, CultureInfo language)
-        {
-            // Retrieve the format string and use it to format the value.
-            string text = value as string;
+        //    public object Convert(object value, Type targetType,
+        //        object parameter, CultureInfo language)
+        //    {
+        //        // Retrieve the format string and use it to format the value.
+        //        string text = value as string;
 
-            if ( text == STATUS.CANCLE)
-                return Visibility.Collapsed;
-            else
-                return Visibility.Visible;
+        //        if ( text == STATUS.CANCLE)
+        //            return Visibility.Collapsed;
+        //        else
+        //            return Visibility.Visible;
 
-        }
+        //    }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-    public class StatusBrushConverter : IValueConverter
-    {
-        // This converts the result object to the foreground.
-        public object Convert(object value, Type targetType,
-            object parameter, CultureInfo language)
-        {
-            // Retrieve the format string and use it to format the value.
-            string text = value as string;
+        //    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+        //}
+        //public class StatusBrushConverter : IValueConverter
+        //{
+        //    // This converts the result object to the foreground.
+        //    public object Convert(object value, Type targetType,
+        //        object parameter, CultureInfo language)
+        //    {
+        //        // Retrieve the format string and use it to format the value.
+        //        string text = value as string;
 
             if (text == STATUS.WAITING || text == "Waiting" || text == LEVEL.CRITICAL)
                 return (SolidColorBrush)new BrushConverter().ConvertFromString("#DF0404");
@@ -50,21 +50,21 @@ namespace HotelManagement.ViewModel.AdminVM.TroubleManagementVM
             else
                 return new SolidColorBrush(Colors.Gray);
 
-        }
+        //    }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-    public class StatusBGBrushConverter : IValueConverter
-    {
-        // This converts the result object to the foreground.
-        public object Convert(object value, Type targetType,
-            object parameter, CultureInfo language)
-        {
-            // Retrieve the format string and use it to format the value.
-            string text = value as string;
+        //    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+        //}
+        //public class StatusBGBrushConverter : IValueConverter
+        //{
+        //    // This converts the result object to the foreground.
+        //    public object Convert(object value, Type targetType,
+        //        object parameter, CultureInfo language)
+        //    {
+        //        // Retrieve the format string and use it to format the value.
+        //        string text = value as string;
 
             if (text == STATUS.WAITING || text == "Waiting" || text == LEVEL.CRITICAL)
                 return (SolidColorBrush)new BrushConverter().ConvertFromString("#FFC5C5");
@@ -76,10 +76,10 @@ namespace HotelManagement.ViewModel.AdminVM.TroubleManagementVM
                 return new SolidColorBrush(Colors.White);
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+        //    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        //    {
+        //        throw new NotImplementedException();
+        //    }
+        //}
     }
-
 }

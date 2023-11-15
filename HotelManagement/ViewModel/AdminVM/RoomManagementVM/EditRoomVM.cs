@@ -17,7 +17,7 @@ namespace HotelManagement.ViewModel.AdminVM.RoomManagementVM
     public partial class RoomManagementVM : BaseVM
     {
 
-        public ICommand LoadEditRoomCM { get; set; }
+        //public ICommand LoadEditRoomCM { get; set; }
 
         public async void LoadEditRoom(EditRoom w1)
         {
@@ -69,24 +69,24 @@ namespace HotelManagement.ViewModel.AdminVM.RoomManagementVM
                     RoomStatus = RoomStatus,
                 };
 
-                (bool successUpdateRoom, string messageFromUpdateRoom) = await RoomService.Ins.UpdateRoom(room);
+        //        (bool successUpdateRoom, string messageFromUpdateRoom) = await RoomService.Ins.UpdateRoom(room);
 
-                if (successUpdateRoom)
-                {
-                    isSavingRoom = false;
-                    CustomMessageBox.ShowOk(messageFromUpdateRoom, "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
-                    LoadRoomListView(Operation.UPDATE, room);
-                    p.Close();
-                }
-                else
-                {
-                    CustomMessageBox.ShowOk(messageFromUpdateRoom, "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
-                }
-            }
-            else
-            {
-                CustomMessageBox.ShowOk("Vui lòng nhập đủ thông tin!", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
-            }
-        }
+        //        if (successUpdateRoom)
+        //        {
+        //            isSavingRoom = false;
+        //            CustomMessageBox.ShowOk(messageFromUpdateRoom, "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
+        //            LoadRoomListView(Operation.UPDATE, room);
+        //            p.Close();
+        //        }
+        //        else
+        //        {
+        //            CustomMessageBox.ShowOk(messageFromUpdateRoom, "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        CustomMessageBox.ShowOk("Vui lòng nhập đủ thông tin!", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+        //    }
+        //}
     }
 }

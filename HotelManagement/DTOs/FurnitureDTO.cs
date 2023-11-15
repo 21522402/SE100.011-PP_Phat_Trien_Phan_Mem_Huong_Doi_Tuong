@@ -42,13 +42,13 @@ namespace HotelManagement.DTOs
             get { return furnitureAvatar; }
             set { SetField(ref furnitureAvatar, value, "FurnitureAvatar"); }
         }
-        public string FurnitureName { get; set; }
         public string FurnitureID { get; set; }
+        public string FurnitureName { get; set; }
         public string FurnitureType { get; set; }
         public int Quantity { get; set; }
 
-        private float importPrice;
-        public float ImportPrice
+        private double importPrice;
+        public double ImportPrice
         {
             get { return importPrice; }
             set { SetField(ref importPrice, value, "ImportQuantity"); }
@@ -61,7 +61,14 @@ namespace HotelManagement.DTOs
             set { SetField(ref importQuantity, value, "ImportQuantity"); }
         }
 
-        public float TotalImportPrice { get; set; }
+        private int remainQuantity;
+        public int RemainQuantity
+        {
+            get { return remainQuantity; }
+            set { SetField(ref remainQuantity, value, "RemainQuantity"); }
+        }
+
+        public double TotalImportPrice { get; set; }
 
         public string TotalImportPriceStr { get;  set; }
 
@@ -122,8 +129,7 @@ namespace HotelManagement.DTOs
         }
         public void SetTotalImportPrice()
         {
-            TotalImportPrice = ImportQuantity * ImportPrice;
-            TotalImportPriceStr = Helper.FormatVNMoney(TotalImportPrice);
+            TotalImportPriceStr = Helper.FormatVNMoney(ImportQuantity * ImportPrice);
         }
 
         public bool IsDeleteLessThanInUse()
@@ -173,23 +179,30 @@ namespace HotelManagement.DTOs
         }
         public BitmapImage LoadAvatarImage(byte[] data)
         {
-            MemoryStream stream = new MemoryStream();
-            stream.Write(data, 0, data.Length);
-            stream.Position = 0;
+            try
+            {
+                MemoryStream stream = new MemoryStream();
+                stream.Write(data, 0, data.Length);
+                stream.Position = 0;
 
-            Image img = Image.FromStream(stream);
+                Image img = Image.FromStream(stream);
 
-            BitmapImage bitmapImage = new BitmapImage();
-            bitmapImage.BeginInit();
+                BitmapImage bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
 
-            MemoryStream ms = new MemoryStream();
-            img.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
-            ms.Seek(0, SeekOrigin.Begin);
-            bitmapImage.StreamSource = ms;
-            bitmapImage.EndInit();
+                MemoryStream ms = new MemoryStream();
+                img.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+                ms.Seek(0, SeekOrigin.Begin);
+                bitmapImage.StreamSource = ms;
+                bitmapImage.EndInit();
 
-            bitmapImage.Freeze();
-            return bitmapImage;
+                bitmapImage.Freeze();
+                return bitmapImage;
+            }
+            catch (Exception e)
+            {
+                return null;
+            }
         }
 
         public bool IsEmptyFurniture()

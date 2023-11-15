@@ -13,7 +13,7 @@
         MouseDown="RoomFurnitureInfoWD_MouseDown"
         Title="RoomFurnitureInfoWindow" Height="652" Width="432"
         Name="RoomFurnitureInfoWD"
-        DataContext="{StaticResource RoomFurnitureManagementVM}"
+        DataContext="{StaticResource RoomTypeFurnitureManagementVM}"
         WindowStartupLocation="CenterScreen"
 >
     <Window.Triggers>
@@ -47,7 +47,7 @@
             </Rectangle.Effect>
         </Rectangle>
         <StackPanel Margin="0,10,0,0">
-            <TextBlock Text="{Binding FurnituresRoomCache.RoomNumber}" Foreground="#009099" Margin="0 0 0 5" FontSize="38" FontWeight="Black" HorizontalAlignment="Center" FontFamily="{StaticResource MaterialDesignFont}"/>
+            <TextBlock Text="CHI TIẾT TIỆN NGHI" Foreground="#009099" Margin="0 0 0 5" FontSize="20" FontWeight="Black" HorizontalAlignment="Center" FontFamily="{StaticResource MaterialDesignFont}"/>
             <Grid Margin="0 0 0 10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>

@@ -37,7 +37,38 @@ namespace HotelManagement.Model.Services
             private set { _ins = value; }
         }
 
-     
+        public async Task<(bool , string ,List<FurnitureDTO>)> GetAllFurniture()
+        {
+            try
+            {
+                List<FurnitureDTO> listFurniture = new List<FurnitureDTO>();
+                using (HotelManagementEntities db = new HotelManagementEntities())
+                {
+                    listFurniture = await (
+                        from p in db.Furnitures
+                        select new FurnitureDTO
+                        {
+                            FurnitureID = p.FurnitureId,
+                            FurnitureAvatarData = p.FurnitureAvatar,
+                            FurnitureType = p.FurnitureType,
+                            FurnitureName = p.FurnitureName,
+                            Quantity = (int)p.QuantityOfStorage,
+                        }
+                    ).ToListAsync();
+                }
+                for (int i = 0; i < listFurniture.Count; i++)
+                    listFurniture[i].SetAvatar();
+                return (true, "", listFurniture);
+            }
+            catch(EntityException e)
+            {
+                return (false, "Mất kết nối cơ sở dữ liệu", null);
+            }
+            catch(Exception ex)
+            {
+                return (false, "Lỗi hệ thống", null);
+            }
+        }
 
         public List<FurnitureDTO> GetAllFurnitureByType(string typeSelection, ObservableCollection<FurnitureDTO> allFurniture)
         {
@@ -50,22 +81,6 @@ namespace HotelManagement.Model.Services
                 return null;
             }
         }
-        //public async Task<List<string>> GetAllFurnitureType()
-        //{
-        //    try
-        //    {
-        //        using (HotelManagementEntities db = new HotelManagementEntities())
-        //        {
-        //           var list = await db.Furnitures.Select(x => x.FurnitureType).ToListAsync();
-        //            list.Insert(0, "Tất cả");
-        //            return list;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
 
         //public async Task<(bool, string)> SaveEditFurniture(FurnitureDTO furnitureSelected)
         //{
@@ -77,221 +92,228 @@ namespace HotelManagement.Model.Services
         //            if (CheckFurnitureName != null)
         //                return (false, "Đã có tiện nghi trong cơ sở  dữ liệu");
 
-        //            Furniture furniture = await db.Furnitures.FirstOrDefaultAsync(item => item.FurnitureId == furnitureSelected.FurnitureID);
-        //            if(furniture == null) 
-        //            {
-        //                return (false, "Không tìm thấy tiện nghi");
-        //            }
-        //            furniture.FurnitureName = furnitureSelected.FurnitureName;
-        //            furniture.FurnitureType = furnitureSelected.FurnitureType;
-        //            furniture.FurnitureStorage.QuantityFurniture = furnitureSelected.Quantity;
-        //            furniture.FurnitureAvatar = furnitureSelected.FurnitureAvatarData;
+                    Furniture furniture = await db.Furnitures.FirstOrDefaultAsync(item => item.FurnitureId == furnitureSelected.FurnitureID);
+                    if(furniture == null) 
+                    {
+                        return (false, "Không tìm thấy tiện nghi");
+                    }
+                    furniture.FurnitureName = furnitureSelected.FurnitureName;
+                    furniture.FurnitureType = furnitureSelected.FurnitureType;
+                    furniture.QuantityOfStorage = furnitureSelected.Quantity;
+                    furniture.FurnitureAvatar = furnitureSelected.FurnitureAvatarData;
 
-        //            await db.SaveChangesAsync();
-        //            return (true, "Cập nhật thành công");
-        //        }
-        //    }
-        //    catch(EntityException ex) 
-        //    {
-        //        return (false, "Mất kết nối cơ sở dữ liệu");
-        //    }
-        //    catch(Exception e)
-        //    {
-        //        return (false, "Lỗi hệ thống");
-        //    }
-        //}
-        //public async Task<(bool, string, string)> AddFurniture(FurnitureDTO furnitureSelected)
-        //{
-        //    try
-        //    {
-        //        using (HotelManagementEntities db = new HotelManagementEntities())
-        //        {
-        //            Furniture furniture = await db.Furnitures.FirstOrDefaultAsync(item => item.FurnitureName == furnitureSelected.FurnitureName && item.FurnitureType == furnitureSelected.FurnitureType);
+                    await db.SaveChangesAsync();
+                    return (true, "Cập nhật thành công");
+                }
+            }
+            catch(EntityException ex) 
+            {
+                return (false, "Mất kết nối cơ sở dữ liệu");
+            }
+            catch(Exception e)
+            {
+                return (false, "Lỗi hệ thống");
+            }
+        }
+        public async Task<(bool, string, string)> AddFurniture(FurnitureDTO furnitureSelected)
+        {
+            try
+            {
+                using (HotelManagementEntities db = new HotelManagementEntities())
+                {
+                    Furniture furniture = await db.Furnitures.FirstOrDefaultAsync(item => item.FurnitureName == furnitureSelected.FurnitureName);
                     
-        //            if (furniture != null)
-        //            {
-        //                return (false, "Đã có tiện nghi trong cơ sở dữ liệu", "-1");
-        //            }
-        //            int ID = db.Furnitures.ToList().Count();
-        //            string mainID;
-        //            if (ID == 0)
-        //                mainID = "0001";
-        //            else
-        //            {
-        //                ID = int.Parse(db.Furnitures.ToList().Max(item => item.FurnitureId));
-        //                mainID = getID(++ID);
-        //            }
-        //            Furniture fnt = new Furniture
-        //            {
-        //                FurnitureId = mainID,
-        //                FurnitureName = furnitureSelected.FurnitureName,
-        //                FurnitureType = furnitureSelected.FurnitureType,
-        //                FurnitureAvatar = furnitureSelected.FurnitureAvatarData,
-        //            };
-        //            FurnitureStorage furnitureStorage = new FurnitureStorage
-        //            {
-        //                FurnitureId = fnt.FurnitureId,
-        //                QuantityFurniture = 0,
-        //            };
-        //            db.Furnitures.Add(fnt);
-        //            db.FurnitureStorages.Add(furnitureStorage);
-        //            await db.SaveChangesAsync();
-        //            return (true, "Thêm tiện nghi thành công", mainID);
-        //        }
-        //    }
-        //    catch (EntityException ex)
-        //    {
-        //        return (false, "Mất kết nối cơ sở dữ liệu", "-1");
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return (false, "Lỗi hệ thống", "-1");
-        //    }
-        //}
+                    if (furniture != null)
+                    {
+                        return (false, "Đã có tiện nghi trong cơ sở dữ liệu", "-1");
+                    }
+                    int ID = db.Furnitures.ToList().Count();
+                    string mainID;
+                    if (ID == 0)
+                        mainID = "0001";
+                    else
+                    {
+                        ID = int.Parse(db.Furnitures.ToList().Max(item => item.FurnitureId));
+                        mainID = getID(++ID);
+                    }
+                    Furniture fnt = new Furniture
+                    {
+                        FurnitureId = mainID,
+                        FurnitureName = furnitureSelected.FurnitureName,
+                        FurnitureType = furnitureSelected.FurnitureType,
+                        QuantityOfStorage = 0,
+                        FurnitureAvatar = furnitureSelected.FurnitureAvatarData,
+                    };
+                    db.Furnitures.Add(fnt);
+                    await db.SaveChangesAsync();
+                    return (true, "Thêm tiện nghi thành công", mainID);
+                }
+            }
+            catch (EntityException ex)
+            {
+                return (false, "Mất kết nối cơ sở dữ liệu", "-1");
+            }
+            catch (Exception e)
+            {
+                return (false, "Lỗi hệ thống", "-1");
+            }
+        }
 
-        //public async Task<(bool, string)> DeleteFurniture(FurnitureDTO furnitureSelected)
-        //{
-        //    try
-        //    {
-        //        using(HotelManagementEntities db = new HotelManagementEntities())
-        //        {
-        //            Furniture furniture = await db.Furnitures.FirstOrDefaultAsync(item => item.FurnitureId == furnitureSelected.FurnitureID);
-        //            if (furniture == null)
-        //                return (false, "Không tìm thấy tiện nghi trong cơ sở dữ liệu");
+        public async Task<(bool, string)> DeleteFurniture(FurnitureDTO furnitureSelected)
+        {
+            try
+            {
+                using (HotelManagementEntities db = new HotelManagementEntities())
+                {
+                    Furniture Furniture = await db.Furnitures.FirstOrDefaultAsync(item => item.FurnitureId == furnitureSelected.FurnitureID);
 
-        //            db.FurnitureStorages.Remove(furniture.FurnitureStorage);
-        //            db.Furnitures.Remove(furniture);
+                    if (Furniture == null)
+                        return (false, "Không tìm thấy tiện nghi trong cơ sở dữ liệu");
 
-        //            await db.SaveChangesAsync();
-        //            return (true, "Xóa tiện nghi thành công");
-        //        }    
-        //    }
-        //    catch(EntityException e)
-        //    {
-        //        return (false, "Mất kết nối cơ sở dữ liệu");
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return (false, "Lỗi hệ thống");
-        //    }
-        //}
-        
-        //public async Task<(bool, string)> ImportFurniture(FurnitureDTO furnitureSelected, string importPrice, string importQuantity)
-        //{
-        //    try
-        //    {
-        //        using(HotelManagementEntities db = new HotelManagementEntities())
-        //        {
-        //            Furniture furniture = await db.Furnitures.FirstOrDefaultAsync(item => item.FurnitureId == furnitureSelected.FurnitureID);
-        //            if (furniture == null)
-        //                return (false, "Không tìm thấy tiện nghi trong cơ sở dữ liệu");
+                    FurnitureReceiptDetail prd = await db.FurnitureReceiptDetails.FirstOrDefaultAsync(item => item.FurnitureId == furnitureSelected.FurnitureID);
 
-        //            int ID = db.FurnitureReceipts.ToList().Count();
-        //            string mainID;
-        //            if (ID == 0)
-        //                mainID = "0001";
-        //            else
-        //            {
-        //                ID = int.Parse(db.FurnitureReceipts.ToList().Max(item => item.FurnitureReceiptId));
-        //                mainID = getID(++ID);
-        //            }
+                    if (prd != null)
+                        return (false, "Không thể xóa sản phẩm do bị ràng buộc tham chiếu của phiếu nhập tiện nghi");
+
+                    db.Furnitures.Remove(Furniture);
+
+                    await db.SaveChangesAsync();
+                    return (true, "Xóa tiện nghi thành công");
+                }
+            }
+            catch(EntityException e)
+            {
+                return (false, "Mất kết nối cơ sở dữ liệu");
+            }
+            catch (Exception e)
+            {
+                return (false, "Lỗi hệ thống");
+            }
+        }
+
+        public async Task<(bool, string)> ImportFurniture(FurnitureDTO FurnitureSelected, double importPrice, int importQuantity)
+        {
+            try
+            {
+                using (HotelManagementEntities db = new HotelManagementEntities())
+                {
+                    Furniture Furniture = await db.Furnitures.FirstOrDefaultAsync(item => item.FurnitureId == FurnitureSelected.FurnitureID);
+                    if (Furniture == null)
+                        return (false, "Không tìm thấy tiện nghi trong cơ sở dữ liệu");
+
+                    string nextFurnitureReceiptId = getFurnitureReceiptId(db.FurnitureReceipts.ToList());
+                    string nextFurnitureReceiptDetailId = getID(getMaxFurnitureReceiptId(db.FurnitureReceiptDetails.ToList()) + 1);
 
         //            string id = "";
 
-        //            if (AdminVM.CurrentStaff != null)
-        //            {
-        //                id = AdminVM.CurrentStaff.StaffId;
-        //            }
-        //            else
-        //            {
-        //                id = StaffVM.CurrentStaff.StaffId;
-        //            }
-        //            FurnitureReceipt furnitureReceipt = new FurnitureReceipt
-        //            {
-        //                FurnitureReceiptId = mainID,
-        //                FurnitureId = furniture.FurnitureId,
-        //                StaffId = id,
-        //                ImportPrice = float.Parse(importPrice),
-        //                Quantity = int.Parse(importQuantity),
-        //                CreateAt = DateTime.Now,
-        //            };
-        //            db.FurnitureReceipts.Add(furnitureReceipt);
-        //            furniture.FurnitureStorage.QuantityFurniture = furniture.FurnitureStorage.QuantityFurniture + int.Parse(importQuantity);
-        //            await db.SaveChangesAsync();
-        //            return (true, "Nhập sản phẩm thành công");
-        //        }    
-        //    }
-        //    catch(EntityException e)
-        //    {
-        //        return (false, "Mất kết nối cơ sở dữ liệu");
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return (false, "Lỗi hệ thống");
-        //    }
-        //}
+                    if (AdminVM.CurrentStaff != null)
+                    {
+                        id = AdminVM.CurrentStaff.StaffId;
+                    }
+                    else
+                    {
+                        id = StaffVM.CurrentStaff.StaffId;
+                    }
+                    FurnitureReceipt FurnitureReceipt = new FurnitureReceipt
+                    {
+                        FurnitureReceiptId = nextFurnitureReceiptId,
+                        StaffId = id,
+                        Price = importPrice * importQuantity,
+                        CreateAt = DateTime.Now,
+                    };
 
-        //public async Task<(bool, string, List<FurnitureDTO>)> ImportListFurniture(ObservableCollection<FurnitureDTO> orderList)
-        //{
-        //    try
-        //    {
-        //        List<FurnitureDTO> listFurniture = new List<FurnitureDTO>(orderList);
-        //        using (HotelManagementEntities db = new HotelManagementEntities())
-        //        {
-        //            int Length = orderList.Count;
-        //            int ID = db.FurnitureReceipts.ToList().Count();
-        //            string mainID;
-        //            if (ID == 0)
-        //                mainID = "0001";
-        //            else
-        //            {
-        //                ID = int.Parse(db.FurnitureReceipts.ToList().Max(item => item.FurnitureReceiptId));
-        //            }
-        //            string id = "";
+                    FurnitureReceiptDetail FurnitureReceiptDetail = new FurnitureReceiptDetail
+                    {
+                        FurnitureReceiptDetailId = nextFurnitureReceiptDetailId,
+                        FurnitureReceiptId = nextFurnitureReceiptId,
+                        FurnitureId = FurnitureSelected.FurnitureID,
+                        ImportPrice = importPrice,
+                        Quantity = importQuantity,
+                    };
 
-        //            if (AdminVM.CurrentStaff != null)
-        //            {
-        //                id = AdminVM.CurrentStaff.StaffId;
-        //            }
-        //            else
-        //            {
-        //                id = StaffVM.CurrentStaff.StaffId;
-        //            }
-        //            for (int i = 0; i < Length; i++)
-        //            {
-        //                FurnitureDTO temp = orderList[i];
-        //                Furniture furniture = await db.Furnitures.FirstOrDefaultAsync(item => item.FurnitureId == temp.FurnitureID);
-        //                if (furniture == null)
-        //                    return (false, "Không tìm thấy tiện nghi " + furniture.FurnitureName + " trong cơ sở dữ liệu",null);
+                    db.FurnitureReceipts.Add(FurnitureReceipt);
+                    db.FurnitureReceiptDetails.Add(FurnitureReceiptDetail);
+                    Furniture.QuantityOfStorage = (int)Furniture.QuantityOfStorage + importQuantity;
+                    await db.SaveChangesAsync();
+                    return (true, "Nhập tiện nghi thành công");
+                }
+            }
+            catch (EntityException e)
+            {
+                return (false, "Mất kết nối cơ sở dữ liệu");
+            }
+            catch (Exception e)
+            {
+                return (false, "Lỗi hệ thống");
+            }
+        }
 
-        //                mainID = getID(++ID);
+        public async Task<(bool, string, List<FurnitureDTO>)> ImportListFurniture(ObservableCollection<FurnitureDTO> orderList)
+        {
+            try
+            {
+                List<FurnitureDTO> listFurniture = new List<FurnitureDTO>(orderList);
+                using (HotelManagementEntities db = new HotelManagementEntities())
+                {
 
-        //                FurnitureReceipt furnitureReceipt = new FurnitureReceipt
-        //                {
-        //                    FurnitureReceiptId = mainID,
-        //                    FurnitureId = furniture.FurnitureId,
-        //                    StaffId = id,
-        //                    ImportPrice = temp.ImportPrice,
-        //                    Quantity = temp.ImportQuantity,
-        //                    CreateAt = DateTime.Now,
-        //                };
-        //                db.FurnitureReceipts.Add(furnitureReceipt);
-        //                furniture.FurnitureStorage.QuantityFurniture = furniture.FurnitureStorage.QuantityFurniture + temp.ImportQuantity;
-        //                listFurniture[i].Quantity = (int)furniture.FurnitureStorage.QuantityFurniture;
-        //            }    
-        //            await db.SaveChangesAsync();
-        //            return (true, "Nhập tiện nghi thành công", listFurniture);
-        //        }
-        //    }
-        //    catch (EntityException e)
-        //    {
-        //        return (false, "Mất kết nối cơ sở dữ liệu", null);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return (false, "Lỗi hệ thống", null);
-        //    }
-        //}
+                    string id = "";
+
+                    if (AdminVM.CurrentStaff != null)
+                    {
+                        id = AdminVM.CurrentStaff.StaffId;
+                    }
+                    else
+                    {
+                        id = StaffVM.CurrentStaff.StaffId;
+                    }
+
+                    int Length = orderList.Count;
+                    string nextFurnitureReceiptId = getFurnitureReceiptId(db.FurnitureReceipts.ToList());
+
+                    FurnitureReceipt FurnitureReceipt = new FurnitureReceipt
+                    {
+                        FurnitureReceiptId = nextFurnitureReceiptId,
+                        StaffId = id,
+                        CreateAt = DateTime.Now,
+                        Price = listFurniture.Sum((item) => item.ImportPrice)
+                    };
+
+                    db.FurnitureReceipts.Add(FurnitureReceipt);
+                    int maxIdReceiptDetail = getMaxFurnitureReceiptId(db.FurnitureReceiptDetails.ToList());
+                    for (int i = 0; i < Length; i++)
+                    {
+                        FurnitureDTO temp = orderList[i];
+                        Furniture Furniture = await db.Furnitures.FirstOrDefaultAsync(item => item.FurnitureId == temp.FurnitureID);
+                        if (Furniture == null)
+                            return (false, "Không tìm thấy tiện nghi " + Furniture.FurnitureName + " trong cơ sở dữ liệu", null);
+
+
+                        string nextFurnitureReceiptDetailId = getID(++maxIdReceiptDetail);
+                        FurnitureReceiptDetail FurnitureReceiptDetail = new FurnitureReceiptDetail
+                        {
+                            FurnitureReceiptDetailId = nextFurnitureReceiptDetailId,
+                            FurnitureReceiptId = nextFurnitureReceiptId,
+                            ImportPrice = temp.ImportPrice,
+                            Quantity = temp.ImportQuantity,
+                        };
+
+                        db.FurnitureReceiptDetails.Add(FurnitureReceiptDetail);
+                        listFurniture[i].Quantity = (int)Furniture.QuantityOfStorage + temp.ImportQuantity;
+                        Furniture.QuantityOfStorage = (int)Furniture.QuantityOfStorage + temp.ImportQuantity;
+                    }
+                    await db.SaveChangesAsync();
+                    return (true, "Nhập sản phẩm thành công", listFurniture);
+                }
+            }
+            catch (EntityException e)
+            {
+                return (false, "Mất kết nối cơ sở dữ liệu", null);
+            }
+            catch (Exception e)
+            {
+                return (false, "Lỗi hệ thống", null);
+            }
+        }
         public ImageSource LoadImage(string ImagePath)
         {
             BitmapImage _image = new BitmapImage();
@@ -334,13 +356,13 @@ namespace HotelManagement.Model.Services
 
             return bitmapImage;
         }
-        //public async Task<List<ImportProductDTO>> GetListImportFuniture()
+        //public async Task<List<ImportFurnitureDTO>> GetListImportFuniture()
         //{
         //    try
         //    {
         //        using (HotelManagementEntities db = new HotelManagementEntities())
         //        {
-        //            List<ImportProductDTO> ImportFuniture = await (
+        //            List<ImportFurnitureDTO> ImportFuniture = await (
         //                                                    from g in db.FurnitureReceipts
         //                                                    join s in db.Furnitures
         //                                                    on g.FurnitureId equals s.FurnitureId into gs
@@ -349,12 +371,12 @@ namespace HotelManagement.Model.Services
         //                                                    on g.StaffId equals st.StaffId into gst
         //                                                    from st in gst.DefaultIfEmpty()
         //                                                    orderby g.CreateAt descending
-        //                                                    select new ImportProductDTO
+        //                                                    select new ImportFurnitureDTO
         //                                                    {
         //                                                        ImportId = g.FurnitureId,
-        //                                                        ProductName = s.FurnitureName,
-        //                                                        ProductImportQuantity = (int)g.Quantity,
-        //                                                        ProductImportPrice = (float)g.ImportPrice,
+        //                                                        FurnitureName = s.FurnitureName,
+        //                                                        FurnitureImportQuantity = (int)g.Quantity,
+        //                                                        FurnitureImportPrice = (double)g.ImportPrice,
         //                                                        StaffName = st.StaffName,
         //                                                        CreatedDate = (DateTime)g.CreateAt,
         //                                                        typeimport = 1
@@ -368,13 +390,13 @@ namespace HotelManagement.Model.Services
         //        throw e;
         //    }
         //}
-        //public async Task<List<ImportProductDTO>> GetListImportFuniture(int month)
+        //public async Task<List<ImportFurnitureDTO>> GetListImportFuniture(int month)
         //{
         //    try
         //    {
         //        using (HotelManagementEntities db = new HotelManagementEntities())
         //        {
-        //            List<ImportProductDTO> ImportFuniture = await (
+        //            List<ImportFurnitureDTO> ImportFuniture = await (
         //                                                    from g in db.FurnitureReceipts
         //                                                    join s in db.Furnitures
         //                                                    on g.FurnitureId equals s.FurnitureId into gs
@@ -384,12 +406,12 @@ namespace HotelManagement.Model.Services
         //                                                    from st in gst.DefaultIfEmpty()
         //                                                    where ((DateTime)g.CreateAt).Year == DateTime.Today.Year && ((DateTime)g.CreateAt).Month == month
         //                                                    orderby g.CreateAt descending
-        //                                                    select new ImportProductDTO
+        //                                                    select new ImportFurnitureDTO
         //                                                    {
         //                                                        ImportId = g.FurnitureId,
-        //                                                        ProductName = s.FurnitureName,
-        //                                                        ProductImportQuantity = (int)g.Quantity,
-        //                                                        ProductImportPrice = (float)g.ImportPrice,
+        //                                                        FurnitureName = s.FurnitureName,
+        //                                                        FurnitureImportQuantity = (int)g.Quantity,
+        //                                                        FurnitureImportPrice = (double)g.ImportPrice,
         //                                                        StaffName = st.StaffName,
         //                                                        CreatedDate = (DateTime)g.CreateAt,
         //                                                        typeimport = 1
@@ -403,6 +425,23 @@ namespace HotelManagement.Model.Services
         //        throw e;
         //    }
         //}
+        public int getMaxFurnitureReceiptId(List<FurnitureReceiptDetail> listFurnitureReceiptDetail)
+        {
+            return listFurnitureReceiptDetail.Count();
+        }
+        public string getFurnitureReceiptId(List<FurnitureReceipt> listFurnitureReceipt)
+        {
+            int FurnitureReceiptID = listFurnitureReceipt.Count();
+            string mainID;
+            if (FurnitureReceiptID == 0)
+                mainID = "0001";
+            else
+            {
+                FurnitureReceiptID = int.Parse(listFurnitureReceipt.Max(item => item.FurnitureReceiptId));
+                mainID = getID(++FurnitureReceiptID);
+            }
 
+            return mainID;
+        }
     }
 }

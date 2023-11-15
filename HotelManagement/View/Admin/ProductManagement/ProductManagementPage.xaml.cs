@@ -1,5 +1,4 @@
 ﻿using HotelManagement.DTOs;
-using HotelManagement.ViewModel.AdminVM.FurnitureManagementVM;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,18 +14,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HotelManagement.View.Admin.ServiceManagement
+namespace HotelManagement.View.Admin.ProductManagement
 {
     /// <summary>
-    /// Interaction logic for ServiceManagementPage.xaml
+    /// Interaction logic for ProductManagementPage.xaml
     /// </summary>
-    public partial class ServiceManagementPage : Page
+    public partial class ProductManagementPage : Page
     {
-        public ServiceManagementPage()
+        public ProductManagementPage()
         {
             InitializeComponent();
         }
-
         private void Search_SearchTextChange(object sender, EventArgs e)
         {
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(ListViewProducts.ItemsSource);
@@ -41,7 +39,8 @@ namespace HotelManagement.View.Admin.ServiceManagement
             if (String.IsNullOrEmpty(SearchBox.Text))
                 return true;
             else
-                return ((item as ProductDTO).ProductName.IndexOf(SearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+                return ((item as ProductDTO).ProductName.IndexOf(SearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0)||
+                     ((item as ProductDTO).ProductType.IndexOf(SearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
         }
 
         private void Grid_MouseMove(object sender, MouseEventArgs e)

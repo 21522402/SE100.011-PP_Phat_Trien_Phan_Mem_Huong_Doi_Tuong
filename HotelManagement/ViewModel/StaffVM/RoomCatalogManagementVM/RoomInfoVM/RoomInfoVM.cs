@@ -19,20 +19,20 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
     {
        
 
-        private ComboBoxItem _SelectedRoomCleaningStatus;
-        public ComboBoxItem SelectedRoomCleaningStatus
-        {
-            get { return _SelectedRoomCleaningStatus; }
-            set { _SelectedRoomCleaningStatus = value; OnPropertyChanged(); }
-        }
+        //private ComboBoxItem _SelectedRoomCleaningStatus;
+        //public ComboBoxItem SelectedRoomCleaningStatus
+        //{
+        //    get { return _SelectedRoomCleaningStatus; }
+        //    set { _SelectedRoomCleaningStatus = value; OnPropertyChanged(); }
+        //}
         
-        private string _SelectedFurnitureTypeCbbFilter;
-        public string SelectedFurnitureTypeCbbFilter
-        {
-            get { return _SelectedFurnitureTypeCbbFilter; }
-            set 
-            { 
-                _SelectedFurnitureTypeCbbFilter = value; OnPropertyChanged();
+        //private string _SelectedFurnitureTypeCbbFilter;
+        //public string SelectedFurnitureTypeCbbFilter
+        //{
+        //    get { return _SelectedFurnitureTypeCbbFilter; }
+        //    set 
+        //    { 
+        //        _SelectedFurnitureTypeCbbFilter = value; OnPropertyChanged();
               
             }
         }

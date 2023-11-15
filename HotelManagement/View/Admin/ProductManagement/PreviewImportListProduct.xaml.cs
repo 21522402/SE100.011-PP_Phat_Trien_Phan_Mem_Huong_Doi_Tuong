@@ -12,26 +12,25 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace HotelManagement.View.Admin.ServiceManagement
+namespace HotelManagement.View.Admin.ProductManagement
 {
     /// <summary>
-    /// Interaction logic for ImportProductWindow.xaml
+    /// Interaction logic for PreviewImportListProduct.xaml
     /// </summary>
-    public partial class ImportProductWindow : Window
+    public partial class PreviewImportListProduct : Window
     {
-        public ImportProductWindow()
+        public PreviewImportListProduct()
         {
             InitializeComponent();
         }
-
-        private void ProductImportWD_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            DragMove();
-        }
-
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
         }
     }
 }

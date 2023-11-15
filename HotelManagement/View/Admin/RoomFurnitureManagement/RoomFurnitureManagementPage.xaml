@@ -11,7 +11,7 @@
       mc:Ignorable="d" 
       x:Name="RoomFurniturePage"
       xmlns:sys="clr-namespace:System;assembly=mscorlib"
-      DataContext="{StaticResource RoomFurnitureManagementVM}"
+      DataContext="{StaticResource RoomTypeFurnitureManagementVM}"
 >
     <Page.Triggers>
         <EventTrigger RoutedEvent="Page.Loaded">

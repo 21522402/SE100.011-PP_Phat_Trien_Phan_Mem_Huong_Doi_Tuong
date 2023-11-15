@@ -141,26 +141,26 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
         public ICommand ConfirmCleaningServiceCM { get; set; }
         public ICommand ConfirmLaundryServiceCM { get; set; }
 
-        // Đặt sản phẩm
-        public ICommand FirstLoadOrderProductPage { get; set; }
-        public ICommand SelectionFilterChangeCM { get; set; }
-        public ICommand SelectedProductToBillCM { get; set; }
-        public ICommand DecreaseQuantityOrderItemCM { get; set; }
-        public ICommand IncreaseQuantityOrderItemCM { get; set; }
-        public ICommand DeleteItemInBillStackCM { get; set; }
-        public ICommand CloseOrderProductWindowCM { get; set; }
-        public ICommand AddOrderProductCM { get; set; }
-        public ICommand LoadRoomOrderProductsCM { get; set; }
+        //// Đặt sản phẩm
+        //public ICommand FirstLoadOrderProductPage { get; set; }
+        //public ICommand SelectionFilterChangeCM { get; set; }
+        //public ICommand SelectedProductToBillCM { get; set; }
+        //public ICommand DecreaseQuantityOrderItemCM { get; set; }
+        //public ICommand IncreaseQuantityOrderItemCM { get; set; }
+        //public ICommand DeleteItemInBillStackCM { get; set; }
+        //public ICommand CloseOrderProductWindowCM { get; set; }
+        //public ICommand AddOrderProductCM { get; set; }
+        //public ICommand LoadRoomOrderProductsCM { get; set; }
 
-        // Thanh toán
-        public ICommand PaymentCM { get; set; }
-        public ICommand StoreListPaymentRoomCM { get; set; }
-        public ICommand UnStoreListPaymentRoomCM { get; set; }
-        public ICommand LoadRoomGroupPaymentCM { get; set; }
-        public ICommand LoadRoomBillCM { get; set; }
-        public ICommand FirstLoadRoomBillCM { get; set; }
+        //// Thanh toán
+        //public ICommand PaymentCM { get; set; }
+        //public ICommand StoreListPaymentRoomCM { get; set; }
+        //public ICommand UnStoreListPaymentRoomCM { get; set; }
+        //public ICommand LoadRoomGroupPaymentCM { get; set; }
+        //public ICommand LoadRoomBillCM { get; set; }
+        //public ICommand FirstLoadRoomBillCM { get; set; }
    
-        public ICommand SaveBillCM { get; set; }
+        //public ICommand SaveBillCM { get; set; }
 
         public RoomCatalogManagementVM()
         {

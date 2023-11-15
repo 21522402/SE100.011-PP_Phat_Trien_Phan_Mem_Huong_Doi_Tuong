@@ -40,24 +40,24 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
                     NumberGuestForUnitPrice = NumberGuestForUnitPrice,
                 };
 
-                (bool successUpdateRoomType, string messageFromUpdateRoomType) = await RoomTypeService.Ins.UpdateRoomType(roomType);
+        //        (bool successUpdateRoomType, string messageFromUpdateRoomType) = await RoomTypeService.Ins.UpdateRoomType(roomType);
 
-                if (successUpdateRoomType)
-                {
-                    isSaving = false;
-                    CustomMessageBox.ShowOk(messageFromUpdateRoomType, "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
-                    LoadRoomTypeListView(Operation.UPDATE, roomType);
-                    p.Close();
-                }
-                else
-                {
-                    CustomMessageBox.ShowOk(messageFromUpdateRoomType, "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
-                }
-            }
-            else
-            {
-                CustomMessageBox.ShowOk("Vui lòng nhập đủ thông tin!", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
-            }
-        }
+        //        if (successUpdateRoomType)
+        //        {
+        //            isSaving = false;
+        //            CustomMessageBox.ShowOk(messageFromUpdateRoomType, "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
+        //            LoadRoomTypeListView(Operation.UPDATE, roomType);
+        //            p.Close();
+        //        }
+        //        else
+        //        {
+        //            CustomMessageBox.ShowOk(messageFromUpdateRoomType, "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        CustomMessageBox.ShowOk("Vui lòng nhập đủ thông tin!", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+        //    }
+        //}
     }
 }

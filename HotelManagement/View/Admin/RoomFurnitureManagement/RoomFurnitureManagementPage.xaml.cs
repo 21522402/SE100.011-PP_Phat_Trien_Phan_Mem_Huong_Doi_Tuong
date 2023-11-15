@@ -44,10 +44,7 @@ namespace HotelManagement.View.Admin.RoomFurnitureManagement
             if (String.IsNullOrEmpty(SearchBox.Text))
                 return true;
             else
-                return ((item as FurnituresRoomDTO).RoomNumber.ToString().IndexOf(SearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0)
-                       || ((item as FurnituresRoomDTO).RoomType.IndexOf(SearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0)
-                       || ((item as FurnituresRoomDTO).RoomStatus.IndexOf(SearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0)
-                       || ((item as FurnituresRoomDTO).CustomerName.IndexOf(SearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+                return ((item as FurnitureRoomTypeDTO).RoomTypeName.ToString().IndexOf(SearchBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
         }
 
         private void AvatarMask_MouseMove(object sender, MouseEventArgs e)

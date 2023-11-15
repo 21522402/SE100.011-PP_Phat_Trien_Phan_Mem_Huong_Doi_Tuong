@@ -11,6 +11,7 @@ using System.Net.Cache;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -34,12 +35,12 @@ namespace HotelManagement.DTOs
         public ImageSource ProductAvatar
         {
             get { return productAvatar; }
-            set { SetField(ref productAvatar, value, "ServiceAvatar"); }
+            set { SetField(ref productAvatar, value, "ProductAvatar"); }
         }
         public string ProductId { get; set; }
         public string ProductName { get; set; }
         public string ProductType { get; set; }
-        public double Price { get; set; }
+        public double ProductPrice { get; set; }
         public byte[] ProductAvatarData { get; set; }
 
         private int quantity;
@@ -61,38 +62,58 @@ namespace HotelManagement.DTOs
             get { return importQuantity; }
             set { SetField(ref importQuantity, value, "ImportQuantity"); }
         }
+
+        private int remainQuantity;
+        public int RemainQuantity
+        {
+            get { return remainQuantity; }
+            set { SetField(ref remainQuantity, value, "RemainQuantity"); }
+        }
+
+        public string TotalImportPriceStr { get; set; }
+
         public string PriceStr { get; set; }
         public string Unit { get; set; }
 
         public ProductDTO()
         {
         }
-        public ProductDTO(string productId, string productName,  double price,int quantity, byte[] productAvatarData, ImageSource productAvatar)
+        public ProductDTO(string productId, string productName, string productType, double productPrice, int quantity, byte[] productAvatarData, ImageSource productAvatar)
         {
             ProductId = productId;
             ProductName = productName;
-            Price = price;
+            ProductType = productType;
+            ProductPrice = productPrice;
             Quantity = quantity;
             ProductAvatarData = productAvatarData;
             ProductAvatar = productAvatar;
-            PriceStr = Helper.FormatVNMoney((float)Price);
+            PriceStr = Helper.FormatVNMoney((double)ProductPrice);
         }
         public ProductDTO(ProductDTO s)
         {
 
             ProductId = s.ProductId;
             ProductName = s.ProductName;
-            Price = s.Price;
+            ProductType = s.ProductType;
+            ProductPrice = s.ProductPrice;
             Quantity = s.Quantity;
             ProductAvatarData = s.ProductAvatarData;
             ProductAvatar = s.ProductAvatar;
-            PriceStr = Helper.FormatVNMoney((float)Price);
+            PriceStr = Helper.FormatVNMoney((double)ProductPrice);
+        }
+        public void SetTotalImportPrice()
+        {
+            TotalImportPriceStr = Helper.FormatVNMoney(ImportQuantity * ImportPrice);
+        }
+        public void FormatStringUnitAndPrice()
+        {
+            PriceStr = Helper.FormatVNMoney((double)ProductPrice);
         }
 
         
         public void SetAvatar()
         {
-            if(ProductAvatarData != null)
+            if (ProductAvatarData != null)
                 ProductAvatar = LoadAvatarImage(ProductAvatarData);
         }
         public void SetAvatar(string filePath)
@@ -114,23 +135,30 @@ namespace HotelManagement.DTOs
         }
         public BitmapImage LoadAvatarImage(byte[] data)
         {
-            MemoryStream stream = new MemoryStream();
-            stream.Write(data, 0, data.Length);
-            stream.Position = 0;
+            try
+            {
+                MemoryStream stream = new MemoryStream();
+                stream.Write(data, 0, data.Length);
+                stream.Position = 0;
 
-            Image img = Image.FromStream(stream);
+                Image img = Image.FromStream(stream);
 
-            BitmapImage bitmapImage = new BitmapImage();
-            bitmapImage.BeginInit();
+                BitmapImage bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
 
-            MemoryStream ms = new MemoryStream();
-            img.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
-            ms.Seek(0, SeekOrigin.Begin);
-            bitmapImage.StreamSource = ms;
-            bitmapImage.EndInit();
+                MemoryStream ms = new MemoryStream();
+                img.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+                ms.Seek(0, SeekOrigin.Begin);
+                bitmapImage.StreamSource = ms;
+                bitmapImage.EndInit();
 
-            bitmapImage.Freeze();
-            return bitmapImage;
+                bitmapImage.Freeze();
+                return bitmapImage;
+            }
+            catch(Exception e)
+            {
+                return null;
+            }
         }
     }
 }

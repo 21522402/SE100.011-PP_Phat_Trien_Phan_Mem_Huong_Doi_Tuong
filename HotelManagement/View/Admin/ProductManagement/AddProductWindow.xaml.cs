@@ -12,26 +12,29 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace HotelManagement.View.Admin.ServiceManagement.OtherServices
+namespace HotelManagement.View.Admin.ProductManagement
 {
     /// <summary>
-    /// Interaction logic for OtherServicesWindow.xaml
+    /// Interaction logic for AddProductWindow.xaml
     /// </summary>
-    public partial class OtherServicesWindow : Window
+    public partial class AddProductWindow : Window
     {
-        public OtherServicesWindow()
+        public AddProductWindow()
         {
             InitializeComponent();
         }
 
-        private void OtherServicesWD_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            DragMove();
-        }
-
-        private void PackIcon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void ProductAddWD_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if(e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragMove();
+            }    
         }
     }
 }
