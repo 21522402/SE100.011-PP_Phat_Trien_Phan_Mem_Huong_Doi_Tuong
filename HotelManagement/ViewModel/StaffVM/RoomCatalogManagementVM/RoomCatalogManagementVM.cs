@@ -246,7 +246,7 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
                         wd.btnAddService.Visibility = Visibility.Visible;
                         wd.btnPayment.Visibility = Visibility.Visible;
                     }
-                    //ListCustomer = new ObservableCollection<RentalContractDetailDTO>(await RoomCustomerService.Ins.GetCustomersOfRoom(SelectedRoom.RentalContractId));
+                    ListCustomer = new ObservableCollection<RentalContractDetailDTO>(await BookingRoomService.Ins.GetCustomersOfRoom(SelectedRoom.RentalContractId));
                     RoomWindow = (RoomWindow)wd;
                     wd.ShowDialog();
                 }
@@ -272,7 +272,7 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
 
             LoadRoomRentalContractInfoCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
             {
-                //ListCustomer = new ObservableCollection<RentalContractDetailDTO>(await RoomCustomerService.Ins.GetCustomersOfRoom(SelectedRoom.RentalContractId));
+                ListCustomer = new ObservableCollection<RentalContractDetailDTO>(await BookingRoomService.Ins.GetCustomersOfRoom(SelectedRoom.RentalContractId));
                 RoomRentalContractInfo wd = new RoomRentalContractInfo();
                 wd.ShowDialog();
             });
