@@ -106,13 +106,23 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
         }
         //public void LoadProductListView(Operation operation, ServiceDTO service = null)
         //{
-        //    if(operation == Operation.UPDATE_PROD_QUANTITY)
-        //    { 
-        //        ServiceDTO serviceUpdateQuantity = ProductList.FirstOrDefault(item => item.ServiceId == service.ServiceId);
-        //        if (serviceUpdateQuantity == null)
-        //            return;
-        //        ProductList[ProductList.IndexOf(serviceUpdateQuantity)] = service;
-        //        AllProducts[AllProducts.IndexOf(serviceUpdateQuantity)] = service;
+        //    if (OrderList.Count == 0)
+        //    {
+        //        CustomMessageBox.ShowOk("Vui lòng chọn sản phẩm!", "Thông báo", "Ok", CustomMessageBoxImage.Warning);
+        //        return;
+        //    }
+        //    (bool isSucceed, string message) = await ServiceUsingHelper.Ins.SaveUsingProduct(OrderList, SelectedRoom);
+        //    if (isSucceed)
+        //    {
+        //        CustomMessageBox.ShowOk(message, "Thông báo", "Ok", CustomMessageBoxImage.Success);
+        //        SumOrder = 0;
+        //        OrderList = null;
+        //        ListService = new ObservableCollection<ServiceUsingDTO>(await ServiceUsingHelper.Ins.GetListUsingService(SelectedRoom.RentalContractId));
+        //        p.Close();
+        //    }
+        //    else
+        //    {
+        //        CustomMessageBox.ShowOk(message, "Thông báo", "Ok", CustomMessageBoxImage.Error);
         //    }
         //}
         public void LoadProductToBill()

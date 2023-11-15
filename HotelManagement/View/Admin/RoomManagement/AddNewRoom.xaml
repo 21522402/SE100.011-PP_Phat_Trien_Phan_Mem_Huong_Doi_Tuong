@@ -45,11 +45,11 @@
                 <Image Source="{StaticResource Button_X}" VerticalAlignment="Center" HorizontalAlignment="Center"  Height="26" Width="30" />
             </Button>
         </Grid>
-        
+
         <Grid Grid.Row="1" Margin="20 0 20 0" >
             <Border CornerRadius="4" Background="#009099"/>
         </Grid>
-        
+
         <Label Grid.Row="2" Content="NHẬP THÔNG TIN PHÒNG MỚI" FontSize="18" Foreground="#C95D3B" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <Grid Grid.Row="3">
             <Grid.RowDefinitions>
@@ -100,10 +100,9 @@
                                  Foreground="Black"
                                  FontSize="16"
                                  HorizontalContentAlignment="Center"
+                                 ItemsSource="{Binding ListRoomType}"
                                  SelectedItem="{Binding CbRoomType, Mode=OneWayToSource}">
-                            <ComboBoxItem Tag="Phòng thường"  Content="Phòng thường" FontSize="16" Foreground="Black"/>
-                            <ComboBoxItem Tag="Phòng vip"  Content="Phòng vip" FontSize="16" Foreground="Black"/>
-                            <ComboBoxItem Tag="Phòng thương gia"  Content="Phòng thương gia" FontSize="16" Foreground="Black"/>
+                        
                         </ComboBox>
                     </Border>
                 </Grid>
@@ -135,28 +134,7 @@
                              Text="{Binding RoomStatus, Mode=TwoWay}"/>
                 </Grid>
 
-                <Grid Grid.Column="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="40*"/>
-                        <RowDefinition Height="60*"/>
-                    </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Content="Tình trạng phòng:" Foreground="#606060" FontSize="14" FontWeight="Bold" Margin="20 0 0 0" VerticalAlignment="Bottom"/>
-                    <Border Grid.Row="1" Background="White" CornerRadius="5" Width="240" Height="36">
-                        <ComboBox     Width="240" Height="36"
-                                      Padding="10 5"
-                                      BorderBrush="#606060"
-                                      BorderThickness="0.5"
-                                      Foreground="Black"
-                                      FontSize="16"
-                                      HorizontalContentAlignment="Center"
-                                      SelectedItem="{Binding CbRoomTinhTrang,Mode=OneWayToSource}">
-                            <ComboBoxItem Tag="Đã dọn dẹp"  Content="Đã dọn dẹp" FontSize="16" Foreground="Black"/>
-                            <ComboBoxItem Tag="Chưa dọn dẹp" Content="Chưa dọn dẹp" FontSize="16" Foreground="Black"/>
-                            <ComboBoxItem Tag="Đang sửa chữa" Content="Đang sửa chữa" FontSize="16" Foreground="Black"/>
 
-                        </ComboBox>
-                    </Border>
-                </Grid>
             </Grid>
             <Grid Grid.Row="3">
                 <Grid.RowDefinitions>

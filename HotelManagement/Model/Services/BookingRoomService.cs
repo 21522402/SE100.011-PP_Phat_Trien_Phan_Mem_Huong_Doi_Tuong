@@ -26,7 +26,6 @@ namespace HotelManagement.Model.Services
             }
             private set { _ins = value; }
         }
-
         public BookingRoomService() { }
 
        
@@ -52,8 +51,22 @@ namespace HotelManagement.Model.Services
 
                     context.RentalContracts.Add(rc);
                     await context.SaveChangesAsync();
-                    rentalContract.RentalContractId = rc.RentalContractId;
-                    return (true, "Đặt phòng thành công!");
+
+                    foreach (var item in list)
+                    {
+                        var maxCPId = await context.RentalContractDetails.MaxAsync(s => s.RentalContractDetailId);
+                        string CPId = CreateNextRentalContractId(maxCPId.ToString());
+                        RentalContractDetail rentalContractDetail = new RentalContractDetail
+                        {
+                            RentalContractDetailId = Int32.Parse(CPId),
+                            RentalContractId = rentalId,
+                            CustomerName = item.CustomerName,
+                            CustomerId = item.CCCD,
+                        };
+                        context.RentalContractDetails.Add(rentalContractDetail);
+                        await context.SaveChangesAsync();
+                    }
+                    return (true, "Xác nhận đặt phòng thành công!");
                 }
             }
             catch (Exception e)
@@ -102,65 +115,84 @@ namespace HotelManagement.Model.Services
         //        return (false, "Lỗi hệ thống",null);
         //    }
         //}
-
-        public async Task<(bool, string)> DeleteRentalContractBooked(string Id)
+        public async Task<List<RoomDTO>> GetListReadyRoom()
         {
             try
             {
                 using (var context = new HotelManagementEntities())
                 {
-                    RentalContract rental = await (from p in context.RentalContracts
-                                       where p.RentalContractId == Id
-                                       select p).FirstOrDefaultAsync();
-                    if (rental == null)
+                    var list = await context.Rooms.Where(x => x.RoomStatus == ROOM_STATUS.READY).Select(x => new RoomDTO
                     {
-                        return (false, "Phiếu thuê phòng này không tồn tại!");
-                    }
+                        RoomId = x.RoomId,
+                        RoomNumber = (int)x.RoomNumber,
+                        RoomTypeName = x.RoomType.RoomTypeName,
+                        RoomTypeId = x.RoomTypeId,
+                        Price = (double)x.RoomType.Price,
+                    }).ToListAsync();
 
-                    rental.Room.RoomStatus = ROOM_STATUS.READY;
-
-                    context.RentalContracts.Remove(rental);
-                    await context.SaveChangesAsync();
+                    return list;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return (false, "Lỗi hệ thống");
+                throw e;
             }
-            return (true, "Xóa phiếu thuê phòng thành công");
         }
-
-        public async Task<(bool, string)> DeleteRentalContractOutDate(string Id)
+        public async Task<double> GetRentalContractPrice(string rentId)
         {
             try
             {
                 using (var context = new HotelManagementEntities())
                 {
-                    RentalContract rental = await (from p in context.RentalContracts
-                                                   where p.RentalContractId == Id
-                                                   select p).FirstOrDefaultAsync();
-                    if (rental == null)
-                    {
-                        return (false, "Phiếu thuê phòng này không tồn tại!");
-                    }
+                    int numPerForUnitPrice = (int)context.Parameters.FirstOrDefault(x => x.ParameterKey == "SoKhachKhongTinhPhuPhi").ParameterValue;
+                    var listSurcharge = await context.SurchargeRates.ToListAsync();
 
-                    context.RentalContracts.Remove(rental);
-                    await context.SaveChangesAsync();
+
+                    RentalContract rentalContract = await context.RentalContracts.FindAsync(rentId);
+                    int numPer = rentalContract.RentalContractDetails.Count;
+                    double RoomTypePrice = (double)rentalContract.Room.RoomType.Price;
+                    double PricePerDay = RoomTypePrice;
+                    if (numPer > numPerForUnitPrice)
+                    {
+                        for (int i = 0; i < numPer - numPerForUnitPrice; i++)
+                        {
+                            PricePerDay += RoomTypePrice * (double)listSurcharge[i].Rate;
+                        }
+                    }
+                    return PricePerDay;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return (false, "Không thể xóa do ràng buộc cơ sở dữ liệu!");
+                throw e;
             }
-            return (true, "Xóa phiếu thuê phòng thành công");
         }
-        public async Task<string> GetRoomStatusBy(string rtID)
+        public async Task<string> GetCurrentRoomStatus(string rentId)
         {
             try
             {
                 using (var context = new HotelManagementEntities())
                 {
-                    return (await context.RentalContracts.FindAsync(rtID)).Room.RoomStatus;
+                    string res = "";
+                    RentalContract currentRental = await context.RentalContracts.FindAsync(rentId);
+                    Room room = currentRental.Room;
+                    res = room.RoomStatus.ToString();
+
+                    if (room.RoomStatus.ToString() == ROOM_STATUS.RENTING)
+                    {
+                        var listRentalId = await context.RentalContracts.Where(x => x.RoomId == room.RoomId).Select(x => x.RentalContractId).ToListAsync();
+                        listRentalId.Reverse();
+                        if (rentId == listRentalId[0])
+                        {
+                            res = ROOM_STATUS.RENTING.ToString();
+                        }
+                        else
+                        {
+                            res = ROOM_STATUS.READY;
+                        }
+
+                    }
+                    return res;
                 }
             }
             catch (Exception e)
@@ -184,11 +216,9 @@ namespace HotelManagement.Model.Services
             //KHxxx
             if (maxId is null)
             {
-                return "PT001";
+                throw ex;
             }
-            string newIdString = $"000{int.Parse(maxId.Substring(2)) + 1}";
-            return "PT" + newIdString.Substring(newIdString.Length - 3, 3);
-        }
 
+        }
     }
 }

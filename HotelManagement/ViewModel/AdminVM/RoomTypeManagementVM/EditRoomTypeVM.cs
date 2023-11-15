@@ -17,14 +17,14 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
 {
     public partial class RoomTypeManagementVM:BaseVM
     {
-        public ICommand LoadEditRoomTypeCM { get; set; }
 
         public void LoadEditRoomType()
         {
             RoomTypeID = SelectedItem.RoomTypeId;
             RoomTypeName = SelectedItem.RoomTypeName;
             RoomTypePrice = SelectedItem.RoomTypePrice;
-            RoomTypeNote = SelectedItem.RoomTypeNote;
+            MaxNumberGuest = SelectedItem.MaxNumberGuest;
+            NumberGuestForUnitPrice = SelectedItem.NumberGuestForUnitPrice;
         }
         public async Task UpdateRoomTypeFunc(System.Windows.Window p)
         {
@@ -36,7 +36,8 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
                     RoomTypeId = RoomTypeID,
                     RoomTypeName = RoomTypeName,
                     RoomTypePrice = RoomTypePrice,
-                    RoomTypeNote = RoomTypeNote,
+                    MaxNumberGuest = MaxNumberGuest,
+                    NumberGuestForUnitPrice = NumberGuestForUnitPrice,
                 };
 
                 (bool successUpdateRoomType, string messageFromUpdateRoomType) = await RoomTypeService.Ins.UpdateRoomType(roomType);

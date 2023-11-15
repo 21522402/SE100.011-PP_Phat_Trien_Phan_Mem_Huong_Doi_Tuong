@@ -1,7 +1,6 @@
 ﻿using HotelManagement.DTOs;
 using HotelManagement.Model.Services;
 using HotelManagement.Utils;
-using HotelManagement.View.Admin.CustomerManagement;
 using HotelManagement.View.CustomMessageBoxWindow;
 using HotelManagement.View.Staff.RoomCatalogManagement.RoomInfo;
 using System;
@@ -95,38 +94,38 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
             get { return _ListRoomFurnitureTemp; }
             set { _ListRoomFurnitureTemp = value; OnPropertyChanged(); }
         }
-        public async Task ChangeRoomStatusFunc(RoomWindow p)
-        {
+        //public async Task ChangeRoomStatusFunc(RoomWindow p)
+        //{
 
-            (bool isSucceed, string mess) = await RoomService.Ins.ChangeRoomStatus(SelectedRoom.RoomId, SelectedRoom.RentalContractId);
-            if (isSucceed)
-            {
-                CustomMessageBox.ShowOk(mess, "Thông báo", "OK", CustomMessageBoxImage.Success);
-                p.Close();
-                RefreshCM.Execute(MainPage);
-            }
-            else
-            {
-                CustomMessageBox.ShowOk(mess, "Lỗi", "OK", CustomMessageBoxImage.Error);
-            }
-        }
-        public async Task UpdateRoomInfoFunc(RoomWindow p)
-        {
+        //    (bool isSucceed, string mess) = await RoomService.Ins.ChangeRoomStatus(SelectedRoom.RoomId, SelectedRoom.RentalContractId);
+        //    if (isSucceed)
+        //    {
+        //        CustomMessageBox.ShowOk(mess, "Thông báo", "OK", CustomMessageBoxImage.Success);
+        //        p.Close();
+        //        RefreshCM.Execute(MainPage);
+        //    }
+        //    else
+        //    {
+        //        CustomMessageBox.ShowOk(mess, "Lỗi", "OK", CustomMessageBoxImage.Error);
+        //    }
+        //}
+        //public async Task UpdateRoomInfoFunc(RoomWindow p)
+        //{
 
-            (bool isSucessed, string mess) = await RoomService.Ins.UpdateRoomInfo(SelectedRoom.RoomId, SelectedRoomCleaningStatus.Content.ToString());
-            if (isSucessed)
-            {
-                CustomMessageBox.ShowOk(mess, "Thông báo", "OK", CustomMessageBoxImage.Success);
-                p.Close();
-                RefreshCM.Execute(MainPage);
-            }
-            else
-            {
-                CustomMessageBox.ShowOk(mess, "Lỗi", "OK", CustomMessageBoxImage.Error);
-            }
-        }
-        public async Task SaveCustomerFunc(AddCusWindow p)
-        {
+        //    (bool isSucessed, string mess) = await RoomService.Ins.UpdateRoomInfo(SelectedRoom.RoomId, SelectedRoomCleaningStatus.Content.ToString());
+        //    if (isSucessed)
+        //    {
+        //        CustomMessageBox.ShowOk(mess, "Thông báo", "OK", CustomMessageBoxImage.Success);
+        //        p.Close();
+        //        RefreshCM.Execute(MainPage);
+        //    }
+        //    else
+        //    {
+        //        CustomMessageBox.ShowOk(mess, "Lỗi", "OK", CustomMessageBoxImage.Error);
+        //    }
+        //}
+        //public async Task SaveCustomerFunc(AddCusWindow p)
+        //{
 
             if (string.IsNullOrEmpty(p.tbName.Text) || string.IsNullOrEmpty(p.tbAddress.Text) || string.IsNullOrEmpty(p.tbCCCD.Text))
             {
@@ -152,7 +151,7 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
                 CustomerId = p.tbCCCD.Text,
                 RentalContractId = SelectedRoom.RentalContractId,
 
-            };
+        //    };
 
             (bool isSucessed, string mess, List<RentalContractDetailDTO> listCustomer) = await RoomCustomerService.Ins.AddRoomCustomer(newCus);
             if (isSucessed)
@@ -213,8 +212,8 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
         {
 
 
-            CustomMessageBoxResult res = CustomMessageBox.ShowOkCancel("Bạn có chắc chắn muốn xóa vị khách này?", "Thông báo", "Ok", "Cancel", CustomMessageBoxImage.Question);
-            if (res == CustomMessageBoxResult.Cancel) return;
+        //    CustomMessageBoxResult res = CustomMessageBox.ShowOkCancel("Bạn có chắc chắn muốn xóa vị khách này?", "Thông báo", "Ok", "Cancel", CustomMessageBoxImage.Question);
+        //    if (res == CustomMessageBoxResult.Cancel) return;
 
            
 

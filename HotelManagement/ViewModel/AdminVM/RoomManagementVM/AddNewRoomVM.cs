@@ -17,7 +17,7 @@ namespace HotelManagement.ViewModel.AdminVM.RoomManagementVM
         {
             if (IsValidData())
             {
-                string rtn = CbRoomType.Tag.ToString();
+                string rtn = CbRoomType;
                 string rti = await RoomTypeService.Ins.GetRoomTypeID(rtn);
                 RoomDTO room = new RoomDTO
                 {   // check ở đây

@@ -12,66 +12,66 @@ namespace HotelManagement.ViewModel.AdminVM.StatisticalManagementVM
 {
     public partial class StatisticalManagementVM : BaseVM
     {
-        //private List<RoomTypeDTO> _ListRoomTypeRevenue;
-        //public List<RoomTypeDTO> ListRoomTypeRevenue
-        //{
-        //    get { return _ListRoomTypeRevenue; }
-        //    set { _ListRoomTypeRevenue = value; OnPropertyChanged(); }
-        //}
-        //private List<string> _ListFilterYear2;
-        //public List<string> ListFilterYear2
-        //{
-        //    get { return _ListFilterYear2; }
-        //    set { _ListFilterYear2 = value; OnPropertyChanged(); }
-        //}
-        //private string _SelectedYear2;
-        //public string SelectedYear2
-        //{
-        //    get { return _SelectedYear2; }
-        //    set { _SelectedYear2 = value; OnPropertyChanged(); }
-        //}
-        //private List<string> _ListFilterMonth2;
-        //public List<string> ListFilterMonth2
-        //{
-        //    get { return _ListFilterMonth2; }
-        //    set { _ListFilterMonth2 = value; OnPropertyChanged(); }
-        //}
-        //private string _SelectedMonth2;
-        //public string SelectedMonth2
-        //{
-        //    get { return _SelectedMonth2; }
-        //    set { _SelectedMonth2 = value; OnPropertyChanged(); }
-        //}
-        //private List<string> _ListFilterYear3;
-        //public List<string> ListFilterYear3
-        //{
-        //    get { return _ListFilterYear3; }
-        //    set { _ListFilterYear3 = value; OnPropertyChanged(); }
-        //}
-        //private string _SelectedYear3;
-        //public string SelectedYear3
-        //{
-        //    get { return _SelectedYear3; }
-        //    set { _SelectedYear3 = value; OnPropertyChanged(); }
-        //}
-        //private List<string> _ListFilterMonth3;
-        //public List<string> ListFilterMonth3
-        //{
-        //    get { return _ListFilterMonth3; }
-        //    set { _ListFilterMonth3 = value; OnPropertyChanged(); }
-        //}
-        //private string _SelectedMonth3;
-        //public string SelectedMonth3
-        //{
-        //    get { return _SelectedMonth3; }
-        //    set { _SelectedMonth3 = value; OnPropertyChanged(); }
-        //}
-        //private List<ServiceTypeDTO> _ListServiceTypeRevenue;
-        //public List<ServiceTypeDTO> ListServiceTypeRevenue
-        //{
-        //    get { return _ListServiceTypeRevenue; }
-        //    set { _ListServiceTypeRevenue = value; OnPropertyChanged(); }
-        //}
+        private List<RoomTypeDTO> _ListRoomTypeRevenue;
+        public List<RoomTypeDTO> ListRoomTypeRevenue
+        {
+            get { return _ListRoomTypeRevenue; }
+            set { _ListRoomTypeRevenue = value; OnPropertyChanged(); }
+        }
+        private List<string> _ListFilterYear2;
+        public List<string> ListFilterYear2
+        {
+            get { return _ListFilterYear2; }
+            set { _ListFilterYear2 = value; OnPropertyChanged(); }
+        }
+        private string _SelectedYear2;
+        public string SelectedYear2
+        {
+            get { return _SelectedYear2; }
+            set { _SelectedYear2 = value; OnPropertyChanged(); }
+        }
+        private List<string> _ListFilterMonth2;
+        public List<string> ListFilterMonth2
+        {
+            get { return _ListFilterMonth2; }
+            set { _ListFilterMonth2 = value; OnPropertyChanged(); }
+        }
+        private string _SelectedMonth2;
+        public string SelectedMonth2
+        {
+            get { return _SelectedMonth2; }
+            set { _SelectedMonth2 = value; OnPropertyChanged(); }
+        }
+        private List<string> _ListFilterYear3;
+        public List<string> ListFilterYear3
+        {
+            get { return _ListFilterYear3; }
+            set { _ListFilterYear3 = value; OnPropertyChanged(); }
+        }
+        private string _SelectedYear3;
+        public string SelectedYear3
+        {
+            get { return _SelectedYear3; }
+            set { _SelectedYear3 = value; OnPropertyChanged(); }
+        }
+        private List<string> _ListFilterMonth3;
+        public List<string> ListFilterMonth3
+        {
+            get { return _ListFilterMonth3; }
+            set { _ListFilterMonth3 = value; OnPropertyChanged(); }
+        }
+        private string _SelectedMonth3;
+        public string SelectedMonth3
+        {
+            get { return _SelectedMonth3; }
+            set { _SelectedMonth3 = value; OnPropertyChanged(); }
+        }
+        private List<ProductStatisticDTO> _ListServiceTypeRevenue;
+        public List<ProductStatisticDTO> ListServiceTypeRevenue
+        {
+            get { return _ListServiceTypeRevenue; }
+            set { _ListServiceTypeRevenue = value; OnPropertyChanged(); }
+        }
 
         //private SeriesCollection _RoomTypeRevenuePieChart;
         //public SeriesCollection RoomTypeRevenuePieChart

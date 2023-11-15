@@ -12,7 +12,6 @@
                 xmlns:VM10="clr-namespace:HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM"
                 xmlns:VM11="clr-namespace:HotelManagement.ViewModel.AdminVM.StatisticalManagementVM"
                 xmlns:VM12="clr-namespace:HotelManagement.ViewModel.HelpScreenVM"
-                xmlns:VM13="clr-namespace:HotelManagement.ViewModel.AdminVM.CustomerManagementVM"
                 xmlns:VM14="clr-namespace:HotelManagement.ViewModel.AdminVM.StaffManagementVM"
                 xmlns:VM15="clr-namespace:HotelManagement.ViewModel.AdminVM.HistoryManagementVM"
                 xmlns:VM16="clr-namespace:HotelManagement.ViewModel.AdminVM.TroubleManagementVM"
@@ -31,7 +30,6 @@
     <VM10:RoomTypeManagementVM x:Key="RoomTypeManagementVM"/>
     <VM11:StatisticalManagementVM x:Key="StatisticalManagementVM"/>
     <VM12:HelpScreenVM x:Key="HelpScreenVM"/>
-    <VM13:CustomerManagementVM x:Key="CustomerManagementVM"/>
     <VM14:StaffManagementVM x:Key="StaffManagementVM"/>
     <VM15:HistoryManagementVM x:Key="HistoryManagementVM"/>
     <VM16:TroubleManagementVM x:Key="TroubleManagementVM"/>

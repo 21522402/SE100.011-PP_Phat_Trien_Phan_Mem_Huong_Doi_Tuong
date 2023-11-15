@@ -113,7 +113,7 @@
                         </ListView.ItemContainerStyle>
                         <ListView.View>
                             <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}">
-                                <GridViewColumn Width="77" Header="ID">
+                                <GridViewColumn Width="100" Header="ID">
                                     <GridViewColumn.CellTemplate >
                                         <DataTemplate>
                                             <TextBlock Text="{Binding TroubleId}"
@@ -126,7 +126,7 @@
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
 
-                                <GridViewColumn  Width="300" Header="Sự cố">
+                                <GridViewColumn  Width="350" Header="Sự cố">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Margin="6 0 0 0" Orientation="Horizontal">
@@ -149,7 +149,7 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Width="170" Header="Ngày nhận">
+                                <GridViewColumn Width="200" Header="Ngày nhận">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding StartDate, StringFormat=dd/MM/yyyy}" 
@@ -161,19 +161,8 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Width="150" Header="Nguyên nhân">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding Reason}" 
-                                                       FontSize="14" 
-                                                       FontFamily="{StaticResource MaterialDesignFont}"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"
-                                                       TextAlignment="Center"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Width="150" Header="Mức độ">
+                              
+                                <GridViewColumn Width="160" Header="Mức độ">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <Border Padding="3" CornerRadius="4" Background="{Binding Level, Converter={StaticResource statusBGcv}}" BorderBrush="{Binding Level, Converter={StaticResource statusBrushcv}}" BorderThickness="1" VerticalAlignment="Center">
@@ -189,7 +178,7 @@
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
 
-                                <GridViewColumn Width="150" Header="Tình trạng">
+                                <GridViewColumn Width="160" Header="Tình trạng">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <Border Padding="3" CornerRadius="4"  Background="{Binding Status, Converter={StaticResource statusBGcv}}" BorderBrush="{Binding Status, Converter={StaticResource statusBrushcv}}" BorderThickness="1" VerticalAlignment="Center">
@@ -205,7 +194,7 @@
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
 
-                                <GridViewColumn Width="130" Header="Chỉnh sửa">
+                                <GridViewColumn Width="150" Header="Chỉnh sửa">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel VerticalAlignment="Center"

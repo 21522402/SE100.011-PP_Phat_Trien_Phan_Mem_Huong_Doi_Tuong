@@ -95,10 +95,8 @@
                                     FontSize="16"
                                     HorizontalContentAlignment="Center"
                                     x:Name="loaiphong"
-                                    SelectedItem="{Binding CbRoomType,Mode=OneWayToSource}"> 
-                            <ComboBoxItem Tag="Phòng thường" Content="Phòng thường" FontSize="16" Foreground="Black"/>
-                            <ComboBoxItem Tag="Phòng vip" Content="Phòng vip" FontSize="16" Foreground="Black"/>
-                            <ComboBoxItem Tag="Phòng thương gia" Content="Phòng thương gia" FontSize="16" Foreground="Black"/>
+                                    ItemsSource="{Binding ListRoomType}"
+                                    SelectedItem="{Binding CbRoomType,Mode=TwoWay}">
                         </ComboBox>
                     </Border>
                 </Grid>
@@ -130,29 +128,7 @@
                              Text="{Binding RoomStatus, Mode=TwoWay}"/>
                 </Grid>
 
-                <Grid Grid.Column="1">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="40*"/>
-                        <RowDefinition Height="60*"/>
-                    </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Content="Tình trạng phòng:" Foreground="#606060" FontSize="14" FontWeight="Bold" Margin="20 0 0 0" VerticalAlignment="Bottom"/>
-                    <Border Grid.Row="1" Background="White" CornerRadius="5" Width="240" Height="36">
-                        <ComboBox     Width="240" Height="36"
-                                      Padding="10 5"
-                                      BorderBrush="#606060"
-                                      BorderThickness="0.5"
-                                      Foreground="Black"
-                                      FontSize="16"
-                                      x:Name="tinhtrangphong"
-                                      HorizontalContentAlignment="Center"
-                                      SelectedItem="{Binding CbRoomTinhTrang,Mode=OneWayToSource}">
-                            <ComboBoxItem Tag="Đã dọn dẹp" Content="Đã dọn dẹp" FontSize="16" Foreground="Black"/>
-                            <ComboBoxItem Tag="Chưa dọn dẹp" Content="Chưa dọn dẹp" FontSize="16" Foreground="Black"/>
-                            <ComboBoxItem Tag="Đang sửa chữa" Content="Đang sửa chữa" FontSize="16" Foreground="Black"/>
 
-                        </ComboBox>
-                    </Border>
-                </Grid>
             </Grid>
             <Grid Grid.Row="3">
                 <Grid.RowDefinitions>

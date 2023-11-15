@@ -13,7 +13,7 @@ namespace HotelManagement.DTOs
         public string ProductId { get; set; }
         public string ProductName { get; set; }
         public string RentalContractId { get; set; }
-       
+
         public Nullable<double> UnitPrice { get; set; }
         public Nullable<int> Quantity { get; set; }
         public double TotalMoney

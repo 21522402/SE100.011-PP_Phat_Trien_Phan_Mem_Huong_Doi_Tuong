@@ -27,11 +27,10 @@
         <Grid Margin="20 25 20 20">
             <Grid.RowDefinitions >
                 <RowDefinition Height="50"/>
-                <RowDefinition Height="260"/>
-                <RowDefinition Height="70"/>
-                <RowDefinition Height="70"/>
-                <RowDefinition Height="70"/>
-                <RowDefinition Height="98"/>
+                <RowDefinition Height="270"/>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="120"/>
                 <RowDefinition Height="*"/>
 
             </Grid.RowDefinitions>
@@ -108,46 +107,14 @@
                     <TextBox Text="{Binding Title, Mode=TwoWay}" Margin="5 0 0 0" FontSize="15" FontWeight="Regular" Foreground="{DynamicResource SecondTextColor}" BorderThickness="0" VerticalAlignment="Bottom"/>
                 </Border>
             </Grid>
-            <Grid Grid.Row="5" Margin="15 0 15 0">
+            <Grid Grid.Row="4" Margin="15 0 15 0">
                 <TextBlock Text="Mô tả sự cố:" FontSize="14" FontWeight="Regular" Foreground="{DynamicResource SecondTextColor}" />
-                <Border Margin="0 0 0 15" Height="60" Width="527" Background="#F8F9FA" BorderBrush="{DynamicResource SecondTextColor}" BorderThickness="0.5" CornerRadius="4" VerticalAlignment="Bottom" HorizontalAlignment="Left" >
+                <Border Margin="0 0 0 10" Height="80" Width="527" Background="#F8F9FA" BorderBrush="{DynamicResource SecondTextColor}" BorderThickness="0.5" CornerRadius="4" VerticalAlignment="Bottom" HorizontalAlignment="Left" >
                     <TextBox Text="{Binding Desription,Mode=TwoWay}"  Margin="5 0 0 0" TextWrapping="Wrap" FontSize="15" FontWeight="Regular" Foreground="{DynamicResource SecondTextColor}" BorderThickness="0"/>
                 </Border>
             </Grid>
-            <Grid Grid.Row="3" Margin="15 0 15 5 " >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0">
-                    <TextBlock Text="Nguyên nhân" FontSize="14" FontWeight="Regular" Foreground="{DynamicResource SecondTextColor}" />
-                    <Border Margin="0 0 0 10" Height="30.5" Width="200" Background="#F8F9FA" BorderBrush="{DynamicResource SecondTextColor}" BorderThickness="0.5" CornerRadius="4" VerticalAlignment="Bottom" HorizontalAlignment="Left" >
-                        <ComboBox Padding="12,7" 
-                                  BorderBrush="{DynamicResource SecondTextColor}" Foreground="{DynamicResource SecondTextColor}"
-                                  SelectedIndex="0"
-                                  SelectedItem="{Binding Reason, Mode=TwoWay}"
-                                  Name="reason"
-                                  FontWeight="Regular"
-                                  UseLayoutRounding="False"
-                                  FontSize="14" 
-                                  SelectedValuePath="Tag"
-                                  BorderThickness="0" 
-                                  FontFamily="{DynamicResource MaterialDesignFont}"
-                                  HorizontalContentAlignment="Left" SelectionChanged="ComboBox_SelectionChanged">
-
-                            <ComboBoxItem  Content="Bởi khách hàng" Tag="Bởi khách hàng" FontSize="14" />
-                            <ComboBoxItem  Content="Bởi khách sạn" Tag="Bởi khách sạn" FontSize="14"/>
-                        </ComboBox>
-                    </Border>
-                </Grid>
-                <Grid Grid.Column="1" Visibility="Visible" x:Name="txtboxMPT">
-                    <TextBlock Text="Mã số phiếu thuê" FontSize="14" FontWeight="Regular" Foreground="{DynamicResource SecondTextColor}" />
-                    <Border Margin="0 0 0 10" Height="30.5" Width="200" Background="#F8F9FA" BorderBrush="{DynamicResource SecondTextColor}" BorderThickness="0.5" CornerRadius="4" VerticalAlignment="Bottom" HorizontalAlignment="Left" >
-                        <TextBox Name="masophieu" Text="{Binding RentalContractId, Mode=TwoWay}" Margin="5 0 0 0" FontSize="15" FontWeight="Regular" Foreground="{DynamicResource SecondTextColor}" VerticalAlignment="Center" BorderThickness="0"/>
-                    </Border>
-                </Grid>
-            </Grid>
-            <Grid Grid.Row="4" Margin="15 0 15 5 ">
+            
+            <Grid Grid.Row="3" Margin="15 10 15 5 ">
                 <TextBlock Text="Mức độ" FontSize="14" FontWeight="Regular" Foreground="{DynamicResource SecondTextColor}" />
                 <Border Margin="0 0 0 10" Height="30.5" Width="200" Background="#F8F9FA" BorderBrush="{DynamicResource SecondTextColor}" BorderThickness="0.5" CornerRadius="4" VerticalAlignment="Bottom" HorizontalAlignment="Left"  >
                     <ComboBox Padding="12,7" 
@@ -169,7 +136,7 @@
                 </Border>
             </Grid>
 
-            <Grid Grid.Row="6" Margin="0 0 15 0">
+            <Grid Grid.Row="5" Margin="0 0 15 0">
                 <Border Height="34" Width="80" CornerRadius="5" Background="{DynamicResource SecondBackgroundColor}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 100 0">
                     <Button Height="34" BorderBrush="Transparent"  Width="80" Background="Transparent" BorderThickness="0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="Button_Click" >
                         <TextBlock Text="Thoát" FontSize="15" FontWeight="Medium"   Foreground="{DynamicResource PrimaryTextColor}" HorizontalAlignment="Center" VerticalAlignment="Center" />

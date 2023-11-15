@@ -44,16 +44,16 @@ namespace HotelManagement.Model.Services
                         listCustomer[i].STT = i + 1;
                     }
 
-                    return listCustomer;
+        //            return listCustomer;
 
 
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
         public async Task<int> GetPersonNumberOfRoom(string rentalContractId)
         {
@@ -63,14 +63,14 @@ namespace HotelManagement.Model.Services
                 {
                     var customerList = await context.RentalContractDetails.Where(x => x.RentalContractId == rentalContractId).CountAsync();
 
-                    return customerList;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //            return customerList;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
         public async Task<(bool, string, List<RentalContractDetailDTO>)> AddRoomCustomer(RentalContractDetailDTO roomCustomer)
         {
@@ -135,7 +135,7 @@ namespace HotelManagement.Model.Services
                     cus.CustomerName = roomCustomer.CustomerName;
                     cus.CustomerId = roomCustomer.CustomerId;
                  
-                    await context.SaveChangesAsync();
+        //            await context.SaveChangesAsync();
 
                     var listCustomer = await context.RentalContractDetails.Where(x => x.RentalContractId == roomCustomer.RentalContractId).Select(x => new RentalContractDetailDTO
                     {

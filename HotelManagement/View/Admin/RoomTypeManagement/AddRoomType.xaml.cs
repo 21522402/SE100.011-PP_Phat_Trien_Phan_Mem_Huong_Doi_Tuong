@@ -9,7 +9,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -17,14 +16,13 @@ using System.Windows.Shapes;
 namespace HotelManagement.View.Admin.RoomTypeManagement
 {
     /// <summary>
-    /// Interaction logic for EditRoomType.xaml
+    /// Interaction logic for AddRoomType.xaml
     /// </summary>
-    public partial class EditRoomType : Window
+    public partial class AddRoomType : Window
     {
-        public EditRoomType()
+        public AddRoomType()
         {
             InitializeComponent();
-            this.Language = XmlLanguage.GetLanguage("vi-VN");
         }
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -37,7 +35,7 @@ namespace HotelManagement.View.Admin.RoomTypeManagement
         {
             return !_regex.IsMatch(text);
         }
-        private void EditRoomTypeWindow_PreviewKeyUp(object sender, KeyEventArgs e)
+        private void AddRoomTypeWindow_PreviewKeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key != System.Windows.Input.Key.Escape) return;
 
@@ -49,5 +47,7 @@ namespace HotelManagement.View.Admin.RoomTypeManagement
         {
             e.Handled = !IsTextAllowed(e.Text);
         }
+
+      
     }
 }

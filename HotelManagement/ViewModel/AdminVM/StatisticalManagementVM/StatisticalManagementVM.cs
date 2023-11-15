@@ -61,45 +61,43 @@ namespace HotelManagement.ViewModel.AdminVM.StatisticalManagementVM
         //        p.SetValue(ElevationAssist.ElevationProperty, Elevation.Dp3);
         //    });
 
-        //    LoadAllStatisticalCM = new RelayCommand<Card>((p) => { return true; }, (p) =>
-        //    {
-                
+            LoadAllStatisticalCM = new RelayCommand<Card>((p) => { return true; }, (p) =>
+            {
+                ChangeView(p);
+                mainFrame.Content = new IncomeStatiscalManagement();
+            });
 
-        //        ChangeView(p);
-        //        mainFrame.Content = new IncomeStatiscalManagement();
-        //    });
+            LoadRoomTypeAndServiceStatiscalCM = new RelayCommand<Card>((p) => { return true; }, (p) =>
+            {
 
-        //    LoadRoomTypeAndServiceStatiscalCM = new RelayCommand<Card>((p) => { return true; }, (p) =>
-        //    {
-                
-        //        ChangeView(p);
-        //        mainFrame.Content = new RoomTypeAndService();
-        //    });
+                ChangeView(p);
+                mainFrame.Content = new RoomTypeAndService();
+            });
 
-           
-        //    ChangeRoomTypeRevenueCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
-        //    {
-        //        await ChangeRoomTypeRevenue();
-        //    });
-        //    ChangeServiceTypeRevenueCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
-        //    {
-        //        await ChangeServiceTypeRevenue();
-        //    });
-        //    ChangeTimeCM = new RelayCommand<IncomeStatiscalManagement>((p) => { return true; }, async (p) =>
-        //    {
-        //        isChange = true;
-        //        await ChangeViewIncome(p);
-        //    });
-        //    ExportFileCM = new RelayCommand<IncomeStatiscalManagement>((p) => { return true; }, async (p) =>
-        //    {
-        //        IsExport = false;
-        //        await ExportFile();
-        //        if (IsExport)
-        //        {
-        //            CustomMessageBox.ShowOk("Xuất file thành công!", "Thông báo", "Ok", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
-        //            IsExport= false;
-        //        }
-        //    });
+
+            //ChangeRoomTypeRevenueCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
+            //{
+            //    await ChangeRoomTypeRevenue();
+            //});
+            //ChangeServiceTypeRevenueCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
+            //{
+            //    await ChangeServiceTypeRevenue();
+            //});
+            ChangeTimeCM = new RelayCommand<IncomeStatiscalManagement>((p) => { return true; }, async (p) =>
+            {
+                isChange = true;
+                await ChangeViewIncome(p);
+            });
+            //ExportFileCM = new RelayCommand<IncomeStatiscalManagement>((p) => { return true; }, async (p) =>
+            //{
+            //    IsExport = false;
+            //    await ExportFile();
+            //    if (IsExport)
+            //    {
+            //        CustomMessageBox.ShowOk("Xuất file thành công!", "Thông báo", "Ok", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
+            //        IsExport = false;
+            //    }
+            //});
 
         //}
         //public void ChangeView(Card p)

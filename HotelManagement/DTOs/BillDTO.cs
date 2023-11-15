@@ -93,6 +93,6 @@ namespace HotelManagement.DTOs
             }
 
         }
-       
+
     }
 }

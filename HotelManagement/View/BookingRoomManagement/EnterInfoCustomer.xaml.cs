@@ -14,35 +14,27 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace HotelManagement.View.Admin.RoomManagement
+namespace HotelManagement.View.BookingRoomManagement
 {
     /// <summary>
-    /// Interaction logic for EditRoomType.xaml
+    /// Interaction logic for EnterInfoCustomer.xaml
     /// </summary>
-    public partial class EditRoomType : Window
+    public partial class EnterInfoCustomer : Window
     {
-        public EditRoomType()
+        public EnterInfoCustomer()
         {
             InitializeComponent();
             this.Language = XmlLanguage.GetLanguage("vi-VN");
         }
-        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            this.DragMove();
-        }
-        private static readonly Regex _regex = new Regex("[^0-9]+"); //regex that matches disallowed text
 
-
+        private static readonly Regex _regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
         private static bool IsTextAllowed(string text)
         {
             return !_regex.IsMatch(text);
         }
-        private void EditRoomTypeWindow_PreviewKeyUp(object sender, KeyEventArgs e)
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            if (e.Key != System.Windows.Input.Key.Escape) return;
-
-            e.Handled = true;
-            this.Close();
+            e.Handled = !IsTextAllowed(e.Text);
         }
     }
 }

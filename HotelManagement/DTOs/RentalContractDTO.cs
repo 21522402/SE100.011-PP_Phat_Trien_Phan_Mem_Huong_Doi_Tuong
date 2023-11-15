@@ -18,13 +18,12 @@ namespace HotelManagement.DTOs
         public string CustomerName { get; set; }
         public string CustomerAddress { get; set; }
         public string RoomId { get; set; }
-        public string RoomTypeName { get; set; }
-        public Nullable<int> RoomNumber { get; set; }
-        public Nullable<double> RoomPrice { get; set; }
-       
-        public string RoomName
+        public int RoomNumber { get; set; }
+        public Nullable<System.DateTime> CreateDate { get; set; }
+        public int STT_RentalContract { get; set; }
+        public string CreateDateStr
         {
-            get { return "Phòng " + RoomNumber.ToString(); }
+            get { return ((DateTime)CreateDate).ToString("dd/MM/yyyy"); }
         }
         public Nullable<bool> Validated { get; set; }
         public int PersonNumber { get; set; }

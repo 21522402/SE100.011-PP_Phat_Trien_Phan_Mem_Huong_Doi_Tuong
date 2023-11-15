@@ -164,14 +164,14 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
 
         public RoomCatalogManagementVM()
         {
-            Color color = new Color();
-            FormatStringDate();
-            if (StaffVM.CurrentStaff!=null) CurrentStaff = StaffVM.CurrentStaff;
-            if (AdminVM.AdminVM.CurrentStaff != null) CurrentStaff = AdminVM.AdminVM.CurrentStaff;
-            StaffName = CurrentStaff.StaffName;
+            //Color color = new Color();
+            //FormatStringDate();
+            //if (StaffVM.CurrentStaff!=null) CurrentStaff = StaffVM.CurrentStaff;
+            //if (AdminVM.AdminVM.CurrentStaff != null) CurrentStaff = AdminVM.AdminVM.CurrentStaff;
+            //StaffName = CurrentStaff.StaffName;
 
-            FirstLoadCM = new RelayCommand<Page>((p) => { return true; }, async (p) =>
-            {
+            //FirstLoadCM = new RelayCommand<Page>((p) => { return true; }, async (p) =>
+            //{
                 
                 await PageSetting(p);
                 timer.Interval = TimeSpan.FromMinutes(1);
@@ -257,8 +257,8 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
 
             });
 
-            CheckInRoomCM = new RelayCommand<RoomWindow>((p) => { return true; }, async (p) =>
-            {
+            //CheckInRoomCM = new RelayCommand<RoomWindow>((p) => { return true; }, async (p) =>
+            //{
                
                 await ChangeRoomStatusFunc(p);
             });
@@ -268,7 +268,7 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
                 p.Close();
                
                 
-            });
+            //});
 
             LoadRoomRentalContractInfoCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
             {
@@ -281,16 +281,16 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
                 ListCustomer = new ObservableCollection<RentalContractDetailDTO>(await RoomCustomerService.Ins.GetCustomersOfRoom(SelectedRoom.RentalContractId));
                 RoomCustomerInfo wd = new RoomCustomerInfo();
                 
-                wd.ShowDialog();
-            });
+            //    wd.ShowDialog();
+            //});
 
-            LoadAddCustomerWindowCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
-            {
-                if (ListCustomer.Count == ROOM_INFO.PERSON_NUMBER)
-                {
-                    CustomMessageBox.ShowOk("Lượng khách trong phòng đã đạt tối đa!","Thông báo","Ok",CustomMessageBoxImage.Error);
-                    return;
-                }
+            //LoadAddCustomerWindowCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
+            //{
+            //    if (ListCustomer.Count == ROOM_INFO.PERSON_NUMBER)
+            //    {
+            //        CustomMessageBox.ShowOk("Lượng khách trong phòng đã đạt tối đa!","Thông báo","Ok",CustomMessageBoxImage.Error);
+            //        return;
+            //    }
 
               
                 AddCusWindow wd = new AddCusWindow();
@@ -337,12 +337,12 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
                 RoomOrderProducts wd = new RoomOrderProducts();
                 wd.ShowDialog();
                
-            });
-            FirstLoadOrderProductPage = new RelayCommand<object>((p) => { return true; }, async (p) =>
-            {
-                IsLoad = true;
+            //});
+            //FirstLoadOrderProductPage = new RelayCommand<object>((p) => { return true; }, async (p) =>
+            //{
+            //    IsLoad = true;
 
-                await LoadAllProduct();
+            //    await LoadAllProduct();
 
                 IsLoad = false;
             });
@@ -357,56 +357,56 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
                 }
             });
 
-            SelectedProductToBillCM = new RelayCommand<ListBox>((p) => { return true; }, (p) =>
-            {
-                if (SelectedProduct != null)
-                {
-                    ServiceCache = SelectedProduct;
-                    LoadProductToBill();
-                }
-            });
+            //SelectedProductToBillCM = new RelayCommand<ListBox>((p) => { return true; }, (p) =>
+            //{
+            //    if (SelectedProduct != null)
+            //    {
+            //        ServiceCache = SelectedProduct;
+            //        LoadProductToBill();
+            //    }
+            //});
 
-            DecreaseQuantityOrderItemCM = new RelayCommand<ListBox>((p) => { return true; }, (p) =>
-            {
-                if (SelectedProduct != null)
-                {
-                    ServiceCache = SelectedProduct;
-                    DecreaseProductInBill();
-                }
-            });
+            //DecreaseQuantityOrderItemCM = new RelayCommand<ListBox>((p) => { return true; }, (p) =>
+            //{
+            //    if (SelectedProduct != null)
+            //    {
+            //        ServiceCache = SelectedProduct;
+            //        DecreaseProductInBill();
+            //    }
+            //});
 
-            IncreaseQuantityOrderItemCM = new RelayCommand<ListBox>((p) => { return true; }, (p) =>
-            {
-                if (SelectedProduct != null)
-                {
-                    ServiceCache = SelectedProduct;
-                    IncreaseProductInBill();
-                }
-            });
+            //IncreaseQuantityOrderItemCM = new RelayCommand<ListBox>((p) => { return true; }, (p) =>
+            //{
+            //    if (SelectedProduct != null)
+            //    {
+            //        ServiceCache = SelectedProduct;
+            //        IncreaseProductInBill();
+            //    }
+            //});
 
-            DeleteItemInBillStackCM = new RelayCommand<ListBox>((p) => { return true; }, (p) => 
-            {
-                if (SelectedProduct != null)
-                {
-                    ServiceCache = SelectedProduct;
-                    DeleteProductInBill();
-                }
-            });
+            //DeleteItemInBillStackCM = new RelayCommand<ListBox>((p) => { return true; }, (p) => 
+            //{
+            //    if (SelectedProduct != null)
+            //    {
+            //        ServiceCache = SelectedProduct;
+            //        DeleteProductInBill();
+            //    }
+            //});
 
-            CloseOrderProductWindowCM = new RelayCommand<Window>((p) => { return true; }, (p) =>
-            {
-                OrderList = null;
-                p.Close();
-            });
+            //CloseOrderProductWindowCM = new RelayCommand<Window>((p) => { return true; }, (p) =>
+            //{
+            //    OrderList = null;
+            //    p.Close();
+            //});
 
-            AddOrderProductCM = new RelayCommand<Window>((p) => { return true; }, async (p) =>
-            {
-                IsLoad = true;
+            //AddOrderProductCM = new RelayCommand<Window>((p) => { return true; }, async (p) =>
+            //{
+            //    IsLoad = true;
 
-                await AddOrderProduct(p);
+            //    await AddOrderProduct(p);
 
-                IsLoad = false;
-            });
+            //    IsLoad = false;
+            //});
 
             // Thanh toán
             PaymentCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
@@ -531,12 +531,12 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
                         return (T)child;
                     }
 
-                    T childItem = FindVisualChild<T>(child);
-                    if (childItem != null) return childItem;
-                }
-            }
-            return null;
-        }
+        //            T childItem = FindVisualChild<T>(child);
+        //            if (childItem != null) return childItem;
+        //        }
+        //    }
+        //    return null;
+        //}
     }
     
 

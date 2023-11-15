@@ -86,8 +86,8 @@ namespace HotelManagement.Model.Services
 
                     if (r != null)
                     {
-                                 
-                            return (false, $"Phòng {r.RoomNumber} đã tồn tại!", null);
+
+                        return (false, $"Phòng {r.RoomNumber} đã tồn tại!", null);
 
                     }
                     else
@@ -143,7 +143,7 @@ namespace HotelManagement.Model.Services
                 using (var context = new HotelManagementEntities())
                 {
                     Room room = await (from p in context.Rooms
-                                       where p.RoomId == Id 
+                                       where p.RoomId == Id
                                        select p).FirstOrDefaultAsync();
                     if (room == null)
                     {

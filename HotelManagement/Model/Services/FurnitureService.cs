@@ -313,24 +313,24 @@ namespace HotelManagement.Model.Services
             if (id < 1000)
                 return "0" + id;
 
-            return id.ToString();
-        }
-        public BitmapImage LoadAvatarImage(byte[] data)
-        {
-            MemoryStream stream = new MemoryStream();
-            stream.Write(data, 0, data.Length);
-            stream.Position = 0;
+        //    return id.ToString();
+        //}
+        //public BitmapImage LoadAvatarImage(byte[] data)
+        //{
+        //    MemoryStream stream = new MemoryStream();
+        //    stream.Write(data, 0, data.Length);
+        //    stream.Position = 0;
 
-            System.Drawing.Image img = System.Drawing.Image.FromStream(stream);
+        //    System.Drawing.Image img = System.Drawing.Image.FromStream(stream);
 
-            BitmapImage bitmapImage = new BitmapImage();
-            bitmapImage.BeginInit();
+        //    BitmapImage bitmapImage = new BitmapImage();
+        //    bitmapImage.BeginInit();
 
-            MemoryStream ms = new MemoryStream();
-            img.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
-            ms.Seek(0, SeekOrigin.Begin);
-            bitmapImage.StreamSource = ms;
-            bitmapImage.EndInit();
+        //    MemoryStream ms = new MemoryStream();
+        //    img.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+        //    ms.Seek(0, SeekOrigin.Begin);
+        //    bitmapImage.StreamSource = ms;
+        //    bitmapImage.EndInit();
 
             return bitmapImage;
         }

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows;
 using HotelManagement.Utils;
+using System.Collections.ObjectModel;
 
 namespace HotelManagement.ViewModel.AdminVM.RoomManagementVM
 {
@@ -18,8 +19,24 @@ namespace HotelManagement.ViewModel.AdminVM.RoomManagementVM
 
         public ICommand LoadEditRoomCM { get; set; }
 
-        public void LoadEditRoom(EditRoom w1)
+        public async void LoadEditRoom(EditRoom w1)
         {
+            try
+            {
+                IsLoaddingRoom = true;
+                ListRoomType = new ObservableCollection<string>((await RoomTypeService.Ins.GetAllRoomType()).Select(x => x.RoomTypeName));
+                IsLoaddingRoom = false;
+            }
+            catch (System.Data.Entity.Core.EntityException e)
+            {
+                Console.WriteLine(e);
+                CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+            }
             RoomId = SelectedRoomItem.RoomId;
             RoomNumber = (int)SelectedRoomItem.RoomNumber;
             RoomNote = SelectedRoomItem.Note;
@@ -34,10 +51,10 @@ namespace HotelManagement.ViewModel.AdminVM.RoomManagementVM
             }
             else w1.loaiphong.SelectedIndex = 2;
         }
-        
+
         public async Task UpdateRoomFunc(System.Windows.Window p)
         {
-            string rtn = CbRoomType.Tag.ToString();
+            string rtn = CbRoomType;
             string rti = await RoomTypeService.Ins.GetRoomTypeID(rtn);
 
             if (RoomId != null && IsValidData())

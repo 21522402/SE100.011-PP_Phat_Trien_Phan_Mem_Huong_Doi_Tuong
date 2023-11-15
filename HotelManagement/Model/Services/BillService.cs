@@ -27,6 +27,7 @@ namespace HotelManagement.Model.Services
             private set { _ins = value; }
         }
 
+
         public async Task<BillDTO> GetBillByRentalContract(string rentalContractId)
         {
             try
@@ -82,14 +83,14 @@ namespace HotelManagement.Model.Services
             {
                 using (var context = new HotelManagementEntities())
                 {
-                    var maxBillId = await context.Bills.MaxAsync(x=> x.BillId);
+                    var maxBillId = await context.Bills.MaxAsync(x => x.BillId);
                     Bill newBill = new Bill
                     {
                         BillId = CreateNextBillId(maxBillId),
-                        RentalContractId=bill.RentalContractId,
-                        StaffId= bill.StaffId,
-                        TotalPrice= bill.TotalPrice,
-                        CreateDate= bill.CreateDate,    
+                        RentalContractId = bill.RentalContractId,
+                        StaffId = bill.StaffId,
+                        TotalPrice = bill.TotalPrice,
+                        CreateDate = bill.CreateDate,
                     };
                     context.Bills.Add(newBill);
                     await context.SaveChangesAsync();
@@ -106,90 +107,176 @@ namespace HotelManagement.Model.Services
             if (maxBillId is null) return "HD001";
             int num = int.Parse(maxBillId.Substring(2));
             string nextNumString = (num + 1).ToString();
-            while (nextNumString.Length <3) nextNumString = "0" + nextNumString;
+            while (nextNumString.Length < 3) nextNumString = "0" + nextNumString;
             return "HD" + nextNumString;
 
         }
-        //public async Task<List<BillDTO>> GetBillsByRentalContracts(List<string> rentalContractIds)
-        //{
-        //    try
-        //    {
-        //        using (var context = new HotelManagementEntities())
-        //        {
-        //            List<BillDTO> listBillDTO = new List<BillDTO>();
-        //            foreach (var item in rentalContractIds)
-        //            {
-        //                var itemBillDTO = await (from r in context.Rooms
-        //                                         join c in context.RentalContracts
-        //            }
+        public async Task<List<BillDTO>> GetAllBill()
+        {
+            try
+            {
+                using (var context = new HotelManagementEntities())
+                {
+                    var billList = (from b in context.Bills
+                                    orderby b.CreateDate descending
+                                    select new BillDTO
+                                    {
+                                        BillId = b.BillId,
+                                        RentalContractId = b.RentalContractId,
+                                        StaffId = b.StaffId,
+                                        StaffName = b.Staff.StaffName,
+                                        RoomId = b.RentalContract.RoomId,
+                                        RoomNumber = (int)b.RentalContract.Room.RoomNumber,
+                                        RoomTypeName = b.RentalContract.Room.RoomType.RoomTypeName,
+                                        PersonNumber = b.RentalContract.RentalContractDetails.Count,
+                                        RentalPrice=b.RentalContract.RentalPrice,
+                                        TotalPrice = b.TotalPrice,
+                                        StartDate = b.RentalContract.StartDate,
+                                        EndDate = b.RentalContract.EndDate,
+                                        CreateDate = b.CreateDate,
+                                        ListListProductPayment = b.RentalContract.ProductUsings.Select(t => new ProductUsingDTO
+                                        {
+                                            ProductUsingId=t.ProductUsingId,
+                                            RentalContractId = t.RentalContractId,
+                                            ProductId = t.ProductId,
+                                            ProductName = t.Product.ProductName,
+                                            UnitPrice = t.Product.Price,
+                                            Quantity = t.Quantity,
+                                        }).ToList()
+                                    }).ToListAsync();
+                    return await billList;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
 
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
-      
-        
-      
-    
-        //public async Task<BillDTO> GetBillDetails(string id)
-        //{
-        //    try
-        //    {
-        //        using (var context = new HotelManagementEntities())
-        //        {
-        //            var b = await context.Bills.FindAsync(id);
-                    
-        //            BillDTO billdetail = new BillDTO{
-        //                BillId = b.BillId,
-        //                RentalContractId = b.RentalContractId,
-        //                StaffId = b.StaffId,
-        //                StaffName = b.S
-        //                CustomerAddress = b.RentalContract.Customer.CustomerAddress,
-        //                CustomerId = b.RentalContract.CustomerId,
-        //                CustomerName = b.RentalContract.Customer.CustomerName,
-        //                RoomId = b.RentalContract.RoomId,
-        //                RoomNumber = (int)b.RentalContract.Room.RoomNumber,
-        //                RoomTypeName = b.RentalContract.Room.RoomType.RoomTypeName,
-        //                PersonNumber = (int)b.RentalContract.PersonNumber,
-        //                RoomPrice = b.RentalContract.Room.RoomType.Price,
-        //                NumberOfRentalDays = b.NumberOfRentalDays,
-        //                ServicePrice = b.ServicePrice,
-        //                TroublePrice = b.TroublePrice,
-        //                TotalPrice = b.TotalPrice,
-        //                DiscountPrice = b.DiscountPrice,
-        //                Price = b.Price,
-        //                StartDate = b.RentalContract.StartDate,
-        //                CheckOutDate = b.RentalContract.CheckOutDate,
-        //                StartTime = b.RentalContract.StartTime,
-        //                CreateDate = b.CreateDate,
-        //                ListListServicePayment = b.RentalContract.ServiceUsings.Select(t => new ProductUsingDTO
-        //                {
-        //                    RentalContractId = t.RentalContractId,
-        //                    ServiceId = t.ServiceId,
-        //                    ServiceName = t.Service.ServiceName,
-        //                    ServiceType = t.Service.ServiceType,
-        //                    UnitPrice = t.Service.ServicePrice,
-        //                    Quantity = t.Quantity,
-        //                }).ToList(),
-        //                ListTroubleByCustomer = b.RentalContract.TroubleByCustomers.Select(t => new TroubleByCustomerDTO
-        //                {
-        //                    RentalContractId = t.RentalContractId,
-        //                    TroubleId = t.TroubleId,
-        //                    Title = t.Trouble.Title,
-        //                    PredictedPrice = t.PredictedPrice,
-        //                    Level = t.Trouble.Level,
-        //                }).ToList()
-        //            };
-        //            return  billdetail;
-        //        }
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw e;
-        //    }
-        //}
+        public async Task<List<BillDTO>> GetAllBillByDate(DateTime date)
+        {
+            try
+            {
+                using (var context = new HotelManagementEntities())
+                {
+                    var billList = (from b in context.Bills
+                                    where DbFunctions.TruncateTime(b.CreateDate) == date.Date
+                                    orderby b.CreateDate descending
+                                    select new BillDTO
+                                    {
+                                        BillId = b.BillId,
+                                        RentalContractId = b.RentalContractId,
+                                        StaffId = b.StaffId,
+                                        StaffName = b.Staff.StaffName,
+                                        RoomId = b.RentalContract.RoomId,
+                                        RoomNumber = (int)b.RentalContract.Room.RoomNumber,
+                                        RoomTypeName = b.RentalContract.Room.RoomType.RoomTypeName,
+                                        PersonNumber = b.RentalContract.RentalContractDetails.Count,
+                                        RentalPrice = b.RentalContract.RentalPrice,
+                                        TotalPrice = b.TotalPrice,
+                                        StartDate = b.RentalContract.StartDate,
+                                        EndDate = b.RentalContract.EndDate,
+                                        CreateDate = b.CreateDate,
+                                        ListListProductPayment = b.RentalContract.ProductUsings.Select(t => new ProductUsingDTO
+                                        {
+                                            ProductUsingId = t.ProductUsingId,
+                                            RentalContractId = t.RentalContractId,
+                                            ProductId = t.ProductId,
+                                            ProductName = t.Product.ProductName,
+                                            UnitPrice = t.Product.Price,
+                                            Quantity = t.Quantity,
+                                        }).ToList()
+                                    }).ToListAsync();
+                    return await billList;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        public async Task<List<BillDTO>> GetAllBillByMonth(int month)
+        {
+            try
+            {
+                using (var context = new HotelManagementEntities())
+                {
+                    var billList = (from b in context.Bills
+                                    where ((DateTime)b.CreateDate).Year == DateTime.Now.Year && ((DateTime)b.CreateDate).Month == month
+                                    orderby b.CreateDate descending
+                                    select new BillDTO
+                                    {
+                                        BillId = b.BillId,
+                                        RentalContractId = b.RentalContractId,
+                                        StaffId = b.StaffId,
+                                        StaffName = b.Staff.StaffName,
+                                        RoomId = b.RentalContract.RoomId,
+                                        RoomNumber = (int)b.RentalContract.Room.RoomNumber,
+                                        RoomTypeName = b.RentalContract.Room.RoomType.RoomTypeName,
+                                        PersonNumber = b.RentalContract.RentalContractDetails.Count,
+                                        RentalPrice = b.RentalContract.RentalPrice,
+                                        TotalPrice = b.TotalPrice,
+                                        StartDate = b.RentalContract.StartDate,
+                                        EndDate = b.RentalContract.EndDate,
+                                        CreateDate = b.CreateDate,
+                                        ListListProductPayment = b.RentalContract.ProductUsings.Select(t => new ProductUsingDTO
+                                        {
+                                            ProductUsingId = t.ProductUsingId,
+                                            RentalContractId = t.RentalContractId,
+                                            ProductId = t.ProductId,
+                                            ProductName = t.Product.ProductName,
+                                            UnitPrice = t.Product.Price,
+                                            Quantity = t.Quantity,
+                                        }).ToList()
+                                    }).ToListAsync();
+                    return await billList;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        public async Task<BillDTO> GetBillDetails(string id)
+        {
+            try
+            {
+                using (var context = new HotelManagementEntities())
+                {
+                    var b = await context.Bills.FindAsync(id);
+
+                    BillDTO billdetail = new BillDTO
+                    {
+                        BillId = b.BillId,
+                        RentalContractId = b.RentalContractId,
+                        StaffId = b.StaffId,
+                        StaffName = b.Staff.StaffName,
+                        RoomId = b.RentalContract.RoomId,
+                        RoomNumber = (int)b.RentalContract.Room.RoomNumber,
+                        RoomTypeName = b.RentalContract.Room.RoomType.RoomTypeName,
+                        PersonNumber = b.RentalContract.RentalContractDetails.Count,
+                        RentalPrice = b.RentalContract.RentalPrice,
+                        TotalPrice = b.TotalPrice,
+                        StartDate = b.RentalContract.StartDate,
+                        EndDate = b.RentalContract.EndDate,
+                        CreateDate = b.CreateDate,
+                        ListListProductPayment = b.RentalContract.ProductUsings.Select(t => new ProductUsingDTO
+                        {
+                            ProductUsingId = t.ProductUsingId,
+                            RentalContractId = t.RentalContractId,
+                            ProductId = t.ProductId,
+                            ProductName = t.Product.ProductName,
+                            UnitPrice = t.Product.Price,
+                            Quantity = t.Quantity,
+                        }).ToList()
+                    };
+                    return billdetail;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
     }
 }
