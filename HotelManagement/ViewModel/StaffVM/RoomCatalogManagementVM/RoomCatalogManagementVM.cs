@@ -320,8 +320,8 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
             });
             LoadRoomFurnitureInfoCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
             {
-                ListRoomFurniture = new ObservableCollection<RoomFurnituresDetailDTO>(await RoomTypeFurnitureServiceQui.Ins.GetRoomFurnituresDetail(SelectedRoom.RoomTypeId));
-                ListRoomFurnitureTemp = new ObservableCollection<RoomFurnituresDetailDTO>(await RoomTypeFurnitureServiceQui.Ins.GetRoomFurnituresDetail(SelectedRoom.RoomId));
+                ListRoomFurniture = new ObservableCollection<RoomFurnituresDetailDTO>(await FurnitureRoomTypeService.Ins.GetRoomFurnituresDetail(SelectedRoom.RoomTypeId));
+                ListRoomFurnitureTemp = new ObservableCollection<RoomFurnituresDetailDTO>(await FurnitureRoomTypeService.Ins.GetRoomFurnituresDetail(SelectedRoom.RoomId));
 
 
                 RoomFurnitureInfo wd = new RoomFurnitureInfo();
