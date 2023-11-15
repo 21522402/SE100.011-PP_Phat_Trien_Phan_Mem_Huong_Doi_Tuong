@@ -32,22 +32,6 @@ namespace HotelManagement.View.Admin.TroubleManagement
             this.Close();
         }
 
-        
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            if (predictgrid.Visibility == Visibility.Visible)
-            {
-                predictgrid.Visibility = Visibility.Collapsed;
-               
-            }
-            else if (predictgrid.Visibility == Visibility.Collapsed)
-            {
-               
-                
-                cbbStatusByCustomer.SelectedIndex = 0;
-            }
-        }
 
         private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
@@ -64,11 +48,6 @@ namespace HotelManagement.View.Admin.TroubleManagement
             if (tb.Text.Length == 0)
                 tb.Text = "0";
         }
-
-        
-
-     
-
         private void TextBox_PreviewTextInput_1(object sender, TextCompositionEventArgs e)
         {
             e.Handled = !IsTextAllowed(e.Text);

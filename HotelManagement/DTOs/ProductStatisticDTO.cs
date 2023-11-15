@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace HotelManagement.DTOs
 {
-    public  class ServiceTypeDTO
+    public class ProductStatisticDTO
     {
-        public string ServiceType { get; set; }
+        public string ProductName { get; set; }
         public int STT { get; set; }
         public double Revenue { get; set; } 
 

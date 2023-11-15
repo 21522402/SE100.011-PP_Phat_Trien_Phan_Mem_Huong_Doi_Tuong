@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="HotelManagement_OOPModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="HotelManagementModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Bill">
           <Key>
             <PropertyRef Name="BillId" />
@@ -57,6 +57,7 @@
           </Key>
           <Property Name="ProductId" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="ProductName" Type="nvarchar(max)" />
+          <Property Name="ProductType" Type="nvarchar(max)" />
           <Property Name="Price" Type="float" />
           <Property Name="QuantityOfStorage" Type="int" />
           <Property Name="ProductAvatar" Type="varbinary(max)" />
@@ -221,6 +222,18 @@
             </Principal>
             <Dependent Role="Bill">
               <PropertyRef Name="RentalContractId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Bill_Staff">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+          <End Role="Bill" Type="Self.Bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="StaffId" />
+            </Principal>
+            <Dependent Role="Bill">
+              <PropertyRef Name="StaffId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -464,7 +477,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="HotelManagement_OOPModelStoreContainer">
+        <EntityContainer Name="HotelManagementModelStoreContainer">
           <EntitySet Name="Bill" EntityType="Self.Bill" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Furniture" EntityType="Self.Furniture" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FurnitureReceipt" EntityType="Self.FurnitureReceipt" Schema="dbo" store:Type="Tables" />
@@ -487,6 +500,10 @@
           <EntitySet Name="Trouble" EntityType="Self.Trouble" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Bill_RentalContract" Association="Self.FK_Bill_RentalContract">
             <End Role="RentalContract" EntitySet="RentalContract" />
+            <End Role="Bill" EntitySet="Bill" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Bill_Staff" Association="Self.FK_Bill_Staff">
+            <End Role="Staff" EntitySet="Staff" />
             <End Role="Bill" EntitySet="Bill" />
           </AssociationSet>
           <AssociationSet Name="FK_FurnitureReceipt_Staff" Association="Self.FK_FurnitureReceipt_Staff">
@@ -574,7 +591,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="HotelManagement_OOPModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="HotelManagementModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Bill">
           <Key>
             <PropertyRef Name="BillId" />
@@ -585,6 +602,7 @@
           <Property Name="TotalPrice" Type="Double" />
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="RentalContract" Relationship="Self.FK_Bill_RentalContract" FromRole="Bill" ToRole="RentalContract" />
+          <NavigationProperty Name="Staff" Relationship="Self.FK_Bill_Staff" FromRole="Bill" ToRole="Staff" />
         </EntityType>
         <EntityType Name="Furniture">
           <Key>
@@ -634,6 +652,7 @@
           </Key>
           <Property Name="ProductId" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ProductName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ProductType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Price" Type="Double" />
           <Property Name="QuantityOfStorage" Type="Int32" />
           <Property Name="ProductAvatar" Type="Binary" MaxLength="Max" FixedLength="false" />
@@ -792,6 +811,7 @@
           <Property Name="Avatar" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="dateOfStart" Type="DateTime" Precision="3" />
           <Property Name="IsDeleted" Type="Boolean" />
+          <NavigationProperty Name="Bills" Relationship="Self.FK_Bill_Staff" FromRole="Staff" ToRole="Bill" />
           <NavigationProperty Name="FurnitureReceipts" Relationship="Self.FK_FurnitureReceipt_Staff" FromRole="Staff" ToRole="FurnitureReceipt" />
           <NavigationProperty Name="ProductReceipts" Relationship="Self.FK_ProductReceipt_Staff" FromRole="Staff" ToRole="ProductReceipt" />
           <NavigationProperty Name="RentalContracts" Relationship="Self.FK_RentalContract_Staff" FromRole="Staff" ToRole="RentalContract" />
@@ -833,6 +853,18 @@
             </Principal>
             <Dependent Role="Bill">
               <PropertyRef Name="RentalContractId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Bill_Staff">
+          <End Role="Staff" Type="Self.Staff" Multiplicity="0..1" />
+          <End Role="Bill" Type="Self.Bill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Staff">
+              <PropertyRef Name="StaffId" />
+            </Principal>
+            <Dependent Role="Bill">
+              <PropertyRef Name="StaffId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1101,6 +1133,10 @@
             <End Role="RentalContract" EntitySet="RentalContracts" />
             <End Role="Bill" EntitySet="Bills" />
           </AssociationSet>
+          <AssociationSet Name="FK_Bill_Staff" Association="Self.FK_Bill_Staff">
+            <End Role="Staff" EntitySet="Staffs" />
+            <End Role="Bill" EntitySet="Bills" />
+          </AssociationSet>
           <AssociationSet Name="FK_FurnitureReceiptDetail_Furniture" Association="Self.FK_FurnitureReceiptDetail_Furniture">
             <End Role="Furniture" EntitySet="Furnitures" />
             <End Role="FurnitureReceiptDetail" EntitySet="FurnitureReceiptDetails" />
@@ -1187,9 +1223,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="HotelManagement_OOPModelStoreContainer" CdmEntityContainer="HotelManagementEntities">
+        <EntityContainerMapping StorageEntityContainer="HotelManagementModelStoreContainer" CdmEntityContainer="HotelManagementEntities">
           <EntitySetMapping Name="Bills">
-            <EntityTypeMapping TypeName="HotelManagement_OOPModel.Bill">
+            <EntityTypeMapping TypeName="HotelManagementModel.Bill">
               <MappingFragment StoreEntitySet="Bill">
                 <ScalarProperty Name="BillId" ColumnName="BillId" />
                 <ScalarProperty Name="RentalContractId" ColumnName="RentalContractId" />
@@ -1200,7 +1236,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Furnitures">
-            <EntityTypeMapping TypeName="HotelManagement_OOPModel.Furniture">
+            <EntityTypeMapping TypeName="HotelManagementModel.Furniture">
               <MappingFragment StoreEntitySet="Furniture">
                 <ScalarProperty Name="FurnitureId" ColumnName="FurnitureId" />
                 <ScalarProperty Name="FurnitureName" ColumnName="FurnitureName" />
@@ -1210,7 +1246,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="FurnitureReceipts">
-            <EntityTypeMapping TypeName="HotelManagement_OOPModel.FurnitureReceipt">
+            <EntityTypeMapping TypeName="HotelManagementModel.FurnitureReceipt">
               <MappingFragment StoreEntitySet="FurnitureReceipt">
                 <ScalarProperty Name="FurnitureReceiptId" ColumnName="FurnitureReceiptId" />
                 <ScalarProperty Name="StaffId" ColumnName="StaffId" />
@@ -1220,7 +1256,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="FurnitureReceiptDetails">
-            <EntityTypeMapping TypeName="HotelManagement_OOPModel.FurnitureReceiptDetail">
+            <EntityTypeMapping TypeName="HotelManagementModel.FurnitureReceiptDetail">
               <MappingFragment StoreEntitySet="FurnitureReceiptDetail">
                 <ScalarProperty Name="FurnitureReceiptDetailId" ColumnName="FurnitureReceiptDetailId" />
                 <ScalarProperty Name="FurnitureReceiptId" ColumnName="FurnitureReceiptId" />
@@ -1231,7 +1267,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Parameters">
-            <EntityTypeMapping TypeName="HotelManagement_OOPModel.Parameter">
+            <EntityTypeMapping TypeName="HotelManagementModel.Parameter">
               <MappingFragment StoreEntitySet="Parameter">
                 <ScalarProperty Name="ParameterId" ColumnName="ParameterId" />
                 <ScalarProperty Name="ParameterKey" ColumnName="ParameterKey" />
@@ -1240,10 +1276,11 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Products">
-            <EntityTypeMapping TypeName="HotelManagement_OOPModel.Product">
+            <EntityTypeMapping TypeName="HotelManagementModel.Product">
               <MappingFragment StoreEntitySet="Product">
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
                 <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="ProductType" ColumnName="ProductType" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="QuantityOfStorage" ColumnName="QuantityOfStorage" />
                 <ScalarProperty Name="ProductAvatar" ColumnName="ProductAvatar" />
@@ -1251,7 +1288,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ProductReceipts">
-            <EntityTypeMapping TypeName="HotelManagement_OOPModel.ProductReceipt">
+            <EntityTypeMapping TypeName="HotelManagementModel.ProductReceipt">
               <MappingFragment StoreEntitySet="ProductReceipt">
                 <ScalarProperty Name="ProductReceiptId" ColumnName="ProductReceiptId" />
                 <ScalarProperty Name="StaffId" ColumnName="StaffId" />
@@ -1261,7 +1298,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ProductReceiptDetails">
-            <EntityTypeMapping TypeName="HotelManagement_OOPModel.ProductReceiptDetail">
+            <EntityTypeMapping TypeName="HotelManagementModel.ProductReceiptDetail">
               <MappingFragment StoreEntitySet="ProductReceiptDetail">
                 <ScalarProperty Name="ProductReceiptDetailId" ColumnName="ProductReceiptDetailId" />
                 <ScalarProperty Name="ProductReceiptId" ColumnName="ProductReceiptId" />
@@ -1272,7 +1309,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ProductUsings">
-            <EntityTypeMapping TypeName="HotelManagement_OOPModel.ProductUsing">
+            <EntityTypeMapping TypeName="HotelManagementModel.ProductUsing">
               <MappingFragment StoreEntitySet="ProductUsing">
                 <ScalarProperty Name="ProductUsingId" ColumnName="ProductUsingId" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
@@ -1283,7 +1320,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RentalContracts">
-            <EntityTypeMapping TypeName="HotelManagement_OOPModel.RentalContract">
+            <EntityTypeMapping TypeName="HotelManagementModel.RentalContract">
               <MappingFragment StoreEntitySet="RentalContract">
                 <ScalarProperty Name="RentalContractId" ColumnName="RentalContractId" />
                 <ScalarProperty Name="StaffId" ColumnName="StaffId" />
@@ -1296,7 +1333,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RentalContractDetails">
-            <EntityTypeMapping TypeName="HotelManagement_OOPModel.RentalContractDetail">
+            <EntityTypeMapping TypeName="HotelManagementModel.RentalContractDetail">
               <MappingFragment StoreEntitySet="RentalContractDetail">
                 <ScalarProperty Name="RentalContractDetailId" ColumnName="RentalContractDetailId" />
                 <ScalarProperty Name="RentalContractId" ColumnName="RentalContractId" />
@@ -1306,7 +1343,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Revenues">
-            <EntityTypeMapping TypeName="HotelManagement_OOPModel.Revenue">
+            <EntityTypeMapping TypeName="HotelManagementModel.Revenue">
               <MappingFragment StoreEntitySet="Revenue">
                 <ScalarProperty Name="RevenueId" ColumnName="RevenueId" />
                 <ScalarProperty Name="Month" ColumnName="Month" />
@@ -1315,7 +1352,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RevenueProducts">
-            <EntityTypeMapping TypeName="HotelManagement_OOPModel.RevenueProduct">
+            <EntityTypeMapping TypeName="HotelManagementModel.RevenueProduct">
               <MappingFragment StoreEntitySet="RevenueProduct">
                 <ScalarProperty Name="RevenueProductId" ColumnName="RevenueProductId" />
                 <ScalarProperty Name="RevenueId" ColumnName="RevenueId" />
@@ -1326,7 +1363,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RevenueRoomTypes">
-            <EntityTypeMapping TypeName="HotelManagement_OOPModel.RevenueRoomType">
+            <EntityTypeMapping TypeName="HotelManagementModel.RevenueRoomType">
               <MappingFragment StoreEntitySet="RevenueRoomType">
                 <ScalarProperty Name="RevenueRoomTypeId" ColumnName="RevenueRoomTypeId" />
                 <ScalarProperty Name="RevenueId" ColumnName="RevenueId" />
@@ -1337,7 +1374,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Rooms">
-            <EntityTypeMapping TypeName="HotelManagement_OOPModel.Room">
+            <EntityTypeMapping TypeName="HotelManagementModel.Room">
               <MappingFragment StoreEntitySet="Room">
                 <ScalarProperty Name="RoomId" ColumnName="RoomId" />
                 <ScalarProperty Name="RoomNumber" ColumnName="RoomNumber" />
@@ -1348,7 +1385,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RoomTypes">
-            <EntityTypeMapping TypeName="HotelManagement_OOPModel.RoomType">
+            <EntityTypeMapping TypeName="HotelManagementModel.RoomType">
               <MappingFragment StoreEntitySet="RoomType">
                 <ScalarProperty Name="RoomTypeId" ColumnName="RoomTypeId" />
                 <ScalarProperty Name="RoomTypeName" ColumnName="RoomTypeName" />
@@ -1359,7 +1396,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RoomTypeFurnitures">
-            <EntityTypeMapping TypeName="HotelManagement_OOPModel.RoomTypeFurniture">
+            <EntityTypeMapping TypeName="HotelManagementModel.RoomTypeFurniture">
               <MappingFragment StoreEntitySet="RoomTypeFurniture">
                 <ScalarProperty Name="RoomTypeFurnitureId" ColumnName="RoomTypeFurnitureId" />
                 <ScalarProperty Name="FurnitureId" ColumnName="FurnitureId" />
@@ -1369,7 +1406,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Staffs">
-            <EntityTypeMapping TypeName="HotelManagement_OOPModel.Staff">
+            <EntityTypeMapping TypeName="HotelManagementModel.Staff">
               <MappingFragment StoreEntitySet="Staff">
                 <ScalarProperty Name="StaffId" ColumnName="StaffId" />
                 <ScalarProperty Name="StaffName" ColumnName="StaffName" />
@@ -1389,7 +1426,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="SurchargeRates">
-            <EntityTypeMapping TypeName="HotelManagement_OOPModel.SurchargeRate">
+            <EntityTypeMapping TypeName="HotelManagementModel.SurchargeRate">
               <MappingFragment StoreEntitySet="SurchargeRate">
                 <ScalarProperty Name="SurchargeRateId" ColumnName="SurchargeRateId" />
                 <ScalarProperty Name="RoomTypeId" ColumnName="RoomTypeId" />
@@ -1399,7 +1436,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Troubles">
-            <EntityTypeMapping TypeName="HotelManagement_OOPModel.Trouble">
+            <EntityTypeMapping TypeName="HotelManagementModel.Trouble">
               <MappingFragment StoreEntitySet="Trouble">
                 <ScalarProperty Name="TroubleId" ColumnName="TroubleId" />
                 <ScalarProperty Name="StaffId" ColumnName="StaffId" />

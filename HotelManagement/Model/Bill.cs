@@ -21,5 +21,6 @@ namespace HotelManagement.Model
         public Nullable<System.DateTime> CreateDate { get; set; }
     
         public virtual RentalContract RentalContract { get; set; }
+        public virtual Staff Staff { get; set; }
     }
 }

@@ -209,237 +209,241 @@ namespace HotelManagement.ViewModel.AdminVM.StatisticalManagementVM
             get { return _SelectedMonth; }
             set { _SelectedMonth = value; OnPropertyChanged(); }
         }
-       
-
-        //public void CalculateTrueIncome(List<double> l1, List<double> l2)
-        //{
-
-        //    float totalin = 0, totalout = 0;
-
-        //    foreach (float item in l1)
-        //        totalin += item;
-        //    foreach (float item in l2)
-        //        totalout += item;
-
-        //    float trueincome = totalin - totalout;
-        //    FindMaxPercentage(totalin, totalout);
 
 
-        //    TrueIncome = Helper.FormatVNMoney(trueincome);
-        //    TotalIn = Helper.FormatVNMoney(totalin);
-        //    TotalOut = Helper.FormatVNMoney(totalout);
-        //}
+        public void CalculateTrueIncome(List<double> l1, List<double> l2)
+        {
 
-        //public void FindMaxPercentage(float _in, float _out)
-        //{
-        //    if (_in != 0 && _out != 0)
-        //    {
-        //        if (_in >= _out)
-        //        {
-        //            TotalInPc = 100;
-        //            TotalOutPc = _out / _in * 100;
-        //        }
-        //        else
-        //        {
-        //            TotalOutPc = 100;
-        //            TotalInPc = _in / _out * 100;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (_in == 0 && _out == 0)
-        //        {
-        //            TotalInPc = 10;
-        //            TotalOutPc = 10;
-        //            return;
-        //        }
-        //        if (_in == 0)
-        //        {
-        //            TotalInPc = 10;
-        //            TotalOutPc = 90;
-        //            return;
-        //        }
-        //        if (_out == 0)
-        //        {
-        //            TotalInPc = 90;
-        //            TotalOutPc = 10;
-        //            return;
-        //        }
+            float totalin = 0, totalout = 0;
 
-        //    }
+            foreach (float item in l1)
+                totalin += item;
+            foreach (float item in l2)
+                totalout += item;
 
-        //}
-        //public void Calculate_RevExpPercentage(double a1, double a2, double a3, double a4, double a5)
-        //{
-        //    Calculate_RevPercentage(a1, a2);
-        //    Calculate_ExpPercentage(a3, a4,a5);
-        //}
-        //public void Calculate_RevPercentage(double a1, double a2)
-        //{
-        //    if (a1 == 0)
-        //    {
-        //        if (a2 == 0)
-        //            RentalPc = ServicePc = "0%";
-        //        else
-        //        {
-        //            RentalPc = "0%";
-        //            ServicePc = "100%";
-        //        }
-        //        return;
-        //    }
-        //    if (a2 == 0)
-        //    {
-        //        if (a1 == 0)
-        //            RentalPc = ServicePc = "0%";
-        //        else
-        //        {
-        //            RentalPc = "100%";
-        //            ServicePc = "0%";
-        //        }
-        //        return;
-        //    }
-
-        //    RentalPc = Math.Round(a1 / (a1 + a2) * 100, 2).ToString() + "%";
-        //    ServicePc = Math.Round(a2 / (a1 + a2) * 100, 2).ToString() + "%";
-        //}
-        //public void Calculate_ExpPercentage(double a3, double a4, double a5)
-        //{
-        //    if (a3 == 0 && a4 == 0 && a5 == 0)
-        //    {
-        //        ServiceExPc = RepairPc = FurniturePc = "0%";
-        //        return;
-        //    }
-            
-        //    ServiceExPc = Math.Round(a3 / (a3 + a4 + a5) * 100, 2).ToString() + "%";
-        //    RepairPc = Math.Round(a4 / (a3 + a4 + a5) * 100, 2).ToString() + "%";
-        //    FurniturePc = Math.Round(a5 / (a3 + a4 + a5) * 100, 2).ToString() + "%";
-            
-        //}
-        //public async Task LoadIncomeByMonth()
-        //{
-     
-        //    try
-        //    {
-
-        //        int year = int.Parse(SelectedYear.Substring(4));
-        //        int month = int.Parse(SelectedMonth.Substring(6));
-        //        LabelMaxValue = DayOfMonth(year,month);
-        //        TotalBill = await OverviewStatisticService.Ins.GetBillQuantity(year, month);
-        //        (List<double> dailyRevenue, double MonthServiceReve, double MonthRentalReve, string MonthRateStr) = await Task.Run(() => OverviewStatisticService.Ins.GetRevenueByMonth(year, month));
-        //        (List<double> dailyExpense, double MonthServiceExpense, double MonthRepairCost, double FurnitureExpense, string MonthExpenseRateStr) = await Task.Run(() => OverviewStatisticService.Ins.GetExpenseByMonth(year,month));
-        //        RentalReve = Helper.FormatVNMoney(MonthRentalReve);
-        //        ServiceReve = Helper.FormatVNMoney(MonthServiceReve);
-        //        ServiceExpe = Helper.FormatVNMoney(MonthServiceExpense);
-        //        RepairExpe = Helper.FormatVNMoney(MonthRepairCost);
-        //        FurnitureExpe = Helper.FormatVNMoney(FurnitureExpense);
-        //        ReveRate = MonthRateStr;
-        //        ExpeRate = MonthExpenseRateStr;
-
-        //        dailyRevenue.Insert(0, 0);
-        //        dailyExpense.Insert(0, 0);
-
-        //        CalculateTrueIncome(dailyRevenue, dailyExpense);
-        //        Calculate_RevExpPercentage(MonthRentalReve, MonthServiceReve, MonthServiceExpense, MonthRepairCost, FurnitureExpense);
-
-        //        for (int i = 1; i <= dailyRevenue.Count - 1; i++)
-        //        {
-        //            dailyRevenue[i] /= 1000000;
-        //            dailyExpense[i] /= 1000000;
-        //        }
-
-        //        InComeData = new SeriesCollection
-        //    {
-        //    new LineSeries
-        //    {
-        //        Title = "Thu",
-        //        Values = new ChartValues<double>(dailyRevenue),
-        //        Fill = Brushes.Transparent,
-        //    },
-        //    new LineSeries
-        //    {
-        //        Title = "Chi",
-        //        Values = new ChartValues<double>(dailyExpense),
-        //        Fill = Brushes.Transparent,
-        //    }
-        //    };
-        //    }
-        //    catch (System.Data.Entity.Core.EntityException e)
-        //    {
-        //        Console.WriteLine(e);
-        //        CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine(e);
-        //        CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
-        //    }
-        //}
-        //public async Task ExportFile()
-        //{
-        //    using (SaveFileDialog box = new SaveFileDialog() { Filter = "Excel | *.xlsx | Excel 2003 | *.xls", ValidateNames = true })
-        //    {
-        //        if (box.ShowDialog() == DialogResult.OK)
-        //        {
-        //            await Task.Run(() =>
-        //            {
-        //                IsExport = true;
-        //                Microsoft.Office.Interop.Excel.Application app = new Microsoft.Office.Interop.Excel.Application();
-        //                app.Visible = false;
-        //                Microsoft.Office.Interop.Excel.Workbook wb = app.Workbooks.Add(1);
-        //                Microsoft.Office.Interop.Excel.Worksheet ws = (Microsoft.Office.Interop.Excel.Worksheet)wb.Worksheets[1];
-        //                ws.Name = "Danh sách phát hành";
-        //                ws.Cells.Style.Font.Size = 12;
-        //                ws.Cells.Style.Font.Name = "Times New Roman";
-
-        //                ws.Cells[1, 8] = "Thống kê doanh thu " + SelectedMonth +" " + SelectedYear.ToLower();
-        //                ws.Cells[2, 9] = "Tổng thu:\t  " + TotalIn.ToString();
-        //                ws.Cells[3, 9] = "Tổng chi:\t  " + TotalOut.ToString();
-        //                ws.Cells[4, 9] = "Lợi nhuận:\t  " + TrueIncome;
-        //                ws.Cells[5, 9] =  "Số hóa đơn:\t  " + TotalBill.ToString();
-
-        //                ws.Cells[8, 8] = "Chi tiết tiền thu: ";
-        //                ws.Cells[9, 9] = "Tiền thuê phòng:  " + RentalReve+"\t  chiếm "+ RentalPc;
-        //                ws.Cells[10, 9] = "Tiền dịch vụ:  " + ServiceReve + "\t  chiếm " + ServicePc;
-
-        //                ws.Cells[12, 8] = "Chi tiết tiền chi: ";
-        //                ws.Cells[13, 9] = "Tiền nhập sản phẩm:  " + ServiceExpe + "\t  chiếm " + ServiceExPc;
-        //                ws.Cells[14, 9] = "Tiền nhập kho tiện nghi:  " + FurnitureExpe + "\t  chiếm " + FurniturePc;
-        //                ws.Cells[15, 9] = "Tiền sửa chữa:  " + RepairExpe + "\t  chiếm " + RepairPc;
-
-                        
-        //                ws.SaveAs(box.FileName);
-        //                wb.Close();
-        //                app.Quit();
+            float trueincome = totalin - totalout;
+            FindMaxPercentage(totalin, totalout);
 
 
-        //            });
-        //        }
-        //        else
-        //        {
-        //            IsExport = false;
-        //        }
-        //    }
-        //}
+            TrueIncome = Helper.FormatVNMoney(trueincome);
+            TotalIn = Helper.FormatVNMoney(totalin);
+            TotalOut = Helper.FormatVNMoney(totalout);
+        }
 
-        //private int DayOfMonth(int year, int month)
-        //{
-        //    switch (month)
-        //    {
-        //        case 1: case 3: case 5: case 7 : case 8: case 10: case 12:
-        //            {
-        //                return 31;
-        //            }
-        //        case 2:
-        //            {
-        //                int plus = 0;
-        //                if (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0)) plus = 1;
-        //                return 28 + plus;
-        //            }
-        //        default:
-        //            {
-        //                return 30;
-        //            }
-        //    }
-        //}
+        public void FindMaxPercentage(float _in, float _out)
+        {
+            if (_in != 0 && _out != 0)
+            {
+                if (_in >= _out)
+                {
+                    TotalInPc = 100;
+                    TotalOutPc = _out / _in * 100;
+                }
+                else
+                {
+                    TotalOutPc = 100;
+                    TotalInPc = _in / _out * 100;
+                }
+            }
+            else
+            {
+                if (_in == 0 && _out == 0)
+                {
+                    TotalInPc = 10;
+                    TotalOutPc = 10;
+                    return;
+                }
+                if (_in == 0)
+                {
+                    TotalInPc = 10;
+                    TotalOutPc = 90;
+                    return;
+                }
+                if (_out == 0)
+                {
+                    TotalInPc = 90;
+                    TotalOutPc = 10;
+                    return;
+                }
+
+            }
+
+        }
+        public void Calculate_RevExpPercentage(double a1, double a2, double a3, double a4, double a5)
+        {
+            Calculate_RevPercentage(a1, a2);
+            Calculate_ExpPercentage(a3, a4, a5);
+        }
+        public void Calculate_RevPercentage(double a1, double a2)
+        {
+            if (a1 == 0)
+            {
+                if (a2 == 0)
+                    RentalPc = ServicePc = "0%";
+                else
+                {
+                    RentalPc = "0%";
+                    ServicePc = "100%";
+                }
+                return;
+            }
+            if (a2 == 0)
+            {
+                if (a1 == 0)
+                    RentalPc = ServicePc = "0%";
+                else
+                {
+                    RentalPc = "100%";
+                    ServicePc = "0%";
+                }
+                return;
+            }
+
+            RentalPc = Math.Round(a1 / (a1 + a2) * 100, 2).ToString() + "%";
+            ServicePc = Math.Round(a2 / (a1 + a2) * 100, 2).ToString() + "%";
+        }
+        public void Calculate_ExpPercentage(double a3, double a4, double a5)
+        {
+            if (a3 == 0 && a4 == 0 && a5 == 0)
+            {
+                ServiceExPc = RepairPc = FurniturePc = "0%";
+                return;
+            }
+
+            ServiceExPc = Math.Round(a3 / (a3 + a4 + a5) * 100, 2).ToString() + "%";
+            RepairPc = Math.Round(a4 / (a3 + a4 + a5) * 100, 2).ToString() + "%";
+            FurniturePc = Math.Round(a5 / (a3 + a4 + a5) * 100, 2).ToString() + "%";
+
+        }
+        public async Task LoadIncomeByMonth()
+        {
+            try
+            {
+                int year = int.Parse(SelectedYear.Substring(4));
+                int month = int.Parse(SelectedMonth.Substring(6));
+                LabelMaxValue = DayOfMonth(year, month);
+                TotalBill = await OverviewStatisticService.Ins.GetBillQuantity(year, month);
+                (List<double> dailyRevenue, double MonthServiceReve, double MonthRentalReve, string MonthRateStr) = await Task.Run(() => OverviewStatisticService.Ins.GetRevenueByMonth(year, month));
+                (List<double> dailyExpense, double MonthServiceExpense, double MonthRepairCost, double FurnitureExpense, string MonthExpenseRateStr) = await Task.Run(() => OverviewStatisticService.Ins.GetExpenseByMonth(year, month));
+                RentalReve = Helper.FormatVNMoney(MonthRentalReve);
+                ServiceReve = Helper.FormatVNMoney(MonthServiceReve);
+                ServiceExpe = Helper.FormatVNMoney(MonthServiceExpense);
+                RepairExpe = Helper.FormatVNMoney(MonthRepairCost);
+                FurnitureExpe = Helper.FormatVNMoney(FurnitureExpense);
+                ReveRate = MonthRateStr;
+                ExpeRate = MonthExpenseRateStr;
+
+                dailyRevenue.Insert(0, 0);
+                dailyExpense.Insert(0, 0);
+
+                CalculateTrueIncome(dailyRevenue, dailyExpense);
+                Calculate_RevExpPercentage(MonthRentalReve, MonthServiceReve, MonthServiceExpense, MonthRepairCost, FurnitureExpense);
+
+                for (int i = 1; i <= dailyRevenue.Count - 1; i++)
+                {
+                    dailyRevenue[i] /= 1000000;
+                    dailyExpense[i] /= 1000000;
+                }
+
+                InComeData = new SeriesCollection
+                    {
+                        new LineSeries
+                        {
+                            Title = "Thu",
+                            Values = new ChartValues<double>(dailyRevenue),
+                            Fill = Brushes.Transparent,
+                        },
+                        new LineSeries
+                        {
+                            Title = "Chi",
+                            Values = new ChartValues<double>(dailyExpense),
+                            Fill = Brushes.Transparent,
+                        }
+                    };
+            }
+            catch (System.Data.Entity.Core.EntityException e)
+            {
+                Console.WriteLine(e);
+                CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+            }
+        }
+        public async Task ExportFile()
+        {
+            using (SaveFileDialog box = new SaveFileDialog() { Filter = "Excel | *.xlsx | Excel 2003 | *.xls", ValidateNames = true })
+            {
+                if (box.ShowDialog() == DialogResult.OK)
+                {
+                    await Task.Run(() =>
+                    {
+                        IsExport = true;
+                        Microsoft.Office.Interop.Excel.Application app = new Microsoft.Office.Interop.Excel.Application();
+                        app.Visible = false;
+                        Microsoft.Office.Interop.Excel.Workbook wb = app.Workbooks.Add(1);
+                        Microsoft.Office.Interop.Excel.Worksheet ws = (Microsoft.Office.Interop.Excel.Worksheet)wb.Worksheets[1];
+                        ws.Name = "Danh sách phát hành";
+                        ws.Cells.Style.Font.Size = 12;
+                        ws.Cells.Style.Font.Name = "Times New Roman";
+
+                        ws.Cells[1, 8] = "Thống kê doanh thu " + SelectedMonth + " " + SelectedYear.ToLower();
+                        ws.Cells[2, 9] = "Tổng thu:\t  " + TotalIn.ToString();
+                        ws.Cells[3, 9] = "Tổng chi:\t  " + TotalOut.ToString();
+                        ws.Cells[4, 9] = "Lợi nhuận:\t  " + TrueIncome;
+                        ws.Cells[5, 9] = "Số hóa đơn:\t  " + TotalBill.ToString();
+
+                        ws.Cells[8, 8] = "Chi tiết tiền thu: ";
+                        ws.Cells[9, 9] = "Tiền thuê phòng:  " + RentalReve + "\t  chiếm " + RentalPc;
+                        ws.Cells[10, 9] = "Tiền dịch vụ:  " + ServiceReve + "\t  chiếm " + ServicePc;
+
+                        ws.Cells[12, 8] = "Chi tiết tiền chi: ";
+                        ws.Cells[13, 9] = "Tiền nhập sản phẩm:  " + ServiceExpe + "\t  chiếm " + ServiceExPc;
+                        ws.Cells[14, 9] = "Tiền nhập kho tiện nghi:  " + FurnitureExpe + "\t  chiếm " + FurniturePc;
+                        ws.Cells[15, 9] = "Tiền sửa chữa:  " + RepairExpe + "\t  chiếm " + RepairPc;
+
+
+                        ws.SaveAs(box.FileName);
+                        wb.Close();
+                        app.Quit();
+
+
+                    });
+                }
+                else
+                {
+                    IsExport = false;
+                }
+            }
+        }
+
+        private int DayOfMonth(int year, int month)
+        {
+            switch (month)
+            {
+                case 1:
+                case 3:
+                case 5:
+                case 7:
+                case 8:
+                case 10:
+                case 12:
+                    {
+                        return 31;
+                    }
+                case 2:
+                    {
+                        int plus = 0;
+                        if (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0)) plus = 1;
+                        return 28 + plus;
+                    }
+                default:
+                    {
+                        return 30;
+                    }
+            }
+        }
     }
 }

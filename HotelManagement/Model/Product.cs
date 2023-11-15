@@ -24,6 +24,7 @@ namespace HotelManagement.Model
     
         public string ProductId { get; set; }
         public string ProductName { get; set; }
+        public string ProductType { get; set; }
         public Nullable<double> Price { get; set; }
         public Nullable<int> QuantityOfStorage { get; set; }
         public byte[] ProductAvatar { get; set; }

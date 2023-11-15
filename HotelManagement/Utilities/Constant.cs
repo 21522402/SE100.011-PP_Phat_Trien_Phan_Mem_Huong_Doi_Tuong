@@ -15,7 +15,6 @@ namespace HotelManagement.Utilities
     public class STATUS
     {
         public static readonly string WAITING = "Chờ tiếp nhận";
-        public static readonly string PREDIT = "Dự đoán giá";
         public static readonly string IN_PROGRESS = "Đang giải quyết";
         public static readonly string DONE = "Đã giải quyết";
         public static readonly string CANCLE = "Đã hủy";

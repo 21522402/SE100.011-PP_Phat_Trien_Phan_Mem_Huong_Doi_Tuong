@@ -14,7 +14,6 @@ namespace HotelManagement.DTOs
         public string Title { get; set; }
         public byte[] Avatar { get; set; }
         public string Description { get; set; }
-        public string Reason { get; set; }
         public double Price { get; set; }
         public string PriceFixStr
         {

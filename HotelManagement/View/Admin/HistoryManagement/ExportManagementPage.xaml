@@ -147,7 +147,7 @@
                         </i:Interaction.Triggers>
                         <ListView.View>
                             <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}">
-                                <GridViewColumn Width="77" Header="ID">
+                                <GridViewColumn Width="80" Header="ID">
                                     <GridViewColumn.CellTemplate >
                                         <DataTemplate>
                                             <TextBlock Text="{Binding BillId}"
@@ -159,10 +159,10 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn  Width="200" Header="Tên khách hàng">
+                                <GridViewColumn  Width="100" Header="Mã phiếu thuê">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding CustomerName}"                                                           
+                                            <TextBlock Text="{Binding RentalContractId}"                                                           
                                                        Margin="0 6 0 0"
                                                        FontSize="14" 
                                                        FontFamily="{StaticResource MaterialDesignFont}"
@@ -171,10 +171,22 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Width="140" Header="Địa chỉ">
+                                <GridViewColumn Width="100" Header="Tên phòng">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding CustomerAddress}" 
+                                            <TextBlock Text="{Binding RoomName}" 
+                                                       Margin="0 6 0 0"
+                                                       FontSize="14" 
+                                                       FontFamily="{StaticResource MaterialDesignFont}"
+                                                       HorizontalAlignment="Center"
+                                                       TextAlignment="Center"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Width="100" Header="Loại phòng">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding RoomTypeName}" 
                                                        Margin="0 6 0 0"
                                                        FontSize="14" 
                                                        FontFamily="{StaticResource MaterialDesignFont}"
@@ -195,10 +207,10 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Width="140" Header="Phí dịch vụ">
+                                <GridViewColumn Width="140" Header="Phí thuê phòng">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding ServicePriceTempStr}"                                                            
+                                            <TextBlock Text="{Binding RentalPriceStr}"                                                            
                                                        Margin="0 6 0 0"
                                                        FontSize="14" 
                                                        FontFamily="{StaticResource MaterialDesignFont}"
@@ -207,10 +219,10 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Width="125" Header="Phí sự cố">
+                                <GridViewColumn Width="125" Header="Phí sản phẩm">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding TroublePriceTempStr}"                                                            
+                                            <TextBlock Text="{Binding ProductPriceTempStr}"                                                            
                                                        Margin="0 6 0 0"
                                                        FontSize="14" 
                                                        FontFamily="{StaticResource MaterialDesignFont}"
@@ -219,7 +231,7 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Width="200" Header="Nhân viên">
+                                <GridViewColumn Width="180" Header="Nhân viên">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding StaffName}" 

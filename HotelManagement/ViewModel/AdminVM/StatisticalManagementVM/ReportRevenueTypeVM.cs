@@ -66,8 +66,8 @@ namespace HotelManagement.ViewModel.AdminVM.StatisticalManagementVM
             get { return _SelectedMonth3; }
             set { _SelectedMonth3 = value; OnPropertyChanged(); }
         }
-        private List<ServiceTypeDTO> _ListServiceTypeRevenue;
-        public List<ServiceTypeDTO> ListServiceTypeRevenue
+        private List<ProductStatisticDTO> _ListServiceTypeRevenue;
+        public List<ProductStatisticDTO> ListServiceTypeRevenue
         {
             get { return _ListServiceTypeRevenue; }
             set { _ListServiceTypeRevenue = value; OnPropertyChanged(); }

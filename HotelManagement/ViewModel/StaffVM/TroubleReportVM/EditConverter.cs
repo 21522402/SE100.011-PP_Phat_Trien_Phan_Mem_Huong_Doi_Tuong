@@ -45,7 +45,7 @@ namespace HotelManagement.ViewModel.StaffVM.TroubleReportVM
                 return (SolidColorBrush)new BrushConverter().ConvertFromString("#DF0404");
             else if (text == STATUS.DONE || text == "Solved"||text==LEVEL.NORMAL)
                 return (SolidColorBrush)new BrushConverter().ConvertFromString("#00B087");
-            else if (text == STATUS.IN_PROGRESS || text == "Solving"||text == STATUS.PREDIT)
+            else if (text == STATUS.IN_PROGRESS || text == "Solving")
                 return (SolidColorBrush)new BrushConverter().ConvertFromString("#2233C5");
             else
                 return new SolidColorBrush(Colors.Gray);
@@ -70,7 +70,7 @@ namespace HotelManagement.ViewModel.StaffVM.TroubleReportVM
                 return (SolidColorBrush)new BrushConverter().ConvertFromString("#FFC5C5");
             else if (text == STATUS.DONE || text == "Solved" || text == LEVEL.NORMAL)
                 return (SolidColorBrush)new BrushConverter().ConvertFromString("#B0EEE3");
-            else if (text == STATUS.IN_PROGRESS || text == "Solving"||text==STATUS.PREDIT)
+            else if (text == STATUS.IN_PROGRESS || text == "Solving")
                 return (SolidColorBrush)new BrushConverter().ConvertFromString("#C0DAF1");
             else
                 return new SolidColorBrush(Colors.White);

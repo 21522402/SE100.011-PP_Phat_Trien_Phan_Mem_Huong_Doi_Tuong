@@ -28,8 +28,8 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
             get { return _LaundryService; }
             set { _LaundryService = value; OnPropertyChanged(); }
         }
-        private ObservableCollection<ServiceUsingDTO> _ListService;
-        public ObservableCollection<ServiceUsingDTO> ListService
+        private ObservableCollection<ProductUsingDTO> _ListService;
+        public ObservableCollection<ProductUsingDTO> ListService
         {
             get { return _ListService; }
             set { _ListService = value; OnPropertyChanged(); }

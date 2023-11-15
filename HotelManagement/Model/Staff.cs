@@ -17,6 +17,7 @@ namespace HotelManagement.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Staff()
         {
+            this.Bills = new HashSet<Bill>();
             this.FurnitureReceipts = new HashSet<FurnitureReceipt>();
             this.ProductReceipts = new HashSet<ProductReceipt>();
             this.RentalContracts = new HashSet<RentalContract>();
@@ -38,6 +39,8 @@ namespace HotelManagement.Model
         public Nullable<System.DateTime> dateOfStart { get; set; }
         public Nullable<bool> IsDeleted { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Bill> Bills { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FurnitureReceipt> FurnitureReceipts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -29,26 +29,6 @@ namespace HotelManagement.View.Staff.TroubleReport
             this.Close();
         }
 
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ComboBox comboBox = sender as ComboBox;
-            if (txtboxMPT != null)
-            {
-                switch (comboBox.SelectedIndex)
-                {
-                    case 0:
-                        {
-                            txtboxMPT.Visibility = Visibility.Visible;
-                            break;
-                        }
-                    case 1:
-                        {
-                            txtboxMPT.Visibility = Visibility.Hidden;
-                            masophieu.Text = null;
-                            break;
-                        }
-                }
-            }
-        }
+        
     }
 }
