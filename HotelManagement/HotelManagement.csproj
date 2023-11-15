@@ -187,6 +187,7 @@
     <Compile Include="DTOs\RoomFurnituresDetailDTO.cs" />
     <Compile Include="DTOs\RoomTypeDTO.cs" />
     <Compile Include="DTOs\ProductUsingDTO.cs" />
+    <Compile Include="DTOs\SurchargeFeeDTO.cs" />
     <Compile Include="Model\Bill.cs">
       <DependentUpon>HotelManagementDatabase.tt</DependentUpon>
     </Compile>
@@ -1011,9 +1012,6 @@
     <Resource Include="Components\item.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="DTOs\item.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\Colors\item.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -1085,9 +1083,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\logo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Model\Services\item.txt" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Images\LogoWd.png" />
