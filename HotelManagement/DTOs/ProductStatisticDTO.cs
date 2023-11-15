@@ -10,7 +10,7 @@ namespace HotelManagement.DTOs
     {
         public string ProductName { get; set; }
         public int STT { get; set; }
-        public double Revenue { get; set; } 
+        public double Revenue { get; set; }
 
     }
 }
