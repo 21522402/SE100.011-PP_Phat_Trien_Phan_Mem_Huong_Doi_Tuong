@@ -72,13 +72,16 @@
                             Background="White">
                 <materialDesign:Card UniformCornerRadius="5">
                     <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
-
                         <ListView x:Name="RoomListView"
                                   ItemsSource="{Binding RoomList}"
                                   SelectedItem="{Binding SelectedRoomItem, Mode=TwoWay}"
                                   Focusable="True"
                                   FontFamily="{StaticResource MaterialDesignFont}"
                                   Foreground="Black"
+                                  Cursor="Hand"
+                                  MaxHeight="500"
+                                  ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                  ScrollViewer.CanContentScroll="True"
                                   FontSize="14"
                                 d:ItemsSource="{d:SampleData ItemCount=20}">
                             <ListView.ItemContainerStyle>

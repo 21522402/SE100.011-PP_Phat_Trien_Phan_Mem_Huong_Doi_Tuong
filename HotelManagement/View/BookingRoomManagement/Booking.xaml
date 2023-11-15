@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HotelManagement.View.BookingRoomManagement"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
@@ -12,8 +13,10 @@
         WindowStartupLocation="CenterScreen"
         xmlns:Search="clr-namespace:HotelManagement.Components.Search"
         SizeToContent="Height"
+        Height="Auto"
         x:Name="BookingRoom"
-        Title="Booking" Width="700">
+        Title="Booking" Width="700"
+        DataContext="{StaticResource BookingRoomManagementVM}">
     
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -23,9 +26,9 @@
 
     <Grid Background="White">
         <Grid.RowDefinitions>
-            <RowDefinition Height="8*"/>
+            <RowDefinition Height="7*"/>
             <RowDefinition Height="31*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="22*"/>
             <RowDefinition Height="31*"/>
             <RowDefinition Height="9*"/>
         </Grid.RowDefinitions>
@@ -111,13 +114,11 @@
                                       FontSize="14"
                                       MinHeight="80"
                                       MaxHeight="180"
-           
                                       VerticalAlignment="Top"
                                       ItemsSource="{Binding ListReadyRoom}"
                                       SelectedItem="{Binding SelectedRoom, UpdateSourceTrigger=PropertyChanged}"
                                       Cursor="Hand"
                                       x:Name="ListRooms"
-                                    
                                       d:ItemsSource="{d:SampleData ItemCount=4}">
 
                                 <ListView.ItemContainerStyle>
@@ -136,7 +137,7 @@
 
                                     <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}">
 
-                                        <GridViewColumn Width="200" Header="Phòng">
+                                        <GridViewColumn Width="80" Header="Phòng">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding RoomNumber}" 
@@ -147,7 +148,7 @@
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
 
-                                        <GridViewColumn Width="240" Header="Loại phòng">
+                                        <GridViewColumn Width="120" Header="Loại phòng">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding RoomTypeName}" 
@@ -157,8 +158,30 @@
                                                 </DataTemplate>
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
+                                        
+                                        <GridViewColumn Width="120" Header="Số khách tối đa">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding MaxNumberGuest}" 
+                                                               FontSize="14" 
+                                                               HorizontalAlignment="Center"
+                                                               TextAlignment="Center"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
 
-                                        <GridViewColumn Width="190" Header="Giá">
+                                        <GridViewColumn Width="160" Header="Số khách tính đơn giá">
+                                            <GridViewColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding NumberGuestForUnitPrice}" 
+                                                               FontSize="14" 
+                                                               HorizontalAlignment="Center"
+                                                               TextAlignment="Center"/>
+                                                </DataTemplate>
+                                            </GridViewColumn.CellTemplate>
+                                        </GridViewColumn>
+
+                                        <GridViewColumn Width="150" Header="Giá">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding RoomPriceStr}" 
@@ -206,7 +229,12 @@
                        FontWeight="Bold"
                        Foreground="Black"/>
 
-                    <DatePicker Width="150" BorderBrush="#000" Margin="15 0 0 0"/>
+                    <TextBlock 
+                        Width="150" 
+                        Margin="15 0 0 0"
+                        FontSize="15"
+                        VerticalAlignment="Center"
+                        Text="{Binding CreateDate, Mode=TwoWay, StringFormat='dd/MM/yyyy'}"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal"  
@@ -219,7 +247,17 @@
                        FontWeight="Bold"
                        Foreground="Black"/>
 
-                    <DatePicker Width="150" BorderBrush="#000" Margin="15 0 0 0"/>
+                    <DatePicker 
+                        Width="150" 
+                        BorderBrush="#000" 
+                        Margin="15 0 0 0" 
+                        SelectedDate="{Binding EndDate, Mode=TwoWay, StringFormat='dd/MM/yyyy'}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectedDateChanged">
+                                <i:InvokeCommandAction Command="{Binding SelectedTimeChangedCM}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </DatePicker>
                 </StackPanel>
             </Grid>
             <Grid Grid.Row="1">
@@ -315,7 +353,7 @@
 
                                     <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}">
 
-                                        <GridViewColumn Width="280" Header="Họ tên khách hàng">
+                                        <GridViewColumn Width="270" Header="Họ tên khách hàng">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding CustomerName}" 
@@ -337,7 +375,7 @@
                                             </GridViewColumn.CellTemplate>
                                         </GridViewColumn>
 
-                                        <GridViewColumn Width="130" Header="Sửa / Xóa">
+                                        <GridViewColumn Width="140" Header="Sửa / Xóa">
                                             <GridViewColumn.CellTemplate>
                                                 <DataTemplate>
                                                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

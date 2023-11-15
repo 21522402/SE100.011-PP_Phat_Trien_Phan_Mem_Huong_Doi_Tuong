@@ -28,16 +28,6 @@ namespace HotelManagement.DTOs
                 this.NotifyPropertyChanged("CustomerName");
             }
         }
-        private int _STT;
-        public int STT
-        {
-            get { return _STT; }
-            set
-            {
-                this._STT = value;
-                this.NotifyPropertyChanged("STT");
-            }
-        }
 
         private string _CustomerId;
         public string CustomerId

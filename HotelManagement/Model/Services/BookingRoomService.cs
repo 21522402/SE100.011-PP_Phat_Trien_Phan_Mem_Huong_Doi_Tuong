@@ -26,10 +26,107 @@ namespace HotelManagement.Model.Services
             }
             private set { _ins = value; }
         }
-        public BookingRoomService() { }
 
-       
-      
+        public BookingRoomService() { }
+        public List<string> GetListFilterYear()
+        {
+            try
+            {
+                using (var context = new HotelManagementEntities())
+                {
+                    var listYear = context.RentalContracts.Select(x => x.StartDate.Value.Year).ToList();
+                    if (listYear == null) listYear = new List<int>();
+                    if (!listYear.Contains(DateTime.Now.Year))
+                    {
+                        listYear.Add(DateTime.Now.Year);
+                    }
+                    var listYearStr = listYear.Select(x => "Năm " + x.ToString()).ToList();
+                    listYearStr.Reverse();
+                    List<string> list = new List<string>();
+                    foreach (var item in listYearStr)
+                    {
+                        if (!list.Contains(item)) list.Add(item);
+                    }
+                    list.Insert(0, "Tất cả");
+                    return list;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<float> GetPriceBooking(string roomId, List<RentalContractDetailDTO> ListCustomer)
+        {
+            try
+            {
+                using (var context = new HotelManagementEntities())
+                {
+                    Room r = await context.Rooms.FindAsync(roomId);
+                    var listSurcharge = await context.SurchargeRates.Where(x => x.RoomTypeId == r.RoomTypeId).ToListAsync();
+                    int numPerForUnitPrice = (int)r.RoomType.NumberGuestForUnitPrice;
+                    float RoomTypePrice = (float)r.RoomType.Price;
+
+                    int numPer = ListCustomer.Count;
+
+                    float PricePerDay = RoomTypePrice;
+
+                    if (numPer > numPerForUnitPrice)
+                    {
+                        for (int i = 1; i <= numPer - numPerForUnitPrice; i++)
+                        {
+                            PricePerDay += RoomTypePrice * (float)listSurcharge[i - 1].Rate;
+                        }
+                    }
+                    return PricePerDay;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public async Task<List<RentalContractDTO>> GetRentalContractListFilter(string yearstr, string monthstr)
+        {
+            try
+            {
+                using (var context = new HotelManagementEntities())
+                {
+                    List<RentalContractDTO> RentalContractDTOs = await (
+                        from r in context.RentalContracts
+                        join room in context.Rooms
+                        on r.RoomId equals room.RoomId
+                        select new RentalContractDTO
+                        {
+                            RentalContractId = r.RentalContractId,
+                            CreateDate = (DateTime)r.StartDate,
+                            RoomId = r.RoomId,
+                            RoomNumber = (int)room.RoomNumber,
+                            StaffId = r.StaffId,
+                            StaffName = r.Staff.StaffName,
+                            EndDate = (DateTime)r.EndDate,
+                            RentalPrice = (float)r.RentalPrice,
+                            Validated = (bool)r.Validated,
+                            ListRentalContractDetails = r.RentalContractDetails.Select(x => new RentalContractDetailDTO
+                            {
+                                RentalContractId = x.RentalContractId,
+                                CustomerName = x.CustomerName,
+                                CCCD = x.CustomerId,
+                            }).ToList()
+                        }
+                    ).ToListAsync();
+                    RentalContractDTOs.Reverse();
+                    
+                    if (yearstr != "Tất cả")
+                    {
+                        int year = int.Parse(yearstr.Substring(4));
+                        RentalContractDTOs = new List<RentalContractDTO>(RentalContractDTOs.Where(x => x.CreateDate.Year == year).ToList());
+                    }
+                    if (monthstr != "Tất cả")
+                    {
+                        int month = int.Parse(monthstr.Substring(6));
+                        RentalContractDTOs = new List<RentalContractDTO>(RentalContractDTOs.Where(x => x.CreateDate.Month == month).ToList());
+                    }
 
         public async Task<(bool,string)> SaveBooking(RentalContractDTO rentalContract)
         {
@@ -42,11 +139,12 @@ namespace HotelManagement.Model.Services
                     RentalContract rc = new RentalContract
                     {
                         RentalContractId = rentalId,
-                        RoomId= rentalContract.RoomId,
+                        RoomId = rentalContract.RoomId,
                         StaffId = rentalContract.StaffId,
-                        StartDate = rentalContract.StartDate,
-                        EndDate = rentalContract.StartDate,
-                        Validated = rentalContract.Validated,
+                        StartDate = DateTime.Now,
+                        EndDate = rentalContract.EndDate,
+                        RentalPrice = rentalContract.RentalPrice,
+                        Validated = true,
                     };
 
                     context.RentalContracts.Add(rc);
@@ -54,11 +152,9 @@ namespace HotelManagement.Model.Services
 
                     foreach (var item in list)
                     {
-                        var maxCPId = await context.RentalContractDetails.MaxAsync(s => s.RentalContractDetailId);
-                        string CPId = CreateNextRentalContractId(maxCPId.ToString());
+                       
                         RentalContractDetail rentalContractDetail = new RentalContractDetail
                         {
-                            RentalContractDetailId = Int32.Parse(CPId),
                             RentalContractId = rentalId,
                             CustomerName = item.CustomerName,
                             CustomerId = item.CCCD,
@@ -74,47 +170,53 @@ namespace HotelManagement.Model.Services
                 return (false, "Lỗi hệ thống");
             }
         }
-        //public async Task<(bool, string, string)> SaveCustomer(CustomerDTO customer)
-        //{
-        //    try
-        //    {
-        //        using (var context = new HotelManagementEntities())
-        //        {
-        //            var c = await context.Customers.FirstOrDefaultAsync(x => x.CCCD == customer.CCCD);
-        //            var maxId = await context.Customers.MaxAsync(s => s.CustomerId);
-        //            if (c != null) return (true, null,c.CustomerId);
-        //            else
-        //            {
-        //                string newCusId = CreateNextCustomerId(maxId);
-        //                Customer newCus = new Customer
-        //                {
-        //                    CustomerName = customer.CustomerName,
-        //                    CCCD = customer.CCCD,
-        //                    CustomerAddress = customer.CustomerAddress,
-        //                    PhoneNumber = customer.PhoneNumber,
-        //                    Email = customer.Email,
-        //                    CustomerId = newCusId,
-        //                    CustomerType = customer.CustomerType,
-        //                    DateOfBirth = customer.DateOfBirth,
-        //                    Gender = customer.Gender,
-        //                    IsDeleted = customer.IsDeleted,
-        //                };
-        //                context.Customers.Add(newCus);
-        //                await context.SaveChangesAsync();
-        //                string cusId = (await context.Customers.FirstOrDefaultAsync(x => x.CCCD == customer.CCCD)).CustomerId;
-        //                return (true, "", cusId);
-        //            }
-        //        }
-        //    }
-        //    catch (System.Data.Entity.Core.EntityException)
-        //    {
-        //        return (false, "Mất kết nối cơ sở dữ liệu",null);
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return (false, "Lỗi hệ thống",null);
-        //    }
-        //}
+        public async Task<(bool, string)> UpdateListCustomer(RentalContractDTO rentalContract, List<RentalContractDetailDTO> list)
+        {
+            try
+            {
+                using (var context = new HotelManagementEntities())
+                {
+                    string rentalId = rentalContract.RentalContractId;
+                    var listDetail = context.RentalContracts.FindAsync(rentalId).Result.RentalContractDetails.ToList();
+                    context.RentalContractDetails.RemoveRange(listDetail);
+                    await context.SaveChangesAsync();
+                    foreach (var item in list)
+                    {
+                        RentalContractDetail rentalContractDetail = new RentalContractDetail
+                        {
+                            RentalContractId = rentalId,
+                            CustomerName = item.CustomerName,
+                            CustomerId = item.CCCD,
+                        };
+                        context.RentalContractDetails.Add(rentalContractDetail);
+                        await context.SaveChangesAsync();
+                    }
+                    return (true, "Cập nhật phiếu thuê thành công!");
+                }
+            }
+            catch (Exception e)
+            {
+                return (false, "Lỗi hệ thống");
+            }
+        }
+        private string CreateNextRentalContractId(string maxId)
+        {
+            if (maxId is null)
+            {
+                return "PT001";
+            }
+            string newIdString = $"000{int.Parse(maxId.Substring(2)) + 1}";
+            return "PT" + newIdString.Substring(newIdString.Length - 3, 3);
+        }
+        private string CreateNextRentalContractDetailId(string maxId)
+        {
+            if (maxId is null)
+            {
+                return "CP001";
+            }
+            string newIdString = $"000{int.Parse(maxId.Substring(2)) + 1}";
+            return "CP" + newIdString.Substring(newIdString.Length - 3, 3);
+        }
         public async Task<List<RoomDTO>> GetListReadyRoom()
         {
             try
@@ -127,7 +229,9 @@ namespace HotelManagement.Model.Services
                         RoomNumber = (int)x.RoomNumber,
                         RoomTypeName = x.RoomType.RoomTypeName,
                         RoomTypeId = x.RoomTypeId,
-                        Price = (double)x.RoomType.Price,
+                        Price = (float)x.RoomType.Price,
+                        MaxNumberGuest = (int)x.RoomType.MaxNumberGuest,
+                        NumberGuestForUnitPrice = (int)x.RoomType.NumberGuestForUnitPrice,
                     }).ToListAsync();
 
                     return list;
@@ -138,25 +242,28 @@ namespace HotelManagement.Model.Services
                 throw e;
             }
         }
-        public async Task<double> GetRentalContractPrice(string rentId)
+        public async Task<float> GetRentalContractPrice(string rentId)
         {
             try
             {
                 using (var context = new HotelManagementEntities())
                 {
-                    int numPerForUnitPrice = (int)context.Parameters.FirstOrDefault(x => x.ParameterKey == "SoKhachKhongTinhPhuPhi").ParameterValue;
+                    
                     var listSurcharge = await context.SurchargeRates.ToListAsync();
 
 
                     RentalContract rentalContract = await context.RentalContracts.FindAsync(rentId);
+                   
+                    int numPerForUnitPrice = (int)context.RoomTypes.FirstOrDefault(x => x.RoomTypeId == rentalContract.Room.RoomTypeId).NumberGuestForUnitPrice;
+
                     int numPer = rentalContract.RentalContractDetails.Count;
-                    double RoomTypePrice = (double)rentalContract.Room.RoomType.Price;
-                    double PricePerDay = RoomTypePrice;
+                    float RoomTypePrice = (float)rentalContract.Room.RoomType.Price;
+                    float PricePerDay = RoomTypePrice;
                     if (numPer > numPerForUnitPrice)
                     {
                         for (int i = 0; i < numPer - numPerForUnitPrice; i++)
                         {
-                            PricePerDay += RoomTypePrice * (double)listSurcharge[i].Rate;
+                            PricePerDay += RoomTypePrice * (float)listSurcharge[i].Rate;
                         }
                     }
                     return PricePerDay;
@@ -200,21 +307,53 @@ namespace HotelManagement.Model.Services
                 throw e;
             }
         }
-     
-        private string CreateNextCustomerId(string maxId)
+        public async Task<List<RentalContractDTO>> GetRentalContractList()
         {
-            //KHxxx
-            if (maxId is null)
+            try
+            {
+                using (HotelManagementEntities db = new HotelManagementEntities())
+                {
+                    var RentalContractDTOs = await db.RentalContracts.OrderByDescending(x => x.StartDate).Select(r => new RentalContractDTO
+                    {
+                        RentalContractId = r.RentalContractId,
+                        CreateDate = (DateTime)r.StartDate,
+                        RoomId = r.RoomId,
+                        RoomNumber = (int)r.Room.RoomNumber,
+                        StaffId = r.StaffId,
+                        StaffName = r.Staff.StaffName,
+                        EndDate = (DateTime)r.EndDate,
+                        RentalPrice = (float)r.RentalPrice,
+                        Validated = (bool)r.Validated,
+                        ListRentalContractDetails = r.RentalContractDetails.Select(x => new RentalContractDetailDTO
+                        {
+                            RentalContractId = x.RentalContractId,
+                            CustomerName = x.CustomerName,
+                            CCCD = x.CustomerId,
+                        }).ToList()
+
+                    }).ToListAsync();
+                    return RentalContractDTOs;
+                }
+            }
+            catch (Exception e)
             {
                 return "KH001";
             }
             string newIdString = $"000{int.Parse(maxId.Substring(2)) + 1}";
             return "KH" + newIdString.Substring(newIdString.Length - 3, 3);
         }
-        private string CreateNextRentalContractId(string maxId)
+        public int GetMaxNumOfPer(string roomId)
         {
-            //KHxxx
-            if (maxId is null)
+            try
+            {
+                using (var context = new HotelManagementEntities())
+                {
+                    string roomtypeId = context.Rooms.FirstOrDefault(x => x.RoomId == roomId).RoomTypeId;
+                    int res = (int)context.RoomTypes.FirstOrDefault(x => x.RoomTypeId == roomtypeId).MaxNumberGuest;
+                    return res;
+                }
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }

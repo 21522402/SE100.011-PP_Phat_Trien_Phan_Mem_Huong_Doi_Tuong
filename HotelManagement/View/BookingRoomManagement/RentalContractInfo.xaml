@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HotelManagement.View.BookingRoomManagement"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Width="802"
@@ -15,7 +16,8 @@
         Background="Transparent"
         WindowStyle="None"
         Title="RentalContractInfo"
-        x:Name="rentalContractInfo">
+        x:Name="rentalContractInfo"
+        DataContext="{StaticResource BookingRoomManagementVM}">
 
     <Window.Resources>
         <Style x:Key="GridHeader" TargetType="{x:Type GridViewColumnHeader}">
@@ -128,7 +130,9 @@
                                      Foreground="#686868" 
                                      Height="30" Width="100" 
                                      BorderThickness="0.5" 
-                                     BorderBrush="#545454"/>
+                                    Name="roomNumberInfo"
+                                     BorderBrush="#545454"
+                                    Text="{Binding SelectedItem.RoomNumber}"/>
                             </StackPanel>
                         </Grid>
 
@@ -152,7 +156,8 @@
                                      Foreground="#686868" 
                                      Height="30" Width="220" 
                                      BorderThickness="0.5" 
-                                     BorderBrush="#545454"/>
+                                     BorderBrush="#545454"
+                                    Text="{Binding SelectedItem.StaffName}"/>
                             </StackPanel>
                         </Grid>
 
@@ -176,7 +181,8 @@
                                      Foreground="#686868" 
                                      Height="30" Width="140" 
                                      BorderThickness="0.5" 
-                                     BorderBrush="#545454"/>
+                                     BorderBrush="#545454"
+                                    Text="{Binding PriceInfo, Mode=TwoWay}"/>
                             </StackPanel>
                         </Grid>
 
@@ -208,7 +214,9 @@
                                      Foreground="#686868" 
                                      Height="30" Width="160" 
                                      BorderThickness="0.5" 
-                                     BorderBrush="#545454"/>
+                                     BorderBrush="#545454"
+                                    Name="createDateInfo"
+                                    Text="{Binding SelectedItem.CreateDate,StringFormat='dd/MM/yyyy'}"/>
                             </StackPanel>
 
                             
@@ -222,19 +230,18 @@
                                    Foreground="#000000" 
                                    FontSize="14" 
                                    VerticalAlignment="Top"/>
-                                <TextBox  
-                                     Padding="10 0 10 0" 
-                                     HorizontalAlignment="Left" 
-                                     HorizontalContentAlignment="Left" 
-                                     VerticalAlignment="Top" 
-                                     VerticalContentAlignment="Center" 
-                                     Margin="20 0 0 0"
-                                     FontSize="16" 
-                                     Focusable="False"
-                                     Foreground="#686868" 
-                                     Height="30" Width="160" 
-                                     BorderThickness="0.5" 
-                                     BorderBrush="#545454"/>
+
+                                <DatePicker 
+                                    Width="150" 
+                                    BorderBrush="#000" 
+                                    Margin="15 0 0 0" 
+                                    SelectedDate="{Binding SelectedItem.EndDate, Mode=TwoWay, StringFormat='dd/MM/yyyy'}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="SelectedDateChanged">
+                                            <i:InvokeCommandAction Command="{Binding SelectedTimeChangedCM}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </DatePicker>
                             </StackPanel>
                         </Grid>
 
@@ -259,17 +266,8 @@
 
                                 <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}">
 
-                                    <GridViewColumn Width="120" Header="STT">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding STT}" 
-                                                               FontSize="14" 
-                                                               HorizontalAlignment="Center"
-                                                               TextAlignment="Center"/>
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Width="280" Header="Họ tên khách hàng">
+                                    
+                                    <GridViewColumn Width="320" Header="Họ tên khách hàng">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding CustomerName}" 
@@ -281,7 +279,7 @@
                                     </GridViewColumn>
 
 
-                                    <GridViewColumn Width="220" Header="CCCD">
+                                    <GridViewColumn Width="260" Header="CCCD">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding CCCD}" 
@@ -292,7 +290,7 @@
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
 
-                                    <GridViewColumn Width="130" Header="Sửa / Xóa">
+                                    <GridViewColumn Width="170" Header="Sửa / Xóa">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

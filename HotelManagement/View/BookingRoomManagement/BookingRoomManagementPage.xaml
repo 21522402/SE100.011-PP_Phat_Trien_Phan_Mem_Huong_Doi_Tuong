@@ -9,7 +9,8 @@
       xmlns:Search="clr-namespace:HotelManagement.Components.Search" 
       xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
       Title="BookingRoomManagementPage"
-      xmlns:sys="clr-namespace:System;assembly=mscorlib">
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+      DataContext="{StaticResource BookingRoomManagementVM}">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
@@ -39,7 +40,7 @@
                         HorizontalAlignment="Left" 
                         VerticalAlignment="Center" >
                     <Search:Search 
-                        Width="250" Height="30"
+                        Width="280" Height="34"
                         FontSize="12"
                         IconSize="18"
                         Corner="5"
@@ -205,7 +206,7 @@
 
                                     
 
-                                    <GridViewColumn Width="250" Header="Mã phiếu thuê">
+                                    <GridViewColumn Width="180" Header="Mã phiếu thuê">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding RentalContractId}" 
@@ -218,10 +219,10 @@
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
                                     
-                                    <GridViewColumn Width="200" Header="Tên nhân viên">
+                                    <GridViewColumn Width="300" Header="Tên nhân viên">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <TextBlock Text="Phan Trọng Tính" 
+                                                <TextBlock Text="{Binding StaffName}" 
                                                            Width="200"
                                                            FontSize="14" 
                                                            Margin="0 8 0 0"
@@ -231,7 +232,7 @@
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
 
-                                    <GridViewColumn Width="250" Header="Số phòng">
+                                    <GridViewColumn Width="170" Header="Số phòng">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding RoomNumber}" 
@@ -257,7 +258,7 @@
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
 
-                                    <GridViewColumn Width="240" Header="Chi tiết / Xóa">
+                                    <GridViewColumn Width="220" Header="Chi tiết / Xóa">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <Grid Width="150">

@@ -19,6 +19,41 @@ namespace HotelManagement.DTOs
         public string Note { get; set; }
         public string RoomStatus { get; set; }
         public double Price { get; set; }
+        public int MaxNumberGuest { get; set; }
+
+        public int NumberGuestForUnitPrice { get; set; }
+
+        public string RoomPriceStr
+        {
+            get { return Helper.FormatVNMoney(Price); }
+        }
+        public string RoomName
+        {
+            get { return "P" + RoomNumber.ToString(); }
+        }
+
+        public int DayNumber
+        {
+            get
+            {
+                if ( StartDate == null)
+                {
+                    return 0;
+                
+                }
+                TimeSpan t = (TimeSpan)(EndDate - StartDate);
+                int res = (int)t.TotalDays;
+                return res;
+            }
+        }
+        public string StartDateString
+        {
+            get
+            {
+                if (StartDate != null) return ((DateTime)StartDate).ToString("dd/MM/yyyy");
+                else return null;
+            }
+        }
         public double RentalPrice { get; set; }
         public int CountPerson { get; set; }
         public string RentalContractId { get; set; }
@@ -59,7 +94,7 @@ namespace HotelManagement.DTOs
                 {
                     return "#F68A73";
                 }
-                return  "#59D66D";
+                return "#59D66D";
 
             }
         }
@@ -72,7 +107,8 @@ namespace HotelManagement.DTOs
                 {
                     res = "#59D66D";
                 }
-                else {
+                else
+                {
                     res = "#72B6DC";
                     TimeSpan leftTime = ((TimeSpan)(EndDate + TimeSpan.FromHours(12) - (DateTime.Today + DateTime.Now.TimeOfDay)));
                     if (leftTime.TotalMinutes < 1)
@@ -80,7 +116,7 @@ namespace HotelManagement.DTOs
                         res = "#F68A73";
                     }
                 }
-                
+
                 return res;
 
             }
@@ -100,11 +136,12 @@ namespace HotelManagement.DTOs
         public double PercentLeft
         {
             get
-            {   if (StartDate == null) { return 0; }
+            {
+                if (StartDate == null) { return 0; }
                 TimeSpan difference = (TimeSpan)(EndDate - StartDate);
                 double totalTime = (double)difference.TotalMinutes;
                 double leftTime = ((TimeSpan)(EndDate + TimeSpan.FromHours(12) - (DateTime.Today + DateTime.Now.TimeOfDay))).TotalMinutes;
-                return (1 - leftTime / totalTime)*180;
+                return (1 - leftTime / totalTime) * 180;
             }
         }
         public string RoomShowLeftBar
@@ -118,37 +155,6 @@ namespace HotelManagement.DTOs
                 else return "Visible";
 
 
-            }
-        }
-        public string RoomPriceStr
-        {
-            get { return Helper.FormatVNMoney(Price); }
-        }
-        public string RoomName
-        {
-            get { return "P" + RoomNumber.ToString(); }
-        }
-
-        public int DayNumber
-        {
-            get
-            {
-                if ( StartDate == null)
-                {
-                    return 0;
-                
-                }
-                TimeSpan t = (TimeSpan)(EndDate - StartDate);
-                int res = (int)t.TotalDays;
-                return res;
-            }
-        }
-        public string StartDateString
-        {
-            get
-            {
-                if (StartDate != null) return ((DateTime)StartDate).ToString("dd/MM/yyyy");
-                else return null;
             }
         }
         public string EndDateString
