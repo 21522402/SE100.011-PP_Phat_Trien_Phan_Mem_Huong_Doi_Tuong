@@ -13,9 +13,9 @@
         WindowStartupLocation="CenterScreen"
         xmlns:Search="clr-namespace:HotelManagement.Components.Search"
         SizeToContent="Height"
+        Height="Auto"
         x:Name="BookingRoom"
         Title="Booking" Width="700"
-        Height="Auto"
         DataContext="{StaticResource BookingRoomManagementVM}">
     
     <i:Interaction.Triggers>
@@ -114,13 +114,11 @@
                                       FontSize="14"
                                       MinHeight="80"
                                       MaxHeight="180"
-           
                                       VerticalAlignment="Top"
                                       ItemsSource="{Binding ListReadyRoom}"
                                       SelectedItem="{Binding SelectedRoom, UpdateSourceTrigger=PropertyChanged}"
                                       Cursor="Hand"
                                       x:Name="ListRooms"
-                                    
                                       d:ItemsSource="{d:SampleData ItemCount=4}">
 
                                 <ListView.ItemContainerStyle>

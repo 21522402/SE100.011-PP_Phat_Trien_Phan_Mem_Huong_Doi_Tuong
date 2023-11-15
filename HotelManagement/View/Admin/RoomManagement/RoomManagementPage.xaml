@@ -78,6 +78,10 @@
                                   Focusable="True"
                                   FontFamily="{StaticResource MaterialDesignFont}"
                                   Foreground="Black"
+                                  Cursor="Hand"
+                                  MaxHeight="500"
+                                  ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                  ScrollViewer.CanContentScroll="True"
                                   FontSize="14"
                                 d:ItemsSource="{d:SampleData ItemCount=20}">
                             <ListView.ItemContainerStyle>
