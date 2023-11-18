@@ -5,6 +5,7 @@
                 xmlns:VM3="clr-namespace:HotelManagement.ViewModel.AdminVM.FurnitureManagementVM"   
                 xmlns:VM4="clr-namespace:HotelManagement.ViewModel.AdminVM.ProductManagementVM"
                 xmlns:VM5="clr-namespace:HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM"
+                xmlns:VM6="clr-namespace:HotelManagement.ViewModel.AdminVM.RoomTypeFurnitureManagementVM"
                 
                 xmlns:VM7="clr-namespace:HotelManagement.ViewModel.SettingVM"
                 xmlns:VM8="clr-namespace:HotelManagement.ViewModel.BookingRoomManagementVM"
@@ -23,7 +24,7 @@
     <VM3:FurnitureManagementVM x:Key="FurnitureManagementVM"/>
     <VM4:ProductManagementVM x:Key="ProductManagementVM"/>
     <VM5:RoomCatalogManagementVM x:Key="RoomCatalogManagementVM"/>
- 
+    <VM6:RoomTypeFurnitureManagementVM x:Key="RoomTypeFurnitureManagementVM"/>
     <VM7:SettingVM x:Key="SettingVM"/>
     <VM8:BookingRoomManagementVM x:Key="BookingRoomManagementVM"/>
     <VM9:RoomManagementVM x:Key="RoomManagementVM"/>

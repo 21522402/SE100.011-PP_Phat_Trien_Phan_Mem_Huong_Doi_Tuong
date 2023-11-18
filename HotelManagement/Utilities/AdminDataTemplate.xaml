@@ -10,6 +10,8 @@
                     xmlns:RoomVM="clr-namespace:HotelManagement.ViewModel.AdminVM.RoomManagementVM"
                     xmlns:RoomTypeView="clr-namespace:HotelManagement.View.Admin.RoomTypeManagement"
                     xmlns:RoomTypeVM="clr-namespace:HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM"
+                    xmlns:RoomTypeFurnitureView="clr-namespace:HotelManagement.View.Admin.RoomTypeFurnitureManagement"
+                    xmlns:RoomTypeFurnitureVM="clr-namespace:HotelManagement.ViewModel.AdminVM.RoomTypeFurnitureManagementVM"
                     xmlns:StatiscalView="clr-namespace:HotelManagement.View.Admin.StatisticalManagement"
                     xmlns:StatiscalVM="clr-namespace:HotelManagement.ViewModel.AdminVM.StatisticalManagementVM"
                     xmlns:HelpScreenView="clr-namespace:HotelManagement.View.HelpScreen"
@@ -45,9 +47,9 @@
     <DataTemplate DataType="{x:Type HelpScreenVM:HelpScreenVM}">
         <HelpScreenView:HelpScreen></HelpScreenView:HelpScreen>
     </DataTemplate>
-    <!--<DataTemplate DataType="{x:Type RoomTypeFurnitureVM:RoomTypeFurnitureManagementVM}">
+    <DataTemplate DataType="{x:Type RoomTypeFurnitureVM:RoomTypeFurnitureManagementVM}">
         <RoomTypeFurnitureView:RoomTypeFurnitureManagementPage></RoomTypeFurnitureView:RoomTypeFurnitureManagementPage>
-    </DataTemplate>-->
+    </DataTemplate>
     <DataTemplate DataType="{x:Type SettingVM:SettingVM}">
         <SettingView:SettingPage></SettingView:SettingPage>
     </DataTemplate>

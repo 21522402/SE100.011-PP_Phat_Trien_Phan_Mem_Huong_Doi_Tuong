@@ -278,6 +278,12 @@
     <Compile Include="ViewModel\AdminVM\ProductManagementVM\ImportProductVM.cs" />
     <Compile Include="ViewModel\AdminVM\ProductManagementVM\ProductManagementVM.cs" />
     <Compile Include="ViewModel\AdminVM\RoomManagementVM\RoomManagementVM.cs" />
+    <Compile Include="ViewModel\AdminVM\RoomTypeFurnitureManagementVM\RoomTypeFurnitureDeleteVM.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
+    <Compile Include="ViewModel\AdminVM\RoomTypeFurnitureManagementVM\RoomTypeFurnitureImportVM.cs" />
+    <Compile Include="ViewModel\AdminVM\RoomTypeFurnitureManagementVM\RoomTypeFurnitureInfoVM.cs" />
+    <Compile Include="ViewModel\AdminVM\RoomTypeFurnitureManagementVM\RoomTypeFurnitureManagementVM.cs" />
     <Compile Include="ViewModel\AdminVM\RoomTypeManagementVM\AddNewRoomTypeVM.cs" />
     <Compile Include="ViewModel\AdminVM\RoomTypeManagementVM\RoomTypeManagementVM.cs" />
     <Compile Include="ViewModel\AdminVM\StaffManagementVM\StaffManagementVM.cs" />
@@ -362,6 +368,18 @@
     </Compile>
     <Compile Include="View\Admin\RoomManagement\RoomManagement.xaml.cs">
       <DependentUpon>RoomManagement.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Admin\RoomTypeFurnitureManagement\RoomTypeFurnitureDeleteWindow.xaml.cs">
+      <DependentUpon>RoomTypeFurnitureDeleteWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Admin\RoomTypeFurnitureManagement\RoomTypeFurnitureImportWindow.xaml.cs">
+      <DependentUpon>RoomTypeFurnitureImportWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Admin\RoomTypeFurnitureManagement\RoomTypeFurnitureInfoWindow.xaml.cs">
+      <DependentUpon>RoomTypeFurnitureInfoWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Admin\RoomTypeFurnitureManagement\RoomTypeFurnitureManagementPage.xaml.cs">
+      <DependentUpon>RoomTypeFurnitureManagementPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Admin\RoomTypeManagement\AddRoomType.xaml.cs">
       <DependentUpon>AddRoomType.xaml</DependentUpon>
@@ -687,6 +705,22 @@
     <Page Include="View\Admin\RoomManagement\RoomManagement.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Admin\RoomTypeFurnitureManagement\RoomTypeFurnitureDeleteWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Admin\RoomTypeFurnitureManagement\RoomTypeFurnitureImportWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Admin\RoomTypeFurnitureManagement\RoomTypeFurnitureInfoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Admin\RoomTypeFurnitureManagement\RoomTypeFurnitureManagementPage.xaml">
+      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Admin\RoomTypeManagement\AddRoomType.xaml">
