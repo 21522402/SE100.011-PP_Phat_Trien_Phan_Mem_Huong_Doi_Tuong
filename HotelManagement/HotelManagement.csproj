@@ -393,6 +393,12 @@
     <Compile Include="ViewModel\StaffVM\RoomCatalogManagementVM\RoomInfoVM\RoomInfoVM.cs" />
     <Compile Include="ViewModel\StaffVM\RoomCatalogManagementVM\RoomOrderVM\RoomOrderVM.cs" />
     <Compile Include="ViewModel\StaffVM\RoomCatalogManagementVM\RoomPaymentVM\RoomPaymentVM.cs" />
+    <Compile Include="View\Admin\RoomTypeManagement\EditSurchargeFee.xaml.cs">
+      <DependentUpon>EditSurchargeFee.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Admin\RoomTypeManagement\SurchargeFee.xaml.cs">
+      <DependentUpon>SurchargeFee.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Admin\StaffManagement\InfoStaffWindow.xaml.cs">
       <DependentUpon>InfoStaffWindow.xaml</DependentUpon>
     </Compile>
@@ -732,6 +738,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Admin\ProductManagement\ImportProductWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Admin\RoomTypeManagement\EditSurchargeFee.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Admin\RoomTypeManagement\SurchargeFee.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
