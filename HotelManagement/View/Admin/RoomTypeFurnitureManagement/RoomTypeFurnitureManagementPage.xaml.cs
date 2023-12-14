@@ -24,5 +24,10 @@ namespace HotelManagement.View.Admin.RoomTypeFurnitureManagement
         {
             InitializeComponent();
         }
+
+        private void SearchBox_SearchTextChange(object sender, EventArgs e)
+        {
+
+        }
     }
 }
