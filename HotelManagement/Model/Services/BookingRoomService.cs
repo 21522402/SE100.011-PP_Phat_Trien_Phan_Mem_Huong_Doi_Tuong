@@ -338,6 +338,35 @@ namespace HotelManagement.Model.Services
                 throw e;
             }
         }
+        public async Task<List<RentalContractDetailDTO>> GetCustomersOfRoom(string RentalContractId)
+        {
+            try
+            {
+                using (var context = new HotelManagementEntities())
+                {
+
+                    var listCustomer = await context.RentalContractDetails.Where(x => x.RentalContractId == RentalContractId).Select(x => new RentalContractDetailDTO
+                    {
+                        CustomerName = x.CustomerName,
+                        CCCD = x.CustomerId,
+                        RentalContractId = x.RentalContractId,
+                        RentalContractDetailId = x.RentalContractDetailId,
+                    }).ToListAsync();
+                    for (int i = 0; i < listCustomer.Count; i++)
+                    {
+                        listCustomer[i].STT = i + 1;
+                    }
+
+                    return listCustomer;
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public async Task<List<RentalContractDTO>> GetRentalContractList()
         {
             try
