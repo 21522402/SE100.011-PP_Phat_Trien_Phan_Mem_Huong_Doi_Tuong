@@ -21,8 +21,6 @@ namespace HotelManagement.DTOs
         public string Position { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public byte[] Avatar { get; set; }
-
-        
+        public byte[] Avatar { get; set; }  
     }
 }

@@ -7,6 +7,7 @@ using HotelManagement.View.BookingRoomManagement;
 using HotelManagement.View.CustomMessageBoxWindow;
 using HotelManagement.ViewModel.AdminVM;
 using IronXL.Formatting;
+using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,9 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -471,6 +474,11 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
         {
             return (!string.IsNullOrEmpty(CustomerName) &&
                 !string.IsNullOrEmpty(CCCD));
+        }
+        public bool CheckCCCD(string cccd)
+        {
+            Regex regex = new Regex(@"^\d{12}$");
+            return regex.IsMatch(cccd);
         }
         public async Task UpdateRentalPrice()
         {
