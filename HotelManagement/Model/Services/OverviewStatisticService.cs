@@ -7,9 +7,11 @@ using System.CodeDom;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Xml;
 
 namespace HotelManagement.Model.Services
 {
@@ -440,7 +442,7 @@ namespace HotelManagement.Model.Services
             {
                 using (var context = new HotelManagementEntities())
                 {
-                    var revId = (await context.Revenues.FirstOrDefaultAsync(x => x.Year == year && x.Month == month)).RevenueId;
+                    var revId = (await context.Revenues.FirstOrDefaultAsync(x => x.Year == year && x.Month == month))?.RevenueId ?? -1;
 
                     var list2 = await context.RevenueRoomTypes.Where(r => r.RevenueId == revId)
                         .Select(rt => new RoomTypeDTO
@@ -468,7 +470,7 @@ namespace HotelManagement.Model.Services
                 using (var context = new HotelManagementEntities())
                 {
 
-                    var revId = (await context.Revenues.FirstOrDefaultAsync(x => x.Year == year && x.Month == month)).RevenueId;
+                    var revId = (await context.Revenues.FirstOrDefaultAsync(x => x.Year == year && x.Month == month))?.RevenueId ?? -1;
 
                     var list2 = await context.RevenueProducts.Where(r => r.RevenueId == revId)
                         .Select(rt => new ProductStatisticDTO
@@ -566,6 +568,206 @@ namespace HotelManagement.Model.Services
                 throw ex;
             }
         }
+        public List<string> GetListRoomTypeName()
+        {
+            try
+            {
+                using (var context = new HotelManagementEntities())
+                {
+
+                    var list = context.RoomTypes.Select(x => x.RoomTypeName).ToList();
+                    return list;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public List<string> GetListProductName()
+        {
+            try
+            {
+                using (var context = new HotelManagementEntities())
+                {
+
+                    var list = context.Products.Select(x => x.ProductName).ToList();
+                    return list;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        private int CreateNextRvId(int maxRvId)
+        {
+            return maxRvId + 1;
+        }
+        public async Task<String> StatisticalRevenue()
+        {
+            try
+            {
+                using (var context = new HotelManagementEntities())
+                {
+                    List<String> roomTypeNames = this.GetListRoomTypeName();
+                    List<string> productNames = this.GetListProductName();
+
+                    List<RevenueRoomTypeDTO> revenueRoomTypes = await (
+                                                                from rt in context.RentalContracts
+                                                                where rt.Validated == false
+                                                                select new RevenueRoomTypeDTO
+                                                                {
+                                                                    RentalContractId = rt.RentalContractId,
+                                                                    RoomTypeId = rt.Room.RoomType.RoomTypeId,
+                                                                    RentalPrice = rt.RentalPrice,
+                                                                    EndDate = rt.EndDate,
+                                                                    StartDate = rt.StartDate,
+                                                                    RoomId = rt.RoomId,
+                                                                    RoomType = rt.Room.RoomType.RoomTypeName
+                                                                }).ToListAsync();
+                    
+                    List<RevenueProductDTO> revenueProducts = await (from pu in context.ProductUsings
+                                                                     where pu.RentalContract.Validated == false
+                                                                     select new RevenueProductDTO
+                                                                     {
+                                                                         RentalContractId = pu.RentalContractId,
+                                                                         UnitPrice= pu.UnitPrice,
+                                                                         CreateDate = pu.RentalContract.EndDate,
+                                                                         ProductId = pu.ProductId,
+                                                                         ProductName = pu.Product.ProductName,
+                                                                         Quantity = (int)pu.Quantity
+
+                                                                     }).ToListAsync();
+
+                    var uniqueMonthsAndYears1 = revenueRoomTypes
+                                                        .Where(e => e.EndDate.HasValue)
+                                                        .GroupBy(e => new { e.RoomTypeId, e.EndDate.Value.Month, e.EndDate.Value.Year })
+                                                        .Select(group => new
+                                                        {
+                                                            RoomTypeId = group.Key.RoomTypeId,
+                                                            Month = group.Key.Month,
+                                                            Year = group.Key.Year,
+                                                            TotalMoney = group.Sum(e => e.DayNumber * e.RentalPrice)
+                                                        })
+                                                        .ToList();
+
+                    var uniqueMonthsAndYears2 = revenueProducts
+                                                    .Where(e => e.CreateDate.HasValue)
+                                                    .GroupBy(e => new { e.ProductId, e.CreateDate.Value.Month, e.CreateDate.Value.Year })
+                                                    .Select(group => new
+                                                    {
+                                                        ProductId = group.Key.ProductId,
+                                                        Month = group.Key.Month,
+                                                        Year = group.Key.Year,
+                                                        TotalMoney = group.Sum(e => e.Quantity * e.UnitPrice)
+                                                    }).ToList();
+                    foreach (var item in uniqueMonthsAndYears1)
+                    {
+                        var findRevenue = await context.Revenues.FirstOrDefaultAsync(i =>
+                                                        i.Month == item.Month
+                                                        && i.Year == item.Year);
+                        if (findRevenue == null)
+                        {
+                            Revenue revenue = new Revenue
+                            {
+                                Month = item.Month,
+                                Year =item.Year,
+                            };
+                            context.Revenues.Add(revenue);
+                            context.SaveChanges();
+                            
+                            RevenueRoomType revenueRoomType = new RevenueRoomType
+                            {
+                                RevenueId = revenue.RevenueId,
+                                RoomTypeId = item.RoomTypeId,
+                                Revenue = item.TotalMoney
+                            };
+                            context.RevenueRoomTypes.Add(revenueRoomType);
+
+                            context.SaveChanges();
+                        }
+                        else
+                        {
+                            var findRvRoomType = await context.RevenueRoomTypes.FirstOrDefaultAsync(i => i.RevenueId == findRevenue.RevenueId && i.RoomTypeId == item.RoomTypeId);
+                            if(findRvRoomType == null)
+                            {
+                                RevenueRoomType revenueRoomType = new RevenueRoomType
+                                {
+                                    RevenueId = findRevenue.RevenueId,
+                                    RoomTypeId = item.RoomTypeId,
+                                    Revenue = item.TotalMoney
+                                };
+                                context.RevenueRoomTypes.Add(revenueRoomType);
+
+                                context.SaveChanges();
+                            }
+                            else
+                            {
+                                findRvRoomType.Revenue = item.TotalMoney;
+                                context.SaveChanges();
+                            }
+                        }
+                    }
+
+                    foreach (var item in uniqueMonthsAndYears2)
+                    {
+                        var findRevenue = await context.Revenues.FirstOrDefaultAsync(i =>
+                                                        i.Month == item.Month
+                                                        && i.Year == item.Year);
+                        if (findRevenue == null)
+                        {
+                            Revenue revenue = new Revenue
+                            {
+                                Month = item.Month,
+                                Year = item.Year,
+                            };
+                            context.Revenues.Add(revenue);
+                            context.SaveChanges();
+
+                            RevenueProduct revenueProduct = new RevenueProduct
+                            {
+                                RevenueId = revenue.RevenueId,
+                                ProductId = item.ProductId,
+                                Revenue = item.TotalMoney
+                            };
+                            context.RevenueProducts.Add(revenueProduct);
+
+                            context.SaveChanges();
+                        }
+                        else
+                        {
+                            var findRvProduct = await context.RevenueProducts.FirstOrDefaultAsync(i => i.RevenueId == findRevenue.RevenueId && i.ProductId == item.ProductId);
+                            if (findRvProduct == null)
+                            {
+                                RevenueProduct revenueProduct = new RevenueProduct
+                                {
+                                    RevenueId = findRevenue.RevenueId,
+                                    ProductId = item.ProductId,
+                                    Revenue = item.TotalMoney
+                                };
+                                context.RevenueProducts.Add(revenueProduct);
+
+                                context.SaveChanges();
+                            }
+                            else
+                            {
+                                findRvProduct.Revenue = item.TotalMoney;
+                                context.SaveChanges();
+                            }
+                        }
+                    }
+
+                    await context.SaveChangesAsync();
+                    return "ok";
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        
 
     }
 }

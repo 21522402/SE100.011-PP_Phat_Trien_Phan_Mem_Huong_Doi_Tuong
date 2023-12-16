@@ -58,7 +58,7 @@
                     </ComboBox>
                 </Border>
             </Grid>
-            <Grid Grid.Column="2" Margin="16 0 0 0" VerticalAlignment="Top" Height="38">
+            <Grid Grid.Column="2" Margin="5 0 0 0" VerticalAlignment="Top" Height="38">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -136,19 +136,25 @@
         </Grid>
         <Border Name="fContainer" Grid.Row="1"  Background="White" CornerRadius="0" BorderBrush="#1D242E" BorderThickness="0.5">
             <materialDesign:Card UniformCornerRadius="5" >
-                <ListView FontFamily="{StaticResource MaterialDesignFont}" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" FontSize="14" FontWeight="Regular" ItemsSource="{Binding ImportList}" SelectedItem="{Binding SelectedItem}" x:Name="_ListView">
+                <ListView FontFamily="{StaticResource MaterialDesignFont}" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Hidden" FontSize="14" FontWeight="Regular" 
+                          ItemsSource="{Binding ImportList}" SelectedItem="{Binding SelectedReceiptItem}" x:Name="_ListView">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                                 <Setter Property="Height" Value="40"/>
                             </Style>
                         </ListView.ItemContainerStyle>
-                        <ListView.View>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding LoadImportReceiptCM}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <ListView.View>
                             <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}">
-                                <GridViewColumn Width="120" Header="ID">
+                                <GridViewColumn Width="150"  Header="ID">
                                     <GridViewColumn.CellTemplate >
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding ImportId}"
+                                        <TextBlock Text="{Binding ReceiptIdStr}"
                                                        Margin="0 6 0 0"
                                                        FontSize="14" 
                                                        FontFamily="{StaticResource MaterialDesignFont}"
@@ -157,10 +163,10 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn  Width="260" Header="Tên sản phẩm">
+                                <GridViewColumn  Width="230" Header="Loại phiếu nhập">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding ProductName}"                                                           
+                                        <TextBlock Text="{Binding typeImprtStr}"                                                           
                                                        Margin="0 6 0 0"
                                                        FontSize="14" 
                                                        FontFamily="{StaticResource MaterialDesignFont}"
@@ -169,10 +175,24 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Width="160" Header="Số lượng">
+                               
+                            <GridViewColumn Width="230" Header="Ngày nhập">
+
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding CreateAt,StringFormat=dd/MM/yyyy }" 
+                                                       Margin="0 6 0 0"
+                                                       FontSize="14" 
+                                                       FontFamily="{StaticResource MaterialDesignFont}"
+                                                       HorizontalAlignment="Center"
+                                                       TextAlignment="Center"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="220" Header="Tổng tiền nhập">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding ProductImportQuantity}" 
+                                        <TextBlock Text="{Binding TotalPriceStr}"                                                            
                                                        Margin="0 6 0 0"
                                                        FontSize="14" 
                                                        FontFamily="{StaticResource MaterialDesignFont}"
@@ -181,10 +201,10 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Width="160" Header="Giá nhập">
+                            <GridViewColumn Width="150" Header="Số lượng">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding ProductImportPrice}"                                                            
+                                        <TextBlock Text="{Binding TotalQuality}" 
                                                        Margin="0 6 0 0"
                                                        FontSize="14" 
                                                        FontFamily="{StaticResource MaterialDesignFont}"
@@ -193,7 +213,7 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Width="260" Header="Nhân viên nhập">
+                            <GridViewColumn Width="230" Header="Nhân viên nhập">
                                     
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
@@ -206,19 +226,7 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Width="180" Header="Ngày nhập">
-                                   
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding CreatedDate}" 
-                                                       Margin="0 6 0 0"
-                                                       FontSize="14" 
-                                                       FontFamily="{StaticResource MaterialDesignFont}"
-                                                       HorizontalAlignment="Center"
-                                                       TextAlignment="Center"/>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
+                                
                                 
                             </GridView>
                         </ListView.View>

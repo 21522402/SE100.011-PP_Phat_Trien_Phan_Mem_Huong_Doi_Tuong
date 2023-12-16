@@ -13,6 +13,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ScrollBar;
+using HotelManagement.DTOs;
+using System.Collections.ObjectModel;
 
 namespace HotelManagement.ViewModel.AdminVM.StatisticalManagementVM
 {
@@ -46,10 +48,15 @@ namespace HotelManagement.ViewModel.AdminVM.StatisticalManagementVM
         public ICommand ChangeServiceTypeRevenueCM { get; set; }
         public ICommand ChangeTimeCM { get; set; }
         public ICommand ExportFileCM { get; set; }
+        public ICommand FirstLoadCM { get; set; }
+        
         public StatisticalManagementVM()
         {
             InitCBB();
-
+            FirstLoadCM = new RelayCommand<object>(p => true, async p =>
+            {
+                await OverviewStatisticService.Ins.StatisticalRevenue();
+            });
             LoadViewCM = new RelayCommand<Frame>((p) => { return true; }, (p) =>
             {
                 mainFrame = p;
@@ -76,29 +83,29 @@ namespace HotelManagement.ViewModel.AdminVM.StatisticalManagementVM
             });
 
 
-            //ChangeRoomTypeRevenueCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
-            //{
-            //    await ChangeRoomTypeRevenue();
-            //});
-            //ChangeServiceTypeRevenueCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
-            //{
-            //    await ChangeServiceTypeRevenue();
-            //});
+            ChangeRoomTypeRevenueCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
+            {
+                await ChangeRoomTypeRevenue();
+            });
+            ChangeServiceTypeRevenueCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
+            {
+                await ChangeServiceTypeRevenue();
+            });
             ChangeTimeCM = new RelayCommand<IncomeStatiscalManagement>((p) => { return true; }, async (p) =>
             {
                 isChange = true;
                 await ChangeViewIncome(p);
             });
-            //ExportFileCM = new RelayCommand<IncomeStatiscalManagement>((p) => { return true; }, async (p) =>
-            //{
-            //    IsExport = false;
-            //    await ExportFile();
-            //    if (IsExport)
-            //    {
-            //        CustomMessageBox.ShowOk("Xuất file thành công!", "Thông báo", "Ok", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
-            //        IsExport = false;
-            //    }
-            //});
+            ExportFileCM = new RelayCommand<IncomeStatiscalManagement>((p) => { return true; }, async (p) =>
+            {
+                IsExport = false;
+                await ExportFile();
+                if (IsExport)
+                {
+                    CustomMessageBox.ShowOk("Xuất file thành công!", "Thông báo", "Ok", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
+                    IsExport = false;
+                }
+            });
 
         }
         public void ChangeView(Card p)
