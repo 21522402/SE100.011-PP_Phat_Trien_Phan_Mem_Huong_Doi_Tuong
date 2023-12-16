@@ -436,6 +436,7 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
                     CustomMessageBox.ShowOk("Danh sách khách hàng không được trống!", "Thông báo", "OK", CustomMessageBoxImage.Warning);
                     return;
                 }
+                SelectedItem.RentalPrice = Price;
                 (bool isSucsses, string message) = await BookingRoomService.Ins.UpdateListCustomer(SelectedItem, new List<RentalContractDetailDTO>(ListCustomer));
                 if (isSucsses)
                 {

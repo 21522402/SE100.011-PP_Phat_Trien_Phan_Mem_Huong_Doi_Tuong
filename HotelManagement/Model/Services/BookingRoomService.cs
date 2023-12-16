@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
 using System.Data.Entity;
+using System.Data.Entity.Spatial;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -166,14 +167,19 @@ namespace HotelManagement.Model.Services
                 using (var context = new HotelManagementEntities())
                 {
                     var maxId = await context.RentalContracts.MaxAsync(s => s.RentalContractId);
+               
+
                     string rentalId = CreateNextRentalContractId(maxId);
+                    DateTime now = DateTime.Now;
+                    DateTime start = new DateTime(now.Year, now.Month, now.Day, 12, 0, 0, 0);
+                    DateTime end = new DateTime(rentalContract.EndDate.Year, rentalContract.EndDate.Month, rentalContract.EndDate.Day, 12, 0, 0, 0);
                     RentalContract rc = new RentalContract
                     {
                         RentalContractId = rentalId,
                         RoomId = rentalContract.RoomId,
                         StaffId = rentalContract.StaffId,
-                        StartDate = DateTime.Now,
-                        EndDate = rentalContract.EndDate,
+                        StartDate = start,
+                        EndDate = end,
                         RentalPrice = rentalContract.RentalPrice,
                         Validated = true,
                     };
@@ -210,7 +216,12 @@ namespace HotelManagement.Model.Services
                     string rentalId = rentalContract.RentalContractId;
                     var listDetail = context.RentalContracts.FindAsync(rentalId).Result.RentalContractDetails.ToList();
                     context.RentalContractDetails.RemoveRange(listDetail);
+                    var rentalContractDB = await context.RentalContracts.FindAsync(rentalId);
+                    DateTime end = new DateTime(rentalContract.EndDate.Year, rentalContract.EndDate.Month, rentalContract.EndDate.Day, 12, 0, 0, 0);
+                    rentalContractDB.EndDate = end;
+                    rentalContractDB.RentalPrice = rentalContract.RentalPrice;
                     await context.SaveChangesAsync();
+                    
                     foreach (var item in list)
                     {
                         RentalContractDetail rentalContractDetail = new RentalContractDetail

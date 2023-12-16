@@ -45,6 +45,7 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
                 EndDate = EndDate,
                 StaffId = StaffVM.StaffVM.CurrentStaff.StaffId,
                 Validated = true,
+                RentalPrice = Price,
             };
             (bool isSucsses, string message) = await BookingRoomService.Ins.SaveRental(temp, new List<RentalContractDetailDTO>(ListCustomer));
             if (isSucsses)

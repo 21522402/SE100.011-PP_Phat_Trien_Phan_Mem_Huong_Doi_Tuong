@@ -68,7 +68,7 @@ namespace HotelManagement.DTOs
                 {
                     return "";
                 }
-                TimeSpan leftTime = ((TimeSpan)(EndDate + TimeSpan.FromHours(12) - (DateTime.Today + DateTime.Now.TimeOfDay)));
+                TimeSpan leftTime = ((TimeSpan)(EndDate - (DateTime.Today + DateTime.Now.TimeOfDay)));
                 int days = (int)leftTime.TotalDays;
                 if (days < 1)
                 {
@@ -88,7 +88,7 @@ namespace HotelManagement.DTOs
             get
             {
                 if (StartDate == null) { return null; }
-                TimeSpan leftTime = ((TimeSpan)(EndDate + TimeSpan.FromHours(12) - (DateTime.Today + DateTime.Now.TimeOfDay)));
+                TimeSpan leftTime = ((TimeSpan)(EndDate  - (DateTime.Today + DateTime.Now.TimeOfDay)));
                 int hours = (int)leftTime.TotalHours;
                 if (hours < 12)
                 {
@@ -110,7 +110,7 @@ namespace HotelManagement.DTOs
                 else
                 {
                     res = "#72B6DC";
-                    TimeSpan leftTime = ((TimeSpan)(EndDate + TimeSpan.FromHours(12) - (DateTime.Today + DateTime.Now.TimeOfDay)));
+                    TimeSpan leftTime = ((TimeSpan)(EndDate - (DateTime.Today + DateTime.Now.TimeOfDay)));
                     if (leftTime.TotalMinutes < 1)
                     {
                         res = "#F68A73";
@@ -140,7 +140,7 @@ namespace HotelManagement.DTOs
                 if (StartDate == null) { return 0; }
                 TimeSpan difference = (TimeSpan)(EndDate - StartDate);
                 double totalTime = (double)difference.TotalMinutes;
-                double leftTime = ((TimeSpan)(EndDate + TimeSpan.FromHours(12) - (DateTime.Today + DateTime.Now.TimeOfDay))).TotalMinutes;
+                double leftTime = ((TimeSpan)(EndDate  - (DateTime.Today + DateTime.Now.TimeOfDay))).TotalMinutes;
                 return (1 - leftTime / totalTime) * 180;
             }
         }
