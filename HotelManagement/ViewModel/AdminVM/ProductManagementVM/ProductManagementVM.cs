@@ -305,7 +305,13 @@ namespace HotelManagement.ViewModel.AdminVM.ProductManagementVM
             ChooseProductToListCM = new RelayCommand<object>((p) => { return true; }, (p) =>
             {
                 if (SelectedProduct == null) return;
-                
+
+                if (SelectedProduct.ImportQuantity > 999)
+                {
+                    CustomMessageBox.ShowOk("Vui lòng không nhập số lượng quá 1000", "Thông báo", "Oke", CustomMessageBoxImage.Warning);
+                    return;
+                }
+
                 SelectedProduct.ImportQuantity++;
                 SelectedProduct.RemainQuantity--;
                 if(!OrderProductList.Contains(SelectedProduct))
@@ -319,7 +325,7 @@ namespace HotelManagement.ViewModel.AdminVM.ProductManagementVM
                 ProductDTO pd = SelectedProduct;
                 if(pd.ImportQuantity == 1)
                 {
-                    if (CustomMessageBox.ShowOkCancel("Bạn có muốn xóa sản phẩm khỏi danh sách", "Thông báo", "Oke", "Hủy", CustomMessageBoxImage.Warning) == CustomMessageBoxResult.Cancel) return;
+                    if (CustomMessageBox.ShowOkCancel("Bạn có muốn xóa sản phẩm khỏi danh sách", "Thông báo", "Oke", "Hủy", CustomMessageBoxImage.Warning) != CustomMessageBoxResult.OK) return;
                     pd.ImportQuantity = 0;
                     pd.ImportPrice = 0;
 
@@ -336,6 +342,11 @@ namespace HotelManagement.ViewModel.AdminVM.ProductManagementVM
 
             IncreaseQuantityOrderItem = new RelayCommand<object>((p) => { return true; }, (p) =>
             {
+                if(SelectedProduct.ImportQuantity > 999)
+                {
+                    CustomMessageBox.ShowOk("Vui lòng không nhập số lượng quá 1000", "Thông báo", "Oke", CustomMessageBoxImage.Warning);
+                    return;
+                }
                 SelectedProduct.ImportQuantity++;
                 TotalImportPrice += SelectedProduct.ImportPrice;
                 TotalImportPriceStr = Helper.FormatVNMoney(TotalImportPrice);
@@ -345,7 +356,7 @@ namespace HotelManagement.ViewModel.AdminVM.ProductManagementVM
             {
                 if (SelectedProduct == null) return;
                 ProductDTO pd = SelectedProduct;
-                if (CustomMessageBox.ShowOkCancel("Bạn có muốn xóa sản phẩm khỏi danh sách", "Thông báo", "Oke", "Hủy", CustomMessageBoxImage.Warning) == CustomMessageBoxResult.Cancel) return;
+                if (CustomMessageBox.ShowOkCancel("Bạn có muốn xóa sản phẩm khỏi danh sách", "Thông báo", "Oke", "Hủy", CustomMessageBoxImage.Warning) != CustomMessageBoxResult.OK) return;
                 OrderProductList.Remove(pd);
                 TotalImportPrice -= (pd.ImportPrice * pd.ImportQuantity);
                 pd.ImportQuantity = 0;

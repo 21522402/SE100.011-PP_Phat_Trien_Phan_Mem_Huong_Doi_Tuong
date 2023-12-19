@@ -12,6 +12,7 @@
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
+        Name="RoomTypeFurnitureImportWD"
         MouseDown="RoomTypeFurnitureImportWD_MouseDown"
         WindowStartupLocation="CenterScreen"
         DataContext="{StaticResource RoomTypeFurnitureManagementVM}"

@@ -44,7 +44,13 @@ namespace HotelManagement.Utilities
             //convert the string back to an int here
             try
             {
-                if (value.ToString() == "") return 0;
+                string a = value.ToString();
+                if (a == "") return 0;
+                if(a.Length > 9)
+                {
+                    CustomMessageBox.ShowOk("Giá trị nhập của bạn vượt quá lớn", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                    return double.Parse(value.ToString().Substring(0, a.Length - 1));
+                }
                 return double.Parse(value.ToString());
             }
             catch (Exception e)

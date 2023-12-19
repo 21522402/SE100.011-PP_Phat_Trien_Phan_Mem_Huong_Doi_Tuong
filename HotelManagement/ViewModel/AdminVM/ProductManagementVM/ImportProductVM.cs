@@ -60,6 +60,8 @@ namespace HotelManagement.ViewModel.AdminVM.ProductManagementVM
                     return;
                 }
 
+                
+
                 int quantity;
                 double price;
                 bool isIntQuantity = Int32.TryParse(ImportQuantity, out quantity);
@@ -132,18 +134,19 @@ namespace HotelManagement.ViewModel.AdminVM.ProductManagementVM
                 CustomMessageBox.ShowOk(messageReturn, "Thành công", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
                 for (int i = 0; i < listReturned.Count; i++)
                     LoadProductListView(Operation.UPDATE_PROD_QUANTITY, listReturned[i]);
+                ImportListProductWindow ipWD = System.Windows.Application.Current.Windows.OfType<ImportListProductWindow>().FirstOrDefault();
+                OrderProductList.Clear();
+                TotalImportPrice = 0;
+                TotalImportPriceStr = "";
+                wd.Close();
+                ipWD.Close();
+                mainWD.MaskOverSideBar.Visibility = Visibility.Collapsed;
             }
             else
             {
                 CustomMessageBox.ShowOk(messageReturn, "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
             }
-            ImportListProductWindow ipWD = System.Windows.Application.Current.Windows.OfType<ImportListProductWindow>().FirstOrDefault();
-            OrderProductList.Clear();
-            TotalImportPrice = 0;
-            TotalImportPriceStr = "";
-            wd.Close();
-            ipWD.Close();
-            mainWD.MaskOverSideBar.Visibility = Visibility.Collapsed;
+            
         }
     }
 }
