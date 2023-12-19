@@ -407,8 +407,6 @@ namespace HotelManagement.ViewModel.AdminVM.FurnitureManagementVM
 
             ClosePreviewImportListCM = new RelayCommand<Window>((p) => { return true; }, (p) =>
             {
-                TotalImportPrice = 0;
-                TotalImportPriceStr = "";
                 p.Close();
                 ImportListFurnitureWindow ipWD = System.Windows.Application.Current.Windows.OfType<ImportListFurnitureWindow>().FirstOrDefault();
                 ipWD.Mask.Visibility = Visibility.Collapsed;

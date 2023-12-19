@@ -88,7 +88,7 @@ namespace HotelManagement.Model.Services
             {
                 using (HotelManagementEntities db = new HotelManagementEntities())
                 {
-                    Furniture CheckFurnitureName = await db.Furnitures.FirstOrDefaultAsync(item => item.FurnitureName.Equals(furnitureSelected.FurnitureName) && item.FurnitureId != furnitureSelected.FurnitureID);
+                    Furniture CheckFurnitureName = await db.Furnitures.FirstOrDefaultAsync(item => item.FurnitureName.Equals(furnitureSelected.FurnitureName) && item.FurnitureType.Equals(furnitureSelected.FurnitureType) && item.FurnitureId != furnitureSelected.FurnitureID);
                     if (CheckFurnitureName != null)
                         return (false, "Đã có tiện nghi trong cơ sở  dữ liệu");
 
@@ -121,7 +121,7 @@ namespace HotelManagement.Model.Services
             {
                 using (HotelManagementEntities db = new HotelManagementEntities())
                 {
-                    Furniture furniture = await db.Furnitures.FirstOrDefaultAsync(item => item.FurnitureName == furnitureSelected.FurnitureName);
+                    Furniture furniture = await db.Furnitures.FirstOrDefaultAsync(item => item.FurnitureName == furnitureSelected.FurnitureName && item.FurnitureType == furnitureSelected.FurnitureType);
 
                     if (furniture != null)
                     {
@@ -293,6 +293,7 @@ namespace HotelManagement.Model.Services
                         {
                             FurnitureReceiptDetailId = nextFurnitureReceiptDetailId,
                             FurnitureReceiptId = nextFurnitureReceiptId,
+                            FurnitureId = Furniture.FurnitureId,
                             ImportPrice = temp.ImportPrice,
                             Quantity = temp.ImportQuantity,
                         };

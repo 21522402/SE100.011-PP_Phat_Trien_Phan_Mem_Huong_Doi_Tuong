@@ -73,10 +73,10 @@ namespace HotelManagement.Model.Services
             {
                 using (HotelManagementEntities db = new HotelManagementEntities())
                 {
-
-                    Product CheckProductName = await db.Products.FirstOrDefaultAsync(item => item.ProductName.Equals(productSelected.ProductName) && item.ProductId != productSelected.ProductId);
+                    Product CheckProductName = await db.Products.FirstAsync(item => item.ProductName == productSelected.ProductName && item.ProductType == productSelected.ProductType && item.ProductId != productSelected.ProductId);
                     if (CheckProductName != null)
                         return (false, "Đã có sản phẩm trong cơ sở  dữ liệu");
+
 
                     Product product = await db.Products.FirstOrDefaultAsync(item => item.ProductId == productSelected.ProductId);
                     if (product == null)
@@ -277,7 +277,7 @@ namespace HotelManagement.Model.Services
                         {
                             ProductReceiptDetailId = nextProductReceiptDetailId,
                             ProductReceiptId = nextProductReceiptId,
-                            ProductId = temp.ProductId,
+                            ProductId = Product.ProductId,
                             ImportPrice = temp.ImportPrice,
                             Quantity = temp.ImportQuantity,
                         };
