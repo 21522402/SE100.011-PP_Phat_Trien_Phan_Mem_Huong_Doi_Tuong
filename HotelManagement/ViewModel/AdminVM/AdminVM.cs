@@ -83,7 +83,7 @@ namespace HotelManagement.ViewModel.AdminVM
         public ICommand FirstLoadCM { get; set; }
         private void Furniture(object obj) => CurrentView = new FurnitureManagementVM.FurnitureManagementVM();
         private void Service(object obj) => CurrentView = new ProductManagementVM.ProductManagementVM();
-        private void RoomTypeFurniture(object obj) => CurrentView = new RoomTypeManagementVM.RoomTypeManagementVM();
+        private void RoomTypeFurniture(object obj) => CurrentView = new RoomTypeFurnitureManagementVM.RoomTypeFurnitureManagementVM();
         private void Setting(object obj) => CurrentView = new SettingVM.SettingVM();
         private void BookingRoom(object obj) => CurrentView = new BookingRoomManagementVM.BookingRoomManagementVM();
         private void Room(object obj) => CurrentView = new RoomManagementVM.RoomManagementVM();
