@@ -154,8 +154,10 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
                 }
                 else
                 {
-                    if (CheckExistedRoomTypeName(RoomTypeName, RoomTypeID))
+                    
+                    if (CheckExistedRoomTypeName(RoomTypeName,"add",""))
                     {
+                        
                         CustomMessageBox.ShowOk("Tên loại phòng đã tồn tại. Vui lòng nhập tên loại phòng khác !!!", "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
                         return;
                     }
@@ -213,7 +215,7 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
                 }
                 else
                 {
-                    if (CheckExistedRoomTypeName(RoomTypeName, RoomTypeID))
+                    if (CheckExistedRoomTypeName(RoomTypeName,"edit",RoomTypeID))
                     {
                         CustomMessageBox.ShowOk("Tên loại phòng đã tồn tại. Vui lòng nhập tên loại phòng khác !!!", "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
                         return;
@@ -379,17 +381,32 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
             MaxNumberGuest = 1;
             NumberGuestForUnitPrice = 1;
         }
-        public bool CheckExistedRoomTypeName(string rt_name, string id)
+        public bool CheckExistedRoomTypeName(string rt_name, string type, string id)
         {
             try
             {
                 using (var context = new HotelManagementEntities())
-                {
-                    RoomType rt = context.RoomTypes.Where((RoomType RoomType) => RoomType.RoomTypeId != id && RoomType.RoomTypeName == rt_name).FirstOrDefault();
-                    if (rt != null)
+                {   
+                    if (type=="add")
                     {
-                        return true;
+                        //RoomType rt = context.RoomTypes.Where((RoomType RoomType) => RoomType.RoomTypeName == rt_name).FirstOrDefault();
+                        var rt = context.RoomTypes.FirstOrDefault(x => x.RoomTypeName == rt_name);
+                        if (rt != null)
+                        {
+                            return true;
+                        }
+                        else return false;
                     }
+                    else
+                    {
+                        RoomType rt = context.RoomTypes.Where((RoomType RoomType) => RoomType.RoomTypeId != id && RoomType.RoomTypeName == rt_name).FirstOrDefault();
+                        if (rt != null)
+                        {
+                            return true;
+                        }
+                        else return false;
+                    }
+                    
                 }
             }
             catch (DbEntityValidationException e)
