@@ -277,6 +277,7 @@ namespace HotelManagement.Model.Services
                         {
                             ProductReceiptDetailId = nextProductReceiptDetailId,
                             ProductReceiptId = nextProductReceiptId,
+                            ProductId = temp.ProductId,
                             ImportPrice = temp.ImportPrice,
                             Quantity = temp.ImportQuantity,
                         };
@@ -331,34 +332,37 @@ namespace HotelManagement.Model.Services
             while (numStr.Length < 3) numStr = "0" + numStr;
             return "GC" + numStr;
         }
-        public async Task<List<ImportProductDTO>> GetListImportProduct()
+        public async Task<List<ImportReceiptDTO>> GetListImportReceipt()
         {
             try
             {
                 using (HotelManagementEntities db = new HotelManagementEntities())
                 {
-                    List<ImportProductDTO> ImportProduct = await (
-                                                            from g in db.ProductReceiptDetails
-                                                            join s in db.Products
-                                                            on g.ProductId equals s.ProductId into gs
-                                                            from s in gs.DefaultIfEmpty()
-                                                            join st in db.Staffs
-                                                            on g.ProductReceipt.StaffId equals st.StaffId into gst
-                                                            from st in gst.DefaultIfEmpty()
-                                                            orderby g.ProductReceipt.CreateAt descending
-                                                            select new ImportProductDTO
+                    List<ImportReceiptDTO> ImportReceipt = await (
+                                                          from r in db.ProductReceipts
+                                                          orderby r.CreateAt descending
+                                                          select new ImportReceiptDTO
                                                             {
-                                                                ImportId = g.ProductReceiptId,
-                                                                ProductName = s.ProductName,
-                                                                ProductImportQuantity = (int)g.Quantity,
-                                                                ProductImportPrice = (float)g.ImportPrice,
-                                                                StaffName = st.StaffName,
-                                                                CreatedDate = (DateTime)g.ProductReceipt.CreateAt,
-                                                                typeimport = 0
+                                                                ReceiptId = r.ProductReceiptId,
+                                                                StaffId = r.StaffId,
+                                                                StaffName = r.Staff.StaffName,
+                                                                TotalPrice = r.Price,
+                                                                TotalQuality = r.ProductReceiptDetails.Sum(dt=> dt.Quantity),
+                                                                Details = r.ProductReceiptDetails.Select(dt=>new ImportReceiptDetailDTO
+                                                                {
+                                                                    ImportReceiptDetailId = dt.ProductReceiptDetailId,
+                                                                    ImportReceiptId = dt.ProductReceiptId,
+                                                                    ProductId = dt.ProductId,
+                                                                    ProductName = dt.Product.ProductName,
+                                                                    ImportPrice = dt.ImportPrice,
+                                                                    Quantity = dt.Quantity 
+                                                                }).ToList(),
+                                                                CreateAt = (DateTime)r.CreateAt,
+                                                                typeImport = 0
 
                                                             }
                                                             ).ToListAsync();
-                    return ImportProduct;
+                    return ImportReceipt;
                 }
             }
             catch (Exception e)
@@ -366,34 +370,74 @@ namespace HotelManagement.Model.Services
                 throw e;
             }
         }
-        public async Task<List<ImportProductDTO>> GetListImportProduct(int month)
+        public async Task<List<ImportReceiptDTO>> GetListImportReceipt(int month)
         {
             try
             {
                 using (HotelManagementEntities db = new HotelManagementEntities())
                 {
-                    List<ImportProductDTO> ImportProduct = await (
-                                                            from g in db.ProductReceiptDetails
-                                                            join s in db.Products
-                                                            on g.ProductId equals s.ProductId into gs
-                                                            from s in gs.DefaultIfEmpty()
-                                                            join st in db.Staffs
-                                                            on g.ProductReceipt.StaffId equals st.StaffId into gst
-                                                            from st in gst.DefaultIfEmpty()
-                                                            where ((DateTime)g.ProductReceipt.CreateAt).Year == DateTime.Today.Year && ((DateTime)g.ProductReceipt.CreateAt).Month == month
-                                                            orderby g.ProductReceipt.CreateAt descending
-                                                            select new ImportProductDTO
-                                                            {
-                                                                ImportId = g.ProductReceiptId,
-                                                                ProductName = s.ProductName,
-                                                                ProductImportQuantity = (int)g.Quantity,
-                                                                ProductImportPrice = (float)g.ImportPrice,
-                                                                StaffName = st.StaffName,
-                                                                CreatedDate = (DateTime)g.ProductReceipt.CreateAt,
-                                                                typeimport = 0
-                                                            }
+                    List<ImportReceiptDTO> ImportReceipt = await (
+                                                          from r in db.ProductReceipts
+                                                          where ((DateTime)r.CreateAt).Year == DateTime.Today.Year && ((DateTime)r.CreateAt).Month == month
+                                                          orderby r.CreateAt descending
+                                                          select new ImportReceiptDTO
+                                                          {
+                                                              ReceiptId = r.ProductReceiptId,
+                                                              StaffId = r.StaffId,
+                                                              StaffName = r.Staff.StaffName,
+                                                              TotalPrice = r.Price,
+                                                              TotalQuality = r.ProductReceiptDetails.Sum(dt => dt.Quantity),
+                                                              Details = r.ProductReceiptDetails.Select(dt => new ImportReceiptDetailDTO
+                                                              {
+                                                                  ImportReceiptDetailId = dt.ProductReceiptDetailId,
+                                                                  ImportReceiptId = dt.ProductReceiptId,
+                                                                  ProductId = dt.ProductId,
+                                                                  ProductName = dt.Product.ProductName,
+                                                                  ImportPrice = dt.ImportPrice,
+                                                                  Quantity = dt.Quantity
+                                                              }).ToList(),
+                                                              CreateAt = (DateTime)r.CreateAt,
+                                                              typeImport = 0
+
+                                                          }
                                                             ).ToListAsync();
-                    return ImportProduct;
+                    return ImportReceipt;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        public async Task<ImportReceiptDTO> GetImportReceiptDetail(string id)
+        {
+            try
+            {
+                using (HotelManagementEntities db = new HotelManagementEntities())
+                {
+                    ImportReceiptDTO ImportFuniture = await (
+                                                          from r in db.ProductReceipts
+                                                          where r.ProductReceiptId == id
+                                                          select new ImportReceiptDTO
+                                                          {
+                                                              ReceiptId = r.ProductReceiptId,
+                                                              StaffId = r.StaffId,
+                                                              StaffName = r.Staff.StaffName,
+                                                              TotalPrice = r.Price,
+                                                              TotalQuality = r.ProductReceiptDetails.Sum(dt => dt.Quantity),
+                                                              Details = r.ProductReceiptDetails.Select(dt => new ImportReceiptDetailDTO
+                                                              {
+                                                                  ImportReceiptDetailId = dt.ProductReceiptDetailId,
+                                                                  ImportReceiptId = dt.ProductReceiptId,
+                                                                  ProductId = dt.ProductId,
+                                                                  ProductName = dt.Product.ProductName,
+                                                                  ImportPrice = dt.ImportPrice,
+                                                                  Quantity = dt.Quantity
+                                                              }).ToList(),
+                                                              CreateAt = (DateTime)r.CreateAt,
+                                                              typeImport = 0
+                                                          }).FirstAsync();
+                    return ImportFuniture;
                 }
             }
             catch (Exception e)
@@ -442,6 +486,7 @@ namespace HotelManagement.Model.Services
 
             return id.ToString();
         }
+    
     }
 
 }

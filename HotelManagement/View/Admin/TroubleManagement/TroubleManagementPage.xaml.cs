@@ -26,18 +26,18 @@ namespace HotelManagement.View.Admin.TroubleManagement
             InitializeComponent();
         }
 
-        //private bool Filter(object item)
-        //{
-        //    if (String.IsNullOrEmpty(FilterBox.Text)) return true;
+        private bool Filter(object item)
+        {
+            if (String.IsNullOrEmpty(FilterBox.Text)) return true;
 
-        //    return ((item as TroubleDTO).Title.IndexOf(FilterBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
+            return ((item as TroubleDTO).Title.IndexOf(FilterBox.Text, StringComparison.OrdinalIgnoreCase) >= 0);
 
-        //}
-        //private void filterbox_textchange(object sender, EventArgs e)
-        //{
-        //    CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(_ListView.ItemsSource);
-        //    view.Filter = Filter;
-        //    CollectionViewSource.GetDefaultView(_ListView.ItemsSource).Refresh();
-        //}
+        }
+        private void filterbox_textchange(object sender, EventArgs e)
+        {
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(_ListView.ItemsSource);
+            view.Filter = Filter;
+            CollectionViewSource.GetDefaultView(_ListView.ItemsSource).Refresh();
+        }
     }
 }

@@ -43,6 +43,7 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
                 CreateDate = CreateDate,
                 RoomId = SelectedRoom.RoomId,
                 EndDate = EndDate,
+                RentalPrice = Price,
                 StaffId = StaffVM.StaffVM.CurrentStaff.StaffId,
                 Validated = true,
                 RentalPrice = Price,

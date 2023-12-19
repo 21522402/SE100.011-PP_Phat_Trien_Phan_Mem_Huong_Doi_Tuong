@@ -23,8 +23,8 @@ namespace HotelManagement.ViewModel.AdminVM.HistoryManagementVM
     public class HistoryManagementVM : BaseVM
     {
         private int SelectedView = 0;
-        private ObservableCollection<ImportProductDTO> importList;
-        public ObservableCollection<ImportProductDTO> ImportList
+        private ObservableCollection<ImportReceiptDTO> importList;
+        public ObservableCollection<ImportReceiptDTO> ImportList
         {
             get { return importList; }
             set { importList = value; OnPropertyChanged(); }
@@ -85,6 +85,18 @@ namespace HotelManagement.ViewModel.AdminVM.HistoryManagementVM
             get { return _billDetail; }
             set { _billDetail = value; OnPropertyChanged(); }
         }
+        private ImportReceiptDTO _selectedReceiptItem;
+        public ImportReceiptDTO SelectedReceiptItem
+        {
+            get { return _selectedReceiptItem; }
+            set { _selectedReceiptItem = value; OnPropertyChanged(); }
+        }
+        private ImportReceiptDTO _receiptDetail;
+        public ImportReceiptDTO ReceiptDetail
+        {
+            get { return _receiptDetail; }
+            set { _receiptDetail = value; OnPropertyChanged(); }
+        }
         private ObservableCollection<ProductUsingDTO> _ListServicePayment;
         public ObservableCollection<ProductUsingDTO> ListServicePayment
         {
@@ -101,20 +113,22 @@ namespace HotelManagement.ViewModel.AdminVM.HistoryManagementVM
         public ICommand SelectedMonthCM { get; set; }
         public ICommand SelectedDateExportListCM { get; set; }
         public ICommand LoadInforBillCM { get; set; }
+        public ICommand LoadImportReceiptCM { get; set; }
         public ICommand FirstLoadRoomBillCM { get; set; }
+        public ICommand FirstLoadReceiptCM { get; set; }
         public HistoryManagementVM()
         {
             GetCurrentDate = DateTime.Today;
             SelectedDate = GetCurrentDate;
             SelectedMonthExportItem = DateTime.Now.Month - 1;
             SelectedMonthImportItem = DateTime.Now.Month - 1;
-            //LoadImportPageCM = new RelayCommand<Frame>((p) => { return true; }, async (p) =>
-            //{
-            //    SelectedView = 0;
-            //    await GetImportListSource();
-            //    ImportManagementPage page = new ImportManagementPage();
-            //    p.Content = page;
-            //});
+            LoadImportPageCM = new RelayCommand<Frame>((p) => { return true; }, async (p) =>
+            {
+                SelectedView = 0;
+                await GetImportListSource();
+                ImportManagementPage page = new ImportManagementPage();
+                p.Content = page;
+            });
             LoadExportPageCM = new RelayCommand<Frame>((p) => { return true; }, async (p) =>
             {
                 SelectedView = 1;
@@ -123,26 +137,26 @@ namespace HotelManagement.ViewModel.AdminVM.HistoryManagementVM
                 ExportManagementPage page = new ExportManagementPage();
                 p.Content = page;
             });
-            //CheckImportItemFilterCM = new RelayCommand<System.Windows.Controls.ComboBox>((p) => { return true; }, async (p) =>
-            //{
-            //    switch (SelectedFilterImportItem.Tag.ToString())
-            //    {
-            //        case "Toàn bộ":
-            //            {
-            //                await GetImportListSource("");
-            //                return;
-            //            }
-            //        case "Theo tháng":
-            //            {
-            //                await GetImportListSource("month");
-            //                return;
-            //            }
-            //    }
-            //});
-            //SelectedImportMonthCM = new RelayCommand<System.Windows.Controls.ComboBox>((p) => { return true; }, async (p) =>
-            //{
-            //    await GetListImportByMonth();
-            //});
+            CheckImportItemFilterCM = new RelayCommand<System.Windows.Controls.ComboBox>((p) => { return true; }, async (p) =>
+            {
+                switch (SelectedFilterImportItem.Tag.ToString())
+                {
+                    case "Toàn bộ":
+                        {
+                            await GetImportListSource("");
+                            return;
+                        }
+                    case "Theo tháng":
+                        {
+                            await GetImportListSource("month");
+                            return;
+                        }
+                }
+            });
+            SelectedImportMonthCM = new RelayCommand<System.Windows.Controls.ComboBox>((p) => { return true; }, async (p) =>
+            {
+                await GetListImportByMonth();
+            });
             ExportFileCM = new RelayCommand<Search>((p) => { return true; }, (p) =>
             {
                 ExportToFileFunc(p.Text);
@@ -151,67 +165,67 @@ namespace HotelManagement.ViewModel.AdminVM.HistoryManagementVM
             {
                 await GetExportListSource("date");
             });
-            //FilterListImportCM = new RelayCommand<ComboBox>(p => true, async p =>
-            //{
-            //    switch (SelectedFilterImportItem.Tag.ToString())
-            //    {
-            //        case "Toàn bộ":
-            //            {
-            //                ObservableCollection<ImportProductDTO> iplist = new ObservableCollection<ImportProductDTO>();
-            //                ObservableCollection<ImportProductDTO> importserviceList = new ObservableCollection<ImportProductDTO>(await ServiceHelper.Ins.GetListImportService());
-            //                ObservableCollection<ImportProductDTO> importFunitureList = new ObservableCollection<ImportProductDTO>(await FurnitureService.Ins.GetListImportFuniture());
-            //                foreach (var item in importserviceList)
-            //                {
-            //                    iplist.Add(item);
-            //                }
-            //                foreach (var item in importFunitureList)
-            //                {
-            //                    iplist.Add(item);
-            //                }
-            //                if (FilterImportList == 0)
-            //                {
-            //                    ImportList = new ObservableCollection<ImportProductDTO>(iplist);
-            //                }
-            //                if (FilterImportList == 1)
-            //                {
-            //                    ImportList = new ObservableCollection<ImportProductDTO>(iplist.Where(ip => ip.typeimport == 0));
-            //                }
-            //                if (FilterImportList == 2)
-            //                {
-            //                    ImportList = new ObservableCollection<ImportProductDTO>(iplist.Where(ip => ip.typeimport == 1));
-            //                }
-            //                return;
-            //            }
-            //        case "Theo tháng":
-            //            {
-            //                ObservableCollection<ImportProductDTO> iplist = new ObservableCollection<ImportProductDTO>();
+            FilterListImportCM = new RelayCommand<ComboBox>(p => true, async p =>
+            {
+                switch (SelectedFilterImportItem.Tag.ToString())
+                {
+                    case "Toàn bộ":
+                        {
+                            ObservableCollection<ImportReceiptDTO> iplist = new ObservableCollection<ImportReceiptDTO>();
+                            ObservableCollection<ImportReceiptDTO> importserviceList = new ObservableCollection<ImportReceiptDTO>(await ProductService.Ins.GetListImportReceipt());
+                            ObservableCollection<ImportReceiptDTO> importFunitureList = new ObservableCollection<ImportReceiptDTO>(await FurnitureService.Ins.GetListImportFunitureReceipt());
+                            foreach (var item in importserviceList)
+                            {
+                                iplist.Add(item);
+                            }
+                            foreach (var item in importFunitureList)
+                            {
+                                iplist.Add(item);
+                            }
+                            if (FilterImportList == 0)
+                            {
+                                ImportList = new ObservableCollection<ImportReceiptDTO>(iplist);
+                            }
+                            if (FilterImportList == 1)
+                            {
+                                ImportList = new ObservableCollection<ImportReceiptDTO>(iplist.Where(ip => ip.typeImport == 0));
+                            }
+                            if (FilterImportList == 2)
+                            {
+                                ImportList = new ObservableCollection<ImportReceiptDTO>(iplist.Where(ip => ip.typeImport == 1));
+                            }
+                            return;
+                        }
+                    case "Theo tháng":
+                        {
+                            ObservableCollection<ImportReceiptDTO> iplist = new ObservableCollection<ImportReceiptDTO>();
 
-            //                ObservableCollection<ImportProductDTO> importserviceList = new ObservableCollection<ImportProductDTO>(await ServiceHelper.Ins.GetListImportService(SelectedMonthImportItem + 1));
-            //                ObservableCollection<ImportProductDTO> importFunitureList = new ObservableCollection<ImportProductDTO>(await FurnitureService.Ins.GetListImportFuniture(SelectedMonthImportItem + 1));
-            //                foreach (var item in importserviceList)
-            //                {
-            //                    iplist.Add(item);
-            //                }
-            //                foreach (var item in importFunitureList)
-            //                {
-            //                    iplist.Add(item);
-            //                }
-            //                if (FilterImportList == 0)
-            //                {
-            //                    ImportList = new ObservableCollection<ImportProductDTO>(iplist);
-            //                }
-            //                if (FilterImportList == 1)
-            //                {
-            //                    ImportList = new ObservableCollection<ImportProductDTO>(iplist.Where(ip => ip.typeimport == 0));
-            //                }
-            //                if (FilterImportList == 2)
-            //                {
-            //                    ImportList = new ObservableCollection<ImportProductDTO>(iplist.Where(ip => ip.typeimport == 1));
-            //                }
-            //                return;
-            //            }
-            //    }
-            //});
+                            ObservableCollection<ImportReceiptDTO> importserviceList = new ObservableCollection<ImportReceiptDTO>(await ProductService.Ins.GetListImportReceipt(SelectedMonthImportItem + 1));
+                            ObservableCollection<ImportReceiptDTO> importFunitureList = new ObservableCollection<ImportReceiptDTO>(await FurnitureService.Ins.GetListImportFunitureReceipt(SelectedMonthImportItem + 1));
+                            foreach (var item in importserviceList)
+                            {
+                                iplist.Add(item);
+                            }
+                            foreach (var item in importFunitureList)
+                            {
+                                iplist.Add(item);
+                            }
+                            if (FilterImportList == 0)
+                            {
+                                ImportList = new ObservableCollection<ImportReceiptDTO>(iplist);
+                            }
+                            if (FilterImportList == 1)
+                            {
+                                ImportList = new ObservableCollection<ImportReceiptDTO>(iplist.Where(ip => ip.typeImport == 0));
+                            }
+                            if (FilterImportList == 2)
+                            {
+                                ImportList = new ObservableCollection<ImportReceiptDTO>(iplist.Where(ip => ip.typeImport == 1));
+                            }
+                            return;
+                        }
+                }
+            });
             CheckItemFilterCM = new RelayCommand<System.Windows.Controls.ComboBox>((p) => { return true; }, async (p) =>
             {
                 switch (FilterExportList.Tag.ToString())
@@ -258,6 +272,35 @@ namespace HotelManagement.ViewModel.AdminVM.HistoryManagementVM
                 }
 
             });
+            LoadImportReceiptCM = new RelayCommand<object>(p => true, async p =>
+            {
+                if (SelectedReceiptItem != null)
+                {
+                    try
+                    {
+                        if(SelectedReceiptItem.typeImport == 0)
+                        {
+                            ReceiptDetail = await Task.Run(() => ProductService.Ins.GetImportReceiptDetail(SelectedReceiptItem.ReceiptId));
+                        }
+                        if (SelectedReceiptItem.typeImport == 1)
+                        {
+                            ReceiptDetail = await Task.Run(() => FurnitureService.Ins.GetImportReceiptDetail(SelectedReceiptItem.ReceiptId));
+                        }
+                       
+                    }
+                    catch (System.Data.Entity.Core.EntityException e)
+                    {
+                        CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", CustomMessageBoxImage.Error);
+                    }
+                    catch (Exception e)
+                    {
+                        CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", CustomMessageBoxImage.Error);
+                    }
+                    ReceiptDetail b = new ReceiptDetail();
+                    b.ShowDialog();
+                }
+
+            });
             FirstLoadRoomBillCM = new RelayCommand<Window>(p => true, async p =>
             {
                 ListServicePayment = new ObservableCollection<ProductUsingDTO>(BillDetail.ListListProductPayment);
@@ -268,36 +311,40 @@ namespace HotelManagement.ViewModel.AdminVM.HistoryManagementVM
                     Quantity = BillDetail.DayNumber,
                 });
             });
+            FirstLoadReceiptCM = new RelayCommand<Window>(p => true, async p =>
+            {
+               
+            });
         }
 
-        //private async Task GetListImportByMonth()
-        //{
-        //    ImportList = new ObservableCollection<ImportProductDTO>();
-        //    try
-        //    {
-        //        ObservableCollection<ImportProductDTO> importserviceList = new ObservableCollection<ImportProductDTO>(await ServiceHelper.Ins.GetListImportService(SelectedMonthImportItem + 1));
-        //        ObservableCollection<ImportProductDTO> importFunitureList = new ObservableCollection<ImportProductDTO>(await FurnitureService.Ins.GetListImportFuniture(SelectedMonthImportItem + 1));
-        //        foreach (var item in importserviceList)
-        //        {
-        //            ImportList.Add(item);
-        //        }
-        //        foreach (var item in importFunitureList)
-        //        {
-        //            ImportList.Add(item);
-        //        }
-        //        return;
-        //    }
-        //    catch (System.Data.Entity.Core.EntityException e)
-        //    {
-        //        CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", CustomMessageBoxImage.Error);
-        //        throw;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", CustomMessageBoxImage.Error);
-        //        throw;
-        //    }
-        //}
+        private async Task GetListImportByMonth()
+        {
+            ImportList = new ObservableCollection<ImportReceiptDTO>();
+            try
+            {
+                ObservableCollection<ImportReceiptDTO> importserviceList = new ObservableCollection<ImportReceiptDTO>(await ProductService.Ins.GetListImportReceipt(SelectedMonthImportItem + 1));
+                ObservableCollection<ImportReceiptDTO> importFunitureList = new ObservableCollection<ImportReceiptDTO>(await FurnitureService.Ins.GetListImportFunitureReceipt(SelectedMonthImportItem + 1));
+                foreach (var item in importserviceList)
+                {
+                    ImportList.Add(item);
+                }
+                foreach (var item in importFunitureList)
+                {
+                    ImportList.Add(item);
+                }
+                return;
+            }
+            catch (System.Data.Entity.Core.EntityException e)
+            {
+                CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", CustomMessageBoxImage.Error);
+                throw;
+            }
+            catch (Exception e)
+            {
+                CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", CustomMessageBoxImage.Error);
+                throw;
+            }
+        }
 
         private async Task GetExportListSource(string v)
         {
@@ -370,95 +417,95 @@ namespace HotelManagement.ViewModel.AdminVM.HistoryManagementVM
         }
 
 
-        //private async Task GetImportListSource(string v = "")
-        //{
-        //    ImportList = new ObservableCollection<ImportProductDTO>();
-        //    switch (v)
-        //    {
-        //        case "":
-        //            {
-        //                try
-        //                {
-        //                    ObservableCollection<ImportProductDTO> importserviceList = new ObservableCollection<ImportProductDTO>(await ServiceHelper.Ins.GetListImportService());
-        //                    ObservableCollection<ImportProductDTO> importFunitureList = new ObservableCollection<ImportProductDTO>(await FurnitureService.Ins.GetListImportFuniture());
-        //                    foreach (var item in importserviceList)
-        //                    {
-        //                        ImportList.Add(item);
-        //                    }
-        //                    foreach (var item in importFunitureList)
-        //                    {
-        //                        ImportList.Add(item);
-        //                    }
-        //                    return;
-        //                }
-        //                catch (System.Data.Entity.Core.EntityException e)
-        //                {
-        //                    CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", CustomMessageBoxImage.Error);
-        //                    throw;
-        //                }
-        //                catch (Exception e)
-        //                {
-        //                    CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", CustomMessageBoxImage.Error);
-        //                    throw;
-        //                }
+        private async Task GetImportListSource(string v = "")
+        {
+            ImportList = new ObservableCollection<ImportReceiptDTO>();
+            switch (v)
+            {
+                case "":
+                    {
+                        try
+                        {
+                            ObservableCollection<ImportReceiptDTO> importserviceList = new ObservableCollection<ImportReceiptDTO>(await ProductService.Ins.GetListImportReceipt());
+                            ObservableCollection<ImportReceiptDTO> importFunitureList = new ObservableCollection<ImportReceiptDTO>(await FurnitureService.Ins.GetListImportFunitureReceipt());
+                            foreach (var item in importserviceList)
+                            {
+                                ImportList.Add(item);
+                            }
+                            foreach (var item in importFunitureList)
+                            {
+                                ImportList.Add(item);
+                            }
+                            return;
+                        }
+                        catch (System.Data.Entity.Core.EntityException e)
+                        {
+                            CustomMessageBox.ShowOk("Mất kết nối cơ sở dữ liệu", "Lỗi", "OK", CustomMessageBoxImage.Error);
+                            throw;
+                        }
+                        catch (Exception e)
+                        {
+                            CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", CustomMessageBoxImage.Error);
+                            throw;
+                        }
 
-        //            }
-        //        case "month":
-        //            {
-        //                await GetListImportByMonth();
-        //                return;
-        //            }
-        //    }
-        //}
+                    }
+                case "month":
+                    {
+                        await GetListImportByMonth();
+                        return;
+                    }
+            }
+        }
         public void ExportToFileFunc(string search)
         {
             switch (SelectedView)
             {
                 case 0:
                     {
-                        //using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "Excel Workbook|*.xlsx", ValidateNames = true })
-                        //{
-                        //    if (sfd.ShowDialog() == DialogResult.OK)
-                        //    {
-                        //        Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
-                        //        Microsoft.Office.Interop.Excel.Application app = new Microsoft.Office.Interop.Excel.Application();
-                        //        app.Visible = false;
-                        //        Microsoft.Office.Interop.Excel.Workbook wb = app.Workbooks.Add(1);
-                        //        Microsoft.Office.Interop.Excel.Worksheet ws = (Microsoft.Office.Interop.Excel.Worksheet)wb.Worksheets[1];
+                        using (SaveFileDialog sfd = new SaveFileDialog() { Filter = "Excel Workbook|*.xlsx", ValidateNames = true })
+                        {
+                            if (sfd.ShowDialog() == DialogResult.OK)
+                            {
+                                Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
+                                Microsoft.Office.Interop.Excel.Application app = new Microsoft.Office.Interop.Excel.Application();
+                                app.Visible = false;
+                                Microsoft.Office.Interop.Excel.Workbook wb = app.Workbooks.Add(1);
+                                Microsoft.Office.Interop.Excel.Worksheet ws = (Microsoft.Office.Interop.Excel.Worksheet)wb.Worksheets[1];
 
-                        //        ws.Cells[1, 1] = "Mã đơn";
-                        //        ws.Cells[1, 2] = "Tên đơn";
-                        //        ws.Cells[1, 3] = "Số lượng";
-                        //        ws.Cells[1, 4] = "Tổng giá";
-                        //        ws.Cells[1, 5] = "Nhân viên";
-                        //        ws.Cells[1, 6] = "Ngày nhập";
+                                ws.Cells[1, 1] = "Mã đơn";
+                                ws.Cells[1, 2] = "Loại phiếu nhập";
+                                ws.Cells[1, 3] = "Ngày nhập";
+                                ws.Cells[1, 4] = "Tổng tiền nhập";
+                                ws.Cells[1, 5] = "Số lượng";
+                                ws.Cells[1, 6] = "Nhân viên nhập";
 
-                        //        int i2 = 2;
+                                int i2 = 2;
 
-                        //        ObservableCollection<ImportProductDTO> listImportSearch = new ObservableCollection<ImportProductDTO>(ImportList.Where(item => item.ProductName.ToLower().Contains(search.ToLower())
-                        //                                                                                                            || item.ImportId.ToLower().Contains(search.ToLower())
-                        //                                                                                                            || item.StaffName.ToLower().Contains(search.ToLower())));
+                                ObservableCollection<ImportReceiptDTO> listImportSearch = new ObservableCollection<ImportReceiptDTO>(ImportList.Where(item => item.typeImprtStr.ToLower().Contains(search.ToLower())
+                                                                                                                                    || item.ReceiptIdStr.ToLower().Contains(search.ToLower())
+                                                                                                                                    || item.StaffName.ToLower().Contains(search.ToLower())));
 
-                        //        foreach (var item in listImportSearch)
-                        //        {
-                        //            ws.Cells[i2, 1] = item.ImportId;
-                        //            ws.Cells[i2, 2] = item.ProductName;
-                        //            ws.Cells[i2, 3] = item.ProductImportQuantity;
-                        //            ws.Cells[i2, 4] = item.ProductImportPrice;
-                        //            ws.Cells[i2, 5] = item.StaffName;
-                        //            ws.Cells[i2, 6] = item.CreatedDate;
+                                foreach (var item in listImportSearch)
+                                {
+                                    ws.Cells[i2, 1] = item.ReceiptIdStr;
+                                    ws.Cells[i2, 2] = item.typeImprtStr;
+                                    ws.Cells[i2, 3] = item.CreateAt;
+                                    ws.Cells[i2, 4] = item.TotalPriceStr;
+                                    ws.Cells[i2, 5] = item.TotalQuality;
+                                    ws.Cells[i2, 6] = item.StaffName;
 
-                        //            i2++;
-                        //        }
-                        //        ws.SaveAs(sfd.FileName);
-                        //        wb.Close();
-                        //        app.Quit();
+                                    i2++;
+                                }
+                                ws.SaveAs(sfd.FileName);
+                                wb.Close();
+                                app.Quit();
 
-                        //        Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
+                                Mouse.OverrideCursor = System.Windows.Input.Cursors.Arrow;
 
-                        //        CustomMessageBox.ShowOk("Xuất file thành công", "Thông báo", "OK", CustomMessageBoxImage.Success);
-                        //    }
-                        //}
+                                CustomMessageBox.ShowOk("Xuất file thành công", "Thông báo", "OK", CustomMessageBoxImage.Success);
+                            }
+                        }
                         break;
                     }
                 case 1:

@@ -181,9 +181,12 @@
     <Compile Include="DTOs\BillDTO.cs" />
     <Compile Include="DTOs\CustomerDTO.cs" />
     <Compile Include="DTOs\FurnitureRoomTypeDTO.cs" />
-    <Compile Include="DTOs\ImportProductDTO.cs" />
+    <Compile Include="DTOs\ImportReceiptDetailDTO.cs" />
+    <Compile Include="DTOs\ImportReceiptDTO.cs" />
     <Compile Include="DTOs\ListRoomTypeDTO.cs" />
     <Compile Include="DTOs\ProductStatisticDTO.cs" />
+    <Compile Include="DTOs\RevenueProductDTO.cs" />
+    <Compile Include="DTOs\RevenueRoomTypeDTO.cs" />
     <Compile Include="DTOs\RoomDTO.cs" />
     <Compile Include="DTOs\RoomFurnituresDetailDTO.cs" />
     <Compile Include="DTOs\RoomTypeDTO.cs" />
@@ -338,6 +341,9 @@
     </Compile>
     <Compile Include="View\Admin\HistoryManagement\BillDetail.xaml.cs">
       <DependentUpon>BillDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Admin\HistoryManagement\ReceiptDetail.xaml.cs">
+      <DependentUpon>ReceiptDetail.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Admin\ProductManagement\AddProductWindow.xaml.cs">
       <DependentUpon>AddProductWindow.xaml</DependentUpon>
@@ -669,6 +675,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Admin\HistoryManagement\BillDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Admin\HistoryManagement\ReceiptDetail.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
