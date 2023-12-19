@@ -321,6 +321,7 @@ namespace HotelManagement.ViewModel.AdminVM.ProductManagementVM
                 {
                     if (CustomMessageBox.ShowOkCancel("Bạn có muốn xóa sản phẩm khỏi danh sách", "Thông báo", "Oke", "Hủy", CustomMessageBoxImage.Warning) == CustomMessageBoxResult.Cancel) return;
                     pd.ImportQuantity = 0;
+                    pd.ImportPrice = 0;
 
                     OrderProductList.Remove(pd);
                 }
@@ -345,10 +346,10 @@ namespace HotelManagement.ViewModel.AdminVM.ProductManagementVM
                 if (SelectedProduct == null) return;
                 ProductDTO pd = SelectedProduct;
                 if (CustomMessageBox.ShowOkCancel("Bạn có muốn xóa sản phẩm khỏi danh sách", "Thông báo", "Oke", "Hủy", CustomMessageBoxImage.Warning) == CustomMessageBoxResult.Cancel) return;
-
                 OrderProductList.Remove(pd);
                 TotalImportPrice -= (pd.ImportPrice * pd.ImportQuantity);
                 pd.ImportQuantity = 0;
+                pd.ImportPrice = 0;
                 TotalImportPriceStr = Helper.FormatVNMoney(TotalImportPrice);
             });
 
@@ -365,8 +366,6 @@ namespace HotelManagement.ViewModel.AdminVM.ProductManagementVM
 
             ClosePreviewImportListCM = new RelayCommand<Window>((p) => { return true; }, (p) =>
             {
-                TotalImportPrice = 0;
-                TotalImportPriceStr = "";
                 p.Close();
                 ImportListProductWindow ipWD = System.Windows.Application.Current.Windows.OfType<ImportListProductWindow>().FirstOrDefault();
                 ipWD.Mask.Visibility = Visibility.Collapsed;

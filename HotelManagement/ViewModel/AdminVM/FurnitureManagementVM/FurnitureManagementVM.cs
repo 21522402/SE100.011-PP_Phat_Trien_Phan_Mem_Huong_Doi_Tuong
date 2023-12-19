@@ -180,8 +180,8 @@ namespace HotelManagement.ViewModel.AdminVM.FurnitureManagementVM
                 {
                     if (furnitureCache.IsEmptyFurniture())
                     {
-                        if (CustomMessageBox.ShowOk("Vui lòng nhập đầy đủ thông tin", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning) == CustomMessageBoxResult.OK)
-                            return;
+                        CustomMessageBox.ShowOk("Vui lòng nhập đầy đủ thông tin", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                        return;
                     }
                     (bool isSuccess, string messageReturn) = await Task.Run(() => FurnitureService.Ins.SaveEditFurniture(furnitureCache));
                     if (isSuccess)
@@ -234,8 +234,8 @@ namespace HotelManagement.ViewModel.AdminVM.FurnitureManagementVM
                     furnitureCache.DisplayQuantity = "0";
                     if (furnitureCache.IsEmptyFurniture())
                     {
-                        if (CustomMessageBox.ShowOk("Vui lòng nhập đầy đủ thông tin", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning) == CustomMessageBoxResult.OK)
-                            return;
+                        CustomMessageBox.ShowOk("Vui lòng nhập đầy đủ thông tin", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                        return;
                     }
 
                     (bool isSuccess, string messageReturn, string id) = await Task.Run(() => FurnitureService.Ins.AddFurniture(furnitureCache));
@@ -363,6 +363,7 @@ namespace HotelManagement.ViewModel.AdminVM.FurnitureManagementVM
                 {
                     if (CustomMessageBox.ShowOkCancel("Bạn có muốn xóa sản phẩm khỏi danh sách", "Thông báo", "Oke", "Hủy", CustomMessageBoxImage.Warning) == CustomMessageBoxResult.Cancel) return;
                     pd.ImportQuantity = 0;
+                    pd.ImportPrice = 0;
 
                     OrderFurnitureList.Remove(pd);
                 }
@@ -386,11 +387,12 @@ namespace HotelManagement.ViewModel.AdminVM.FurnitureManagementVM
             {
                 if (SelectedFurniture == null) return;
                 FurnitureDTO pd = SelectedFurniture;
-                if (CustomMessageBox.ShowOkCancel("Bạn có muốn xóa sản phẩm khỏi danh sách", "Thông báo", "Oke", "Hủy", CustomMessageBoxImage.Warning) == CustomMessageBoxResult.Cancel) return;
+                if (CustomMessageBox.ShowOkCancel("Bạn có muốn xóa sản phẩm khỏi danh sách", "Thông báo", "Oke", "Hủy", CustomMessageBoxImage.Warning) != CustomMessageBoxResult.OK) return;
 
                 OrderFurnitureList.Remove(pd);
                 TotalImportPrice -= (pd.ImportPrice * pd.ImportQuantity);
                 pd.ImportQuantity = 0;
+                pd.ImportPrice = 0;
                 TotalImportPriceStr = Helper.FormatVNMoney(TotalImportPrice);
             });
 
