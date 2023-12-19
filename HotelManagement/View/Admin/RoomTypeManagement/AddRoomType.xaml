@@ -80,6 +80,7 @@
                              materialDesign:HintAssist.Hint="Nhập tên loại phòng" 
                              BorderThickness="0.5" 
                              BorderBrush="#545454"
+                             x:Name="roomtypename"
                              Text="{Binding RoomTypeName,Mode=TwoWay}"/>
                 </Grid>
 

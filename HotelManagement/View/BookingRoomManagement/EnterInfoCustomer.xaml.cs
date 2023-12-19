@@ -27,7 +27,7 @@ namespace HotelManagement.View.BookingRoomManagement
             this.Language = XmlLanguage.GetLanguage("vi-VN");
         }
 
-        private static readonly Regex _regex = new Regex("[^0-9.-]+"); //regex that matches disallowed text
+        private static readonly Regex _regex = new Regex("[^0-9]+"); //regex that matches disallowed text
         private static bool IsTextAllowed(string text)
         {
             return !_regex.IsMatch(text);
@@ -35,6 +35,12 @@ namespace HotelManagement.View.BookingRoomManagement
         private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             e.Handled = !IsTextAllowed(e.Text);
+        }
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            if (tb.Text.Length == 0)
+                tb.Text = "";
         }
     }
 }

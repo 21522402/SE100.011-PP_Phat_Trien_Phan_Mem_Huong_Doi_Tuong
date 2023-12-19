@@ -24,7 +24,7 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
                 ListSurcharges = ListSurchargeRate,
             };
 
-            if (roomtype.ListSurcharges != null)
+            if (roomtype.ListSurcharges != null && roomtype.MaxNumberGuest > roomtype.NumberGuestForUnitPrice)
             {
                 for (int i = 0; i < ListSurchargeRate.Count; i++)
                 {

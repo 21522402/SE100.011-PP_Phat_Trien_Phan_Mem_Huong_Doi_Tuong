@@ -144,6 +144,7 @@ namespace HotelManagement.Model.Services
                         context.RoomTypes.Add(roomtype);
                         await context.SaveChangesAsync();
                         newRoomType.RoomTypeId = roomtype.RoomTypeId;
+                        newRoomType.ListSurcharges = null;
                     }
                 }
             }
@@ -178,7 +179,6 @@ namespace HotelManagement.Model.Services
                 {
                     RoomType roomType = context.RoomTypes.Find(updatedRoomType.RoomTypeId);
         
-
                     if (roomType is null)
                     {
                         return (false, "Loại phòng này không tồn tại!");
