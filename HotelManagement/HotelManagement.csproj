@@ -357,18 +357,6 @@
     <Compile Include="View\Admin\ProductManagement\ProductManagementPage.xaml.cs">
       <DependentUpon>ProductManagementPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Admin\RoomFurnitureManagement\RoomFurnitureDeleteWindow.xaml.cs">
-      <DependentUpon>RoomFurnitureDeleteWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Admin\RoomFurnitureManagement\RoomFurnitureImportWindow.xaml.cs">
-      <DependentUpon>RoomFurnitureImportWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Admin\RoomFurnitureManagement\RoomFurnitureInfoWindow.xaml.cs">
-      <DependentUpon>RoomFurnitureInfoWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Admin\RoomFurnitureManagement\RoomFurnitureManagementPage.xaml.cs">
-      <DependentUpon>RoomFurnitureManagementPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\Admin\RoomManagement\NoteRoom.xaml.cs">
       <DependentUpon>NoteRoom.xaml</DependentUpon>
     </Compile>
@@ -695,22 +683,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Admin\ProductManagement\ProductManagementPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Admin\RoomFurnitureManagement\RoomFurnitureDeleteWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Admin\RoomFurnitureManagement\RoomFurnitureImportWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Admin\RoomFurnitureManagement\RoomFurnitureInfoWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\Admin\RoomFurnitureManagement\RoomFurnitureManagementPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
