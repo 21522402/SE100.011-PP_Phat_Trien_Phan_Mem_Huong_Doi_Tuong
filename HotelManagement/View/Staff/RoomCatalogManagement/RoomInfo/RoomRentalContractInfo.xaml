@@ -310,7 +310,7 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
 
-                                            <TextBlock Text="{Binding CustomerId}"
+                                            <TextBlock Text="{Binding CCCD}"
                                                        Margin="60,0,0,0"
                                                                      Foreground="#000000"
                                                                      FontWeight="Regular"       

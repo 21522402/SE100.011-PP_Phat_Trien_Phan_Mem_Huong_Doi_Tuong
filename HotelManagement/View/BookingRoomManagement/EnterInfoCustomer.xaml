@@ -120,6 +120,8 @@
                              FontSize="16" 
                              Foreground="#686868" 
                              MaxLength="12"
+                             PreviewTextInput="TextBox_PreviewTextInput" 
+                             TextChanged="TextBox_TextChanged"
                              Height="30" Width="240" 
                              materialDesign:HintAssist.Hint="Nhập CCCD/ ID định danh" 
                              BorderThickness="0.5" 

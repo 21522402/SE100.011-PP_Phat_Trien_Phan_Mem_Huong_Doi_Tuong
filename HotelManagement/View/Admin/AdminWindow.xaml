@@ -260,9 +260,9 @@
                         <StackPanel Height="40">
                             <components:MenuItem GroupName="MenuItem" IndicatorBrush="{DynamicResource PrimaryBlueColor}" Icon="{DynamicResource staff}" IconWidth="16" Text="Quản lý nhân viên" VerticalAlignment="Center" Command="{Binding StaffCommand}"/>
                         </StackPanel>
-                        <StackPanel Height="40">
+                        <!--<StackPanel Height="40">
                             <components:MenuItem GroupName="MenuItem" IndicatorBrush="{DynamicResource PrimaryBlueColor}" Icon="{DynamicResource customer}" IconWidth="16" Text="Quản lý khách hàng" VerticalAlignment="Center" Command="{Binding CustomerCommand}"/>
-                        </StackPanel>
+                        </StackPanel>-->
                         <StackPanel Height="40">
                             <components:MenuItem GroupName="MenuItem" IndicatorBrush="{DynamicResource PrimaryBlueColor}" Icon="{DynamicResource food}" Command="{Binding ServiceCommand}" IconWidth="16" Text="Sản phẩm/dịch vụ" VerticalAlignment="Center"/>
                         </StackPanel>

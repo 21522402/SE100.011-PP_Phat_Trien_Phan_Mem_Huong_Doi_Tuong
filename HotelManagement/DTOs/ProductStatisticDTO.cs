@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HotelManagement.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,10 @@ namespace HotelManagement.DTOs
         public string ProductName { get; set; }
         public int STT { get; set; }
         public double Revenue { get; set; }
-
+        public string RevenueStr
+        {
+            get { return Helper.FormatVNMoney(Revenue); }
+        }
+        public double Ratio { get; set; }
     }
 }

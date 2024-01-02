@@ -13,8 +13,8 @@
       DataContext="{StaticResource TroubleManagementVM}">
     <Page.Resources>
         <local:EditConverter x:Key="hindorshow"/>
-        <!--<local:StatusBGBrushConverter x:Key="bgCV"/>
-        <local:StatusBrushConverter x:Key="brushCV"/>-->
+        <local:StatusBGBrushConverter x:Key="bgCV"/>
+        <local:StatusBrushConverter x:Key="brushCV"/>
     </Page.Resources>
     <Page.Triggers>
         <EventTrigger RoutedEvent="Page.Loaded">
@@ -35,7 +35,7 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent" Margin=" 20 10 20 20">
-        <!--<Grid.RowDefinitions>
+        <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -221,7 +221,7 @@
                     </ListView>
                 </ScrollViewer>
             </materialDesign:Card>
-        </Border>-->
+        </Border>
 
     </Grid>
 </Page>

@@ -45,9 +45,9 @@ namespace HotelManagement.View.Admin.HistoryManagement
         private bool Filter(object item)   //can sua//
         {
             if (String.IsNullOrEmpty(FilterBox.Text)) return true;
-            return ((item as ImportProductDTO).ProductName.IndexOf(FilterBox.Text.Trim(), StringComparison.OrdinalIgnoreCase) >= 0)
-                || ((item as ImportProductDTO).ImportId.IndexOf(FilterBox.Text.Trim(), StringComparison.OrdinalIgnoreCase) >= 0)
-                || ((item as ImportProductDTO).StaffName.IndexOf(FilterBox.Text.Trim(), StringComparison.OrdinalIgnoreCase) >= 0);
+            return ((item as ImportReceiptDTO).typeImprtStr.IndexOf(FilterBox.Text.Trim(), StringComparison.OrdinalIgnoreCase) >= 0)
+                || ((item as ImportReceiptDTO).ReceiptIdStr.IndexOf(FilterBox.Text.Trim(), StringComparison.OrdinalIgnoreCase) >= 0)
+                || ((item as ImportReceiptDTO).StaffName.IndexOf(FilterBox.Text.Trim(), StringComparison.OrdinalIgnoreCase) >= 0);
         }
         private void filterbox_textchange(object sender, EventArgs e)
         {

@@ -173,14 +173,13 @@ namespace HotelManagement.Model.Services
                         return (false, "Phòng này không tồn tại!");
                     }
 
-                    // ở dưới phải đợi thêm r fix, code coment ở dưới tức là khi
                     // phòng đã có người đặt hoặc đang thuê thì không thể chỉnh sửa
 
-                    //bool IsExistRoomNumber = context.Rooms.Any((Room r) => r.RoomId != room.RoomTypeId && r.RoomNumber == updatedRoom.RoomNumber);
-                    //if (IsExistRoomNumber)
-                    //{
-                    //    return (false, "Phòng đang được sử dụng không thể chỉnh sửa!");
-                    //}
+                    bool IsExistRoomNumber = context.Rooms.Any((Room r) => r.RoomId != room.RoomId && r.RoomNumber == updatedRoom.RoomNumber);
+                    if (IsExistRoomNumber)
+                    {
+                        return (false, "Số phòng này đã tồn tại rồi! Vui lòng nhập số phòng khác");
+                    }
 
                     room.RoomId = updatedRoom.RoomId;
                     room.RoomNumber = updatedRoom.RoomNumber;

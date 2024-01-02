@@ -241,7 +241,7 @@
                                 <GridViewColumn Width="200" Header="Doanh số">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Revenue}"
+                                            <TextBlock Text="{Binding RevenueStr}"
                                                         Width="140"
                                                         FontSize="14" 
                                                         HorizontalAlignment="Left"
@@ -451,7 +451,7 @@
                                 <GridViewColumn Width="240" Header="Tên sản phẩm">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding ServiceType}"
+                                            <TextBlock Text="{Binding ProductName}"
                                                         Width="160"
                                                         FontSize="14" 
                                                         TextAlignment="Center"/>
@@ -464,7 +464,7 @@
                                 <GridViewColumn Width="200" Header="Doanh số">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Revenue}"
+                                            <TextBlock Text="{Binding RevenueStr}"
                                                         Width="140"
                                                         FontSize="14" 
                                                         HorizontalAlignment="Left"
