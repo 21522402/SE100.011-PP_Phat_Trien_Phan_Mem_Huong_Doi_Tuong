@@ -306,13 +306,6 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
                         return;
                     }
                 }
-                if (EndDate<=CreateDate)
-                {
-                    CustomMessageBox.ShowOk("Ngày kết thúc phải lớn hơn ngày bắt đầu thuê!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
-                    EndDate = CreateDate.AddDays(1);
-                    EndDateStr = EndDate.ToString("dd/MM/yyyy");                  
-                    return;
-                }
             });
             LoadFormInfoCustomerCM = new RelayCommand<object>((p) => { return true; }, (p) =>
             {
