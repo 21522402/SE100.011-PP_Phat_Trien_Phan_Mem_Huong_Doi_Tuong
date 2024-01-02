@@ -118,7 +118,6 @@ namespace HotelManagement.ViewModel.AdminVM.FurnitureManagementVM
 
         public void InitQuantity()
         {
-
             foreach (var item in FurnitureList)
             {
                 item.ImportQuantity = 0;

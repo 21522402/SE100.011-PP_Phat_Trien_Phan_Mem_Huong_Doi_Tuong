@@ -192,6 +192,7 @@
     <Compile Include="DTOs\RoomFurnituresDetailDTO.cs" />
     <Compile Include="DTOs\RoomTypeDTO.cs" />
     <Compile Include="DTOs\ProductUsingDTO.cs" />
+    <Compile Include="DTOs\RoomTypeFurNum.cs" />
     <Compile Include="DTOs\SurchargeFeeDTO.cs" />
     <Compile Include="Model\Bill.cs">
       <DependentUpon>HotelManagementDatabase.tt</DependentUpon>

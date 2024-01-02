@@ -282,7 +282,7 @@
                                                         <TextBlock FontSize="14" FontWeight="Regular" HorizontalAlignment="Left" FontFamily="{StaticResource MaterialDesignFont}" Text="{Binding FurnitureType}" Foreground="{StaticResource Type_Cost_Furniture}"></TextBlock>
                                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                                                             <TextBlock FontSize="14" FontWeight="Regular" FontFamily="{StaticResource MaterialDesignFont}" Text="Kho: " Foreground="{StaticResource Type_Cost_Furniture}"></TextBlock>
-                                                            <TextBlock FontSize="14" FontWeight="Regular" FontFamily="{StaticResource MaterialDesignFont}" Text="{Binding Quantity}" Foreground="{StaticResource Type_Cost_Furniture}"></TextBlock>
+                                                            <TextBlock FontSize="14" FontWeight="Regular" FontFamily="{StaticResource MaterialDesignFont}" Text="{Binding RemainingQuantity}" Foreground="{StaticResource Type_Cost_Furniture}"></TextBlock>
                                                         </StackPanel>
                                                     </Grid>
                                                 </StackPanel>

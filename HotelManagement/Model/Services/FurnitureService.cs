@@ -70,6 +70,81 @@ namespace HotelManagement.Model.Services
             }
         }
 
+        public async Task<(bool, string, List<FurnitureDTO>)> GetAllFurnitureWRemain()
+        {
+            try
+            {
+                List<FurnitureDTO> listFurniture = new List<FurnitureDTO>();
+                using (HotelManagementEntities db = new HotelManagementEntities())
+                {
+                    listFurniture = await (
+                        from p in db.Furnitures
+                        let Sum =
+                        (
+                            from rfd in db.RoomTypeFurnitures
+                            where p.FurnitureId == rfd.FurnitureId
+                            select rfd.Quantity
+                        ).Sum()
+                        select new FurnitureDTO
+                        {
+                            FurnitureID = p.FurnitureId,
+                            FurnitureAvatarData = p.FurnitureAvatar,
+                            FurnitureName = p.FurnitureName,
+                            FurnitureType = p.FurnitureType,
+                            Quantity = (int)p.QuantityOfStorage,
+                            TotalUseQuantity = (int)(Sum == null ? 0 : Sum),
+                        }
+                    ).ToListAsync();
+                }
+                listFurniture.ForEach(item => { item.SetRemaining(); item.SetAvatar(); });
+
+                return (true, "", listFurniture);
+            }
+            catch (EntityException e)
+            {
+                return (false, "Mất kết nối cơ sở dữ liệu", null);
+            }
+            catch (Exception ex)
+            {
+                return (false, "Lỗi hệ thống", null);
+            }
+        }
+
+        public async Task<(bool, string, List<RoomTypeFurNum>)> GetNumberUse(FurnitureDTO furnitureSelected)
+        {
+            try
+            {
+                List<RoomTypeFurNum> listFurniture = new List<RoomTypeFurNum>();
+                using (HotelManagementEntities db = new HotelManagementEntities())
+                {
+                    listFurniture = await (
+                        from p in db.RoomTypes
+                        let Sum =
+                        (
+                            from rfd in db.RoomTypeFurnitures
+                            where rfd.FurnitureId == furnitureSelected.FurnitureID && p.RoomTypeId == rfd.RoomTypeId
+                            select rfd.Quantity
+                        ).Sum()
+                        select new RoomTypeFurNum
+                        {
+                            RoomTypeName = p.RoomTypeName,
+                            Quantity = (int)(Sum == null ? 0 : Sum),
+                        }
+                    ).ToListAsync();
+                }
+
+                return (true, "", listFurniture);
+            }
+            catch (EntityException e)
+            {
+                return (false, "Mất kết nối cơ sở dữ liệu", null);
+            }
+            catch (Exception ex)
+            {
+                return (false, "Lỗi hệ thống", null);
+            }
+        }
+
         public List<FurnitureDTO> GetAllFurnitureByType(string typeSelection, ObservableCollection<FurnitureDTO> allFurniture)
         {
             try
@@ -457,7 +532,7 @@ namespace HotelManagement.Model.Services
                                                               }).ToList(),
                                                               CreateAt = (DateTime)r.CreateAt,
                                                               typeImport = 1
-                                                          }).FirstAsync();
+                                                          }).FirstAsync();  
                     return ImportFuniture;
                 }
             }
