@@ -128,7 +128,7 @@ namespace HotelManagement.ViewModel.AdminVM
             RoomTypeFurnitureCommand = new RelayCommand<object>((p) => { return true; }, (p) =>
             {
                 RoomTypeFurniture(p);
-                NameTypeMenuBind = "TIỆN NGHI TRONG PHÒNG";
+                NameTypeMenuBind = "TIỆN NGHI TIỆN NGHI LOẠI PHÒNG";
             });
             SettingCommand = new RelayCommand<object>((p) => { return true; }, (p) =>
             {

@@ -224,6 +224,7 @@ namespace HotelManagement.ViewModel.AdminVM.FurnitureManagementVM
             OpenAddFurnitureCM = new RelayCommand<object>((p) => { return true; }, (p) =>
             {
                 furnitureCache = new FurnitureDTO();
+                furnitureCache.FurnitureType = "Nội thất";
                 FurnitureAddWindow furnitureAddWD = new FurnitureAddWindow();
                 tk.MaskOverSideBar.Visibility = Visibility.Visible;
                 furnitureAddWD.ShowDialog();

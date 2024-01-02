@@ -73,7 +73,7 @@ namespace HotelManagement.Model.Services
             {
                 using (HotelManagementEntities db = new HotelManagementEntities())
                 {
-                    Product CheckProductName = await db.Products.FirstAsync(item => item.ProductName == productSelected.ProductName && item.ProductType == productSelected.ProductType && item.ProductId != productSelected.ProductId);
+                    Product CheckProductName = await db.Products.FirstOrDefaultAsync(item => item.ProductName == productSelected.ProductName && item.ProductType == productSelected.ProductType && item.ProductId != productSelected.ProductId);
                     if (CheckProductName != null)
                         return (false, "Đã có sản phẩm trong cơ sở  dữ liệu");
 
@@ -436,7 +436,7 @@ namespace HotelManagement.Model.Services
                                                               }).ToList(),
                                                               CreateAt = (DateTime)r.CreateAt,
                                                               typeImport = 0
-                                                          }).FirstAsync();
+                                                          }).FirstOrDefaultAsync();
                     return ImportFuniture;
                 }
             }

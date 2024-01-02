@@ -330,6 +330,7 @@
                                                                                             </Button.InputBindings>
                                                                                         </Button>
                                                                                         <TextBox
+                                                                                           IsReadOnly="True"
                                                                                  Grid.Column="1"
                                                                                  HorizontalAlignment="Center"
                                                                                  VerticalAlignment="Center"
