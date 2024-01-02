@@ -230,18 +230,20 @@
                                    Foreground="#000000" 
                                    FontSize="14" 
                                    VerticalAlignment="Top"/>
-
-                                <DatePicker 
-                                    Width="150" 
-                                    BorderBrush="#000" 
-                                    Margin="15 0 0 0" 
-                                    SelectedDate="{Binding SelectedItem.EndDate, Mode=TwoWay, StringFormat='dd/MM/yyyy'}">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="SelectedDateChanged">
-                                            <i:InvokeCommandAction Command="{Binding SelectedTimeChangedCM}"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </DatePicker>
+                                <TextBox  
+                                     Padding="10 0 10 0" 
+                                     HorizontalAlignment="Left" 
+                                     HorizontalContentAlignment="Left" 
+                                     VerticalAlignment="Top" 
+                                     VerticalContentAlignment="Center" 
+                                     Margin="20 0 0 0"
+                                     FontSize="16" 
+                                     Focusable="False"
+                                     Foreground="#686868" 
+                                     Height="30" Width="160" 
+                                     BorderThickness="0.5" 
+                                     BorderBrush="#545454"
+                                    Text="{Binding SelectedItem.EndDate,StringFormat='dd/MM/yyyy'}"/>
                             </StackPanel>
                         </Grid>
 
