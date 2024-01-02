@@ -77,25 +77,73 @@
                                 <ImageBrush ImageSource="{Binding furnitureCache.FurnitureAvatar}"/>
                             </Border.Background>
                         </Border>
-                        <Grid>
-                            <StackPanel Margin="20 0 0 0">
-                                <StackPanel Orientation="Horizontal" Height="27">
-                                    <TextBlock Text="Tên: " FontSize="16" FontWeight="Regular" VerticalAlignment="Center" FontFamily="{StaticResource MaterialDesignFont}" Foreground="#063538"></TextBlock>
-                                    <StackPanel Width="202" VerticalAlignment="Center">
-                                        <TextBlock TextWrapping="Wrap" Text="{Binding furnitureCache.FurnitureName}" FontSize="16" VerticalAlignment="Center" FontWeight="Regular" FontFamily="{StaticResource MaterialDesignFont}" Foreground="#063538"></TextBlock>
+                        <ScrollViewer Height="160" VerticalAlignment="Top">
+                            <Grid >
+                                    <StackPanel Margin="20 0 0 0">
+                                    <StackPanel Orientation="Horizontal" Height="27">
+                                        <TextBlock Text="Tên: " FontSize="16" FontWeight="Regular" VerticalAlignment="Center" FontFamily="{StaticResource MaterialDesignFont}" Foreground="#063538"></TextBlock>
+                                        <StackPanel Width="202" VerticalAlignment="Center">
+                                            <TextBlock TextWrapping="Wrap" Text="{Binding furnitureCache.FurnitureName}" FontSize="16" VerticalAlignment="Center" FontWeight="Regular" FontFamily="{StaticResource MaterialDesignFont}" Foreground="#063538"></TextBlock>
+                                        </StackPanel>
                                     </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Height="27" >
+                                        <TextBlock Text="Loại: " FontSize="16" FontWeight="Regular" VerticalAlignment="Center" FontFamily="{StaticResource MaterialDesignFont}" Foreground="#063538"></TextBlock>
+                                        <TextBlock Text="{Binding furnitureCache.FurnitureType}" FontSize="16" VerticalAlignment="Center" FontWeight="Regular" FontFamily="{StaticResource MaterialDesignFont}" Foreground="#063538"></TextBlock>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal" Height="27" >
+                                        <TextBlock Text="Tổng số lượng: " FontSize="16" FontWeight="Regular" VerticalAlignment="Center" FontFamily="{StaticResource MaterialDesignFont}" Foreground="#063538"></TextBlock>
+                                        <TextBlock Text="{Binding furnitureCache.Quantity}" FontSize="16" VerticalAlignment="Center" FontWeight="Regular" FontFamily="{StaticResource MaterialDesignFont}" Foreground="#063538"></TextBlock>
+                                    </StackPanel>
+                                    <Grid>
+                                        <ListBox Name="ListViewRoomtypeFurniture" ItemsSource="{Binding RoomtypeFurnitureNumList}" HorizontalAlignment="Stretch" 
+                                             materialDesign:ListBoxItemAssist.ShowSelection="False"
+                                             ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                             VerticalAlignment="Top"
+                                             BorderThickness="0">
+                                            <ListBox.ItemContainerStyle>
+                                                <Style TargetType="{x:Type ListBoxItem}">
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                    <Setter Property="Margin" Value="0"/>
+                                                    <Setter Property="Padding" Value="0"/>
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                                <ContentPresenter/>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Background" Value="Transparent"/>
+                                                            <Setter Property="IsSelected" Value="True"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ListBox.ItemContainerStyle>
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <ListBoxItem HorizontalAlignment="Center" Background="Transparent">
+                                                        <Grid Width="260">
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <TextBlock Text="- " FontSize="16" FontWeight="Regular" VerticalAlignment="Center" FontFamily="{StaticResource MaterialDesignFont}" Foreground="#063538"></TextBlock>
+                                                                <TextBlock Text="{Binding RoomTypeName}" FontSize="16" FontWeight="Regular" VerticalAlignment="Center" FontFamily="{StaticResource MaterialDesignFont}" Foreground="#063538"></TextBlock>
+                                                                <TextBlock Text=":" FontSize="16" FontWeight="Regular" Margin="0 0 5 0" VerticalAlignment="Center" FontFamily="{StaticResource MaterialDesignFont}" Foreground="#063538"></TextBlock>
+                                                                <StackPanel Width="202" VerticalAlignment="Center">
+                                                                    <TextBlock TextWrapping="Wrap" Text="{Binding Quantity}" FontSize="16" VerticalAlignment="Center" FontWeight="Regular" FontFamily="{StaticResource MaterialDesignFont}" Foreground="#063538"></TextBlock>
+                                                                </StackPanel>
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </ListBoxItem>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                 
+                                    </Grid>
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" Height="27" >
-                                    <TextBlock Text="Loại: " FontSize="16" FontWeight="Regular" VerticalAlignment="Center" FontFamily="{StaticResource MaterialDesignFont}" Foreground="#063538"></TextBlock>
-                                    <TextBlock Text="{Binding furnitureCache.FurnitureType}" FontSize="16" VerticalAlignment="Center" FontWeight="Regular" FontFamily="{StaticResource MaterialDesignFont}" Foreground="#063538"></TextBlock>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Height="27" >
-                                    <TextBlock Text="Số lượng: " FontSize="16" FontWeight="Regular" VerticalAlignment="Center" FontFamily="{StaticResource MaterialDesignFont}" Foreground="#063538"></TextBlock>
-                                    <TextBlock Text="{Binding furnitureCache.Quantity}" FontSize="16" VerticalAlignment="Center" FontWeight="Regular" FontFamily="{StaticResource MaterialDesignFont}" Foreground="#063538"></TextBlock>
-                                </StackPanel>
-                            </StackPanel>
+                    
                             
-                        </Grid>
+                            </Grid>
+                        </ScrollViewer>
                     </StackPanel>
                 </Grid>
                 <Button Name="CloseButton" Cursor="Hand" Click="CloseButton_Click_1" Width="80" Grid.Row="1" Height="36" Margin="0 0 20 20" materialDesign:ButtonAssist.CornerRadius="5" Background="#EC4242" VerticalAlignment="Bottom" HorizontalAlignment="Right">

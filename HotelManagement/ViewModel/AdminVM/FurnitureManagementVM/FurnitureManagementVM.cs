@@ -51,6 +51,12 @@ namespace HotelManagement.ViewModel.AdminVM.FurnitureManagementVM
             set { _staffname = value; OnPropertyChanged(); }
         }
 
+        public ObservableCollection<RoomTypeFurNum> roomtypeFurnitureNumList;
+        public ObservableCollection<RoomTypeFurNum> RoomtypeFurnitureNumList
+        {
+            get { return roomtypeFurnitureNumList; }
+            set { roomtypeFurnitureNumList = value; OnPropertyChanged(); }
+        }
 
         private ObservableCollection<FurnitureDTO> furnitureList;
         public ObservableCollection<FurnitureDTO> FurnitureList
@@ -144,7 +150,7 @@ namespace HotelManagement.ViewModel.AdminVM.FurnitureManagementVM
             {
                 IsChanged = false;
                 IsLoading = true;
-                (bool isSuccess, string messageReturn, List<FurnitureDTO> listFurniture) = await Task.Run(() => FurnitureService.Ins.GetAllFurniture());
+                (bool isSuccess, string messageReturn, List<FurnitureDTO> listFurniture) = await Task.Run(() => FurnitureService.Ins.GetAllFurnitureWRemain());
                 IsLoading = false;
 
                 if (isSuccess)
@@ -283,11 +289,22 @@ namespace HotelManagement.ViewModel.AdminVM.FurnitureManagementVM
                     CustomMessageBox.ShowOk(messageReturn, "Lỗi", "OK", CustomMessageBoxImage.Error);
             });
 
-            OpenInfoFurnitureCM = new RelayCommand<object>((p) => { return true; }, (p) =>
+            OpenInfoFurnitureCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
             {
                 if (SelectedFurniture == null)
                     return;
                 furnitureCache = SelectedFurniture;
+                (bool isSuccess, string messageReturn, List<RoomTypeFurNum> listRoomTypeFur) = await Task.Run(() => FurnitureService.Ins.GetNumberUse(furnitureCache));
+
+                if (isSuccess)
+                {
+                    RoomtypeFurnitureNumList = new ObservableCollection<RoomTypeFurNum>(listRoomTypeFur);
+                }
+                else
+                {
+                    if (CustomMessageBox.ShowOk(messageReturn, "Lỗi", "OK", CustomMessageBoxImage.Error) == CustomMessageBoxResult.OK)
+                        return;
+                }
                 FurnitureInfoWindow furnitureInfoWD = new FurnitureInfoWindow();
                 tk.MaskOverSideBar.Visibility = Visibility.Visible;
                 furnitureInfoWD.ShowDialog();
@@ -478,6 +495,7 @@ namespace HotelManagement.ViewModel.AdminVM.FurnitureManagementVM
                 case Operation.UPDATE_PROD_QUANTITY:
                     FurnitureDTO furnitureUpdateQuantity = FurnitureList.FirstOrDefault(item => item.FurnitureID == furniture.FurnitureID);
                     FurnitureDTO temp = new FurnitureDTO(furniture);
+                    temp.RemainingQuantity += furniture.ImportQuantity;
                     FurnitureList[FurnitureList.IndexOf(furnitureUpdateQuantity)] = temp;
                     AllFurniture[AllFurniture.IndexOf(furnitureUpdateQuantity)] = temp;
                     break;
