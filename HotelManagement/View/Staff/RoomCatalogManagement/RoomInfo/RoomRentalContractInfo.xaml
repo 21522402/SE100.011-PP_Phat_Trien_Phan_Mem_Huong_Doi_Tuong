@@ -330,16 +330,7 @@
                 </Grid>
             </Grid>
             <Grid Grid.Row="3">
-                <Button HorizontalAlignment="Left" Margin="10,0,0,0"
-                        Background="Transparent"
-                        BorderThickness="0"
-                        
-                        Click="Button_Click_2">
-                    <materialDesign:PackIcon Kind="Printer"
-                                                                     Width="27"
-                                                                     Height="27"
-                                                                     Foreground="#948D8D"/>
-                </Button>
+               
                 <Button HorizontalAlignment="Right"
                         VerticalAlignment="Center"
                         Style="{StaticResource CustomButton}"
