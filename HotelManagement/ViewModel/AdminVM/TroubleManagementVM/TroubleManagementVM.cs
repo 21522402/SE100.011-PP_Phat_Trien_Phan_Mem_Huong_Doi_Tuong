@@ -129,6 +129,8 @@ namespace HotelManagement.ViewModel.AdminVM.TroubleManagementVM
             {
                 Grid fixdate = (Grid)p.fixdate;
                 Grid finishdate = (Grid)p.finishdate;
+                fixdate.IsEnabled = false;
+                finishdate.IsEnabled = false;
                 Grid fixprice = (Grid)p.fixprice;
                 if (p.cbbStatus.SelectedIndex == 0)
                 {
@@ -166,6 +168,8 @@ namespace HotelManagement.ViewModel.AdminVM.TroubleManagementVM
                 Grid gridfixdate = (Grid)p.gridfixdate;
                 Grid finishdate = (Grid)p.finishdate;
                 Grid fixprice = (Grid)p.fixprice;
+                gridfixdate.IsEnabled = false;
+                finishdate.IsEnabled = false;
                 if (p.cbbStatus.SelectedIndex == 0)
                 {
                     finishdate.Visibility = Visibility.Visible;
