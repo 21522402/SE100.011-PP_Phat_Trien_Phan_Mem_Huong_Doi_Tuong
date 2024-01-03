@@ -400,9 +400,11 @@ namespace HotelManagement.Model.Services
                             RentalContractId = x.RentalContractId,
                             CustomerName = x.CustomerName,
                             CCCD = x.CustomerId,
+                            isVisibleBtn = (bool)r.Validated ? "Visible" : "Hidden",
                         }).ToList()
-
                     }).ToListAsync();
+
+        
                     return RentalContractDTOs;
                 }
             }

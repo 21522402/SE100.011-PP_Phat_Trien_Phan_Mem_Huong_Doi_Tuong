@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace HotelManagement.ViewModel.AdminVM.RoomManagementVM
@@ -17,16 +18,25 @@ namespace HotelManagement.ViewModel.AdminVM.RoomManagementVM
         {
             if (IsValidData())
             {
+                int room_number;
+                bool isIntRoomNumber = Int32.TryParse(RoomNumber, out room_number);
+                if (!isIntRoomNumber || room_number <= 0)
+                {
+                    CustomMessageBox.ShowOk("Số phòng phải là một số nguyên dương", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                    return;
+                }
                 string rtn = CbRoomType;
                 string rti = await RoomTypeService.Ins.GetRoomTypeID(rtn);
                 RoomDTO room = new RoomDTO
                 {   // check ở đây
-                    RoomNumber = RoomNumber,
+                    RoomNumber = Int32.Parse(RoomNumber),
                     Note = RoomNote,
                     RoomTypeId = rti,
                     RoomTypeName = CbRoomType,
                     RoomStatus = "Phòng trống",
                 };
+
+
 
                 (bool successAddRoom, string messageFromAddRoom, RoomDTO newRoom) = await RoomService.Ins.AddRoom(room);
 

@@ -12,7 +12,6 @@ namespace HotelManagement.DTOs
         public string RoomTypeId { get; set; }
         public string RoomTypeName { get; set; }
         public int CustomerOutIndex { get; set; }
-        public double Rate { get; set; }
-        public string RateStr { get; set; }
+        public string Rate { get; set; }
     }
 }

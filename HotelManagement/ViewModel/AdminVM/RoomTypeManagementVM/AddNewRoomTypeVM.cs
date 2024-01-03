@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity.Core;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,9 +19,9 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
             RoomTypeDTO roomtype = new RoomTypeDTO
             {
                 RoomTypeName = RoomTypeName.Trim(),
-                RoomTypePrice = RoomTypePrice,
-                MaxNumberGuest = MaxNumberGuest,
-                NumberGuestForUnitPrice = NumberGuestForUnitPrice,
+                RoomTypePrice = double.Parse(RoomTypePrice),
+                MaxNumberGuest = Int32.Parse(MaxNumberGuest),
+                NumberGuestForUnitPrice = Int32.Parse(NumberGuestForUnitPrice),
                 ListSurcharges = ListSurchargeRate,
             };
 
@@ -28,7 +29,14 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
             {
                 for (int i = 0; i < ListSurchargeRate.Count; i++)
                 {
-                    if (ListSurchargeRate[i].Rate <= 0 || ListSurchargeRate[i].Rate > 1)
+                    double rate_rt;
+                    bool isDoubleRate = double.TryParse(ListSurchargeRate[i].Rate, out rate_rt);
+                    if (!isDoubleRate || rate_rt <= 0)
+                    {
+                        CustomMessageBox.ShowOk("Tỷ lệ phụ thu phải là số dương", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                        return;
+                    }
+                    if (rate_rt <= 0 || rate_rt > 1)
                     {
                         CustomMessageBox.ShowOk("Tỷ lệ phụ thu phải lớn hơn 0 và nhỏ hơn hoặc bằng 1 !!!", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
                         return;

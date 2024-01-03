@@ -56,8 +56,7 @@ namespace HotelManagement.Model.Services
                 throw e;
             }
         }
-        // Take all RoomType 
-        //Take all RoomType
+
         public async Task<List<RoomTypeDTO>> GetAllRoomType()
         {
             try
@@ -136,7 +135,7 @@ namespace HotelManagement.Model.Services
                                 {
                                     RoomTypeId = roomtype.RoomTypeId,
                                     CustomerOutIndex = newRoomType.ListSurcharges[i].CustomerOutIndex,
-                                    Rate = newRoomType.ListSurcharges[i].Rate
+                                    Rate = double.Parse(newRoomType.ListSurcharges[i].Rate)
                                 };
                                 context.SurchargeRates.Add(sr);
                             }
@@ -207,7 +206,7 @@ namespace HotelManagement.Model.Services
                             {
                                 RoomTypeId = updatedRoomType.RoomTypeId,
                                 CustomerOutIndex = updatedRoomType.ListSurcharges[i].CustomerOutIndex,
-                                Rate = updatedRoomType.ListSurcharges[i].Rate
+                                Rate = double.Parse(updatedRoomType.ListSurcharges[i].Rate)
                             };
                             context.SurchargeRates.Add(sr);
                         }

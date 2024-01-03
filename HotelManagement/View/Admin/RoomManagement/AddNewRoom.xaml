@@ -70,6 +70,7 @@
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Content="Số phòng:" Foreground="#606060" FontSize="14" FontWeight="Bold" Margin="20 0 0 0" VerticalAlignment="Bottom"/>
                     <TextBox Grid.Row="1" 
+                             Name="txtRoomNumber"
                              Padding="10 0 10 0" 
                              HorizontalAlignment="Left" 
                              VerticalContentAlignment="Center" 
@@ -80,9 +81,9 @@
                              Width="240" 
                              materialDesign:HintAssist.Hint="Nhập số phòng (VD: 101)" 
                              BorderThickness="0.5" 
-                             BorderBrush="#545454"
                              PreviewTextInput="TextBox_PreviewTextInput" 
                              TextChanged="TextBox_TextChanged"
+                             BorderBrush="#545454"
                              Text="{Binding RoomNumber,Mode=TwoWay}"/>
                 </Grid>
 

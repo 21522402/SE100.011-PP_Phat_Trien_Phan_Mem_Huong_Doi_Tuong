@@ -38,7 +38,7 @@ namespace HotelManagement.ViewModel.AdminVM.RoomManagementVM
                 CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
             }
             RoomId = SelectedRoomItem.RoomId;
-            RoomNumber = (int)SelectedRoomItem.RoomNumber;
+            RoomNumber = SelectedRoomItem.RoomNumber.ToString();
             RoomNote = SelectedRoomItem.Note;
             RoomStatus = SelectedRoomItem.RoomStatus;
             CbRoomType = SelectedRoomItem.RoomTypeName;
@@ -51,11 +51,18 @@ namespace HotelManagement.ViewModel.AdminVM.RoomManagementVM
 
             if (RoomId != null && IsValidData())
             {
+                int room_number;
+                bool isIntRoomNumber = Int32.TryParse(RoomNumber, out room_number);
+                if (!isIntRoomNumber || room_number <= 0)
+                {
+                    CustomMessageBox.ShowOk("Số phòng phải là một số nguyên dương", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                    return;
+                }
                 RoomDTO room = new RoomDTO
                 {
                     RoomId = RoomId,
                     Note = RoomNote,
-                    RoomNumber = RoomNumber,
+                    RoomNumber = Int32.Parse(RoomNumber),
                     RoomTypeId = rti,
                     RoomTypeName = CbRoomType,
                     RoomStatus = RoomStatus,

@@ -217,10 +217,6 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
                     
                     OpenRoomWindowCM.Execute(p);
                 }
-        
-              
-
-               
             });
             OpenRoomWindowCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
             {

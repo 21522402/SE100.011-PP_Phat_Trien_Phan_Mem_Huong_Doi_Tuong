@@ -37,22 +37,22 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
             set { _roomTypeName = value; OnPropertyChanged(); }
         }
 
-        private double _roomTypePrice;
-        public double RoomTypePrice
+        private string _roomTypePrice;
+        public string RoomTypePrice
         {
             get { return _roomTypePrice; }
             set { _roomTypePrice = value; OnPropertyChanged(); }
         }
 
-        private int _maxNumberGuest;
-        public int MaxNumberGuest
+        private string _maxNumberGuest;
+        public string MaxNumberGuest
         {
             get { return _maxNumberGuest; }
             set { _maxNumberGuest = value; OnPropertyChanged(); }
         }
 
-        private int _numberGuestForUnitPrice;
-        public int NumberGuestForUnitPrice
+        private string _numberGuestForUnitPrice;
+        public string NumberGuestForUnitPrice
         {
             get { return _numberGuestForUnitPrice; }
             set { _numberGuestForUnitPrice = value; OnPropertyChanged(); }
@@ -163,12 +163,36 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
                     }
                     else
                     {
-                        if (MaxNumberGuest < NumberGuestForUnitPrice)
+                        double price_roomtype;
+                        int max_quantity;
+                        int number_guest;
+
+                        bool isDoublePrice = double.TryParse(RoomTypePrice, out price_roomtype);
+                        bool isIntMaxQuantity = Int32.TryParse(MaxNumberGuest, out max_quantity);
+                        bool isNumberGuest = Int32.TryParse(NumberGuestForUnitPrice, out number_guest);
+
+                        if (!isDoublePrice || price_roomtype <= 0)
+                        {
+                            CustomMessageBox.ShowOk("Giá phải là số dương", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                            return;
+                        }
+                        if (!isIntMaxQuantity || max_quantity <= 0)
+                        {
+                            CustomMessageBox.ShowOk("Số khách tối đa là một số nguyên dương", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                            return;
+                        }
+                        if (!isNumberGuest || number_guest <= 0)
+                        {
+                            CustomMessageBox.ShowOk("Số khách tính đơn giá là một số nguyên dương", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                            return;
+                        }
+                        
+                        if (Int32.Parse(MaxNumberGuest) < Int32.Parse(NumberGuestForUnitPrice))
                         {
                             CustomMessageBox.ShowOk("Số khách tính đơn giá phải nhỏ hơn hoặc bằng số khách tối đa !!!", "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
                             return;
                         }
-                        if (MaxNumberGuest == NumberGuestForUnitPrice)
+                        if (Int32.Parse(MaxNumberGuest) == Int32.Parse(NumberGuestForUnitPrice))
                         {
                             IsSaving = true;
                             await SaveRoomTypeFunc(p, windowAdd);
@@ -222,12 +246,36 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
                     }
                     else
                     {
-                        if (MaxNumberGuest < NumberGuestForUnitPrice)
+                        double price_roomtype;
+                        int max_quantity;
+                        int number_guest;
+
+                        bool isDoublePrice = double.TryParse(RoomTypePrice, out price_roomtype);
+                        bool isIntMaxQuantity = Int32.TryParse(MaxNumberGuest, out max_quantity);
+                        bool isNumberGuest = Int32.TryParse(NumberGuestForUnitPrice, out number_guest);
+
+                        if (!isDoublePrice || price_roomtype <= 0)
+                        {
+                            CustomMessageBox.ShowOk("Giá phải là số dương", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                            return;
+                        }
+                        if (!isIntMaxQuantity || max_quantity <= 0)
+                        {
+                            CustomMessageBox.ShowOk("Số khách tối đa là một số nguyên dương", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                            return;
+                        }
+                        if (!isNumberGuest || number_guest <= 0)
+                        {
+                            CustomMessageBox.ShowOk("Số khách tính đơn giá là một số nguyên dương", "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                            return;
+                        }
+
+                        if (Int32.Parse(MaxNumberGuest) < Int32.Parse(NumberGuestForUnitPrice))
                         {
                             CustomMessageBox.ShowOk("Số khách tính đơn giá phải nhỏ hơn hoặc bằng số khách tối đa !!!", "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
                             return;
                         }
-                        if (MaxNumberGuest == NumberGuestForUnitPrice)
+                        if (Int32.Parse(MaxNumberGuest) == Int32.Parse(NumberGuestForUnitPrice))
                         {
                             ListSurchargeRate = null;
                             IsSaving = true;
@@ -303,11 +351,11 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
         {
             using (HotelManagementEntities db = new HotelManagementEntities())
             {
-                for (int i = 0; i < MaxNumberGuest - NumberGuestForUnitPrice; i++)
+                for (int i = 0; i < Int32.Parse(MaxNumberGuest) - Int32.Parse(NumberGuestForUnitPrice); i++)
                 {
                     SurchargeFeeDTO srDTO = new SurchargeFeeDTO();
                     srDTO.CustomerOutIndex = i + 1;
-                    srDTO.Rate = 0;
+                    srDTO.Rate = "";
                     ListSurchargeRate.Add(srDTO);
                 }
             }
@@ -316,15 +364,15 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
         {
             using (HotelManagementEntities db = new HotelManagementEntities())
             {
-                for (int i = 0; i < MaxNumberGuest - NumberGuestForUnitPrice; i++)
+                for (int i = 0; i < Int32.Parse(MaxNumberGuest) - Int32.Parse(NumberGuestForUnitPrice); i++)
                 {
                     SurchargeFeeDTO srDTO = new SurchargeFeeDTO();
                     srDTO.CustomerOutIndex = i + 1;
                     SurchargeRate sr = await db.SurchargeRates.FirstOrDefaultAsync(item => item.CustomerOutIndex == srDTO.CustomerOutIndex && item.RoomTypeId == id);
                     if (sr == null)
-                        srDTO.Rate = 0;
+                        srDTO.Rate = "";
                     else
-                        srDTO.Rate = (double)sr.Rate;
+                        srDTO.Rate = sr.Rate.ToString();
                     ListSurchargeRate.Add(srDTO);
                 }
             }
@@ -377,9 +425,9 @@ namespace HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM
         public void RenewWindowData()
         {
             RoomTypeName = null;
-            RoomTypePrice = 0;
-            MaxNumberGuest = 1;
-            NumberGuestForUnitPrice = 1;
+            RoomTypePrice = null;
+            MaxNumberGuest = null;
+            NumberGuestForUnitPrice = null;
         }
         public bool CheckExistedRoomTypeName(string rt_name, string type, string id)
         {
