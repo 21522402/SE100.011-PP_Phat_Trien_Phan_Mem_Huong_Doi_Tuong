@@ -198,12 +198,7 @@ namespace HotelManagement.ViewModel.AdminVM.TroubleManagementVM
         {
             if (Status.Tag.ToString() == STATUS.IN_PROGRESS)
             {
-                if (SelectedItem.StartDate.Value.Date > FixedDate)
-                {
-                    CustomMessageBox.ShowOk("Ngày không hợp lệ, vui lòng chọn lại!", "Lỗi", "OK", CustomMessageBoxImage.Error);
-
-                    return;
-                }
+                
                 TroubleDTO tb = new TroubleDTO
                 {
                     TroubleId = TroubleId,
@@ -225,12 +220,7 @@ namespace HotelManagement.ViewModel.AdminVM.TroubleManagementVM
             }
             else if (Status.Tag.ToString() == STATUS.DONE)
             {
-                if (SelectedItem.StartDate.Value.Date > FixedDate || FixedDate > FinishDate)
-                {
-                    CustomMessageBox.ShowOk("Ngày không hợp lệ, vui lòng chọn lại!", "Lỗi", "OK", CustomMessageBoxImage.Error);
-
-                    return;
-                }
+              
                 TroubleDTO tb = new TroubleDTO
                 {
                     TroubleId = TroubleId,
