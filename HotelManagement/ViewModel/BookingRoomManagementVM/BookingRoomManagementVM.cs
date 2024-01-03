@@ -296,23 +296,11 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
                 booking.ShowDialog();
             });
             SelectedTimeChangedCM = new RelayCommand<object>((p) => { return true; },  (p) =>
-            {
-                //if (!SelectedItem.Validated)
-                //{
-                //    temp.btnSave.Visibility = Visibility.Hidden;
-                //    temp.btnAddCustomer.Visibility = Visibility.Hidden;
-                //    temp.endDate.Visibility = Visibility.Visible;
-                //    temp.endDateInfo.Visibility = Visibility.Collapsed;
-                //}
-                //else
-                //{
-                //    temp.endDate.Visibility = Visibility.Collapsed;
-                //    temp.endDateInfo.Visibility = Visibility.Visible;
-                //}
+            {   
                 
                 if (SelectedItem != null)
                 {
-                    if (!SelectedItem.Validated)
+                    if (SelectedItem.EndDate <= SelectedItem.CreateDate)
                     {
                         CustomMessageBox.ShowOk("Ngày kết thúc phải lớn hơn ngày bắt đầu thuê!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
                         SelectedItem.EndDate = EndDate;
@@ -477,8 +465,6 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
                 w.endDate.Visibility = Visibility.Collapsed;
                 w.endDateInfo.Visibility = Visibility.Visible;
             }
-
-
             w.roomNumberInfo.Text = SelectedItem.RoomNumber.ToString();
             w.createDateInfo.Text = ((DateTime)SelectedItem.CreateDate).ToString("dd/MM/yyyy");
             float RentalContractPrice = await BookingRoomService.Ins.GetRentalContractPrice(SelectedItem.RentalContractId);

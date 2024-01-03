@@ -245,8 +245,7 @@
                                 </DatePicker>
                                 <TextBox  
                                     x:Name="endDate"
-                                    Visibility="{Binding SelectedItem.EndDate, Mode=TwoWay, StringFormat='dd/MM/yyyy'}"
-                                   Text="{Binding SelectedItem.EndDate, Mode=TwoWay, StringFormat='dd/MM/yyyy'}" 
+                                    Text="{Binding SelectedItem.EndDate, Mode=TwoWay, StringFormat='dd/MM/yyyy'}" 
                                      Padding="10 0 10 0" 
                                      HorizontalAlignment="Left" 
                                      HorizontalContentAlignment="Left" 
