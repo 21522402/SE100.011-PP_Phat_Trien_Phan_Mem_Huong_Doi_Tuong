@@ -130,7 +130,8 @@
         <Border Name="fContainer" Grid.Row="1"  Background="White" CornerRadius="5" BorderBrush="#1D242E" BorderThickness="0.5">
             <materialDesign:Card UniformCornerRadius="5" >
                 <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
-                    <ListView FontFamily="{StaticResource MaterialDesignFont}" FontSize="14" FontWeight="Regular" ItemsSource="{Binding BillExportList}" SelectedItem="{Binding SelectedItem}" 
+                    <ListView FontFamily="{StaticResource MaterialDesignFont}" FontSize="14" FontWeight="Regular" 
+                              ItemsSource="{Binding BillExportList}" SelectedItem="{Binding SelectedItem}" 
                               x:Name="_ListView"
                               d:ItemsSource="{d:SampleData ItemCount=5}"
                               ToolTip="Nháy đúp để xem chi tiết">
@@ -147,7 +148,7 @@
                         </i:Interaction.Triggers>
                         <ListView.View>
                             <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}">
-                                <GridViewColumn Width="80" Header="ID">
+                                <GridViewColumn Width="90" Header="ID">
                                     <GridViewColumn.CellTemplate >
                                         <DataTemplate>
                                             <TextBlock Text="{Binding BillId}"
@@ -195,7 +196,7 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Width="122" Header="Tổng tiền">
+                                <GridViewColumn Width="125" Header="Tổng tiền">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding TotalPriceTempStr}"                                                            
@@ -219,7 +220,7 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Width="125" Header="Phí sản phẩm">
+                                <GridViewColumn Width="135" Header="Phí sản phẩm">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding ProductPriceTempStr}"                                                            

@@ -64,7 +64,8 @@
                         Corner="5"
                         IndicatorBrush="{StaticResource White}"
                         x:Name="SearchBox" 
-                        SearchTextChange="SearchBox_SearchTextChange"/>
+                        SearchTextChange="SearchBox_SearchTextChange"
+                        />
                 </Border>
             </StackPanel>
         </Grid>

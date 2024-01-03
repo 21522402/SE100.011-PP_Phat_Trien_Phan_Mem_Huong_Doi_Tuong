@@ -317,7 +317,10 @@ namespace HotelManagement.Model.Services
         }
         public int getMaxRoomTypeFurnitureId(List<RoomTypeFurniture> listRoomTypeFurniture)
         {
-            return listRoomTypeFurniture.Count();
+            int length = listRoomTypeFurniture.Count();
+            if (length == 0) 
+                return 0;
+            return Int32.Parse(listRoomTypeFurniture[length - 1].RoomTypeFurnitureId);
         }
         public string getID(int id)
         {

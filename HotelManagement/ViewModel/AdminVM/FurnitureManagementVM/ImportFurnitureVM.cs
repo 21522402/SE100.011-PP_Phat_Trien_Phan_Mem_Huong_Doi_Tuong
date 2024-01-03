@@ -118,7 +118,6 @@ namespace HotelManagement.ViewModel.AdminVM.FurnitureManagementVM
 
         public void InitQuantity()
         {
-
             foreach (var item in FurnitureList)
             {
                 item.ImportQuantity = 0;
@@ -134,13 +133,15 @@ namespace HotelManagement.ViewModel.AdminVM.FurnitureManagementVM
                 CustomMessageBox.ShowOk(messageReturn, "Thành công", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
                 for (int i = 0; i < listReturned.Count; i++)
                     LoadFurnitureListView(Operation.UPDATE_PROD_QUANTITY, listReturned[i]);
-                OrderFurnitureList.Clear();
             }
             else
             {
                 CustomMessageBox.ShowOk(messageReturn, "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
             }
             ImportListFurnitureWindow ipWD = System.Windows.Application.Current.Windows.OfType<ImportListFurnitureWindow>().FirstOrDefault();
+            OrderFurnitureList.Clear();
+            TotalImportPrice = 0;
+            TotalImportPriceStr = "";
             wd.Close();
             ipWD.Close();
             mainWD.MaskOverSideBar.Visibility = Visibility.Collapsed;

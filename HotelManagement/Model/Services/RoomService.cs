@@ -175,7 +175,7 @@ namespace HotelManagement.Model.Services
 
                     // phòng đã có người đặt hoặc đang thuê thì không thể chỉnh sửa
 
-                    bool IsExistRoomNumber = context.Rooms.Any((Room r) => r.RoomId != room.RoomTypeId && r.RoomNumber == updatedRoom.RoomNumber);
+                    bool IsExistRoomNumber = context.Rooms.Any((Room r) => r.RoomId != room.RoomId && r.RoomNumber == updatedRoom.RoomNumber);
                     if (IsExistRoomNumber)
                     {
                         return (false, "Số phòng này đã tồn tại rồi! Vui lòng nhập số phòng khác");

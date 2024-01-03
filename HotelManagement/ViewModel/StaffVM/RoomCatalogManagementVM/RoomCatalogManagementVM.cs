@@ -214,6 +214,7 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
                 if (Int32.TryParse(number, out roomNumber))
                 {
                     SelectedRoom = await RoomService.Ins.GetSelectedRoom(roomNumber);
+                    
                     OpenRoomWindowCM.Execute(p);
                 }
             });

@@ -161,277 +161,277 @@ namespace HotelManagement.ViewModel.SettingVM
         StaffWindow st;
         public SettingVM()
         {
-            //FirstLoadCM = new RelayCommand<object>((p) => { return true; }, (p) =>
-            //{
-            //    reg = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-            //    if (AdminVM.AdminVM.CurrentStaff != null)
-            //    {
-            //        currentStaff = AdminVM.AdminVM.CurrentStaff;
-            //        tk = Application.Current.Windows.OfType<AdminWindow>().FirstOrDefault();
-            //    }    
-            //    else
-            //    {
-            //        currentStaff = StaffVM.StaffVM.CurrentStaff;
-            //        st = Application.Current.Windows.OfType<StaffWindow>().FirstOrDefault();
-            //    }
-            //    StaffName = currentStaff.StaffName;
-            //    StaffEmail = currentStaff.Email;
-            //    Position = currentStaff.Position;
-            //    if (reg.GetValue("HotelManagementApp") == null)
-            //        IsCheckedAutoStart = false;
-            //    else
-            //        IsCheckedAutoStart = true;
-            //    CheckedRemindLogin();
+            FirstLoadCM = new RelayCommand<object>((p) => { return true; }, (p) =>
+            {
+                reg = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+                if (AdminVM.AdminVM.CurrentStaff != null)
+                {
+                    currentStaff = AdminVM.AdminVM.CurrentStaff;
+                    tk = Application.Current.Windows.OfType<AdminWindow>().FirstOrDefault();
+                }
+                else
+                {
+                    currentStaff = StaffVM.StaffVM.CurrentStaff;
+                    st = Application.Current.Windows.OfType<StaffWindow>().FirstOrDefault();
+                }
+                StaffName = currentStaff.StaffName;
+                StaffEmail = currentStaff.Email;
+                Position = currentStaff.Position;
+                if (reg.GetValue("HotelManagementApp") == null)
+                    IsCheckedAutoStart = false;
+                else
+                    IsCheckedAutoStart = true;
+                CheckedRemindLogin();
 
-            //    if (currentStaff.Avatar != null)
-            //        ImageSource = LoadAvatarImage(currentStaff.Avatar);
-            //    else
-            //        ImageSource = null;
-            //    ColorPicked = (SolidColorBrush)new BrushConverter().ConvertFrom(Properties.Settings.Default.MainAppColor);
-            //    IsToResetPage = false;
-            //    IsEditEmail = false;
-            //    IconEditEmail = PackIconKind.Pencil;
-            //    SetAvatarName(StaffName);
-            //    IsEdit = false;
-            //});
-            //EditNameCM = new RelayCommand<MaterialDesignThemes.Wpf.PackIcon>((p) => { return true; }, async (p) =>
-            //{
-            //    if (string.IsNullOrEmpty(StaffName))
-            //    {
-            //        CustomMessageBox.ShowOk(IsEnglish ? "Do not leave the blank name!" : "Không được để tên trống!", IsEnglish ? "Warning" : "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
-            //        return;
-            //    }
-            //    if (IsEdit == false)
-            //    {
-            //        p.Kind = MaterialDesignThemes.Wpf.PackIconKind.ContentSaveEdit;
-            //        IsEdit = true;
-            //    }
-            //    else
-            //    {
-            //        (bool isSuccessEdit, string messageReturn) = await Task.Run(() => SettingService.Ins.EditName(StaffName, currentStaff.StaffId));
-            //        if (isSuccessEdit == false)
-            //        {
-            //            CustomMessageBox.ShowOkCancel(messageReturn, IsEnglish ? "Error" : "Lỗi", "OK", IsEnglish ? "Cancel" : "Hủy", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
-            //            return;
-            //        }
-            //        currentStaff.StaffName = StaffName;
-            //        SetAvatarName(StaffName);
-            //        if (AdminVM.AdminVM.CurrentStaff != null)
-            //        {
-            //            tk.FullName.Text = StaffName;
-            //            tk.AvatarName.Text = AvatarName;
-            //        }
-            //        else
-            //        {
-            //            st.FullName.Text = StaffName;
-            //            st.AvatarName.Text = AvatarName;
-            //        }
-            //        CustomMessageBox.ShowOkCancel(messageReturn, IsEnglish ? "Success" : "Thành công", "OK", IsEnglish ? "Cancel" : "Hủy", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
-            //        p.Kind = MaterialDesignThemes.Wpf.PackIconKind.Pencil;
-            //        IsEdit = false;
-            //    }
-            //});
-            //EditEmailCM = new RelayCommand<MaterialDesignThemes.Wpf.PackIcon>((p) => { return true; }, async (p) =>
-            //{
-            //    if (string.IsNullOrEmpty(StaffEmail))
-            //    {
-            //        CustomMessageBox.ShowOk(IsEnglish ? "Do not leave the blank name!" : "Không được để mail trống!", IsEnglish ? "Warning" : "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
-            //        return;
-            //    }
-            //    if (IsEditEmail == false)
-            //    {
-            //        p.Kind = MaterialDesignThemes.Wpf.PackIconKind.ContentSaveEdit;
-            //        IconEditEmail = PackIconKind.ContentSaveEdit;
-            //        IsEditEmail = true;
-            //    }
-            //    else
-            //    {
-            //        if (!EmailFormat.IsValidEmail(StaffEmail))
-            //        {
-            //            CustomMessageBox.ShowOkCancel(IsEnglish ? "Invalid Email" : "Email không đúng", IsEnglish ? "Error" : "Lỗi", "Ok", IsEnglish ? "Cancel" : "Hủy", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
-            //            return;
-            //        }
-            //        else
-            //        {
-            //            Random randomNumber = new Random();
-            //            randomCode = randomNumber.Next(111111, 999999);
-            //            await SendMailToStaff(StaffEmail, randomCode);
+                if (currentStaff.Avatar != null)
+                    ImageSource = LoadAvatarImage(currentStaff.Avatar);
+                else
+                    ImageSource = null;
+                ColorPicked = (SolidColorBrush)new BrushConverter().ConvertFrom(Properties.Settings.Default.MainAppColor);
+                IsToResetPage = false;
+                IsEditEmail = false;
+                IconEditEmail = PackIconKind.Pencil;
+                SetAvatarName(StaffName);
+                IsEdit = false;
+            });
+            EditNameCM = new RelayCommand<MaterialDesignThemes.Wpf.PackIcon>((p) => { return true; }, async (p) =>
+            {
+                if (string.IsNullOrEmpty(StaffName))
+                {
+                    CustomMessageBox.ShowOk(IsEnglish ? "Do not leave the blank name!" : "Không được để tên trống!", IsEnglish ? "Warning" : "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                    return;
+                }
+                if (IsEdit == false)
+                {
+                    p.Kind = MaterialDesignThemes.Wpf.PackIconKind.ContentSaveEdit;
+                    IsEdit = true;
+                }
+                else
+                {
+                    (bool isSuccessEdit, string messageReturn) = await Task.Run(() => SettingService.Ins.EditName(StaffName, currentStaff.StaffId));
+                    if (isSuccessEdit == false)
+                    {
+                        CustomMessageBox.ShowOkCancel(messageReturn, IsEnglish ? "Error" : "Lỗi", "OK", IsEnglish ? "Cancel" : "Hủy", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+                        return;
+                    }
+                    currentStaff.StaffName = StaffName;
+                    SetAvatarName(StaffName);
+                    if (AdminVM.AdminVM.CurrentStaff != null)
+                    {
+                        tk.FullName.Text = StaffName;
+                        tk.AvatarName.Text = AvatarName;
+                    }
+                    else
+                    {
+                        st.FullName.Text = StaffName;
+                        st.AvatarName.Text = AvatarName;
+                    }
+                    CustomMessageBox.ShowOkCancel(messageReturn, IsEnglish ? "Success" : "Thành công", "OK", IsEnglish ? "Cancel" : "Hủy", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
+                    p.Kind = MaterialDesignThemes.Wpf.PackIconKind.Pencil;
+                    IsEdit = false;
+                }
+            });
+            EditEmailCM = new RelayCommand<MaterialDesignThemes.Wpf.PackIcon>((p) => { return true; }, async (p) =>
+            {
+                if (string.IsNullOrEmpty(StaffEmail))
+                {
+                    CustomMessageBox.ShowOk(IsEnglish ? "Do not leave the blank name!" : "Không được để mail trống!", IsEnglish ? "Warning" : "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                    return;
+                }
+                if (IsEditEmail == false)
+                {
+                    p.Kind = MaterialDesignThemes.Wpf.PackIconKind.ContentSaveEdit;
+                    IconEditEmail = PackIconKind.ContentSaveEdit;
+                    IsEditEmail = true;
+                }
+                else
+                {
+                    if (!EmailFormat.IsValidEmail(StaffEmail))
+                    {
+                        CustomMessageBox.ShowOkCancel(IsEnglish ? "Invalid Email" : "Email không đúng", IsEnglish ? "Error" : "Lỗi", "Ok", IsEnglish ? "Cancel" : "Hủy", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+                        return;
+                    }
+                    else
+                    {
+                        Random randomNumber = new Random();
+                        randomCode = randomNumber.Next(111111, 999999);
+                        await SendMailToStaff(StaffEmail, randomCode);
 
-            //            confirmWD = new ConfirmWindow();
-            //            confirmWD.ShowDialog();
-            //            p.Kind = MaterialDesignThemes.Wpf.PackIconKind.Pencil;
-            //            IsEditEmail = false;
-            //        }
+                        confirmWD = new ConfirmWindow();
+                        confirmWD.ShowDialog();
+                        p.Kind = MaterialDesignThemes.Wpf.PackIconKind.Pencil;
+                        IsEditEmail = false;
+                    }
 
-            //    }
-            //});
-            //ConfirmButtonCM = new RelayCommand<Label>((p) => { return true; }, async (p) =>
-            //{
-            //    if (CurrentCode == randomCode.ToString())
-            //    {
-            //        if (string.IsNullOrEmpty(StaffName))
-            //        {
-            //            CustomMessageBox.ShowOk(IsEnglish ? "Do not leave the blank name!" : "Không được để tên trống!", IsEnglish ? "Warning" : "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
-            //            return;
-            //        }
-            //        (bool isSuccessEdit, string messageReturn) = await Task.Run(() => SettingService.Ins.EditEmail(StaffEmail, currentStaff.StaffId));
-            //        if (isSuccessEdit == false)
-            //        {
-            //            CustomMessageBox.ShowOkCancel(messageReturn, IsEnglish ? "Error" : "Lỗi", "OK", IsEnglish ? "Cancel" : "Hủy", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
-            //            return;
-            //        }
-            //        currentStaff.Email = StaffEmail;
-            //        CustomMessageBox.ShowOkCancel(messageReturn, IsEnglish ? "Success" : "Thành công", "OK", IsEnglish ? "Cancel" : "Hủy", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
-            //        IconEditEmail = PackIconKind.Pencil;
-            //        confirmWD.Close();
-            //        IsEditEmail = false;
-            //    }
-            //    else
-            //        Error = IsEnglish ? "This code is invalid!" : "Mã code vừa nhập chưa chính xác!";
-            //});
-            //UploadImageCM = new RelayCommand<object>((p) => { return true; }, (p) =>
-            //{
-            //    OpenFileDialog openfile = new OpenFileDialog();
-            //    openfile.Title = "Select an image";
-            //    openfile.Filter = "Image File (*.jpg;*.jpeg;*.png)|*.jpg;*.jpeg; *.png";
-            //    if (openfile.ShowDialog() == true)
-            //    {
-            //        filePath = openfile.FileName;
-            //        LoadImage();
+                }
+            });
+            ConfirmButtonCM = new RelayCommand<Label>((p) => { return true; }, async (p) =>
+            {
+                if (CurrentCode == randomCode.ToString())
+                {
+                    if (string.IsNullOrEmpty(StaffName))
+                    {
+                        CustomMessageBox.ShowOk(IsEnglish ? "Do not leave the blank name!" : "Không được để tên trống!", IsEnglish ? "Warning" : "Cảnh báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                        return;
+                    }
+                    (bool isSuccessEdit, string messageReturn) = await Task.Run(() => SettingService.Ins.EditEmail(StaffEmail, currentStaff.StaffId));
+                    if (isSuccessEdit == false)
+                    {
+                        CustomMessageBox.ShowOkCancel(messageReturn, IsEnglish ? "Error" : "Lỗi", "OK", IsEnglish ? "Cancel" : "Hủy", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+                        return;
+                    }
+                    currentStaff.Email = StaffEmail;
+                    CustomMessageBox.ShowOkCancel(messageReturn, IsEnglish ? "Success" : "Thành công", "OK", IsEnglish ? "Cancel" : "Hủy", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
+                    IconEditEmail = PackIconKind.Pencil;
+                    confirmWD.Close();
+                    IsEditEmail = false;
+                }
+                else
+                    Error = IsEnglish ? "This code is invalid!" : "Mã code vừa nhập chưa chính xác!";
+            });
+            UploadImageCM = new RelayCommand<object>((p) => { return true; }, (p) =>
+            {
+                OpenFileDialog openfile = new OpenFileDialog();
+                openfile.Title = "Select an image";
+                openfile.Filter = "Image File (*.jpg;*.jpeg;*.png)|*.jpg;*.jpeg; *.png";
+                if (openfile.ShowDialog() == true)
+                {
+                    filePath = openfile.FileName;
+                    LoadImage();
 
-            //        using (var context = new HotelManagementEntities())
-            //        {
-            //            Staff updateStaff = context.Staffs.FirstOrDefault(x => x.StaffId == currentStaff.StaffId);
+                    using (var context = new HotelManagementEntities())
+                    {
+                        Staff updateStaff = context.Staffs.FirstOrDefault(x => x.StaffId == currentStaff.StaffId);
 
-            //            if (updateStaff == null)
-            //                return;
-            //            FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read);
-            //            byte[] photo_aray = new byte[fs.Length];
-            //            fs.Read(photo_aray, 0, photo_aray.Length);
-            //            updateStaff.Avatar = photo_aray;
-            //            currentStaff.Avatar = photo_aray;
-            //            if (AdminVM.AdminVM.CurrentStaff != null)
-            //            {
-            //                tk.IconAvatar.ImageSource = LoadAvatarImage(photo_aray);
-            //            }
-            //            else
-            //            {
-            //                st.IconAvatar.ImageSource = LoadAvatarImage(photo_aray);
-            //            }
-            //            context.SaveChanges();
-            //            CustomMessageBox.ShowOk(IsEnglish ? "Update successful" : "Cập nhật thành công", IsEnglish ? "Notice" : "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
-            //        }
-            //    }
-            //});
-            //ChangePassCM = new RelayCommand<object>((p) => { return true; }, (p) =>
-            //{
-            //    IsToResetPage = false;
-            //    ResetPassWindow resetPassWD = new ResetPassWindow();
-            //    resetPassWD.ShowDialog();
-            //});
-            //ConfirmNewPassCM = new RelayCommand<PasswordBox>((p) => { return true; }, async (p) =>
-            //{
-            //    try
-            //    {
-            //        using (var db = new HotelManagementEntities())
-            //        {
-            //            Staff updateStaff = await db.Staffs.FirstOrDefaultAsync(x => x.StaffId == currentStaff.StaffId);
+                        if (updateStaff == null)
+                            return;
+                        FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+                        byte[] photo_aray = new byte[fs.Length];
+                        fs.Read(photo_aray, 0, photo_aray.Length);
+                        updateStaff.Avatar = photo_aray;
+                        currentStaff.Avatar = photo_aray;
+                        if (AdminVM.AdminVM.CurrentStaff != null)
+                        {
+                            tk.IconAvatar.ImageSource = LoadAvatarImage(photo_aray);
+                        }
+                        else
+                        {
+                            st.IconAvatar.ImageSource = LoadAvatarImage(photo_aray);
+                        }
+                        context.SaveChanges();
+                        CustomMessageBox.ShowOk(IsEnglish ? "Update successful" : "Cập nhật thành công", IsEnglish ? "Notice" : "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
+                    }
+                }
+            });
+            ChangePassCM = new RelayCommand<object>((p) => { return true; }, (p) =>
+            {
+                IsToResetPage = false;
+                ResetPassWindow resetPassWD = new ResetPassWindow();
+                resetPassWD.ShowDialog();
+            });
+            ConfirmNewPassCM = new RelayCommand<PasswordBox>((p) => { return true; }, async (p) =>
+            {
+                try
+                {
+                    using (var db = new HotelManagementEntities())
+                    {
+                        Staff updateStaff = await db.Staffs.FirstOrDefaultAsync(x => x.StaffId == currentStaff.StaffId);
 
-            //            if (updateStaff == null)
-            //                return;
+                        if (updateStaff == null)
+                            return;
 
-            //            updateStaff.Password = p.Password;
-            //            await db.SaveChangesAsync();
-            //            currentStaff.Password = p.Password;
-            //            CustomMessageBox.ShowOk(IsEnglish ? "Update successful" : "Cập nhật thành công", IsEnglish ? "Notice" : "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
-            //        }
-            //    }
-            //    catch (EntityException)
-            //    {
-            //        CustomMessageBox.ShowOk(IsEnglish ? "Lost database connection" : "Mất kết nối cơ sở dữ liệu", IsEnglish ? "Error" : "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        CustomMessageBox.ShowOk(IsEnglish ? "System Error" : "Lỗi hệ thống", IsEnglish ? "Error" : "Lỗi", "Ok", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
-            //    }
-            //});
-            //AutoStartAppCM = new RelayCommand<ToggleButton>((p) => { return true; }, (p) =>
-            //{
-            //    if (p.IsChecked == true)
-            //        reg.SetValue("HotelManagementApp", System.Reflection.Assembly.GetExecutingAssembly().Location);
-            //    else
-            //        reg.DeleteValue("HotelManagementApp");
-            //});
-            //RemindLoginAppCM = new RelayCommand<ToggleButton>((p) => { return true; }, (p) =>
-            //{
-            //    if (p.IsChecked == true)
-            //    {
-            //        Properties.Settings.Default.userNameSetting = currentStaff.Username;
-            //        Properties.Settings.Default.userPassSetting = currentStaff.Password;
-            //        Properties.Settings.Default.isRemidUserAndPass = true;
-            //        Properties.Settings.Default.Save();
-            //    }
-            //    else
-            //    {
-            //        Properties.Settings.Default.userNameSetting = string.Empty;
-            //        Properties.Settings.Default.userPassSetting = string.Empty;
-            //        Properties.Settings.Default.isRemidUserAndPass = false;
-            //        Properties.Settings.Default.Save();
-            //    }
-            //});
-            //ColorPickerCM = new RelayCommand<Grid>((p) => { return true; }, (p) =>
-            //{
-            //    p.Visibility = Visibility.Visible;
-            //});
-            //CLoseColorPickerCM = new RelayCommand<Grid>((p) => { return true; }, (p) =>
-            //{
-            //    p.Visibility = Visibility.Collapsed;
-            //});
-            //ChooseColorCM = new RelayCommand<Rectangle>((p) => { return true; }, (p) =>
-            //{
-            //    ColorPicked = p.Fill;
-            //    if (AdminVM.AdminVM.CurrentStaff != null)
-            //    {
-            //        tk.Overlay.Fill = p.Fill;
-            //    }
-            //    else
-            //    {
-            //        st.Overlay.Fill = p.Fill;
-            //    }
-            //    SolidColorBrush solidColorBrush = (SolidColorBrush)ColorPicked;
-            //    Properties.Settings.Default.MainAppColor = solidColorBrush.Color.ToString();
-            //    Properties.Settings.Default.Save();
-            //});
-            //ConfirmCurrentPassCM = new RelayCommand<PasswordBox>((p) => { return true; }, (p) =>
-            //{
-            //    if (string.IsNullOrEmpty(p.Password))
-            //    {
-            //        CustomMessageBox.ShowOk("Mật khẩu trống, xin vui lòng nhập mật khẩu!","Thông báo", "Xác nhận", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
-            //        return;
-            //    }
-            //    if (p.Password == currentStaff.Password)
-            //    {
-            //        IsToResetPage = true;
-            //        Error = string.Empty;
-            //    }
-            //    else
-            //        Error = IsEnglish ? "Wrong password" : "Sai mật khẩu";
-            //});
-            //CloseResetPassCM = new RelayCommand<Window>((p) => { return true; }, (p) =>
-            //{
-            //    p.Close();
-            //    IsToResetPage = false;
-            //    Error = string.Empty;
-            //});
-            //ChooseLanguageCM = new RelayCommand<ComboBox>((p) => { return true; }, (p) =>
-            //{
-            //    if (p.SelectedItem == null)
-            //        return;
-            //    bool isEN = !p.Text.Equals("English") ? true : false;
-            //    Properties.Settings.Default.isEnglish = isEN;
-            //    Properties.Settings.Default.Save();
-            //    LanguageManager.SetLanguageDictionary(isEN ? LanguageManager.ELanguage.English : LanguageManager.ELanguage.VietNamese);
-            //});
+                        updateStaff.Password = p.Password;
+                        await db.SaveChangesAsync();
+                        currentStaff.Password = p.Password;
+                        CustomMessageBox.ShowOk(IsEnglish ? "Update successful" : "Cập nhật thành công", IsEnglish ? "Notice" : "Thông báo", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Success);
+                    }
+                }
+                catch (EntityException)
+                {
+                    CustomMessageBox.ShowOk(IsEnglish ? "Lost database connection" : "Mất kết nối cơ sở dữ liệu", IsEnglish ? "Error" : "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+                }
+                catch (Exception e)
+                {
+                    CustomMessageBox.ShowOk(IsEnglish ? "System Error" : "Lỗi hệ thống", IsEnglish ? "Error" : "Lỗi", "Ok", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
+                }
+            });
+            AutoStartAppCM = new RelayCommand<ToggleButton>((p) => { return true; }, (p) =>
+            {
+                if (p.IsChecked == true)
+                    reg.SetValue("HotelManagementApp", System.Reflection.Assembly.GetExecutingAssembly().Location);
+                else
+                    reg.DeleteValue("HotelManagementApp");
+            });
+            RemindLoginAppCM = new RelayCommand<ToggleButton>((p) => { return true; }, (p) =>
+            {
+                if (p.IsChecked == true)
+                {
+                    Properties.Settings.Default.userNameSetting = currentStaff.Username;
+                    Properties.Settings.Default.userPassSetting = currentStaff.Password;
+                    Properties.Settings.Default.isRemidUserAndPass = true;
+                    Properties.Settings.Default.Save();
+                }
+                else
+                {
+                    Properties.Settings.Default.userNameSetting = string.Empty;
+                    Properties.Settings.Default.userPassSetting = string.Empty;
+                    Properties.Settings.Default.isRemidUserAndPass = false;
+                    Properties.Settings.Default.Save();
+                }
+            });
+            ColorPickerCM = new RelayCommand<Grid>((p) => { return true; }, (p) =>
+            {
+                p.Visibility = Visibility.Visible;
+            });
+            CLoseColorPickerCM = new RelayCommand<Grid>((p) => { return true; }, (p) =>
+            {
+                p.Visibility = Visibility.Collapsed;
+            });
+            ChooseColorCM = new RelayCommand<Rectangle>((p) => { return true; }, (p) =>
+            {
+                ColorPicked = p.Fill;
+                if (AdminVM.AdminVM.CurrentStaff != null)
+                {
+                    tk.Overlay.Fill = p.Fill;
+                }
+                else
+                {
+                    st.Overlay.Fill = p.Fill;
+                }
+                SolidColorBrush solidColorBrush = (SolidColorBrush)ColorPicked;
+                Properties.Settings.Default.MainAppColor = solidColorBrush.Color.ToString();
+                Properties.Settings.Default.Save();
+            });
+            ConfirmCurrentPassCM = new RelayCommand<PasswordBox>((p) => { return true; }, (p) =>
+            {
+                if (string.IsNullOrEmpty(p.Password))
+                {
+                    CustomMessageBox.ShowOk("Mật khẩu trống, xin vui lòng nhập mật khẩu!", "Thông báo", "Xác nhận", View.CustomMessageBoxWindow.CustomMessageBoxImage.Warning);
+                    return;
+                }
+                if (p.Password == currentStaff.Password)
+                {
+                    IsToResetPage = true;
+                    Error = string.Empty;
+                }
+                else
+                    Error = IsEnglish ? "Wrong password" : "Sai mật khẩu";
+            });
+            CloseResetPassCM = new RelayCommand<Window>((p) => { return true; }, (p) =>
+            {
+                p.Close();
+                IsToResetPage = false;
+                Error = string.Empty;
+            });
+            ChooseLanguageCM = new RelayCommand<ComboBox>((p) => { return true; }, (p) =>
+            {
+                if (p.SelectedItem == null)
+                    return;
+                bool isEN = !p.Text.Equals("English") ? true : false;
+                Properties.Settings.Default.isEnglish = isEN;
+                Properties.Settings.Default.Save();
+                LanguageManager.SetLanguageDictionary(isEN ? LanguageManager.ELanguage.English : LanguageManager.ELanguage.VietNamese);
+            });
         }
         public void SetAvatarName(string staffName)
         {

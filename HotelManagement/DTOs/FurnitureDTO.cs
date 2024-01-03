@@ -3,6 +3,7 @@ using HotelManagement.Utilities;
 using SixLabors.ImageSharp.Processing;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
@@ -107,6 +108,15 @@ namespace HotelManagement.DTOs
             set { SetField(ref isSelectedDelete, value, "IsSelectedDelete"); }
         }
         public string DisplayQuantity { get; set; }
+
+
+        public ObservableCollection<RoomTypeFurNum> roomtypeFurnitureNumList;
+        public ObservableCollection<RoomTypeFurNum> RoomtypeFurnitureNumList
+        {
+            get { return roomtypeFurnitureNumList; }
+            set { SetField(ref roomtypeFurnitureNumList, value, "RoomtypeFurnitureNumList"); }
+        }
+
 
         public FurnitureDTO()
         {
