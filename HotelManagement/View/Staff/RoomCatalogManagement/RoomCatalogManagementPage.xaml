@@ -425,8 +425,6 @@
                                                                        CommandParameter="{Binding ElementName=grid}" />
 
                                                         </i:EventTrigger>
-                                                       
-
                                                     </i:Interaction.Triggers>
                                                 </Grid>
 

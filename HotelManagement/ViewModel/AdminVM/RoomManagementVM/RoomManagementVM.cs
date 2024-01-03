@@ -6,6 +6,7 @@ using HotelManagement.View.Admin.RoomManagement;
 using HotelManagement.View.Admin.RoomTypeManagement;
 using HotelManagement.View.CustomMessageBoxWindow;
 using HotelManagement.ViewModel.AdminVM.RoomTypeManagementVM;
+using IronXL.Formatting;
 using MaterialDesignThemes.Wpf;
 using SixLabors.ImageSharp.Processing;
 using System;
@@ -37,8 +38,8 @@ namespace HotelManagement.ViewModel.AdminVM.RoomManagementVM
             set { _roomTypeID = value; OnPropertyChanged(); }
         }
 
-        private int _roomNumber;
-        public int RoomNumber
+        private string _roomNumber;
+        public string RoomNumber
         {
             get { return _roomNumber; }
             set { _roomNumber = value; OnPropertyChanged(); }
@@ -118,7 +119,6 @@ namespace HotelManagement.ViewModel.AdminVM.RoomManagementVM
         public ICommand LoadNoteRoomCM { get; set; }
         public ICommand SaveRoomCM { get; set; }
         public ICommand UpdateRoomCM { get; set; }
-
         public RoomManagementVM()
         {
 
@@ -166,7 +166,6 @@ namespace HotelManagement.ViewModel.AdminVM.RoomManagementVM
                     CustomMessageBox.ShowOk("Lỗi hệ thống", "Lỗi", "OK", View.CustomMessageBoxWindow.CustomMessageBoxImage.Error);
                 }
             });
-
             LoadAddRoomCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
             {
                 RenewWindowData();
@@ -189,7 +188,7 @@ namespace HotelManagement.ViewModel.AdminVM.RoomManagementVM
                 }
                 addRoom.ShowDialog();
             });
-            LoadEditRoomCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
+            LoadEditRoomCM = new RelayCommand<object>((p) => { return true; }, (p) =>
             {
                 View.Admin.RoomManagement.EditRoom w1 = new View.Admin.RoomManagement.EditRoom();
                 LoadEditRoom(w1);
@@ -240,6 +239,7 @@ namespace HotelManagement.ViewModel.AdminVM.RoomManagementVM
                 await SaveRoomFunc(p);
 
                 IsSavingRoom = false;
+
             });
 
             CloseRoomCM = new RelayCommand<System.Windows.Window>((p) => { return true; }, (p) =>
@@ -303,7 +303,7 @@ namespace HotelManagement.ViewModel.AdminVM.RoomManagementVM
         {
 
             RoomId = null;
-            RoomNumber = 0;
+            RoomNumber = null;
             RoomNote = null;
             RoomTypeID = null;
             RoomStatus = "Phòng trống";

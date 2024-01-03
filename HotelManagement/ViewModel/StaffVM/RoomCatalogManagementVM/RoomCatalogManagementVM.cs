@@ -216,10 +216,6 @@ namespace HotelManagement.ViewModel.StaffVM.RoomCatalogManagementVM
                     SelectedRoom = await RoomService.Ins.GetSelectedRoom(roomNumber);
                     OpenRoomWindowCM.Execute(p);
                 }
-        
-              
-
-               
             });
             OpenRoomWindowCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
             {

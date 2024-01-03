@@ -256,7 +256,7 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
         public ICommand ChangeTimeCM { get; set; }
         public ICommand UpdateRentalPriceCM { get; set; }
         public ICommand SelectedTimeChangedCM { get; set; }
-        
+        public ICommand LoadedButtonAction { get; set; }
 
         public BookingRoomManagementVM()
         {
@@ -297,9 +297,22 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
             });
             SelectedTimeChangedCM = new RelayCommand<object>((p) => { return true; },  (p) =>
             {
+                //if (!SelectedItem.Validated)
+                //{
+                //    temp.btnSave.Visibility = Visibility.Hidden;
+                //    temp.btnAddCustomer.Visibility = Visibility.Hidden;
+                //    temp.endDate.Visibility = Visibility.Visible;
+                //    temp.endDateInfo.Visibility = Visibility.Collapsed;
+                //}
+                //else
+                //{
+                //    temp.endDate.Visibility = Visibility.Collapsed;
+                //    temp.endDateInfo.Visibility = Visibility.Visible;
+                //}
+                
                 if (SelectedItem != null)
                 {
-                    if (SelectedItem.EndDate <= SelectedItem.CreateDate)
+                    if (!SelectedItem.Validated)
                     {
                         CustomMessageBox.ShowOk("Ngày kết thúc phải lớn hơn ngày bắt đầu thuê!", "Thông Báo", "OK", CustomMessageBoxImage.Warning);
                         SelectedItem.EndDate = EndDate;
@@ -328,7 +341,7 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
                     w.ShowDialog();
                 }
             });
-            LoadAddCustomerCM = new RelayCommand<object>((p) => { return true; }, async (p) =>
+            LoadAddCustomerCM = new RelayCommand<object>((p) => { return true; }, (p) =>
             {
                 int maxPer = BookingRoomService.Ins.GetMaxNumOfPer(SelectedItem.RoomId);
                 if (ListCustomer.Count == maxPer)
@@ -397,6 +410,7 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
                     }
                 }
             });
+            
             LoadRentalContractInfoCM = new RelayCommand<RentalContractInfo>((p) => { return true; }, async (p) =>
             {
                 RentalDay = DateTime.Today;
@@ -445,9 +459,25 @@ namespace HotelManagement.ViewModel.BookingRoomManagementVM
                 }
 
             });
+           
         }
+
         public async Task LoadInforRentalContract(RentalContractInfo w)
         {
+            if (!SelectedItem.Validated)
+            {
+                w.btnSave.Visibility = Visibility.Hidden;
+                w.btnAddCustomer.Visibility = Visibility.Hidden;
+                w.endDate.Visibility = Visibility.Visible;
+                w.endDateInfo.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                w.endDate.Visibility = Visibility.Collapsed;
+                w.endDateInfo.Visibility = Visibility.Visible;
+            }
+
+
             w.roomNumberInfo.Text = SelectedItem.RoomNumber.ToString();
             w.createDateInfo.Text = ((DateTime)SelectedItem.CreateDate).ToString("dd/MM/yyyy");
             float RentalContractPrice = await BookingRoomService.Ins.GetRentalContractPrice(SelectedItem.RentalContractId);

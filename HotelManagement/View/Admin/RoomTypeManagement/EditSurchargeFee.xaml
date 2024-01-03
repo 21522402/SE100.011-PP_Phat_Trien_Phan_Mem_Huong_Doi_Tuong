@@ -73,7 +73,7 @@
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Margin="0 0 0 10" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                                            <TextBlock Text="Khách thứ " VerticalAlignment="Center" Margin="5 5 0 2" FontSize="16" FontWeight="Regular" FontFamily="{StaticResource MaterialDesignFont}" Foreground="#CC191919"></TextBlock>
+                                            <TextBlock Text="Khách vượt thứ: " VerticalAlignment="Center" Margin="5 5 0 2" FontSize="16" FontWeight="Regular" FontFamily="{StaticResource MaterialDesignFont}" Foreground="#CC191919"></TextBlock>
                                             <TextBlock Name="khachthu" Text="{Binding CustomerOutIndex}" VerticalAlignment="Center" Margin="0 5 0 2" FontSize="16" FontWeight="Regular" FontFamily="{StaticResource MaterialDesignFont}" Foreground="#CC191919"></TextBlock>
                                             <TextBlock Text=": " VerticalAlignment="Center" Margin="0 5 0 2" FontSize="16" FontWeight="Regular" FontFamily="{StaticResource MaterialDesignFont}" Foreground="#CC191919"></TextBlock>
                                             <Border CornerRadius="4" BorderThickness="0" Margin="10 0 0 0" Height="30" BorderBrush="#1D242E">
