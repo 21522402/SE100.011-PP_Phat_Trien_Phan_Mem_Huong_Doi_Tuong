@@ -171,7 +171,7 @@
                                  Height="80"
                                  HorizontalAlignment="Center"
                                  VerticalAlignment="Center"
-                                 Margin="0,0,132,2"
+                                 Margin="0,0,70,2"
                                  Foreground="#FF455345" />
                     <lvc:PieChart LegendLocation="Right"
                                     InnerRadius="50"
@@ -243,6 +243,7 @@
                                         <DataTemplate>
                                             <TextBlock Text="{Binding RevenueStr}"
                                                         Width="140"
+                                                       Margin="24 0 0 0"
                                                         FontSize="14" 
                                                         HorizontalAlignment="Left"
                                                         TextAlignment="Center"/>
@@ -393,7 +394,7 @@
                                  Height="80" 
                                  HorizontalAlignment="Center"
                                  VerticalAlignment="Center"
-                                 Margin="0,0,95,2"
+                                 Margin="0,0,68,2"
                                  Foreground="#FF455345" />
                     <lvc:PieChart LegendLocation="Right"
                                     InnerRadius="50"
@@ -465,6 +466,7 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding RevenueStr}"
+                                                       Margin="24 0 0 0"
                                                         Width="140"
                                                         FontSize="14" 
                                                         HorizontalAlignment="Left"

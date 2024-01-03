@@ -151,7 +151,7 @@
                     </i:Interaction.Triggers>
                     <ListView.View>
                             <GridView ColumnHeaderContainerStyle="{StaticResource GridViewColumnHeaderStyle}">
-                                <GridViewColumn Width="150"  Header="ID">
+                                <GridViewColumn Width="130"  Header="ID">
                                     <GridViewColumn.CellTemplate >
                                         <DataTemplate>
                                         <TextBlock Text="{Binding ReceiptIdStr}"
@@ -163,7 +163,7 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn  Width="230" Header="Loại phiếu nhập">
+                                <GridViewColumn  Width="220" Header="Loại phiếu nhập">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                         <TextBlock Text="{Binding typeImprtStr}"                                                           
@@ -176,7 +176,7 @@
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                                
-                            <GridViewColumn Width="230" Header="Ngày nhập">
+                            <GridViewColumn Width="220" Header="Ngày nhập">
 
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
@@ -189,7 +189,7 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="220" Header="Tổng tiền nhập">
+                            <GridViewColumn Width="210" Header="Tổng tiền nhập">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                         <TextBlock Text="{Binding TotalPriceStr}"                                                            
@@ -201,7 +201,7 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                            <GridViewColumn Width="150" Header="Số lượng">
+                            <GridViewColumn Width="140" Header="Số lượng">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                         <TextBlock Text="{Binding TotalQuality}" 
@@ -213,7 +213,7 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                            <GridViewColumn Width="230" Header="Nhân viên nhập">
+                            <GridViewColumn Width="220" Header="Nhân viên nhập">
                                     
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>

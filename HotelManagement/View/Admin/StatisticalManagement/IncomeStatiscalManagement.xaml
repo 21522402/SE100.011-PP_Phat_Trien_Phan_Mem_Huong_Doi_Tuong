@@ -199,7 +199,7 @@
                                         Foreground="Black"
                                         Margin="10 0 0 0"
                                         FontSize="14" />
-                                <TextBox Text="{Binding ReveRate}"
+                                <TextBox Text=""
                                          BorderThickness="0"
                                          x:Name="tbReveRate"
                                          IsHitTestVisible="False"
@@ -259,7 +259,7 @@
                                        Margin="10 0 0 0"
                                        Foreground="Black"
                                        FontSize="14" />
-                                <TextBox Text="{Binding ExpeRate}"
+                                <TextBox Text=""
                                          BorderThickness="0"
                                          IsHitTestVisible="False"
                                          x:Name="tbExpeRate"    
