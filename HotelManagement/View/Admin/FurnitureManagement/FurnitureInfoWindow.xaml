@@ -95,7 +95,8 @@
                                         <TextBlock Text="{Binding furnitureCache.Quantity}" FontSize="16" VerticalAlignment="Center" FontWeight="Regular" FontFamily="{StaticResource MaterialDesignFont}" Foreground="#063538"></TextBlock>
                                     </StackPanel>
                                     <Grid>
-                                        <ListBox Name="ListViewRoomtypeFurniture" ItemsSource="{Binding RoomtypeFurnitureNumList}" HorizontalAlignment="Stretch" 
+                                        <ListBox Name="ListViewRoomtypeFurniture" ItemsSource="{Binding RoomtypeFurnitureNumList}" 
+                                                 HorizontalAlignment="Stretch" 
                                                 Height="80px"
                                                 materialDesign:ListBoxItemAssist.ShowSelection="False"
                                                 ScrollViewer.HorizontalScrollBarVisibility="Hidden"

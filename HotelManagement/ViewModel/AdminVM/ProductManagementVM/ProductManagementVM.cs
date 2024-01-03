@@ -221,7 +221,6 @@ namespace HotelManagement.ViewModel.AdminVM.ProductManagementVM
                     {
                         CustomMessageBox.ShowOk(messageReturn, "Thành công", "OK", CustomMessageBoxImage.Success);
                         LoadProductListView(Operation.DELETE, ProductCache);
-                        CalculateTotalPrice();
                     }
                     else
                         CustomMessageBox.ShowOk(messageReturn, "Lỗi", "OK", CustomMessageBoxImage.Error);
